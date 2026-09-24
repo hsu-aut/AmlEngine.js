@@ -1,12 +1,17 @@
-// Port of the System.Xml.Linq node tree. Semantics follow .NET closely, in particular:
-// - element content is null (empty tag), a string (text only) or a node list;
-// - adding a node or attribute that already has a parent adds a clone;
-// - adjacent strings merge into the preceding XText.
+// Port of the System.Xml.Linq node tree, following the .NET implementation closely:
+// - child nodes form a circular singly linked list; a container's content is null (empty tag),
+//   a string (text only) or its last node;
+// - attributes form a circular list referenced by the last attribute;
+// - enumerations are live, exactly like in .NET (removing the current node ends them);
+// - the "skip notify" code paths are used throughout, because XObject change events are not
+//   supported (Aml.Engine never subscribes to them, so .NET takes those paths as well).
 
 import { XName, XNamespace, type XNameLike, toXName } from './XName.js';
 import { isWhitespaceOnly } from './XmlChars.js';
+import { ArgumentException, ArgumentNullException, InvalidOperationException } from '../system/exceptions.js';
 
 export enum XmlNodeType {
+  None = 0,
   Element = 1,
   Attribute = 2,
   Text = 3,
@@ -17,106 +22,123 @@ export enum XmlNodeType {
   DocumentType = 10,
 }
 
-export abstract class XObject {
+export class XObject {
   /** @internal */ _parent: XContainer | null = null;
 
-  abstract get nodeType(): XmlNodeType;
+  get nodeType(): XmlNodeType {
+    return XmlNodeType.None;
+  }
 
   get parent(): XElement | null {
     return this._parent instanceof XElement ? this._parent : null;
   }
 
   get document(): XDocument | null {
-    let n: XObject | null = this;
+    let n: XObject = this;
     while (n._parent) n = n._parent;
     return n instanceof XDocument ? n : null;
   }
 }
 
 export abstract class XNode extends XObject {
+  /** @internal */ _next: XNode | null = null;
+
   get nextNode(): XNode | null {
     const p = this._parent;
-    if (!p) return null;
-    const nodes = p._nodeList();
-    const i = nodes.indexOf(this);
-    return i >= 0 && i + 1 < nodes.length ? nodes[i + 1] : null;
+    return p === null || this === p._content ? null : this._next;
   }
 
   get previousNode(): XNode | null {
     const p = this._parent;
-    if (!p) return null;
-    const nodes = p._nodeList();
-    const i = nodes.indexOf(this);
-    return i > 0 ? nodes[i - 1] : null;
-  }
-
-  *ancestors(name?: XNameLike): Generator<XElement> {
-    const n = name === undefined ? undefined : toXName(name);
-    let e = this.parent;
-    while (e) {
-      if (!n || e.name === n) yield e;
-      e = e.parent;
+    if (p === null) return null;
+    let n = (p._content as XNode)._next!;
+    let prev: XNode | null = null;
+    while (n !== this) {
+      prev = n;
+      n = n._next!;
     }
-  }
-
-  *elementsAfterSelf(name?: XNameLike): Generator<XElement> {
-    const n = name === undefined ? undefined : toXName(name);
-    for (let s = this.nextNode; s; s = s.nextNode) if (s instanceof XElement && (!n || s.name === n)) yield s;
-  }
-
-  *elementsBeforeSelf(name?: XNameLike): Generator<XElement> {
-    const p = this._parent;
-    if (!p) return;
-    const n = name === undefined ? undefined : toXName(name);
-    for (const s of p._nodeList()) {
-      if (s === this) return;
-      if (s instanceof XElement && (!n || s.name === n)) yield s;
-    }
-  }
-
-  *nodesAfterSelf(): Generator<XNode> {
-    for (let s = this.nextNode; s; s = s.nextNode) yield s;
-  }
-
-  *nodesBeforeSelf(): Generator<XNode> {
-    const p = this._parent;
-    if (!p) return;
-    for (const s of p._nodeList()) {
-      if (s === this) return;
-      yield s;
-    }
+    return prev;
   }
 
   addAfterSelf(...content: unknown[]): void {
-    const p = this._requireParent();
-    p._insertAt(p._nodeList().indexOf(this) + 1, content);
+    if (this._parent === null) throw missingParent();
+    new Inserter(this._parent, this).add(content);
   }
 
   addBeforeSelf(...content: unknown[]): void {
-    const p = this._requireParent();
-    p._insertAt(p._nodeList().indexOf(this), content);
+    const parent = this._parent;
+    if (parent === null) throw missingParent();
+    let p: XNode | null = parent._content as XNode;
+    while (p!._next !== this) p = p!._next;
+    if (p === parent._content) p = null;
+    new Inserter(parent, p).add(content);
+  }
+
+  ancestors(name?: XNameLike): Generator<XElement> {
+    return getAncestors(this, name === undefined ? null : toXName(name), false);
+  }
+
+  *elementsAfterSelf(name?: XNameLike): Generator<XElement> {
+    const nm = name === undefined ? null : toXName(name);
+    let n: XNode = this;
+    while (n._parent !== null && n !== n._parent._content) {
+      n = n._next!;
+      if (n instanceof XElement && (nm === null || n.name === nm)) yield n;
+    }
+  }
+
+  *elementsBeforeSelf(name?: XNameLike): Generator<XElement> {
+    const nm = name === undefined ? null : toXName(name);
+    const parent = this._parent;
+    if (parent === null) return;
+    let n = parent._content as XNode;
+    do {
+      n = n._next!;
+      if (n === this) break;
+      if (n instanceof XElement && (nm === null || n.name === nm)) yield n;
+    } while (this._parent !== null && this._parent === n._parent);
+  }
+
+  *nodesAfterSelf(): Generator<XNode> {
+    let n: XNode = this;
+    while (n._parent !== null && n !== n._parent._content) {
+      n = n._next!;
+      yield n;
+    }
+  }
+
+  *nodesBeforeSelf(): Generator<XNode> {
+    const parent = this._parent;
+    if (parent === null) return;
+    let n = parent._content as XNode;
+    do {
+      n = n._next!;
+      if (n === this) break;
+      yield n;
+    } while (this._parent !== null && this._parent === n._parent);
   }
 
   remove(): void {
-    const p = this._requireParent();
-    p._removeNode(this);
+    if (this._parent === null) throw missingParent();
+    this._parent._removeNode(this);
   }
 
   replaceWith(...content: unknown[]): void {
-    const p = this._requireParent();
-    const i = p._nodeList().indexOf(this);
-    p._removeNode(this);
-    p._insertAt(i, content);
+    const c = this._parent;
+    if (c === null) throw missingParent();
+    let p: XNode | null = c._content as XNode;
+    while (p!._next !== this) p = p!._next;
+    if (p === c._content) p = null;
+    c._removeNode(this);
+    if (p !== null && p._parent !== c) throw externalCode();
+    new Inserter(c, p).add(content);
   }
 
   /** @internal */
-  _requireParent(): XContainer {
-    if (!this._parent) throw new Error('The parent is missing.');
-    return this._parent;
-  }
+  abstract _cloneNode(): XNode;
 
-  /** @internal */
-  abstract _clone(): XNode;
+  /** @internal Appends the text value for XElement.Value. */
+  _appendText(_sb: string[]): void {}
 
   override toString(disableFormatting = false): string {
     return nodeToString(this, disableFormatting);
@@ -124,17 +146,38 @@ export abstract class XNode extends XObject {
 }
 
 export class XText extends XNode {
-  constructor(public value: string) {
+  /** @internal */ _text: string;
+
+  constructor(value: string | XText) {
     super();
+    if (value instanceof XText) this._text = value._text;
+    else {
+      if (value === null || value === undefined) throw new ArgumentNullException('value');
+      this._text = value;
+    }
   }
 
-  get nodeType(): XmlNodeType {
+  override get nodeType(): XmlNodeType {
     return XmlNodeType.Text;
   }
 
+  get value(): string {
+    return this._text;
+  }
+
+  set value(v: string) {
+    if (v === null || v === undefined) throw new ArgumentNullException('value');
+    this._text = v;
+  }
+
   /** @internal */
-  _clone(): XNode {
-    return new XText(this.value);
+  _cloneNode(): XNode {
+    return new XText(this);
+  }
+
+  /** @internal */
+  override _appendText(sb: string[]): void {
+    sb.push(this._text);
   }
 }
 
@@ -144,8 +187,8 @@ export class XCData extends XText {
   }
 
   /** @internal */
-  override _clone(): XNode {
-    return new XCData(this.value);
+  override _cloneNode(): XNode {
+    return new XCData(this);
   }
 }
 
@@ -154,12 +197,12 @@ export class XComment extends XNode {
     super();
   }
 
-  get nodeType(): XmlNodeType {
+  override get nodeType(): XmlNodeType {
     return XmlNodeType.Comment;
   }
 
   /** @internal */
-  _clone(): XNode {
+  _cloneNode(): XNode {
     return new XComment(this.value);
   }
 }
@@ -172,12 +215,12 @@ export class XProcessingInstruction extends XNode {
     super();
   }
 
-  get nodeType(): XmlNodeType {
+  override get nodeType(): XmlNodeType {
     return XmlNodeType.ProcessingInstruction;
   }
 
   /** @internal */
-  _clone(): XNode {
+  _cloneNode(): XNode {
     return new XProcessingInstruction(this.target, this.data);
   }
 }
@@ -192,28 +235,36 @@ export class XDocumentType extends XNode {
     super();
   }
 
-  get nodeType(): XmlNodeType {
+  override get nodeType(): XmlNodeType {
     return XmlNodeType.DocumentType;
   }
 
   /** @internal */
-  _clone(): XNode {
+  _cloneNode(): XNode {
     return new XDocumentType(this.name, this.publicId, this.systemId, this.internalSubset);
   }
 }
 
 export class XAttribute extends XObject {
+  /** @internal */ _next: XAttribute | null = null;
   readonly name: XName;
-  private _value: string;
+  /** @internal */ _value: string;
 
-  constructor(name: XNameLike, value: unknown) {
+  constructor(name: XNameLike, value: unknown);
+  constructor(other: XAttribute);
+  constructor(nameOrOther: XNameLike | XAttribute, value?: unknown) {
     super();
-    this.name = toXName(name);
-    if (value === null || value === undefined) throw new Error('Value cannot be null. (Parameter \'value\')');
-    this._value = stringValue(value);
+    if (nameOrOther instanceof XAttribute) {
+      this.name = nameOrOther.name;
+      this._value = nameOrOther._value;
+      return;
+    }
+    this.name = toXName(nameOrOther);
+    if (value === null || value === undefined) throw new ArgumentNullException('value');
+    this._value = getStringValue(value);
   }
 
-  get nodeType(): XmlNodeType {
+  override get nodeType(): XmlNodeType {
     return XmlNodeType.Attribute;
   }
 
@@ -222,274 +273,277 @@ export class XAttribute extends XObject {
   }
 
   set value(v: string) {
+    if (v === null || v === undefined) throw new ArgumentNullException('value');
     this._value = v;
   }
 
   get isNamespaceDeclaration(): boolean {
-    return this.name.namespace === XNamespace.Xmlns || (this.name.namespace === XNamespace.None && this.name.localName === 'xmlns');
+    const ns = this.name.namespace;
+    if (ns === XNamespace.None) return this.name.localName === 'xmlns';
+    return ns === XNamespace.Xmlns;
   }
 
   get nextAttribute(): XAttribute | null {
-    const e = this.parent;
-    if (!e) return null;
-    const i = e._attrs.indexOf(this);
-    return i + 1 < e._attrs.length ? e._attrs[i + 1] : null;
+    const p = this._parent as XElement | null;
+    return p !== null && p._lastAttr !== this ? this._next : null;
   }
 
   get previousAttribute(): XAttribute | null {
-    const e = this.parent;
-    if (!e) return null;
-    const i = e._attrs.indexOf(this);
-    return i > 0 ? e._attrs[i - 1] : null;
+    const p = this._parent as XElement | null;
+    if (p === null) return null;
+    let a = p._lastAttr!;
+    while (a._next !== this) a = a._next!;
+    return a !== p._lastAttr ? a : null;
   }
 
   remove(): void {
-    const e = this.parent;
-    if (!e) throw new Error('The parent is missing.');
-    e._attrs.splice(e._attrs.indexOf(this), 1);
-    this._parent = null;
+    if (this._parent === null) throw missingParent();
+    (this._parent as XElement)._removeAttribute(this);
   }
 
   setValue(value: unknown): void {
-    if (value === null || value === undefined) throw new Error('Value cannot be null. (Parameter \'value\')');
-    this._value = stringValue(value);
+    if (value === null || value === undefined) throw new ArgumentNullException('value');
+    this.value = getStringValue(value);
   }
 
   override toString(): string {
-    return `${this.name.localName}="${this._value}"`;
+    return nodeToString(this, true);
   }
 }
 
 export abstract class XContainer extends XNode {
   /**
-   * null for an element written as empty tag, a string for text-only content (as .NET stores it),
-   * otherwise a node list.
+   * null (empty), a string (text only) or the last child node of the circular list.
    * @internal
    */
-  _content: null | string | XNode[] = null;
+  _content: null | string | XNode = null;
 
-  /** @internal Returns the child node list, converting string content into an XText node. */
-  _nodeList(): XNode[] {
+  get firstNode(): XNode | null {
+    const last = this.lastNode;
+    return last !== null ? last._next : null;
+  }
+
+  get lastNode(): XNode | null {
     const c = this._content;
-    if (c === null) return EMPTY_NODES;
+    if (c === null) return null;
     if (typeof c === 'string') {
-      if (c.length === 0) return EMPTY_NODES;
+      if (c.length === 0) return null;
       const t = new XText(c);
       t._parent = this;
-      this._content = [t];
-      return this._content;
+      t._next = t;
+      this._content = t;
+      return t;
     }
     return c;
   }
 
-  get firstNode(): XNode | null {
-    const n = this._nodeList();
-    return n.length ? n[0] : null;
-  }
-
-  get lastNode(): XNode | null {
-    const n = this._nodeList();
-    return n.length ? n[n.length - 1] : null;
-  }
-
-  *nodes(): Generator<XNode> {
-    yield* [...this._nodeList()];
-  }
-
-  *elements(name?: XNameLike): Generator<XElement> {
-    const c = this._content;
-    if (c === null || typeof c === 'string') return;
-    const n = name === undefined ? undefined : toXName(name);
-    for (const node of [...c]) if (node instanceof XElement && (!n || node.name === n)) yield node;
-  }
-
-  element(name: XNameLike): XElement | null {
-    const c = this._content;
-    if (c === null || typeof c === 'string') return null;
-    const n = toXName(name);
-    for (const node of c) if (node instanceof XElement && node.name === n) return node;
-    return null;
-  }
-
-  *descendants(name?: XNameLike): Generator<XElement> {
-    const n = name === undefined ? undefined : toXName(name);
-    for (const e of descendantElements(this)) if (!n || e.name === n) yield e;
-  }
-
-  *descendantNodes(): Generator<XNode> {
-    for (const node of [...this._nodeList()]) {
-      yield node;
-      if (node instanceof XContainer) yield* node.descendantNodes();
-    }
-  }
-
   add(...content: unknown[]): void {
-    for (const c of content) this._addContent(c);
+    for (const c of content) this._addContentSkipNotify(c);
   }
 
   addFirst(...content: unknown[]): void {
-    this._insertAt(0, content);
+    new Inserter(this, null).add(content);
+  }
+
+  descendantNodes(): Generator<XNode> {
+    return getDescendantNodes(this, false);
+  }
+
+  descendants(name?: XNameLike): Generator<XElement> {
+    return getDescendants(this, name === undefined ? null : toXName(name), false);
+  }
+
+  element(name: XNameLike): XElement | null {
+    const nm = toXName(name);
+    let n = this._content;
+    if (n instanceof XNode) {
+      const last = n;
+      do {
+        n = n._next!;
+        if (n instanceof XElement && n.name === nm) return n;
+      } while (n !== last);
+    }
+    return null;
+  }
+
+  elements(name?: XNameLike): Generator<XElement> {
+    return this._getElements(name === undefined ? null : toXName(name));
+  }
+
+  *nodes(): Generator<XNode> {
+    let n = this.lastNode;
+    if (n !== null) {
+      do {
+        n = n._next!;
+        yield n;
+      } while (n._parent === this && n !== this._content);
+    }
   }
 
   removeNodes(): void {
-    const c = this._content;
-    if (Array.isArray(c)) for (const n of c) n._parent = null;
+    const last = this._content;
+    if (last instanceof XNode) {
+      let n: XNode = last;
+      do {
+        const next: XNode = n._next!;
+        n._parent = null;
+        n._next = null;
+        n = next;
+      } while (n !== last);
+    }
     this._content = null;
   }
 
   replaceNodes(...content: unknown[]): void {
-    const collected = collect(content);
+    const snapshot = getContentSnapshot(content);
     this.removeNodes();
-    this.add(collected);
+    this.add(snapshot);
   }
 
-  /** @internal When the last node goes, content becomes null (XContainer.RemoveNode). */
-  _removeNode(node: XNode): void {
-    const list = this._nodeList();
-    const i = list.indexOf(node);
-    if (i < 0) return;
-    list.splice(i, 1);
-    node._parent = null;
-    if (list.length === 0) this._content = null;
-  }
-
-  /** @internal Inserts content before the node at the given index (AddFirst, AddBeforeSelf, AddAfterSelf). */
-  _insertAt(index: number, content: unknown[]): void {
-    const nodes: XNode[] = [];
-    for (const c of collect(content)) {
-      if (c instanceof XAttribute) {
-        if (!(this instanceof XElement)) throw new Error('An attribute cannot be added to content.');
-        this._addAttribute(c);
-        continue;
-      }
-      let n: XNode;
-      if (c instanceof XNode) n = this._prepareNode(c);
-      else {
-        const s = stringValue(c);
-        this._validateString(s);
-        if (s.length === 0) continue;
-        n = new XText(s);
-      }
-      nodes.push(n);
+  /** @internal */
+  *_getElements(name: XName | null): Generator<XElement> {
+    let n = this._content;
+    if (n instanceof XNode) {
+      do {
+        n = n._next!;
+        if (n instanceof XElement && (name === null || n.name === name)) yield n;
+      } while (n._parent === this && n !== this._content);
     }
-    if (nodes.length === 0) return;
-    const list = this._nodeList() === EMPTY_NODES ? (this._content = []) : (this._content as XNode[]);
-    for (const n of nodes) n._parent = this;
-    list.splice(index, 0, ...nodes);
   }
 
-  /** @internal Add semantics of XContainer.Add for a single content item. */
-  _addContent(content: unknown): void {
+  /** @internal */
+  _addContentSkipNotify(content: unknown): void {
     if (content === null || content === undefined) return;
-    if (content instanceof XNode) {
-      this._addNode(content);
+    if (content instanceof XNode) return this._addNodeSkipNotify(content);
+    if (typeof content === 'string') return this._addStringSkipNotify(content);
+    if (content instanceof XAttribute) return this._addAttributeSkipNotify(content);
+    if (isIterable(content)) {
+      for (const c of content) this._addContentSkipNotify(c);
       return;
     }
-    if (content instanceof XAttribute) {
-      if (!(this instanceof XElement)) throw new Error('An attribute cannot be added to content.');
-      this._addAttribute(content);
-      return;
-    }
-    if (typeof content === 'string') {
-      this._addString(content);
-      return;
-    }
-    if (typeof content === 'object' && Symbol.iterator in (content as object)) {
-      for (const c of collect([content])) this._addContent(c);
-      return;
-    }
-    this._addString(stringValue(content));
+    this._addStringSkipNotify(getStringValue(content));
   }
 
-  /** @internal XContainer.AddString: "" on an empty element sets empty content, text merges into a trailing XText. */
-  _addString(s: string): void {
+  /** @internal */
+  _addNodeSkipNotify(n: XNode): void {
+    this._validateNode(n, this);
+    if (n._parent !== null) n = n._cloneNode();
+    else {
+      let p: XNode = this;
+      while (p._parent !== null) p = p._parent;
+      if (n === p) n = n._cloneNode();
+    }
+    this._convertTextToNode();
+    this._appendNodeSkipNotify(n);
+  }
+
+  /** @internal */
+  _addStringSkipNotify(s: string): void {
     this._validateString(s);
     const c = this._content;
-    if (c === null) {
-      if (s.length > 0) this._appendNode(new XText(s));
-      else if (this instanceof XElement) this._content = s;
-      return;
+    if (c === null) this._content = s;
+    else if (s.length > 0) {
+      if (typeof c === 'string') this._content = c + s;
+      else if (c instanceof XText && !(c instanceof XCData)) c._text += s;
+      else this._appendNodeSkipNotify(new XText(s));
     }
-    if (s.length === 0) return;
-    const list = this._nodeList() === EMPTY_NODES ? (this._content = []) : (this._content as XNode[]);
-    const last = list.length ? list[list.length - 1] : null;
-    if (last instanceof XText && !(last instanceof XCData)) last.value += s;
-    else this._appendNode(new XText(s));
   }
 
   /** @internal */
-  _addNode(node: XNode): void {
-    this._appendNode(this._prepareNode(node));
-  }
+  _addAttributeSkipNotify(_a: XAttribute): void {}
 
-  /** @internal A node that already has a parent, or is the root of this container, is cloned. */
-  _prepareNode(node: XNode): XNode {
-    this._validateNode(node);
-    if (node._parent) return node._clone();
-    let top: XContainer = this;
-    while (top._parent) top = top._parent;
-    return node === top ? node._clone() : node;
+  /** @internal */
+  _appendNodeSkipNotify(n: XNode): void {
+    n._parent = this;
+    const c = this._content;
+    if (c === null || typeof c === 'string') n._next = n;
+    else {
+      n._next = c._next;
+      c._next = n;
+    }
+    this._content = n;
   }
 
   /** @internal */
-  _appendNode(node: XNode): void {
-    const list = this._nodeList() === EMPTY_NODES ? (this._content = []) : (this._content as XNode[]);
-    node._parent = this;
-    list.push(node);
+  _convertTextToNode(): void {
+    const s = this._content;
+    if (typeof s === 'string' && s.length > 0) {
+      const t = new XText(s);
+      t._parent = this;
+      t._next = t;
+      this._content = t;
+    }
   }
+
+  /** @internal */
+  _removeNode(n: XNode): void {
+    if (n._parent !== this) throw externalCode();
+    let p = this._content as XNode;
+    while (p._next !== n) p = p._next!;
+    if (p === n) this._content = null;
+    else {
+      if (this._content === n) this._content = p;
+      p._next = n._next;
+    }
+    n._parent = null;
+    n._next = null;
+  }
+
+  /** @internal */
+  override _appendText(sb: string[]): void {
+    const c = this._content;
+    if (typeof c === 'string') sb.push(c);
+    else if (c !== null) {
+      let n: XNode = c;
+      do {
+        n = n._next!;
+        n._appendText(sb);
+      } while (n !== c);
+    }
+  }
+
+  /** @internal */
+  _validateNode(_node: XNode, _previous: XNode | null): void {}
 
   /** @internal */
   _validateString(_s: string): void {}
-
-  /** @internal */
-  _validateNode(_node: XNode): void {}
-}
-
-const EMPTY_NODES: XNode[] = Object.freeze([]) as unknown as XNode[];
-
-function* descendantElements(c: XContainer): Generator<XElement> {
-  const content = c._content;
-  if (content === null || typeof content === 'string') return;
-  for (const n of [...content]) {
-    if (n instanceof XElement) {
-      yield n;
-      yield* descendantElements(n);
-    }
-  }
 }
 
 export class XElement extends XContainer {
-  private _name: XName;
-  /** @internal */ _attrs: XAttribute[] = [];
+  /** @internal */ _name: XName;
+  /** @internal */ _lastAttr: XAttribute | null = null;
 
   constructor(name: XNameLike, ...content: unknown[]);
   constructor(other: XElement);
   constructor(nameOrOther: XNameLike | XElement, ...content: unknown[]) {
     super();
     if (nameOrOther instanceof XElement) {
-      const o = nameOrOther;
-      this._name = o._name;
-      for (const a of o._attrs) {
-        const na = new XAttribute(a.name, a.value);
-        na._parent = this;
-        this._attrs.push(na);
+      const other = nameOrOther;
+      this._name = other._name;
+      const oc = other._content;
+      if (typeof oc === 'string') this._content = oc;
+      else if (oc !== null) {
+        let n: XNode = oc;
+        do {
+          n = n._next!;
+          this._appendNodeSkipNotify(n._cloneNode());
+        } while (n !== oc);
       }
-      const c = o._content;
-      if (c === null || typeof c === 'string') this._content = c;
-      else {
-        this._content = c.map((n) => {
-          const k = n._clone();
-          k._parent = this;
-          return k;
-        });
+      let a = other._lastAttr;
+      if (a !== null) {
+        do {
+          a = a._next!;
+          this._appendAttributeSkipNotify(new XAttribute(a));
+        } while (a !== other._lastAttr);
       }
       return;
     }
+    if (nameOrOther === null || nameOrOther === undefined) throw new ArgumentNullException('name');
     this._name = toXName(nameOrOther);
-    for (const c of content) this._addContent(c);
+    for (const c of content) this._addContentSkipNotify(c);
   }
 
-  get nodeType(): XmlNodeType {
+  override get nodeType(): XmlNodeType {
     return XmlNodeType.Element;
   }
 
@@ -498,6 +552,7 @@ export class XElement extends XContainer {
   }
 
   set name(v: XNameLike) {
+    if (v === null || v === undefined) throw new ArgumentNullException('value');
     this._name = toXName(v);
   }
 
@@ -506,88 +561,114 @@ export class XElement extends XContainer {
   }
 
   get hasElements(): boolean {
-    const c = this._content;
-    return Array.isArray(c) && c.some((n) => n instanceof XElement);
+    const last = this._content;
+    if (last instanceof XNode) {
+      let n: XNode = last;
+      do {
+        if (n instanceof XElement) return true;
+        n = n._next!;
+      } while (n !== last);
+    }
+    return false;
   }
 
   get hasAttributes(): boolean {
-    return this._attrs.length > 0;
+    return this._lastAttr !== null;
   }
 
   get firstAttribute(): XAttribute | null {
-    return this._attrs.length ? this._attrs[0] : null;
+    return this._lastAttr !== null ? this._lastAttr._next : null;
   }
 
   get lastAttribute(): XAttribute | null {
-    return this._attrs.length ? this._attrs[this._attrs.length - 1] : null;
+    return this._lastAttr;
   }
 
-  /** Concatenated text of all descendant text nodes. */
   get value(): string {
     const c = this._content;
     if (c === null) return '';
     if (typeof c === 'string') return c;
-    let s = '';
-    const walk = (list: XNode[]) => {
-      for (const n of list) {
-        if (n instanceof XText) s += n.value;
-        else if (n instanceof XElement) {
-          const cc = n._content;
-          if (typeof cc === 'string') s += cc;
-          else if (cc) walk(cc);
-        }
-      }
-    };
-    walk(c);
-    return s;
+    const sb: string[] = [];
+    this._appendText(sb);
+    return sb.join('');
   }
 
   set value(v: string) {
-    this.setValue(v);
+    if (v === null || v === undefined) throw new ArgumentNullException('value');
+    this.removeNodes();
+    this.add(v);
   }
 
   setValue(value: unknown): void {
-    if (value === null || value === undefined) throw new Error('Value cannot be null. (Parameter \'value\')');
-    this.removeNodes();
-    this._addString(stringValue(value));
+    if (value === null || value === undefined) throw new ArgumentNullException('value');
+    this.value = getStringValue(value);
+  }
+
+  ancestorsAndSelf(name?: XNameLike): Generator<XElement> {
+    return getAncestors(this, name === undefined ? null : toXName(name), true);
+  }
+
+  descendantsAndSelf(name?: XNameLike): Generator<XElement> {
+    return getDescendants(this, name === undefined ? null : toXName(name), true);
+  }
+
+  descendantNodesAndSelf(): Generator<XNode> {
+    return getDescendantNodes(this, true);
   }
 
   attribute(name: XNameLike): XAttribute | null {
-    const n = toXName(name);
-    for (const a of this._attrs) if (a.name === n) return a;
+    const nm = toXName(name);
+    let a = this._lastAttr;
+    if (a !== null) {
+      do {
+        a = a._next!;
+        if (a.name === nm) return a;
+      } while (a !== this._lastAttr);
+    }
     return null;
   }
 
   *attributes(name?: XNameLike): Generator<XAttribute> {
-    const n = name === undefined ? undefined : toXName(name);
-    for (const a of [...this._attrs]) if (!n || a.name === n) yield a;
+    const nm = name === undefined ? null : toXName(name);
+    let a = this._lastAttr;
+    if (a !== null) {
+      do {
+        a = a._next!;
+        if (nm === null || a.name === nm) yield a;
+      } while (a._parent === this && a !== this._lastAttr);
+    }
   }
 
   setAttributeValue(name: XNameLike, value: unknown): void {
-    const n = toXName(name);
-    const a = this.attribute(n);
+    const nm = toXName(name);
+    const a = this.attribute(nm);
     if (value === null || value === undefined) {
-      if (a) a.remove();
-      return;
-    }
-    if (a) a.value = stringValue(value);
-    else this._addAttribute(new XAttribute(n, value));
+      if (a !== null) this._removeAttribute(a);
+    } else if (a !== null) a.value = getStringValue(value);
+    else this._appendAttribute(new XAttribute(nm, value));
   }
 
   setElementValue(name: XNameLike, value: unknown): void {
-    const n = toXName(name);
-    const e = this.element(n);
+    const nm = toXName(name);
+    const e = this.element(nm);
     if (value === null || value === undefined) {
-      if (e) e.remove();
-      return;
-    }
-    if (e) e.setValue(value);
-    else this.add(new XElement(n, stringValue(value)));
+      if (e !== null) this._removeNode(e);
+    } else if (e !== null) e.value = getStringValue(value);
+    else this._addNodeSkipNotify(new XElement(nm, getStringValue(value)));
   }
 
   removeAttributes(): void {
-    for (const a of this._attrs) a._parent = null;
-    this._attrs = [];
+    const last = this._lastAttr;
+    if (last !== null) {
+      let a: XAttribute = last;
+      do {
+        const next: XAttribute = a._next!;
+        a._parent = null;
+        a._next = null;
+        a = next;
+      } while (a !== last);
+    }
+    this._lastAttr = null;
   }
 
   removeAll(): void {
@@ -596,67 +677,122 @@ export class XElement extends XContainer {
   }
 
   replaceAll(...content: unknown[]): void {
-    const collected = collect(content);
+    const snapshot = getContentSnapshot(content);
     this.removeAll();
-    this.add(collected);
+    this.add(snapshot);
   }
 
   replaceAttributes(...content: unknown[]): void {
-    const collected = collect(content);
+    const snapshot = getContentSnapshot(content);
     this.removeAttributes();
-    this.add(collected);
-  }
-
-  *ancestorsAndSelf(name?: XNameLike): Generator<XElement> {
-    const n = name === undefined ? undefined : toXName(name);
-    if (!n || this._name === n) yield this;
-    yield* this.ancestors(n);
-  }
-
-  *descendantsAndSelf(name?: XNameLike): Generator<XElement> {
-    const n = name === undefined ? undefined : toXName(name);
-    if (!n || this._name === n) yield this;
-    yield* this.descendants(n);
+    this.add(snapshot);
   }
 
   getDefaultNamespace(): XNamespace {
-    return this.getNamespaceOfPrefix('') ?? XNamespace.None;
+    return this._getNamespaceOfPrefixInScope('xmlns', null) ?? XNamespace.None;
   }
 
   getNamespaceOfPrefix(prefix: string): XNamespace | null {
-    if (prefix === 'xml') return XNamespace.Xml;
+    if (prefix === null || prefix === undefined) throw new ArgumentNullException('prefix');
+    if (prefix.length === 0) throw new ArgumentException(`'${prefix}' is an invalid prefix.`);
     if (prefix === 'xmlns') return XNamespace.Xmlns;
-    for (let e: XElement | null = this; e; e = e.parent) {
-      for (const a of e._attrs) {
-        if (prefix === '' ? a.name.namespace === XNamespace.None && a.name.localName === 'xmlns' : a.name.namespace === XNamespace.Xmlns && a.name.localName === prefix) {
-          return XNamespace.get(a.value);
-        }
-      }
-    }
-    return null;
+    return this._getNamespaceOfPrefixInScope(prefix, null) ?? (prefix === 'xml' ? XNamespace.Xml : null);
   }
 
   getPrefixOfNamespace(ns: XNamespace): string | null {
-    if (ns === XNamespace.Xml) return 'xml';
-    if (ns === XNamespace.Xmlns) return 'xmlns';
-    for (let e: XElement | null = this; e; e = e.parent) {
-      for (const a of e._attrs) {
-        if (a.name.namespace === XNamespace.Xmlns && a.value === ns.namespaceName) return a.name.localName;
+    const namespaceName = ns.namespaceName;
+    let hasInScopeNamespace = false;
+    let e: XElement | null = this;
+    do {
+      const lastAttr: XAttribute | null = e._lastAttr;
+      if (lastAttr !== null) {
+        let hasLocalNamespace = false;
+        let a: XAttribute = lastAttr;
+        do {
+          a = a._next!;
+          if (a.isNamespaceDeclaration) {
+            if (a.value === namespaceName) {
+              if (a.name.namespaceName.length !== 0 && (!hasInScopeNamespace || this._getNamespaceOfPrefixInScope(a.name.localName, e) === null)) {
+                return a.name.localName;
+              }
+            }
+            hasLocalNamespace = true;
+          }
+        } while (a !== lastAttr);
+        hasInScopeNamespace = hasInScopeNamespace || hasLocalNamespace;
       }
+      e = e._parent instanceof XElement ? e._parent : null;
+    } while (e !== null);
+    if (namespaceName === XNamespace.Xml.namespaceName) {
+      if (!hasInScopeNamespace || this._getNamespaceOfPrefixInScope('xml', null) === null) return 'xml';
+    } else if (namespaceName === XNamespace.Xmlns.namespaceName) return 'xmlns';
+    return null;
+  }
+
+  /** @internal Looks up a namespace declaration (prefix "xmlns" means the default namespace). */
+  _getNamespaceOfPrefixInScope(prefix: string, outOfScope: XElement | null): XNamespace | null {
+    let e: XElement | null = this;
+    while (e !== outOfScope && e !== null) {
+      const lastAttr: XAttribute | null = e._lastAttr;
+      if (lastAttr !== null) {
+        let a: XAttribute = lastAttr;
+        do {
+          a = a._next!;
+          if (a.isNamespaceDeclaration && a.name.localName === prefix) return XNamespace.get(a.value);
+        } while (a !== lastAttr);
+      }
+      e = e._parent instanceof XElement ? e._parent : null;
     }
     return null;
   }
 
   /** @internal */
-  _addAttribute(a: XAttribute): void {
-    if (a._parent) a = new XAttribute(a.name, a.value);
-    if (this.attribute(a.name)) throw new Error('Duplicate attribute.');
-    a._parent = this;
-    this._attrs.push(a);
+  override _addAttributeSkipNotify(a: XAttribute): void {
+    if (this.attribute(a.name) !== null) throw duplicateAttribute();
+    if (a._parent !== null) a = new XAttribute(a);
+    this._appendAttributeSkipNotify(a);
   }
 
   /** @internal */
-  _clone(): XNode {
+  _appendAttribute(a: XAttribute): void {
+    if (a._parent !== null) throw externalCode();
+    this._appendAttributeSkipNotify(a);
+  }
+
+  /** @internal */
+  _appendAttributeSkipNotify(a: XAttribute): void {
+    a._parent = this;
+    if (this._lastAttr === null) a._next = a;
+    else {
+      a._next = this._lastAttr._next;
+      this._lastAttr._next = a;
+    }
+    this._lastAttr = a;
+  }
+
+  /** @internal */
+  _removeAttribute(a: XAttribute): void {
+    if (a._parent !== this) throw externalCode();
+    let p = this._lastAttr!;
+    let n: XAttribute;
+    while ((n = p._next!) !== a) p = n;
+    if (p === a) this._lastAttr = null;
+    else {
+      if (this._lastAttr === a) this._lastAttr = p;
+      p._next = a._next;
+    }
+    a._parent = null;
+    a._next = null;
+  }
+
+  /** @internal */
+  override _validateNode(node: XNode, _previous: XNode | null): void {
+    if (node instanceof XDocument) throw new ArgumentException('A node of type Document cannot be added to content.');
+    if (node instanceof XDocumentType) throw new ArgumentException('A node of type DocumentType cannot be added to content.');
+  }
+
+  /** @internal */
+  _cloneNode(): XNode {
     return new XElement(this);
   }
 }
@@ -682,72 +818,265 @@ export class XDocument extends XContainer {
 
   constructor(...content: unknown[]) {
     super();
-    for (const c of content) this._addContent(c);
+    if (content.length === 1 && content[0] instanceof XDocument) {
+      const other = content[0];
+      const oc = other._content;
+      if (typeof oc === 'string') this._content = oc;
+      else if (oc !== null) {
+        let n: XNode = oc;
+        do {
+          n = n._next!;
+          this._appendNodeSkipNotify(n._cloneNode());
+        } while (n !== oc);
+      }
+      if (other.declaration) this.declaration = new XDeclaration(other.declaration.version, other.declaration.encoding, other.declaration.standalone);
+      return;
+    }
+    for (const c of content) this._addContentSkipNotify(c);
   }
 
-  get nodeType(): XmlNodeType {
+  override get nodeType(): XmlNodeType {
     return XmlNodeType.Document;
   }
 
   get root(): XElement | null {
-    for (const n of this._nodeList()) if (n instanceof XElement) return n;
+    const last = this._content;
+    if (last instanceof XNode) {
+      let n: XNode = last;
+      do {
+        n = n._next!;
+        if (n instanceof XElement) return n;
+      } while (n !== last);
+    }
+    return null;
+  }
+
+  get documentType(): XDocumentType | null {
+    const last = this._content;
+    if (last instanceof XNode) {
+      let n: XNode = last;
+      do {
+        n = n._next!;
+        if (n instanceof XDocumentType) return n;
+      } while (n !== last);
+    }
     return null;
   }
 
   /** @internal */
+  override _validateNode(node: XNode, previous: XNode | null): void {
+    switch (node.nodeType) {
+      case XmlNodeType.Text:
+        this._validateString((node as XText).value);
+        break;
+      case XmlNodeType.Element:
+        this._validateDocument(previous, XmlNodeType.DocumentType, XmlNodeType.None);
+        break;
+      case XmlNodeType.DocumentType:
+        this._validateDocument(previous, XmlNodeType.None, XmlNodeType.Element);
+        break;
+      case XmlNodeType.CDATA:
+        throw new ArgumentException('A node of type CDATA cannot be added to content.');
+      case XmlNodeType.Document:
+        throw new ArgumentException('A node of type Document cannot be added to content.');
+    }
+  }
+
+  private _validateDocument(previous: XNode | null, allowBefore: XmlNodeType, allowAfter: XmlNodeType): void {
+    const last = this._content;
+    if (last instanceof XNode) {
+      let n: XNode = last;
+      if (previous === null) allowBefore = allowAfter;
+      do {
+        n = n._next!;
+        const nt = n.nodeType;
+        if (nt === XmlNodeType.Element || nt === XmlNodeType.DocumentType) {
+          if (nt !== allowBefore) throw new InvalidOperationException('This operation would create an incorrectly structured document.');
+          allowBefore = XmlNodeType.None;
+        }
+        if (n === previous) allowBefore = allowAfter;
+      } while (n !== last);
+    }
+  }
+
+  /** @internal */
   override _validateString(s: string): void {
-    if (!isWhitespaceOnly(s)) throw new Error('Non-whitespace characters cannot be added to content.');
+    if (!isWhitespaceOnly(s)) throw new ArgumentException('Non-whitespace characters cannot be added to content.');
   }
 
   /** @internal */
-  override _validateNode(node: XNode): void {
-    if (node instanceof XElement && this.root && this.root !== node) throw new Error('This operation would create an incorrectly structured document.');
-    if (node instanceof XText && !isWhitespaceOnly(node.value)) throw new Error('Non-whitespace characters cannot be added to content.');
-  }
-
-  /** @internal */
-  _clone(): XNode {
-    const d = new XDocument();
-    d.declaration = this.declaration ? new XDeclaration(this.declaration.version, this.declaration.encoding, this.declaration.standalone) : null;
-    const c = this._content;
-    if (c === null || typeof c === 'string') d._content = c;
-    else
-      d._content = c.map((n) => {
-        const k = n._clone();
-        k._parent = d;
-        return k;
-      });
-    return d;
+  _cloneNode(): XNode {
+    return new XDocument(this);
   }
 }
 
-function collect(content: unknown[]): unknown[] {
+/** Port of System.Xml.Linq.Inserter: insertion after an anchor node (null: at the start). */
+class Inserter {
+  private _text: string | null = null;
+
+  constructor(
+    private readonly _parent: XContainer,
+    private _previous: XNode | null,
+  ) {}
+
+  add(content: unknown): void {
+    this.addContent(content);
+    const text = this._text;
+    if (text !== null) {
+      if (this._parent._content === null) {
+        this._parent._content = text;
+      } else if (text.length > 0) {
+        const prev = this._previous;
+        if (prev instanceof XText && !(prev instanceof XCData)) prev._text += text;
+        else {
+          this._parent._convertTextToNode();
+          this.insertNode(new XText(text));
+        }
+      }
+    }
+  }
+
+  private addContent(content: unknown): void {
+    if (content === null || content === undefined) return;
+    if (content instanceof XNode) return this.addNode(content);
+    if (typeof content === 'string') return this.addString(content);
+    if (content instanceof XAttribute) throw new ArgumentException('An attribute cannot be added to content.');
+    if (isIterable(content)) {
+      for (const c of content) this.addContent(c);
+      return;
+    }
+    this.addString(getStringValue(content));
+  }
+
+  private addNode(n: XNode): void {
+    this._parent._validateNode(n, this._previous);
+    if (n._parent !== null) n = n._cloneNode();
+    else {
+      let p: XNode = this._parent;
+      while (p._parent !== null) p = p._parent;
+      if (n === p) n = n._cloneNode();
+    }
+    this._parent._convertTextToNode();
+    if (this._text !== null) {
+      if (this._text.length > 0) {
+        const prev = this._previous;
+        if (prev instanceof XText && !(prev instanceof XCData)) prev._text += this._text;
+        else this.insertNode(new XText(this._text));
+      }
+      this._text = null;
+    }
+    this.insertNode(n);
+  }
+
+  private addString(s: string): void {
+    this._parent._validateString(s);
+    this._text = (this._text ?? '') + s;
+  }
+
+  private insertNode(n: XNode): void {
+    if (n._parent !== null) throw externalCode();
+    const parent = this._parent;
+    n._parent = parent;
+    const c = parent._content;
+    if (c === null || typeof c === 'string') {
+      n._next = n;
+      parent._content = n;
+    } else if (this._previous === null) {
+      n._next = c._next;
+      c._next = n;
+    } else {
+      n._next = this._previous._next;
+      this._previous._next = n;
+      if (parent._content === this._previous) parent._content = n;
+    }
+    this._previous = n;
+  }
+}
+
+function* getAncestors(start: XNode, name: XName | null, self: boolean): Generator<XElement> {
+  let e: XContainer | null = self ? (start as XContainer) : start._parent;
+  while (e instanceof XElement) {
+    if (name === null || e.name === name) yield e;
+    e = e._parent;
+  }
+}
+
+function* getDescendantNodes(root: XContainer, self: boolean): Generator<XNode> {
+  if (self) yield root;
+  let n: XNode = root;
+  for (;;) {
+    const first = n instanceof XContainer ? n.firstNode : null;
+    if (first !== null) n = first;
+    else {
+      while (n !== root && n === n._parent!._content) n = n._parent!;
+      if (n === root) break;
+      n = n._next!;
+    }
+    yield n;
+  }
+}
+
+function* getDescendants(root: XContainer, name: XName | null, self: boolean): Generator<XElement> {
+  if (self) {
+    const e = root as XElement;
+    if (name === null || e.name === name) yield e;
+  }
+  let n: XNode = root;
+  let c: XContainer | null = root;
+  for (;;) {
+    if (c !== null && c._content instanceof XNode) n = c._content._next!;
+    else {
+      while (n !== root && n === n._parent!._content) n = n._parent!;
+      if (n === root) break;
+      n = n._next!;
+    }
+    const e = n instanceof XElement ? n : null;
+    if (e !== null && (name === null || e.name === name)) yield e;
+    c = e;
+  }
+}
+
+function getContentSnapshot(content: unknown[]): unknown[] {
   const out: unknown[] = [];
   const walk = (c: unknown) => {
     if (c === null || c === undefined) return;
     if (typeof c === 'string' || c instanceof XObject) out.push(c);
-    else if (typeof c === 'object' && Symbol.iterator in (c as object)) for (const x of c as Iterable<unknown>) walk(x);
+    else if (isIterable(c)) for (const x of c) walk(x);
     else out.push(c);
   };
   for (const c of content) walk(c);
   return out;
 }
 
+function isIterable(v: unknown): v is Iterable<unknown> {
+  return typeof v === 'object' && v !== null && Symbol.iterator in v;
+}
+
+/** Values that know their XML schema lexical form (DateTime, Decimal, ... from src/system). */
+export interface XmlConvertible {
+  toXmlString(): string;
+}
+
 /**
- * String conversion of content values as XLinq's GetStringValue does it: booleans in lower case,
- * numbers in the XML schema lexical form.
+ * XContainer.GetStringValue: the conversion applied to non-string content values.
+ * Numbers are formatted as xs:double (XmlConvert.ToString(double)).
  */
-export function stringValue(value: unknown): string {
+export function getStringValue(value: unknown): string {
   if (typeof value === 'string') return value;
   if (typeof value === 'boolean') return value ? 'true' : 'false';
   if (typeof value === 'number') return numberToXmlString(value);
   if (typeof value === 'bigint') return value.toString();
-  if (value instanceof XObject) throw new Error('An XObject cannot be used as a value.');
-  if (value instanceof Date) return value.toISOString();
+  if (value instanceof XObject) throw new ArgumentException('An XObject cannot be used as a value.');
+  if (typeof value === 'object' && value !== null && typeof (value as XmlConvertible).toXmlString === 'function') {
+    return (value as XmlConvertible).toXmlString();
+  }
   return String(value);
 }
 
-/** XmlConvert.ToString(double): INF, -INF, NaN, otherwise round-trippable "R" format. */
+/** @deprecated use getStringValue */
+export const stringValue = getStringValue;
+
+/** XmlConvert.ToString(double): INF, -INF, NaN, otherwise the round-trip "R" format. */
 export function numberToXmlString(v: number): string {
   if (Number.isNaN(v)) return 'NaN';
   if (v === Infinity) return 'INF';
@@ -781,12 +1110,24 @@ export function formatDoubleR(v: number): string {
   return neg ? '-' + s : s;
 }
 
+function missingParent(): Error {
+  return new InvalidOperationException('The parent is missing.');
+}
+
+function externalCode(): Error {
+  return new InvalidOperationException('This operation was corrupted by external code.');
+}
+
+function duplicateAttribute(): Error {
+  return new InvalidOperationException('Duplicate attribute.');
+}
+
 // Set by XmlWriter.ts to avoid a circular import.
-let nodeToString: (node: XNode, disableFormatting: boolean) => string = () => {
+let nodeToString: (node: XObject, disableFormatting: boolean) => string = () => {
   throw new Error('XmlWriter not loaded');
 };
 
 /** @internal */
-export function _setNodeToString(f: (node: XNode, disableFormatting: boolean) => string): void {
+export function _setNodeToString(f: (node: XObject, disableFormatting: boolean) => string): void {
   nodeToString = f;
 }

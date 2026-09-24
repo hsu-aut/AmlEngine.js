@@ -9,6 +9,7 @@ using Oracle;
 var json = new JsonSerializerOptions { WriteIndented = true };
 
 // Directories stand for all files in them (keeps command lines short).
+if (args.FirstOrDefault() != "xops")
 args = args.Take(2).Concat(args.Skip(2).SelectMany<string, string>(a => Directory.Exists(a)
     ? Directory.GetFiles(a).OrderBy(f => f, StringComparer.Ordinal)
     : new[] { a })).ToArray();
@@ -61,6 +62,19 @@ switch (args.FirstOrDefault())
                     Console.WriteLine($"{System.IO.Path.GetFileName(file)}	{key}");
             }
         }
+        break;
+
+    case "schema":
+        // Schema tables of both CAEX versions, as compiled by the engine.
+        Directory.CreateDirectory(args[1]);
+        File.WriteAllText(Path.Combine(args[1], "caex30.json"),
+            SchemaDump.Export(Aml.Engine.Schema.AMLSchemaManager3_0.Instance).ToJsonString(json));
+        File.WriteAllText(Path.Combine(args[1], "caex215.json"),
+            SchemaDump.Export(Aml.Engine.Schema.AMLSchemaManager2_15.Instance).ToJsonString(json));
+        break;
+
+    case "xops":
+        XOpsOracle.Run(args[1], args[2]);
         break;
 
     case "xml":

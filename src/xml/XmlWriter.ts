@@ -12,11 +12,13 @@ import {
   XDocumentType,
   XElement,
   XNode,
+  XObject,
   XProcessingInstruction,
   XText,
   _setNodeToString,
 } from './XNode.js';
-import { isWhitespaceOnly, isXmlChar } from './XmlChars.js';
+import { XmlException, isWhitespaceOnly, isXmlChar } from './XmlChars.js';
+import { ArgumentException } from '../system/exceptions.js';
 
 export interface XmlWriterSettings {
   indent: boolean;
@@ -42,11 +44,12 @@ export const DEFAULT_WRITER_SETTINGS: XmlWriterSettings = {
 const XMLNS = XNamespace.Xmlns;
 const XML = XNamespace.Xml;
 
+type NsKind = 'special' | 'implied' | 'needToWrite' | 'written';
+
 interface NsDecl {
   prefix: string;
   ns: string;
-  /** Implicit declarations are written when the start tag is closed, unless made explicit. */
-  kind: 'implicit' | 'written';
+  kind: NsKind;
 }
 
 /** Emulates XmlWellFormedWriter on top of an indenting raw text writer. */
@@ -61,15 +64,15 @@ class WellFormedWriter {
   private textPos = 0;
   private contentPos = -1;
   private inStartTag = false;
-  private elementStack: Array<{ qname: string; nsStart: number }> = [];
+  /** Open elements with the namespace stack top before each was pushed (prevNSTop). */
+  private elementStack: Array<{ qname: string; prevNSTop: number }> = [];
 
-  // namespace scope of the well-formed writer
+  // XmlWellFormedWriter namespace stack: _nsTop is ns.length - 1
   private readonly ns: NsDecl[] = [
-    { prefix: 'xml', ns: XML.namespaceName, kind: 'written' },
-    { prefix: 'xmlns', ns: XMLNS.namespaceName, kind: 'written' },
-    { prefix: '', ns: '', kind: 'written' },
+    { prefix: 'xmlns', ns: XMLNS.namespaceName, kind: 'special' },
+    { prefix: 'xml', ns: XML.namespaceName, kind: 'special' },
+    { prefix: '', ns: '', kind: 'implied' },
   ];
-  private generatedPrefixes = 0;
 
   constructor(private readonly settings: XmlWriterSettings) {}
 
@@ -94,6 +97,14 @@ class WellFormedWriter {
     this.raw(decl + '?>');
   }
 
+  private get nsTop(): number {
+    return this.ns.length - 1;
+  }
+
+  private get currentPrevNSTop(): number {
+    return this.elementStack[this.elementStack.length - 1].prevNSTop;
+  }
+
   // ---- elements ---------------------------------------------------------------------------
 
   writeStartElement(prefix: string | null, localName: string, nsUri: string): void {
@@ -110,45 +121,32 @@ class WellFormedWriter {
     }
     this.raw('<' + qname);
     this.inStartTag = true;
-    this.elementStack.push({ qname, nsStart: this.ns.length });
-    // The element's own namespace must be in scope; declare it implicitly otherwise.
-    if (this.lookupNamespace(prefix) !== nsUri) this.ns.push({ prefix, ns: nsUri, kind: 'implicit' });
+    this.elementStack.push({ qname, prevNSTop: this.nsTop });
+    this.pushNamespaceImplicit(prefix, nsUri);
   }
 
   writeAttribute(prefix: string | null, localName: string, nsUri: string, value: string): void {
-    if (nsUri === XMLNS.namespaceName) {
-      const declPrefix = prefix === null || prefix.length === 0 ? (localName === 'xmlns' ? '' : localName) : localName;
-      this.writeNamespaceDeclaration(declPrefix, value);
+    if (prefix === null) {
+      if (!(localName === 'xmlns' && nsUri === XMLNS.namespaceName)) prefix = this.lookupPrefix(nsUri);
+      if (prefix === null) prefix = '';
+    }
+    if (prefix.length === 0) {
+      if (localName === 'xmlns') {
+        // default namespace declaration
+        if (this.pushNamespaceExplicit('', value)) this.rawNamespace('', value);
+        return;
+      }
+      if (nsUri.length > 0) {
+        prefix = this.lookupPrefix(nsUri);
+        if (prefix === null || prefix.length === 0) prefix = this.generatePrefix();
+      }
+    } else if (prefix === 'xmlns') {
+      if (this.pushNamespaceExplicit(localName, value)) this.rawNamespace(localName, value);
       return;
     }
-    if (prefix === null) {
-      if (nsUri.length === 0) prefix = '';
-      else {
-        prefix = this.lookupPrefix(nsUri);
-        if (prefix === null || prefix.length === 0) prefix = this.generatePrefix(nsUri);
-      }
-    } else if (prefix.length > 0 && nsUri.length > 0 && this.lookupNamespace(prefix) !== nsUri && prefix !== 'xml') {
-      this.pushNamespaceImplicit(prefix, nsUri);
-    }
+    if (prefix.length !== 0) this.pushNamespaceImplicit(prefix, nsUri);
     const qname = prefix.length ? `${prefix}:${localName}` : localName;
     this.raw(` ${qname}="${this.escapeAttribute(value)}"`);
-  }
-
-  private writeNamespaceDeclaration(prefix: string, nsUri: string): void {
-    const scopeStart = this.elementStack[this.elementStack.length - 1].nsStart;
-    for (let i = this.ns.length - 1; i >= scopeStart; i--) {
-      const d = this.ns[i];
-      if (d.prefix !== prefix) continue;
-      if (d.ns !== nsUri) throw new Error(`The prefix '${prefix}' cannot be redefined from '${d.ns}' to '${nsUri}' within the same start element tag.`);
-      if (d.kind === 'implicit') {
-        d.kind = 'written';
-        this.rawNamespace(prefix, nsUri);
-      }
-      return;
-    }
-    if (this.settings.omitDuplicateNamespaces && this.lookupNamespace(prefix) === nsUri) return;
-    this.ns.push({ prefix, ns: nsUri, kind: 'written' });
-    this.rawNamespace(prefix, nsUri);
   }
 
   private rawNamespace(prefix: string, nsUri: string): void {
@@ -156,37 +154,93 @@ class WellFormedWriter {
   }
 
   private pushNamespaceImplicit(prefix: string, nsUri: string): void {
-    this.ns.push({ prefix, ns: nsUri, kind: 'implicit' });
+    let kind: NsKind;
+    const existing = this.lookupNamespaceIndex(prefix);
+    if (existing !== -1) {
+      if (existing > this.currentPrevNSTop) {
+        if (this.ns[existing].ns !== nsUri) throw redefinePrefix(prefix, this.ns[existing].ns, nsUri);
+        return;
+      }
+      if (this.ns[existing].kind === 'special') {
+        if (prefix !== 'xml' || nsUri !== this.ns[existing].ns) {
+          throw new ArgumentException(`Prefix "${prefix}" is reserved for use by XML and can be mapped only to namespace name "${this.ns[existing].ns}".`);
+        }
+        kind = 'implied';
+      } else kind = this.ns[existing].ns === nsUri ? 'implied' : 'needToWrite';
+    } else {
+      if ((nsUri === XML.namespaceName && prefix !== 'xml') || (nsUri === XMLNS.namespaceName && prefix !== 'xmlns')) {
+        throw new ArgumentException(`Prefix "${prefix}" cannot be mapped to namespace name reserved for "xml" or "xmlns".`);
+      }
+      kind = 'needToWrite';
+    }
+    this.ns.push({ prefix, ns: nsUri, kind });
   }
 
-  private generatePrefix(nsUri: string): string {
-    for (;;) {
-      const p = `p${++this.generatedPrefixes}`;
-      if (this.lookupNamespace(p) === null) {
-        this.pushNamespaceImplicit(p, nsUri);
-        return p;
+  /** Returns whether the declaration must be written out. */
+  private pushNamespaceExplicit(prefix: string, nsUri: string): boolean {
+    let writeItOut = true;
+    const existing = this.lookupNamespaceIndex(prefix);
+    if (existing !== -1) {
+      if (existing > this.currentPrevNSTop) {
+        const d = this.ns[existing];
+        if (d.ns !== nsUri) throw redefinePrefix(prefix, d.ns, nsUri);
+        if (d.kind === 'written') {
+          throw new XmlException(`'${prefix.length === 0 ? 'xmlns' : 'xmlns:' + prefix}' is a duplicate attribute name.`);
+        }
+        if (this.settings.omitDuplicateNamespaces && d.kind !== 'needToWrite') writeItOut = false;
+        d.kind = 'written';
+        return writeItOut;
       }
+    } else if (nsUri.length === 0 && prefix.length !== 0) {
+      throw new ArgumentException('Cannot use a prefix with an empty namespace.');
+    }
+    if ((nsUri === XML.namespaceName && prefix !== 'xml') || (nsUri === XMLNS.namespaceName && prefix !== 'xmlns')) {
+      throw new ArgumentException(`Prefix "${prefix}" cannot be mapped to namespace name reserved for "xml" or "xmlns".`);
+    }
+    if (prefix === 'xmlns' || (prefix === 'xml' && nsUri !== XML.namespaceName)) {
+      throw new ArgumentException(`Prefix "${prefix}" is reserved for use by XML.`);
+    }
+    if (this.settings.omitDuplicateNamespaces && existing !== -1 && this.ns[existing].ns === nsUri) writeItOut = false;
+    this.ns.push({ prefix, ns: nsUri, kind: 'written' });
+    return writeItOut;
+  }
+
+  private generatePrefix(): string {
+    const genPrefix = `p${this.nsTop - 2}`;
+    if (this.lookupNamespace(genPrefix) === null) return genPrefix;
+    for (let i = 0; ; i++) {
+      const s = genPrefix + i;
+      if (this.lookupNamespace(s) === null) return s;
     }
   }
 
+  private lookupNamespaceIndex(prefix: string): number {
+    for (let i = this.nsTop; i >= 0; i--) if (this.ns[i].prefix === prefix) return i;
+    return -1;
+  }
+
   private lookupNamespace(prefix: string): string | null {
-    for (let i = this.ns.length - 1; i >= 0; i--) if (this.ns[i].prefix === prefix) return this.ns[i].ns;
-    return null;
+    const i = this.lookupNamespaceIndex(prefix);
+    return i === -1 ? null : this.ns[i].ns;
   }
 
   private lookupPrefix(nsUri: string): string | null {
-    for (let i = this.ns.length - 1; i >= 0; i--) {
-      const d = this.ns[i];
-      if (d.ns === nsUri && this.lookupNamespace(d.prefix) === nsUri) return d.prefix;
+    for (let i = this.nsTop; i >= 0; i--) {
+      if (this.ns[i].ns === nsUri) {
+        const prefix = this.ns[i].prefix;
+        for (i++; i <= this.nsTop; i++) if (this.ns[i].prefix === prefix) return null;
+        return prefix;
+      }
     }
     return null;
   }
 
   /** XmlWellFormedWriter writes pending declarations from the top of its namespace stack down. */
-  private writeImplicitNamespaces(nsStart: number): void {
-    for (let i = this.ns.length - 1; i >= nsStart; i--) {
+  private writePendingNamespaces(): void {
+    const prev = this.currentPrevNSTop;
+    for (let i = this.nsTop; i > prev; i--) {
       const d = this.ns[i];
-      if (d.kind === 'implicit') {
+      if (d.kind === 'needToWrite') {
         d.kind = 'written';
         this.rawNamespace(d.prefix, d.ns);
       }
@@ -195,8 +249,7 @@ class WellFormedWriter {
 
   private closeStartTag(): void {
     if (!this.inStartTag) return;
-    const top = this.elementStack[this.elementStack.length - 1];
-    this.writeImplicitNamespaces(top.nsStart);
+    this.writePendingNamespaces();
     this.raw('>');
     this.inStartTag = false;
     this.contentPos = this.len;
@@ -208,7 +261,7 @@ class WellFormedWriter {
 
   writeEndElement(full: boolean): void {
     if (this.inStartTag && !full) {
-      this.writeImplicitNamespaces(this.elementStack[this.elementStack.length - 1].nsStart);
+      this.writePendingNamespaces();
       this.inStartTag = false;
       if (this.settings.indent) {
         this.indentLevel--;
@@ -230,7 +283,17 @@ class WellFormedWriter {
 
   private popElement(): void {
     const top = this.elementStack.pop()!;
-    this.ns.length = top.nsStart;
+    this.ns.length = top.prevNSTop + 1;
+  }
+
+  /** @internal */
+  attributeText(a: XAttribute): string {
+    let prefix = '';
+    const ns = a.name.namespace;
+    if (a.isNamespaceDeclaration) prefix = ns === XNamespace.None ? '' : 'xmlns';
+    else if (ns !== XNamespace.None) prefix = a.parent?.getPrefixOfNamespace(ns) ?? '';
+    const q = prefix ? `${prefix}:${a.name.localName}` : a.name.localName;
+    return `${q}="${this.escapeAttribute(a.value)}"`;
   }
 
   // ---- content ----------------------------------------------------------------------------
@@ -242,7 +305,7 @@ class WellFormedWriter {
   }
 
   writeWhitespace(text: string): void {
-    if (!isWhitespaceOnly(text)) throw new Error('Only white space characters should be used.');
+    if (!isWhitespaceOnly(text)) throw new ArgumentException('Only white space characters should be used.');
     this.closeStartTag();
     this.mixedContent = true;
     this.raw(this.replaceNewLines(text));
@@ -361,8 +424,12 @@ class WellFormedWriter {
   }
 }
 
+function redefinePrefix(prefix: string, from: string, to: string): Error {
+  return new XmlException(`The prefix '${prefix}' cannot be redefined from '${from}' to '${to}' within the same start element tag.`);
+}
+
 function invalidChar(cp: number): Error {
-  return new Error(`'${String.fromCodePoint(cp)}', hexadecimal value 0x${cp.toString(16).toUpperCase().padStart(2, '0')}, is an invalid character.`);
+  return new ArgumentException(`'${String.fromCodePoint(cp)}', hexadecimal value 0x${cp.toString(16).toUpperCase().padStart(2, '0')}, is an invalid character.`);
 }
 
 /** Port of System.Xml.Linq.NamespaceResolver used by the XLinq ElementWriter. */
@@ -421,7 +488,7 @@ class ElementWriter {
       this.w.writeString(c);
       this.w.writeEndElement(true);
     } else {
-      for (const n of c) {
+      for (const n of childNodes(e)) {
         if (n instanceof XElement) this.writeTree(n);
         else writeNode(n, this.w);
       }
@@ -432,7 +499,7 @@ class ElementWriter {
 
   private pushAncestors(e: XElement): void {
     for (let p = e.parent; p; p = p.parent) {
-      for (const a of p._attrs) {
+      for (const a of p.attributes()) {
         if (a.isNamespaceDeclaration) this.resolver.addFirst(a.name.namespace === XNamespace.None ? '' : a.name.localName, a.value);
       }
     }
@@ -440,12 +507,12 @@ class ElementWriter {
 
   private writeStartElement(e: XElement): void {
     this.resolver.pushScope();
-    for (const a of e._attrs) {
+    for (const a of e.attributes()) {
       if (a.isNamespaceDeclaration) this.resolver.add(a.name.namespace === XNamespace.None ? '' : a.name.localName, a.value);
     }
     const ns = e.name.namespace;
     this.w.writeStartElement(this.getPrefixOfNamespace(ns, true), e.name.localName, ns.namespaceName);
-    for (const a of e._attrs) {
+    for (const a of e.attributes()) {
       const ans = a.name.namespace;
       const local = a.name.localName;
       const nsName = ans.namespaceName.length === 0 && local === 'xmlns' ? XMLNS.namespaceName : ans.namespaceName;
@@ -492,11 +559,22 @@ function writeContent(c: XContainer, w: WellFormedWriter): void {
     else w.writeString(content);
     return;
   }
-  for (const n of content) writeNode(n, w);
+  for (const n of childNodes(c)) writeNode(n, w);
+}
+
+function* childNodes(c: XContainer): Generator<XNode> {
+  const last = c._content;
+  if (!(last instanceof XNode)) return;
+  let n: XNode = last;
+  do {
+    n = n._next!;
+    yield n;
+  } while (n !== last);
 }
 
 /** XNode.ToString(SaveOptions): no declaration, indented unless formatting is disabled. */
-export function nodeToString(node: XNode, disableFormatting: boolean, omitDuplicateNamespaces = false): string {
+export function nodeToString(node: XObject, disableFormatting: boolean, omitDuplicateNamespaces = false): string {
+  if (node instanceof XAttribute) return attributeToString(node);
   const w = new WellFormedWriter({
     ...DEFAULT_WRITER_SETTINGS,
     indent: !disableFormatting,
@@ -504,8 +582,14 @@ export function nodeToString(node: XNode, disableFormatting: boolean, omitDuplic
     omitDuplicateNamespaces,
   });
   if (node instanceof XDocument) writeContent(node, w);
-  else writeNode(node, w);
+  else writeNode(node as XNode, w);
   return w.result();
+}
+
+/** XAttribute.ToString(): name="escaped value" with the prefix in scope. */
+function attributeToString(a: XAttribute): string {
+  const w = new WellFormedWriter({ ...DEFAULT_WRITER_SETTINGS, indent: false, omitXmlDeclaration: true });
+  return w.attributeText(a);
 }
 
 _setNodeToString(nodeToString);

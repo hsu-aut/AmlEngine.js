@@ -4,3 +4,4 @@ test/corpus/** binary
 test/xml-corpus/** binary
 test/xml-fuzz/** binary
 *.aml binary
+test/xml-ops/** binary

@@ -63,8 +63,8 @@ class Parser {
     while (this.pos < s.length) {
       const ch = s[this.pos];
       if (ch === '<') {
-        if (s.startsWith('<?', this.pos)) this.doc._appendNode(this.parsePI());
-        else if (s.startsWith('<!--', this.pos)) this.doc._appendNode(this.parseComment());
+        if (s.startsWith('<?', this.pos)) this.addNode(this.doc, this.parsePI());
+        else if (s.startsWith('<!--', this.pos)) this.addNode(this.doc, this.parseComment());
         else if (s.startsWith('<!DOCTYPE', this.pos)) {
           if (this.options.prohibitDtd) this.fail('For security reasons DTD is prohibited in this XML document. To enable DTD processing set the DtdProcessing property on XmlReaderSettings to Parse and pass the settings into XmlReader.Create method.');
           if (sawRoot || sawDoctype) this.fail('Unexpected DTD declaration.');
@@ -79,7 +79,7 @@ class Parser {
       } else if (isWs(ch)) {
         const start = this.pos;
         while (this.pos < s.length && isWs(s[this.pos])) this.pos++;
-        if (this.options.preserveWhitespace) this.doc._appendNode(new XText(normalizeEol(s.substring(start, this.pos))));
+        if (this.options.preserveWhitespace) this.doc._addStringSkipNotify(normalizeEol(s.substring(start, this.pos)));
       } else {
         this.fail('Data at the root level is invalid.');
       }
@@ -146,7 +146,7 @@ class Parser {
       this.skipWs();
     }
     this.expect('>');
-    this.doc._appendNode(new XDocumentType(name, publicId, systemId, normalizeEol(subset)));
+    this.addNode(this.doc, new XDocumentType(name, publicId, systemId, normalizeEol(subset)));
   }
 
   private readQuoted(): string {
@@ -210,11 +210,9 @@ class Parser {
       const name = this.resolveName(n, false);
       if (seen.has(name)) this.fail(`'${n}' is a duplicate attribute name.`);
       seen.add(name);
-      const a = new XAttribute(name, v);
-      a._parent = el;
-      el._attrs.push(a);
+      el._appendAttributeSkipNotify(new XAttribute(name, v));
     }
-    parent._appendNode(el);
+    this.addNode(parent, el);
 
     if (!selfClosing) {
       this.parseContent(el);
@@ -238,7 +236,7 @@ class Parser {
         text = '';
         return;
       }
-      appendText(el, text);
+      el._addStringSkipNotify(text);
       text = '';
       textIsWs = true;
     };
@@ -253,18 +251,18 @@ class Parser {
         }
         if (s.startsWith('<!--', this.pos)) {
           flush();
-          el._appendNode(this.parseComment());
+          this.addNode(el, this.parseComment());
         } else if (s.startsWith('<![CDATA[', this.pos)) {
           flush();
           const end = s.indexOf(']]>', this.pos + 9);
           if (end < 0) this.fail('Unexpected end of file while parsing CDATA has occurred.');
           const value = normalizeEol(s.substring(this.pos + 9, end));
           this.checkChars(value);
-          el._appendNode(new XCData(value));
+          this.addNode(el, new XCData(value));
           this.pos = end + 3;
         } else if (s.startsWith('<?', this.pos)) {
           flush();
-          el._appendNode(this.parsePI());
+          this.addNode(el, this.parsePI());
         } else if (s.startsWith('<!', this.pos)) {
           this.fail('Unexpected declaration.');
         } else {
@@ -290,6 +288,12 @@ class Parser {
         text += normalizeEol(chunk);
       }
     }
+  }
+
+  /** AddNodeSkipNotify without validation: text content turns into a node first. */
+  private addNode(parent: XContainer, node: XNode): void {
+    parent._convertTextToNode();
+    parent._appendNodeSkipNotify(node);
   }
 
   private currentSpace(): 'preserve' | 'default' | null {
@@ -461,26 +465,6 @@ class Parser {
     }
     throw new XmlException(message, line, col);
   }
-}
-
-function appendText(el: XElement, text: string): void {
-  const c = el._content;
-  if (c === null) {
-    el._content = text;
-    return;
-  }
-  if (typeof c === 'string') {
-    el._content = c + text;
-    return;
-  }
-  const last = c.length ? c[c.length - 1] : null;
-  if (last instanceof XText && !(last instanceof XCData)) {
-    last.value += text;
-    return;
-  }
-  const t = new XText(text);
-  t._parent = el;
-  c.push(t);
 }
 
 function isWs(ch: string | undefined): boolean {
