@@ -20,3 +20,10 @@ NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPO
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+The AutomationML standard libraries in src/engine/resources/libraries are embedded byte for
+byte from the NuGet package Aml.Engine.Resources (MIT License, Copyright AutomationML e.V.),
+under the license above.
+
+AMLX containers are read and written with fflate (https://github.com/101arrowz/fflate),
+MIT License, Copyright (c) 2023 Arjun Barrett.

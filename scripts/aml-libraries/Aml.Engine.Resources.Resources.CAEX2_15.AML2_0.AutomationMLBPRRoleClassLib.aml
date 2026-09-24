@@ -1,0 +1,20 @@
+﻿<CAEXFile FileName="AutomationMLBPRRoleClassLib.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>AutomationML e.V.</WriterName>
+      <WriterID>AutomationML e.V.</WriterID>
+      <WriterVendor>AutomationML e.V.</WriterVendor>
+      <WriterVendorURL>www.AutomationML.org</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0.0</WriterRelease>
+      <LastWritingDateTime>2016-07-01</LastWritingDateTime>
+      <WriterProjectTitle>Automation Markup Language BPR Libraries</WriterProjectTitle>
+      <WriterProjectID>Automation Markup Language BPR Libraries</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation AutomationMLVersion="2.0" />  
+  <RoleClassLib Name="AutomationMLBPRRoleClassLib">
+    <Version>1.0.0</Version>
+    <RoleClass Name="ExternalData" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+  </RoleClassLib>
+</CAEXFile>

@@ -1,0 +1,18 @@
+﻿<CAEXFile FileName="" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InterfaceClassLib Name="AutomationMLLogicInterfaceClassLib">
+    <Description>AutomationMLLogicInterfaceClassLib specifies all logic related interface classes for referencing AML logic XML documents.</Description>
+    <Version>1.0.0</Version>
+    <InterfaceClass Name="LogicModelInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+    <InterfaceClass Name="SequencingLogicModelInterface" RefBaseClassPath="AutomationMLLogicInterfaceClassLib/LogicModelInterface" />
+    <InterfaceClass Name="BehaviourLogicModelInterface" RefBaseClassPath="AutomationMLLogicInterfaceClassLib/LogicModelInterface" />
+    <InterfaceClass Name="InterlockingLogicModelInterface" RefBaseClassPath="AutomationMLLogicInterfaceClassLib/LogicModelInterface" />
+    <InterfaceClass Name="LogicModelElementInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+    <InterfaceClass Name="VariableInterface" RefBaseClassPath="AutomationMLLogicInterfaceClassLib/LogicModelElementInterface">
+      <Attribute Name="Direction" AttributeDataType="xs:string" />
+    </InterfaceClass>
+    <InterfaceClass Name="InterlockingVariableInterface" RefBaseClassPath="AutomationMLLogicInterfaceClassLib/VariableInterface">
+      <Attribute Name="SafeConditionEquals" AttributeDataType="xs:boolean" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+</CAEXFile>

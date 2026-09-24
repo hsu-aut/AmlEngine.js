@@ -1,0 +1,8 @@
+﻿<CAEXFile FileName="" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InterfaceClassLib Name="AutomationMLPLCopenXMLInterfaceClassLib">
+    <Description>AutomationMLPLCopenXMLInterfaceClassLib specifies the logic related interface class for referencing IEC 61131-10 documents</Description>
+    <Version>1.0.0</Version>
+    <InterfaceClass Name="VariableInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/PLCopenXMLInterface" />
+  </InterfaceClassLib>
+</CAEXFile>

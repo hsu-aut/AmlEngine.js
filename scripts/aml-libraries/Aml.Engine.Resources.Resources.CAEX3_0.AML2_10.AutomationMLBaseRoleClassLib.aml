@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="AutomationMLBaseRoleClassLib.aml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+	<SourceDocumentInformation OriginID="IEC SC65E WG 9" OriginName="IEC SC65E WG 9" OriginVersion="2.10.0" LastWritingDateTime="2016-08-25T09:58:00.0Z" OriginProjectID="Automation Markup Language Standard Library" OriginRelease="2.10.0" OriginVendor="IEC" OriginVendorURL="www.iec.ch" OriginProjectTitle="Automation Markup Language Standard Libraries"/>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <Description>Automation Markup Language base role class library</Description>
+    <Version>2.10.0</Version>
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Group" RefBaseClassPath="AutomationMLBaseRole">
+        <Attribute Name="AssociatedFacet" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/AssociatedFacet" />
+      </RoleClass>
+      <RoleClass Name="Facet" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Product" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Process" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Structure" RefBaseClassPath="AutomationMLBaseRole">
+        <RoleClass Name="ProductStructure" RefBaseClassPath="Structure" />
+        <RoleClass Name="ProcessStructure" RefBaseClassPath="Structure" />
+        <RoleClass Name="ResourceStructure" RefBaseClassPath="Structure" />
+      </RoleClass>
+      <RoleClass Name="ExternalData" RefBaseClassPath="AutomationMLBaseRole" />
+    </RoleClass>
+  </RoleClassLib>
+</CAEXFile>

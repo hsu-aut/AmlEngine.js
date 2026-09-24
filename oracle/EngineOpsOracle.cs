@@ -395,7 +395,24 @@ public static class EngineOpsOracle
         static readonly Regex Guid = new(@"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}", RegexOptions.Compiled);
         readonly Dictionary<string, string> map = new(StringComparer.OrdinalIgnoreCase);
 
-        public string Apply(string text) =>
+        // Timestamps of "now" (DateTime.Now defaults) within a day of the run become NOW.
+        static readonly Regex Us = new(@"(\d{2})/(\d{2})/(\d{4}) \d{2}:\d{2}:\d{2}", RegexOptions.Compiled);
+        static readonly Regex Iso = new(@"(\d{4})-(\d{2})-(\d{2})T\d{2}:\d{2}:\d{2}(\.\d+)?([+-]\d{2}:\d{2}|Z)?", RegexOptions.Compiled);
+
+        static bool Recent(int y, int mo, int d)
+        {
+            try { return Math.Abs((new DateTime(y, mo, d) - DateTime.Today).TotalDays) <= 1; }
+            catch { return false; }
+        }
+
+        public string Apply(string text)
+        {
+            text = Us.Replace(text, m => Recent(int.Parse(m.Groups[3].Value), int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value)) ? "NOW" : m.Value);
+            text = Iso.Replace(text, m => Recent(int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value), int.Parse(m.Groups[3].Value)) ? "NOW" : m.Value);
+            return ApplyGuids(text);
+        }
+
+        string ApplyGuids(string text) =>
             Guid.Replace(text, m =>
             {
                 if (!map.TryGetValue(m.Value, out var id))

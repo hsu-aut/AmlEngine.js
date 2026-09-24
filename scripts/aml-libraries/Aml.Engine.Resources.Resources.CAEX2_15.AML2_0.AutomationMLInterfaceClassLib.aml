@@ -1,0 +1,34 @@
+﻿<CAEXFile FileName="" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <ExternalReference Path="https://3g4mkKLj3pN9JoF@automationml.ovgu.de/public.php/webdav/AutomationML_Base_Libraries_AMLEd1_2.2.0.aml" Alias="AutomationML_Base_Libraries_AMLEd1" />
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <Description>Standard Automation Markup Language Interface Class Library - Part 1 Content extended with Part 3 Content</Description>
+    <Version>2.2.1</Version>
+    <Revision>
+      <RevisionDate>2023-07-19T11:16:43.590814+02:00</RevisionDate>
+      <OldVersion>AutomationML_Base_Libraries_AMLEd1@AutomationMLInterfaceClassLib</OldVersion>
+      <AuthorName>AutomationML</AuthorName>
+      <Comment>Extension</Comment>
+    </Revision>
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="Order" RefBaseClassPath="AutomationMLBaseInterface">
+        <Attribute Name="Direction" AttributeDataType="xs:string" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="InterlockingConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="PPRConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="ExternalDataConnector">
+          <Attribute Name="refType" AttributeDataType="xs:string" />
+          <Attribute Name="target" AttributeDataType="xs:token" />
+        </InterfaceClass>
+        <InterfaceClass Name="PLCopenXMLInterface" RefBaseClassPath="ExternalDataConnector" />
+      </InterfaceClass>
+      <InterfaceClass Name="Communication" RefBaseClassPath="AutomationMLBaseInterface">
+        <InterfaceClass Name="SignalInterface" RefBaseClassPath="Communication" />
+      </InterfaceClass>
+      <InterfaceClass Name="AttachmentInterface" RefBaseClassPath="AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+</CAEXFile>

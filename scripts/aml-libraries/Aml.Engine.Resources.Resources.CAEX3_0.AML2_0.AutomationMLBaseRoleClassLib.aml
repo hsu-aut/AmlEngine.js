@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="AutomationMLBaseRoleClassLib.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.0</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="AutomationML Editor" OriginID="916578CA-FE0D-474E-A4FC-9E1719892369" OriginVersion="4.9.2.0" LastWritingDateTime="2017-11-22T17:10:37.8397676+01:00" OriginVendor="AutomationML e.V." OriginVendorURL="www.AutomationML.org" OriginRelease="4.9.2.0" OriginProjectTitle="unspecified" OriginProjectID="unspecified" />
+		
+	<ExternalReference Path="AutomationMLInterfaceClassLib.aml" Alias="AutomationMLInterfaceClassLib" />
+	<RoleClassLib Name="AutomationMLBaseRoleClassLib">
+		<Description>Automation Markup Language Base Role Class Library - Part 1 Content extended with Part 3 and Part 4 Content</Description>
+		<Version>2.2.1</Version>
+		<RoleClass Name="AutomationMLBaseRole">
+			<RoleClass Name="Group" RefBaseClassPath="AutomationMLBaseRole">
+				<Attribute Name="AssociatedFacet" AttributeDataType="xs:string" />				
+			</RoleClass>
+			<RoleClass Name="Facet" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRole">
+				<Attribute Name="Direction" AttributeDataType="xs:string" />
+				<Attribute Name="Cardinality">
+					<Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+					<Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+				</Attribute>
+				<Attribute Name="Category" AttributeDataType="xs:string" />
+				<ExternalInterface Name="ConnectionPoint" ID="9942bd9c-c19d-44e4-a197-11b9edf264e7" RefBaseClassPath="AutomationMLInterfaceClassLib@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+			</RoleClass>
+			<RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Product" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Process" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Structure" RefBaseClassPath="AutomationMLBaseRole">
+				<RoleClass Name="ProductStructure" RefBaseClassPath="Structure" />
+				<RoleClass Name="ProcessStructure" RefBaseClassPath="Structure" />
+				<RoleClass Name="ResourceStructure" RefBaseClassPath="Structure" />
+			</RoleClass>
+			<RoleClass Name="PropertySet" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Frame" RefBaseClassPath="AutomationMLBaseRole" />
+		</RoleClass>
+	</RoleClassLib>
+</CAEXFile>

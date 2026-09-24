@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="AutomationMLInterfaceClassLib.aml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+	<SourceDocumentInformation OriginID="IEC SC65E WG 9" OriginName="IEC SC65E WG 9" OriginVersion="2.10.0" LastWritingDateTime="2016-08-25T09:58:00.0Z" OriginProjectID="Automation Markup Language Standard Library" OriginRelease="2.10.0" OriginVendor="IEC" OriginVendorURL="www.iec.ch" OriginProjectTitle="Automation Markup Language Standard Libraries"/>  
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <Description>Standard Automation Markup Language Interface Class Library</Description>
+    <Version>2.10.0</Version>
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="Order" RefBaseClassPath="AutomationMLBaseInterface">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction" />
+      </InterfaceClass>
+      <InterfaceClass Name="Port" RefBaseClassPath="AutomationMLBaseInterface">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Constraint Name="AllowedValues">
+            <NominalScaledType>
+              <RequiredValue>In</RequiredValue>
+              <RequiredValue>Out</RequiredValue>
+              <RequiredValue>InOut</RequiredValue>
+            </NominalScaledType>
+          </Constraint>
+        </Attribute>
+        <Attribute Name="Cardinality" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category" />
+      </InterfaceClass>
+      <InterfaceClass Name="PPRConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="ExternalDataConnector" />
+        <InterfaceClass Name="PLCopenXMLInterface" RefBaseClassPath="ExternalDataConnector" />
+        <InterfaceClass Name="ExternalDataReference" RefBaseClassPath="ExternalDataConnector">
+          <Attribute Name="MIMEType" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/MIMEType" />
+        </InterfaceClass>
+      </InterfaceClass>
+      <InterfaceClass Name="Communication" RefBaseClassPath="AutomationMLBaseInterface">
+        <InterfaceClass Name="SignalInterface" RefBaseClassPath="Communication" />
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+</CAEXFile>

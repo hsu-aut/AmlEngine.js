@@ -1,0 +1,32 @@
+﻿<CAEXFile FileName="" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <RoleClassLib Name="AutomationMLLogicRoleClassLib">
+    <Description>AutomationMLLogicRoleClassLib specifies all logic related role classes.</Description>
+    <Version>1.0.0</Version>
+    <RoleClass Name="InterlockingTargetGroup" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group">
+      <ExternalInterface Name="ConnectionInterlockingSourceGroup" ID="1d3bfa87-5538-40e2-b36a-6b31c76208db" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/InterlockingConnector" />
+      <ExternalInterface Name="ReferenceInterlockingLogicModel" ID="b1fd5920-a553-4e68-b571-c672bf00592a" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/AMLLogicXMLInterface/LogicModelInterface/InterlockingLogicModelInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+      </ExternalInterface>
+    </RoleClass>
+    <RoleClass Name="InterlockingSourceGroup" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group">
+      <ExternalInterface Name="ConnectionInterlockingTargetGroup" ID="3cc169e6-1e34-4d50-907f-df361c9a6d03" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/InterlockingConnector" />
+      <ExternalInterface Name="ReferenceInterlockingLogicModel" ID="59fcfe8e-7531-4f35-9b13-bd1eb9fecc88" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/AMLLogicXMLInterface/LogicModelInterface/InterlockingLogicModelInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+      </ExternalInterface>
+      <ExternalInterface Name="ReferenceInterlockingVariable" ID="09546c38-cca7-4eec-85b1-a5f33f11f8bd" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/AMLLogicXMLInterface/LogicModelElementInterface/VariableInterface/InterlockingVariableInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+        <Attribute Name="Direction" AttributeDataType="xs:string" />
+        <Attribute Name="SafeConditionEquals" AttributeDataType="xs:boolean" />
+      </ExternalInterface>
+    </RoleClass>
+    <RoleClass Name="LogicModelObject" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+      <ExternalInterface Name="ReferenceSequence" ID="dbbb8615-3003-43ea-81e5-5b78e0654a79" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/AMLLogicXMLInterface/LogicModelInterface/SequencingLogicModelInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+      </ExternalInterface>
+      <ExternalInterface Name="ReferenceBehaviour" ID="b34a2b98-dd40-4d94-b5ad-110d46729650" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/AMLLogicXMLInterface/LogicModelInterface/BehaviourLogicModelInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+      </ExternalInterface>
+    </RoleClass>
+  </RoleClassLib>
+</CAEXFile>

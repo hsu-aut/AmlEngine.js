@@ -1,0 +1,387 @@
+{
+	"Libraries": [
+		{
+			"CAEXType": "RoleClassLib",
+			"Libraries": [
+				{
+					"Name": "AutomationMLBaseRoleClassLib",
+					"Versions": [
+						{
+							"Version": "2.10.0",
+							"Signature": "\u003CSignature xmlns=\u0022http://www.w3.org/2000/09/xmldsig#\u0022\u003E\r\n\u003CSignedInfo\u003E\r\n\u003CCanonicalizationMethod Algorithm=\u0022http://www.w3.org/TR/2001/REC-xml-c14n-20010315\u0022 /\u003E\r\n\u003CSignatureMethod Algorithm=\u0022http://www.w3.org/2000/09/xmldsig#rsa-sha1\u0022 /\u003E\r\n\u003CReference URI=\u0022\u0022\u003E\r\n\u003CTransforms\u003E\r\n\u003CTransform Algorithm=\u0022http://www.w3.org/2000/09/xmldsig#enveloped-signature\u0022 /\u003E\r\n\u003C/Transforms\u003E\r\n\u003CDigestMethod Algorithm=\u0022http://www.w3.org/2000/09/xmldsig#sha1\u0022 /\u003E\r\n\u003CDigestValue\u003EnaDSS3K97pbqavyvpbTHzFSmTV8=\u003C/DigestValue\u003E\r\n\u003C/Reference\u003E\r\n\u003C/SignedInfo\u003E\r\n\u003CSignatureValue\u003EGrq2UdahiIc6fbeXyEdbjk2u5cdLoVUrIjMn/qdz6j1pKyJPpOGoRuFc55uM0tQ5yAGEiNvEYAZ1DmK8jG3vshY561me3AgOVHTj17l84D21IiCuHonaMWbimPAzvJmPSTpxTDvjz8FCi4EAaBjkexeYKw5kW7VhLP7SLF4YGE0=\u003C/SignatureValue\u003E\r\n\u003C/Signature\u003E"
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLB2MMLRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLIEC62264RoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLBMIRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLDMIRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLCMIRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLCSRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "MaterialHandlingResourceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "MaterialHandlingProcessClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "MaterialHandlingProductClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AssetAdministrationShellRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLReferenceDesignationRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLExtendedRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "CCLinkRCL",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLLogicRoleClassLib",
+					"Versions": [
+
+					]
+				},
+				{
+					"Name": "AutomationMLFMILogicRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLComponentStandardRCL",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLComponentBaseRCL",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationProjectConfigurationIOLinkRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationProjectConfigurationEthernetRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationProjectConfigurationProfiSafeRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationProjectConfigurationDriveExtensionRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationProjectConfigurationRoleClassLib",
+					"Versions": [
+
+					]
+				},
+				{
+					"Name": "CommunicationRoleClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"CAEXType": "InterfaceClassLib",
+			"Libraries": [
+				{
+					"Name": "AutomationMLInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "2.10.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLFMIInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",							
+							"Signature": ""							
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLLogicInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLPLCopenXMLInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "CCLinkICL",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "MaterialHandlingInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AssetAdministrationShellInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLIEC62264InterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLBPRInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLComponentBaseICL",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationProjectConfigurationDriveExtensionInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationProjectConfigurationInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "CommunicationInterfaceClassLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"CAEXType": "AttributeTypeLib",
+			"Libraries": [
+				{
+					"Name": "AutomationMLIEC62264AttributeTypeLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AutomationMLBaseAttributeTypeLib",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"CAEXType": "SystemUnitClassLib",
+			"Libraries": [
+				{
+					"Name": "AssetAdministrationShellDataSpecificationTemplates",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				},
+				{
+					"Name": "AssetAdministrationShellSystemUnitClasses",
+					"Versions": [
+						{
+							"Version": "1.0",
+							"Signature": ""
+						}
+					]
+				}
+			]
+		}
+	]
+}

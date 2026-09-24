@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="AutomationMLBaseAttributeTypeLib.aml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+	<SourceDocumentInformation OriginID="IEC SC65E WG 9" OriginName="IEC SC65E WG 9" OriginVersion="2.10.0" LastWritingDateTime="2016-08-25T09:58:00.0Z" OriginProjectID="Automation Markup Language Standard Library" OriginRelease="2.10.0" OriginVendor="IEC" OriginVendorURL="www.iec.ch" OriginProjectTitle="Automation Markup Language Standard Libraries"/>
+	<AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib">
+    <Description>Standard Automation Markup Language Attribute Type Library</Description>
+    <Version>2.10.0</Version>
+    <AttributeType Name="Direction" AttributeDataType="xs:string">
+      <Constraint Name="AllowedValues">
+        <NominalScaledType>
+          <RequiredValue>In</RequiredValue>
+          <RequiredValue>Out</RequiredValue>
+          <RequiredValue>InOut</RequiredValue>
+        </NominalScaledType>
+      </Constraint>
+    </AttributeType>
+    <AttributeType Name="Cardinality">
+      <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+      <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+    </AttributeType>
+    <AttributeType Name="Category" AttributeDataType="xs:string" />
+    <AttributeType Name="refURI" AttributeDataType="xs:anyURI" />
+    <AttributeType Name="AssociatedFacet" AttributeDataType="xs:string" />
+    <AttributeType Name="ListType" />
+    <AttributeType Name="OrderedListType" />
+    <AttributeType Name="LocalizedAttribute" AttributeDataType="xs:string" />
+    <AttributeType Name="AssociatedExternalValue">
+      <Attribute Name="refCAEXAttribute" />
+      <Attribute Name="refURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+      <Attribute Name="Direction" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction" />
+    </AttributeType>
+    <AttributeType Name="MIMEType" AttributeDataType="xs:string" />
+    <AttributeType Name="DocLang" AttributeDataType="xs:string" />
+  </AttributeTypeLib>
+</CAEXFile>

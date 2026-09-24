@@ -79,6 +79,11 @@ switch (args.FirstOrDefault())
             SchemaDump.Export(Aml.Engine.Schema.AMLSchemaManager2_15.Instance).ToJsonString(json));
         break;
 
+    case "validate":
+        // validate <outDir> <file.aml|dir>...: CAEXDocument.Validate messages, see ValidateOracle.cs
+        ValidateOracle.Run(args[1], args.Skip(2));
+        break;
+
     case "engineops":
         // engineops <scripts.json> <corpusDir> <out.json>
         EngineOpsOracle.Run(args[1], args[2], args[3]);
