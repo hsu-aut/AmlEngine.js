@@ -1,0 +1,67 @@
+// System.Xml.Schema.XmlTypeCode with the numeric values of .NET; the engine does arithmetic on
+// them (for example `(uint)(typeCode - 26) <= 1u`).
+
+export enum XmlTypeCode {
+  None = 0,
+  Item = 1,
+  Node = 2,
+  Document = 3,
+  Element = 4,
+  Attribute = 5,
+  Namespace = 6,
+  ProcessingInstruction = 7,
+  Comment = 8,
+  Text = 9,
+  AnyAtomicType = 10,
+  UntypedAtomic = 11,
+  String = 12,
+  Boolean = 13,
+  Decimal = 14,
+  Float = 15,
+  Double = 16,
+  Duration = 17,
+  DateTime = 18,
+  Time = 19,
+  Date = 20,
+  GYearMonth = 21,
+  GYear = 22,
+  GMonthDay = 23,
+  GDay = 24,
+  GMonth = 25,
+  HexBinary = 26,
+  Base64Binary = 27,
+  AnyUri = 28,
+  QName = 29,
+  Notation = 30,
+  NormalizedString = 31,
+  Token = 32,
+  Language = 33,
+  NmToken = 34,
+  Name = 35,
+  NCName = 36,
+  Id = 37,
+  Idref = 38,
+  Entity = 39,
+  Integer = 40,
+  NonPositiveInteger = 41,
+  NegativeInteger = 42,
+  Long = 43,
+  Int = 44,
+  Short = 45,
+  Byte = 46,
+  NonNegativeInteger = 47,
+  UnsignedLong = 48,
+  UnsignedInt = 49,
+  UnsignedShort = 50,
+  UnsignedByte = 51,
+  PositiveInteger = 52,
+  YearMonthDuration = 53,
+  DayTimeDuration = 54,
+}
+
+/** XmlTypeCode by its .NET enum member name (as exported by the oracle). */
+export function xmlTypeCodeFromName(name: string | null | undefined): XmlTypeCode {
+  if (!name) return XmlTypeCode.None;
+  const v = (XmlTypeCode as unknown as Record<string, number>)[name];
+  return v === undefined ? XmlTypeCode.None : (v as XmlTypeCode);
+}

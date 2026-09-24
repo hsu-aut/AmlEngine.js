@@ -4,7 +4,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const [inDir = 'test/oracle-out/schema', outDir = 'src/schema/data'] = process.argv.slice(2);
+const [inDir = 'test/oracle-out/schema', outDir = 'src/engine/schema/data'] = process.argv.slice(2);
 mkdirSync(outDir, { recursive: true });
 
 for (const name of ['caex30', 'caex215']) {
