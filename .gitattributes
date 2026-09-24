@@ -1,0 +1,6 @@
+# Sources with LF; test corpora are compared byte by byte and must never be converted.
+* text=auto eol=lf
+test/corpus/** binary
+test/xml-corpus/** binary
+test/xml-fuzz/** binary
+*.aml binary
