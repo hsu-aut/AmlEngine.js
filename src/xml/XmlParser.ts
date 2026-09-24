@@ -32,6 +32,16 @@ const XML_URI = 'http://www.w3.org/XML/1998/namespace';
 
 const PREDEFINED: Record<string, string> = { lt: '<', gt: '>', amp: '&', apos: "'", quot: '"' };
 
+/** XDocument.Parse uses XmlReaderSettings.MaxCharactersFromEntities = 10,000,000. */
+const MAX_CHARACTERS_FROM_ENTITIES = 10_000_000;
+
+/** Character references in an entity value are expanded when the entity is declared. */
+function expandCharRefs(v: string): string {
+  return v.replace(/&#(x[0-9a-fA-F]+|[0-9]+);/g, (_, n: string) =>
+    String.fromCodePoint(n[0] === 'x' ? parseInt(n.substring(1), 16) : parseInt(n, 10)),
+  );
+}
+
 interface Scope {
   prefixes: Map<string, string>;
   space: 'preserve' | 'default' | null;
@@ -42,8 +52,15 @@ export function parseXml(input: string, options: XmlParseOptions): XDocument {
 }
 
 class Parser {
-  private readonly s: string;
+  private s: string;
   private pos = 0;
+  /** General entities of the internal DTD subset: replacement text, or null for external ones. */
+  private readonly entities = new Map<string, string | null>();
+  /** Characters produced by entity expansion so far (XmlReaderSettings.MaxCharactersFromEntities). */
+  private entityChars = 0;
+  private readonly expanding: string[] = [];
+  /** True while parsing the replacement text of an entity: end of input ends the content. */
+  private inFragment = false;
   private readonly doc = new XDocument();
   private readonly scopes: Scope[] = [];
 
@@ -138,15 +155,123 @@ class Parser {
     this.skipWs();
     let subset = '';
     if (this.s[this.pos] === '[') {
-      const end = this.s.indexOf(']', this.pos);
-      if (end < 0) this.fail('Unexpected end of file while parsing DTD.');
-      subset = this.s.substring(this.pos + 1, end);
-      if (/<!ENTITY/.test(subset)) this.fail('Entity declarations in a DTD are not supported.');
-      this.pos = end + 1;
+      const begin = this.pos + 1;
+      const close = this.scanSubset(begin);
+      subset = this.s.substring(begin, close);
+      this.pos = close + 1;
       this.skipWs();
     }
     this.expect('>');
     this.addNode(this.doc, new XDocumentType(name, publicId, systemId, normalizeEol(subset)));
+  }
+
+  /** Scans the internal subset up to its closing ']' and records general entity declarations. */
+  private scanSubset(start: number): number {
+    const s = this.s;
+    const skipQuoted = (at: number): number => {
+      const end = s.indexOf(s[at], at + 1);
+      if (end < 0) this.fail('Unexpected end of file while parsing DTD.');
+      return end + 1;
+    };
+    const skipDeclaration = (from: number): number => {
+      let j = from;
+      for (;;) {
+        while (j < s.length && s[j] !== '>' && s[j] !== '"' && s[j] !== "'") j++;
+        if (j >= s.length) this.fail('Unexpected end of file while parsing DTD.');
+        if (s[j] === '>') return j + 1;
+        j = skipQuoted(j);
+      }
+    };
+    let i = start;
+    while (i < s.length) {
+      if (s[i] === ']') return i;
+      if (s.startsWith('<!--', i)) {
+        const end = s.indexOf('-->', i + 4);
+        if (end < 0) this.fail('Unexpected end of file while parsing DTD.');
+        i = end + 3;
+      } else if (s.startsWith('<?', i)) {
+        const end = s.indexOf('?>', i + 2);
+        if (end < 0) this.fail('Unexpected end of file while parsing DTD.');
+        i = end + 2;
+      } else if (s.startsWith('<!ENTITY', i)) {
+        const m = /^<!ENTITY\s+(%\s+)?([^\s>]+)\s+/.exec(s.substring(i, i + 512));
+        if (!m) this.fail('Invalid entity declaration.');
+        let j = i + m[0].length;
+        let value: string | null = null;
+        if (s[j] === '"' || s[j] === "'") {
+          const end = skipQuoted(j);
+          value = expandCharRefs(normalizeEol(s.substring(j + 1, end - 1)));
+          j = end;
+        }
+        // External entities (SYSTEM/PUBLIC) are declared but never resolved.
+        const next = skipDeclaration(j);
+        // Parameter entities are ignored; the first declaration of a general entity wins.
+        if (!m[1] && !this.entities.has(m[2])) this.entities.set(m[2], value);
+        i = next;
+      } else if (s.startsWith('<!', i)) {
+        i = skipDeclaration(i + 2);
+      } else i++;
+    }
+    this.fail('Unexpected end of file while parsing DTD.');
+  }
+
+  /** Replacement text of a declared internal general entity, counted against the expansion limit. */
+  private entityText(name: string): string {
+    const v = this.entities.get(name);
+    if (v === null || v === undefined) this.fail(`Reference to external entity '${name}' cannot be resolved.`);
+    if (this.expanding.includes(name)) this.fail(`General entity '${name}' references itself.`);
+    this.entityChars += v.length;
+    if (this.entityChars > MAX_CHARACTERS_FROM_ENTITIES) {
+      this.fail('The input document has exceeded a limit set by MaxCharactersFromEntities.');
+    }
+    return v;
+  }
+
+  /** Parses the replacement text of an entity as content of the current element. */
+  private expandInContent(el: XElement, name: string): void {
+    // XmlReader without a resolver skips references to external entities in content.
+    if (this.entities.get(name) === null) return;
+    const text = this.entityText(name);
+    const saved = { s: this.s, pos: this.pos, inFragment: this.inFragment };
+    this.expanding.push(name);
+    this.s = text;
+    this.pos = 0;
+    this.inFragment = true;
+    try {
+      this.parseContent(el);
+    } finally {
+      this.expanding.pop();
+      this.s = saved.s;
+      this.pos = saved.pos;
+      this.inFragment = saved.inFragment;
+    }
+  }
+
+  /** Attribute value normalization applied to the replacement text of an entity. */
+  private expandInAttribute(name: string): string {
+    const text = this.entityText(name);
+    this.expanding.push(name);
+    try {
+      let v = '';
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (c === '<') this.fail("'<', hexadecimal value 0x3C, is an invalid attribute character.");
+        if (c === '&') {
+          const end = text.indexOf(';', i);
+          if (end < 0) this.fail('An error occurred while parsing EntityName.');
+          const ref = text.substring(i + 1, end);
+          i = end;
+          const pre = PREDEFINED[ref];
+          if (pre !== undefined) v += pre;
+          else if (this.entities.has(ref)) v += this.expandInAttribute(ref);
+          else this.fail(`Reference to undeclared entity '${ref}'.`);
+        } else if (c === '\n' || c === '\t' || c === '\r') v += ' ';
+        else v += c;
+      }
+      return v;
+    } finally {
+      this.expanding.pop();
+    }
   }
 
   private readQuoted(): string {
@@ -241,7 +366,13 @@ class Parser {
       textIsWs = true;
     };
     for (;;) {
-      if (this.pos >= s.length) this.fail('Unexpected end of file has occurred. The following elements are not closed: ' + el.name.localName + '.');
+      if (this.pos >= s.length) {
+        if (this.inFragment) {
+          flush();
+          return;
+        }
+        this.fail('Unexpected end of file has occurred. The following elements are not closed: ' + el.name.localName + '.');
+      }
       const c = s[this.pos];
       if (c === '<') {
         if (s[this.pos + 1] === '/') {
@@ -270,6 +401,13 @@ class Parser {
           this.parseElement(el);
         }
       } else if (c === '&') {
+        const name = this.generalEntityName();
+        if (name !== null) {
+          flush();
+          this.pos += name.length + 2;
+          this.expandInContent(el, name);
+          continue;
+        }
         const ch = this.readReference();
         text += ch;
         // Whitespace is judged by value: "&#32;" alone is ignorable whitespace too.
@@ -338,6 +476,12 @@ class Parser {
       }
       if (c === '<') this.fail('\'<\', hexadecimal value 0x3C, is an invalid attribute character.');
       if (c === '&') {
+        const name = this.generalEntityName();
+        if (name !== null) {
+          this.pos += name.length + 2;
+          v += this.expandInAttribute(name);
+          continue;
+        }
         v += this.readReference();
         continue;
       }
@@ -358,6 +502,16 @@ class Parser {
       v += ch;
       this.pos += ch.length;
     }
+  }
+
+  /** At '&': the name of a declared general entity (not predefined, not a character reference), else null. */
+  private generalEntityName(): string | null {
+    if (this.entities.size === 0) return null;
+    const end = this.s.indexOf(';', this.pos);
+    if (end < 0) return null;
+    const body = this.s.substring(this.pos + 1, end);
+    if (body.startsWith('#') || PREDEFINED[body] !== undefined) return null;
+    return this.entities.has(body) ? body : null;
   }
 
   private readReference(): string {

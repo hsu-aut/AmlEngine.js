@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE r [
+  <!ENTITY a "Alpha">
+  <!ENTITY b "&a; and &#x42;eta">
+]>
+<r x="&a;" y="[&b;]">&a; - &b;</r>

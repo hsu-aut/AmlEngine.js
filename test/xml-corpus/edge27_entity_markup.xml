@@ -1,0 +1,1 @@
+<!DOCTYPE r [<!ENTITY m "<i>inner &amp; x</i>tail">]><r>pre &m; post<q v="1"/></r>
