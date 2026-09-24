@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<b xmlns="urn:a" xmlns:ns1="http://www.dke.de/CAEX" ns1:x=""
+    x='Ä€😀'>
+  &#x9;
+  "quoted"
+  <Ä><Ä
+    xmlns="http://www.dke.de/CAEX"></Ä>"quoted"<ns1:Ä x='1' v="cr
+x">
+      <data Name="1" v="&#13;"/>
+      &#32;
+    </ns1:Ä></Ä>
+    
+</b>

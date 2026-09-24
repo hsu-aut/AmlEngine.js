@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x-y xmlns="urn:a" xmlns:q="urn:b" y-z='Ä€😀'><n.m xmlns="http://www.dke.de/CAEX" Name="{guid}"><q:n.m q:Name="cr
+x" v='&amp;' Name="Ä€😀" xmlns="http://www.dke.de/CAEX">&gt;<Attribute Name='cr
+x' xmlns="http://www.dke.de/CAEX" xmlns:ns1="urn:b"><ns1:_u>
+            lead
+          text
+          &#32;
+          <b/>
+        </ns1:_u></Attribute></q:n.m></n.m></x-y>

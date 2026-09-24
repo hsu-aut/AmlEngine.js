@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<a
+    ID='&lt;&gt;' xmlns="urn:a">
+  <p:Item x="&lt;&gt;" Name="&quot;" xmlns:p="http://example.org/x">
+    <p:Ä>
+      <_u p:y-z='{guid}'
+    y-z="nl
+x"></_u>
+      <p:Ä><?pi data?>&gt; <!--- x--></p:Ä>
+    </p:Ä>
+    <n.m ID="&lt;&gt;" v=" ">
+      <![CDATA[-]]>
+      <p:x-y xmlns="urn:b" xmlns:ns1="urn:a" x="tab	here" />
+      it's
+      <?pi  x?>
+    </n.m>
+  </p:Item>
+  it's
+</a>

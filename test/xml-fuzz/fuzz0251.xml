@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<data v="Ä€😀"
+    Name='a b' xml:space="preserve">
+  <x-y Name="" y-z="'" v="&lt;&gt;">
+    &#x20AC;
+    <_u xmlns="urn:a" xmlns:p="http://www.dke.de/CAEX"></_u>
+    <![CDATA[
+]]>
+  </x-y>
+  ÄÖÜ ß
+  <?pi?>
+</data>

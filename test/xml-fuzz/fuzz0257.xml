@@ -1,0 +1,20 @@
+<?xml version="1.0"?><n.m xmlns:p="http://www.dke.de/CAEX">
+  <p:Ä y-z="&amp;" v="&#10;" ID='&#9;' xmlns="http://www.dke.de/CAEX">
+    <![CDATA[	]]>
+    <data Name="&amp;" v="nl
+x"
+    xml:space="default">
+      <a>trail  &apos;</a>
+      <p:a p:v="Ä€😀" Name="Ä€😀" v="tab	here">
+        😀
+        <p:Item ID="&lt;&gt;" p:x='&lt;&gt;' xml:space="default"></p:Item>
+        <!-- c -->
+      </p:a>
+    </data>
+  </p:Ä>
+  <![CDATA[<tag>]]>
+  <Attribute ID="&lt;&gt;">
+    <![CDATA[  lead]]>
+    &lt;tag>&#10;
+  </Attribute>
+</n.m>

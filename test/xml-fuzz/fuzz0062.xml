@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<x-y><data x="{guid}" Name="{guid}">
+    <![CDATA[text]]>
+    <InternalElement><InternalElement v="&quot;" y-z="&quot;" x='&lt;&gt;'><n.m x=' ' v="Ä€😀" xmlns="http://example.org/x"></n.m><n.m/><a>
+          <?pi data?>
+            &lt;
+        </a></InternalElement><Item Name='a b' y-z="" v=" ">
+        <Attribute
+    xmlns="urn:a">
+          <n.m xmlns="urn:b" />
+          <data xmlns="http://example.org/x" y-z="'" x="&#x20;"/>
+          &#10;
+          &lt;
+        </Attribute>
+        <_u x="" y-z="cr
+x"
+    v=""><n.m x="&amp;" v='&amp;' ID="&#x20;"/></_u>
+        <data xmlns="urn:b" Name="Ä€😀"></data>
+        a &amp; b
+      </Item>&#x9;</InternalElement>
+    <b ID="&#13;" x="&#x20;" xmlns:p="http://www.dke.de/CAEX"><![CDATA[
+]]><InternalElement y-z=""><?pi  x?><n.m y-z='a b' p:Name='cr
+x' p:v="1">
+          it's
+          <![CDATA[it's]]>
+        </n.m></InternalElement></b>
+    <Ä
+    Name='&#x20;' x="&quot;" v="&#10;"></Ä>
+  </data><?pi?><_u xmlns="urn:b"
+    y-z='&#13;' Name="{guid}"></_u></x-y>

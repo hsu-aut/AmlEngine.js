@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><Item x="tab	here" y-z="&lt;&gt;">
+  <![CDATA[x
+y]]>
+  <ns1:Item xmlns:ns1="urn:b" x="">text<?pi  x?><x-y></x-y><InternalElement ns1:y-z="&amp;" y-z="&#x20;"></InternalElement></ns1:Item>
+  <n.m ns1:Name="&amp;" ns1:x="a b" xmlns:ns1="urn:b">
+    a &amp; b
+  </n.m>
+  <Attribute x="&amp;" xml:space="default"><x-y x="" xmlns:ns1="http://www.dke.de/CAEX"/><ns1:InternalElement xmlns:ns1="urn:a"></ns1:InternalElement></Attribute>
+</Item>

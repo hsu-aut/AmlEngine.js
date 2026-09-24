@@ -1,0 +1,15 @@
+<?xml version="1.0"?><data ID="{guid}" Name="" xmlns="http://www.dke.de/CAEX">
+  <!--multi
+line-->
+  <Ä xmlns:p="http://www.dke.de/CAEX" x="nl
+x" Name="&#13;" y-z="&amp;">
+    &lt;tag>
+    <Item>
+      <_u x="&lt;&gt;" xmlns="http://www.dke.de/CAEX" />
+        lead
+      <!--- x-->
+    </Item>
+  </Ä>
+   
+  <data y-z='&#13;' v="&#10;" xml:space="preserve" />
+</data>

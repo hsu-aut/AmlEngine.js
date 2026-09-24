@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Item x="" ID="&#x20;">
+  <!--c-->
+  <Ä v=" " Name='&amp;'></Ä>
+  <Ä xmlns="http://example.org/x" x="&#13;"/>
+</Item>

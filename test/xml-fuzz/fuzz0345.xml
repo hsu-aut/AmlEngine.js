@@ -1,0 +1,9 @@
+<xsi:x-y x="a b" v='{guid}' xmlns:xsi="urn:a"><Ä y-z="&amp;">
+    <x-y v="&#10;">
+      trail  &#32;
+    </x-y>
+    <InternalElement xsi:ID="'">"quoted"&#x9;</InternalElement>
+    <!-- c -->
+    x
+y
+  </Ä></xsi:x-y>

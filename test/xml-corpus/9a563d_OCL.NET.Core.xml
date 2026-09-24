@@ -1,0 +1,1389 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OCL.NET.Core</name>
+    </assembly>
+    <members>
+        <member name="T:OCL.NET.Core.Ast.LetExpr">
+            <summary>
+            Navigation / call AST nodes produced by the parser. Kept separate from the
+            literal/operator nodes in <c>OclExpression.cs</c> so each file stays focused.
+            Like all AST nodes these are pure data — evaluation lives in the interpreter.
+            </summary>
+            <summary><c>let v (: Type)? = init in body</c> — a local binding scoped to <paramref name="Body"/>.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.LetExpr.#ctor(System.String,System.String,OCL.NET.Core.Ast.OclExpression,OCL.NET.Core.Ast.OclExpression)">
+            <summary>
+            Navigation / call AST nodes produced by the parser. Kept separate from the
+            literal/operator nodes in <c>OclExpression.cs</c> so each file stays focused.
+            Like all AST nodes these are pure data — evaluation lives in the interpreter.
+            </summary>
+            <summary><c>let v (: Type)? = init in body</c> — a local binding scoped to <paramref name="Body"/>.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.IfExpr">
+            <summary><c>if cond then thenExpr else elseExpr endif</c>.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.IfExpr.#ctor(OCL.NET.Core.Ast.OclExpression,OCL.NET.Core.Ast.OclExpression,OCL.NET.Core.Ast.OclExpression)">
+            <summary><c>if cond then thenExpr else elseExpr endif</c>.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.NavigationExpr">
+            <summary>
+            Property navigation <c>source.name</c> (no parentheses) — e.g.
+            <c>self.identification.longName</c>, resolved via the metamodel binding.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.NavigationExpr.#ctor(OCL.NET.Core.Ast.OclExpression,System.String)">
+            <summary>
+            Property navigation <c>source.name</c> (no parentheses) — e.g.
+            <c>self.identification.longName</c>, resolved via the metamodel binding.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.CallStyle">
+            <summary>Whether an operation was called with <c>.</c> (object/value op) or <c>-&gt;</c> (collection op).</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.OperationCallExpr">
+            <summary>
+            An operation call, either dot-style (<c>source.oclIsKindOf(T)</c>, <c>s.size()</c>) or
+            arrow-style (<c>coll-&gt;size()</c>, <c>coll-&gt;includes(x)</c>).
+            <paramref name="Arguments"/> is empty for nullary operations. The <see cref="P:OCL.NET.Core.Ast.OperationCallExpr.Style"/>
+            distinguishes e.g. <c>s.size()</c> (String length) from <c>s-&gt;size()</c> (collection
+            of one). The type operations (<c>oclIsKindOf</c>/<c>oclIsTypeOf</c>/<c>oclType</c>) carry
+            their type argument as a <see cref="T:OCL.NET.Core.Ast.VariableExpr"/> whose name is the type.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.OperationCallExpr.#ctor(OCL.NET.Core.Ast.OclExpression,System.String,System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Ast.OclExpression},OCL.NET.Core.Ast.CallStyle)">
+            <summary>
+            An operation call, either dot-style (<c>source.oclIsKindOf(T)</c>, <c>s.size()</c>) or
+            arrow-style (<c>coll-&gt;size()</c>, <c>coll-&gt;includes(x)</c>).
+            <paramref name="Arguments"/> is empty for nullary operations. The <see cref="P:OCL.NET.Core.Ast.OperationCallExpr.Style"/>
+            distinguishes e.g. <c>s.size()</c> (String length) from <c>s-&gt;size()</c> (collection
+            of one). The type operations (<c>oclIsKindOf</c>/<c>oclIsTypeOf</c>/<c>oclType</c>) carry
+            their type argument as a <see cref="T:OCL.NET.Core.Ast.VariableExpr"/> whose name is the type.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.IteratorExpr">
+            <summary>
+            A collection iterator: <c>source-&gt;name(v1, v2, … | body)</c> such as
+            <c>select</c>, <c>collect</c>, <c>forAll</c>, <c>exists</c>. Supports the
+            multi-variable form (<c>forAll(c1, c2 | …)</c>) used by the catalogue's
+            uniqueness/no-duplicate rules.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.IteratorExpr.#ctor(OCL.NET.Core.Ast.OclExpression,System.String,System.Collections.Generic.IReadOnlyList{System.String},OCL.NET.Core.Ast.OclExpression)">
+            <summary>
+            A collection iterator: <c>source-&gt;name(v1, v2, … | body)</c> such as
+            <c>select</c>, <c>collect</c>, <c>forAll</c>, <c>exists</c>. Supports the
+            multi-variable form (<c>forAll(c1, c2 | …)</c>) used by the catalogue's
+            uniqueness/no-duplicate rules.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.CollectionLiteralExpr">
+            <summary>A collection literal: <c>Sequence{…}</c>, <c>Set{…}</c>, <c>Bag{…}</c>, <c>OrderedSet{…}</c>.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.CollectionLiteralExpr.#ctor(System.String,System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Ast.OclExpression})">
+            <summary>A collection literal: <c>Sequence{…}</c>, <c>Set{…}</c>, <c>Bag{…}</c>, <c>OrderedSet{…}</c>.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.OclConstraint">
+            <summary>
+            A parsed OCL invariant: <c>context T inv Name: body</c>. The top-level unit a
+            rule file decomposes into. Not an <see cref="T:OCL.NET.Core.Ast.OclExpression"/> itself — it wraps
+            the body expression together with the type it is anchored to.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.OclConstraint.#ctor(System.String,System.String,OCL.NET.Core.Ast.OclExpression)">
+            <summary>
+            A parsed OCL invariant: <c>context T inv Name: body</c>. The top-level unit a
+            rule file decomposes into. Not an <see cref="T:OCL.NET.Core.Ast.OclExpression"/> itself — it wraps
+            the body expression together with the type it is anchored to.
+            </summary>
+        </member>
+        <member name="P:OCL.NET.Core.Ast.OclConstraint.Location">
+            <summary>Position of the <c>context</c> keyword in the source text.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.OclExpression">
+             <summary>
+             Abstract base of the OCL abstract syntax tree.
+            
+             AST nodes are deliberately *pure data* — they carry no evaluation logic. All
+             behaviour lives in external visitors (today <see cref="T:OCL.NET.Core.Interpreter.OclInterpreter"/>;
+             later a type-checker / optimiser pass). Keeping the tree behaviour-free is what
+             lets the engine grow toward full OCL without rewriting the node types: a new
+             language phase is a new visitor, not a new method on every node.
+             </summary>
+        </member>
+        <member name="P:OCL.NET.Core.Ast.OclExpression.Location">
+            <summary>Position in the source OCL text; <see cref="F:OCL.NET.Core.Ast.SourceLocation.None"/> for synthetic nodes.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.LiteralExpr">
+            <summary>A literal value: integer, real, string, boolean, or the void/invalid singletons.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.LiteralExpr.#ctor(OCL.NET.Core.Values.OclValue)">
+            <summary>A literal value: integer, real, string, boolean, or the void/invalid singletons.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.VariableExpr">
+            <summary>
+            A reference to a bound variable — <c>self</c>, a <c>let</c> binding, or an
+            iterator variable introduced by <c>select</c>/<c>forAll</c>/… Resolved against
+            the <see cref="T:OCL.NET.Core.Interpreter.EvaluationEnvironment"/> at evaluation time.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.VariableExpr.#ctor(System.String)">
+            <summary>
+            A reference to a bound variable — <c>self</c>, a <c>let</c> binding, or an
+            iterator variable introduced by <c>select</c>/<c>forAll</c>/… Resolved against
+            the <see cref="T:OCL.NET.Core.Interpreter.EvaluationEnvironment"/> at evaluation time.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.UnaryExpr">
+            <summary>A unary operation: <c>not</c> or arithmetic negation.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.UnaryExpr.#ctor(OCL.NET.Core.Ast.UnaryOperator,OCL.NET.Core.Ast.OclExpression)">
+            <summary>A unary operation: <c>not</c> or arithmetic negation.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.BinaryExpr">
+            <summary>
+            A binary operation covering boolean logic, comparison, and arithmetic. Property
+            navigation and collection iterators get their own node types once the parser
+            and metamodel binding land (Milestone 1 / 3); they are intentionally absent here.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.BinaryExpr.#ctor(OCL.NET.Core.Ast.BinaryOperator,OCL.NET.Core.Ast.OclExpression,OCL.NET.Core.Ast.OclExpression)">
+            <summary>
+            A binary operation covering boolean logic, comparison, and arithmetic. Property
+            navigation and collection iterators get their own node types once the parser
+            and metamodel binding land (Milestone 1 / 3); they are intentionally absent here.
+            </summary>
+        </member>
+        <member name="F:OCL.NET.Core.Ast.UnaryOperator.Not">
+            <summary>Boolean negation (<c>not</c>), three-valued.</summary>
+        </member>
+        <member name="F:OCL.NET.Core.Ast.UnaryOperator.Minus">
+            <summary>Arithmetic negation (unary <c>-</c>).</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.OclParameter">
+            <summary>A formal parameter of a user-defined OCL operation.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.OclParameter.#ctor(System.String,System.String)">
+            <summary>A formal parameter of a user-defined OCL operation.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.OclOperationDef">
+            <summary>
+            A user-defined OCL operation (<c>def:</c>) — the mechanism that lets the rule
+            catalogue ship its helper operations (geometry <c>isWithin</c>, …) as plain OCL
+            rather than native code. The body evaluates with <c>self</c> bound to the
+            receiver and the parameters bound to the call arguments.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.OclOperationDef.#ctor(System.String,System.String,System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Ast.OclParameter},System.String,OCL.NET.Core.Ast.OclExpression)">
+            <summary>
+            A user-defined OCL operation (<c>def:</c>) — the mechanism that lets the rule
+            catalogue ship its helper operations (geometry <c>isWithin</c>, …) as plain OCL
+            rather than native code. The body evaluates with <c>self</c> bound to the
+            receiver and the parameters bound to the call arguments.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Ast.SourceLocation">
+            <summary>
+            1-based position of an AST node in the originating OCL source text. Carried
+            on every <see cref="T:OCL.NET.Core.Ast.OclExpression"/> so parse/runtime diagnostics and
+            validation findings can point the user back at the exact constraint location.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Ast.SourceLocation.#ctor(System.Int32,System.Int32)">
+            <summary>
+            1-based position of an AST node in the originating OCL source text. Carried
+            on every <see cref="T:OCL.NET.Core.Ast.OclExpression"/> so parse/runtime diagnostics and
+            validation findings can point the user back at the exact constraint location.
+            </summary>
+        </member>
+        <member name="F:OCL.NET.Core.Ast.SourceLocation.None">
+            <summary>Sentinel for synthetic nodes that were not produced by the parser.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Interpreter.EvaluationEnvironment">
+             <summary>
+             The lexical scope an expression evaluates in: variable bindings plus the
+             metamodel binding used to resolve types and navigate properties.
+            
+             Scopes nest. <c>let</c> bindings and iterator variables (<c>select</c>,
+             <c>forAll</c>, …) push a child scope via <see cref="M:OCL.NET.Core.Interpreter.EvaluationEnvironment.Push"/> so a binding is
+             visible to inner expressions but disappears when the iterator moves on.
+             Lookup walks the parent chain.
+             </summary>
+        </member>
+        <member name="P:OCL.NET.Core.Interpreter.EvaluationEnvironment.Metamodel">
+            <summary>The metamodel binding for type checks and property navigation. Null until a binding is supplied (pure-expression evaluation).</summary>
+        </member>
+        <member name="P:OCL.NET.Core.Interpreter.EvaluationEnvironment.Operations">
+            <summary>User-defined <c>def:</c> operations available to calls. Null if none were supplied.</summary>
+        </member>
+        <member name="P:OCL.NET.Core.Interpreter.EvaluationEnvironment.OperationDepth">
+            <summary>Nesting depth of user-defined operation calls — guards against recursive <c>def:</c> definitions.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.EvaluationEnvironment.NewRoot">
+            <summary>A fresh root scope sharing this environment's metamodel and operations — used when entering a <c>def:</c> body (depth +1).</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.EvaluationEnvironment.Bind(System.String,OCL.NET.Core.Values.OclValue)">
+            <summary>Bind a variable in the current scope (e.g. <c>self</c>, a let name, an iterator var).</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.EvaluationEnvironment.Push">
+            <summary>Create a child scope for a nested binding (let body, iterator iteration).</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.EvaluationEnvironment.TryResolve(System.String,OCL.NET.Core.Values.OclValue@)">
+            <summary>Resolve a variable up the parent chain. Returns false if unbound.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Interpreter.OclInterpreter">
+             <summary>
+             Tree-walking evaluator over the OCL AST. A second visitor — distinct from the
+             AST itself, so further language phases (type-checking, optimisation) slot in
+             alongside rather than bloating the node types.
+            
+             Boolean operators implement OCL's three-valued logic (true / false / invalid):
+             e.g. <c>false and invalid = false</c>, because the result is determined
+             regardless of the undefined operand. Arithmetic or comparison touching an
+             undefined operand yields <see cref="F:OCL.NET.Core.Values.OclValue.Invalid"/>, which is how an
+             invariant "fails safe" when a navigation hit a null.
+             </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.EvaluateVariable(OCL.NET.Core.Ast.VariableExpr,OCL.NET.Core.Interpreter.EvaluationEnvironment)">
+            <summary>
+            Resolve a name: a bound variable first, otherwise OCL's implicit-self rule —
+            an unqualified name in a constraint body is a property of <c>self</c>
+            (so <c>source</c> in <c>context Flow</c> means <c>self.source</c>). Only if
+            that yields nothing and the metamodel knows the name as a type is it a type
+            literal, represented like <c>oclType()</c> as the type-name string (so
+            <c>Sequence{FPD_Product}-&gt;select(t | self.oclIsKindOf(t))</c> works).
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.Equality(OCL.NET.Core.Values.OclValue,OCL.NET.Core.Values.OclValue,System.Boolean)">
+            <summary>OCL <c>=</c>/<c>&lt;&gt;</c>: any operand being <c>invalid</c> makes the result invalid; <c>null = null</c> is true.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.Quantify(OCL.NET.Core.Ast.IteratorExpr,OCL.NET.Core.Interpreter.EvaluationEnvironment,System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Values.OclValue},System.Boolean)">
+            <summary>
+            forAll / exists with three-valued aggregation: forAll returns false as soon
+            as one combination is false, true if all are true, and invalid if some
+            combination was undefined but none decided the result. exists is the dual.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.Closure(OCL.NET.Core.Ast.IteratorExpr,OCL.NET.Core.Interpreter.EvaluationEnvironment,System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Values.OclValue})">
+            <summary>
+            OCL <c>closure(v | body)</c> — the transitive closure: repeatedly apply the
+            body to each reached element, accumulating results until a fixpoint. The
+            source elements appear in the result only if reached again (i.e. a cycle),
+            which is exactly what the no-circular-decomposition rule relies on. Terminates
+            on cycles because an element is enqueued at most once after entering the result.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.ClosureDepth(OCL.NET.Core.Ast.IteratorExpr,OCL.NET.Core.Interpreter.EvaluationEnvironment,System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Values.OclValue})">
+            <summary>
+            <c>closureDepth(v | body)</c> (non-standard helper) — the number of body
+            applications along the longest path before the closure saturates, i.e. the
+            nesting depth. 0 when the body yields nothing for the source.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.Combinations(System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Values.OclValue},System.Int32)">
+            <summary>All ordered combinations of length <paramref name="count"/> from <paramref name="items"/> (Cartesian power).</summary>
+        </member>
+        <member name="F:OCL.NET.Core.Interpreter.OclInterpreter.MaxOperationDepth">
+            <summary>Maximum nesting of user-defined operation calls — a recursive <c>def:</c> would otherwise StackOverflow the host process (uncatchable).</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.EvaluateNavigation(OCL.NET.Core.Ast.NavigationExpr,OCL.NET.Core.Interpreter.EvaluationEnvironment)">
+            <summary>
+            Property navigation <c>source.name</c>. Over a single object it delegates to
+            the metamodel; over a collection it implicitly collects (OCL flattens one
+            level: <c>coll.attr ≡ coll-&gt;collect(attr)</c>); over <c>OclVoid</c> it stays void.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.InvokeDefinition(OCL.NET.Core.Ast.OclOperationDef,OCL.NET.Core.Values.OclValue,System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Values.OclValue},OCL.NET.Core.Interpreter.EvaluationEnvironment)">
+            <summary>Evaluate a <c>def:</c> body in a fresh scope with <c>self</c> = receiver and the parameters bound to the arguments.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.EvaluateTypeOperation(OCL.NET.Core.Ast.OperationCallExpr,OCL.NET.Core.Interpreter.EvaluationEnvironment)">
+            <summary>
+            The type operations read a bare name argument as a type *name*:
+            <c>oclIsKindOf(State)</c> never evaluates <c>State</c>. A name bound to a
+            variable (an iterator or let variable such as <c>t</c> in
+            <c>Sequence{FPD_Product}-&gt;select(t | self.oclIsKindOf(t))</c>) and any other
+            argument expression are evaluated instead, and must yield a type value. Types
+            are represented as their type-name string, like <c>oclType()</c>, so that
+            <c>a.oclType() = b.oclType()</c> comparisons work.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.OclInterpreter.TypeArgumentName(OCL.NET.Core.Ast.OclExpression,OCL.NET.Core.Interpreter.EvaluationEnvironment)">
+            <summary>
+            The type name a type operation tests against: an unbound bare name is the type
+            literal itself (unchanged, also for names the metamodel does not know);
+            otherwise the argument is evaluated and must yield a type value (a type-name
+            string). Anything else is no type, so the test is undefined (null).
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Interpreter.OperationRegistry">
+            <summary>
+            Holds the user-defined <c>def:</c> operations available during evaluation and
+            resolves a call to one. OCL operations are scoped to a context type and may be
+            overloaded by arity, so resolution keys on <c>(name, arity, receiver type)</c>
+            rather than name alone — two same-named helpers on different context types no
+            longer collide.
+            </summary>
+        </member>
+        <member name="F:OCL.NET.Core.Interpreter.OperationRegistry.BuiltinKinds">
+            <summary>
+            Find the definition for a call. An exact context-type match wins. A
+            non-matching receiver only falls back when the name/arity is unambiguous —
+            i.e. exactly ONE definition exists (covers receivers whose concrete type name
+            differs from the conceptual context). With several same-named definitions on
+            different context types, a mismatching receiver resolves to nothing: silently
+            picking "the first one" would defeat type-scoped operations.
+            </summary>
+            <summary>Built-in value kinds — never legal receivers for the conceptual-context fallback (a String is no Bounds).</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Interpreter.StandardLibrary">
+             <summary>
+             The non-iterator part of the OCL standard library: collection operations that
+             are pure functions of an already-evaluated source value and arguments
+             (<c>size</c>, <c>first</c>, <c>includes</c>, <c>asSet</c>, …). Iterators
+             (<c>select</c>/<c>forAll</c>/…) need the evaluation environment and live in the
+             interpreter; everything here is side-effect-free and independently testable.
+            
+             As the operation set grows toward full OCL this is the natural place to evolve
+             into a registry; for the Phase-1 set a dispatch switch is clearer.
+             </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.StandardLibrary.AsCollection(OCL.NET.Core.Values.OclValue)">
+            <summary>
+            OCL's implicit-collection rule for <c>-&gt;</c>: a non-collection source is
+            treated as a singleton, and the undefined value (<c>OclVoid</c>) as the empty
+            collection — which is exactly why <c>self.longName-&gt;notEmpty()</c> is false
+            when the navigation found nothing.
+            </summary>
+        </member>
+        <member name="F:OCL.NET.Core.Interpreter.StandardLibrary.StringOperations">
+            <summary>
+            Invoke a named collection operation. Returns <c>null</c> if the name is not a
+            Phase-1 standard operation, so the interpreter can distinguish "unsupported"
+            from a legitimate result.
+            </summary>
+            <summary>String-typed operations — a Void source makes these undefined (Invalid), not "unsupported".</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.StandardLibrary.InvokeString(System.String,System.String,System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Values.OclValue})">
+            <summary>Dot-style String operations. Returns null if <paramref name="name"/> is not a known String op.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.StandardLibrary.Matches(System.String,System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Values.OclValue})">
+            <summary>OCL <c>matches(regex)</c> — full-string regex match (like Java's String.matches). Invalid pattern ⇒ OclInvalid.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Interpreter.StandardLibrary.Distinct(System.Collections.Generic.IReadOnlyList{OCL.NET.Core.Values.OclValue})">
+            <summary>Duplicate-free copy using OCL value equality (also used for Set/OrderedSet literals).</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Metamodel.IOclMetamodel">
+             <summary>
+             The seam between the metamodel-agnostic OCL core and a concrete model
+             representation. Everything the interpreter needs to know about *what the model
+             elements are* flows through this interface — type identity, type hierarchy,
+             and property navigation.
+            
+             The example implementation binds to CAEX / Aml.Engine (project
+             <c>OCL.NET.Caex</c>), mapping OCL type names onto <c>SupportedRoleClass</c> /
+             <c>RefBaseSystemUnitPath</c> and OCL navigation like <c>self.a.b</c> onto the
+             CAEX attribute hierarchy. Keeping this an interface is what makes the engine
+             reusable across domains: a different binding (EMF/Ecore, plain POCOs, …) is a
+             different implementation, not a fork of the core.
+            
+             Implementations MUST compare element identity stably (e.g. by AML ID), because
+             some model APIs — Aml.Engine in particular — hand out non-reference-stable
+             wrapper instances for the same underlying element.
+             </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Metamodel.IOclMetamodel.IsKindOf(System.Object,System.String)">
+            <summary><c>e.oclIsKindOf(T)</c> — true if <paramref name="element"/> is an instance of <paramref name="typeName"/> or a subtype.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Metamodel.IOclMetamodel.IsTypeOf(System.Object,System.String)">
+            <summary><c>e.oclIsTypeOf(T)</c> — true if <paramref name="element"/> is exactly an instance of <paramref name="typeName"/> (no subtypes).</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Metamodel.IOclMetamodel.TypeOf(System.Object)">
+            <summary><c>e.oclType()</c> — the most specific OCL type name of <paramref name="element"/>.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Metamodel.IOclMetamodel.KnowsType(System.String)">
+            <summary>
+            Whether <paramref name="typeName"/> names a type of this metamodel. Lets the
+            interpreter evaluate a bare type name as a type value (e.g. the elements of
+            <c>Sequence{FPD_Product, FPD_Energy}</c>, later passed to <c>oclIsKindOf(t)</c>
+            through an iterator variable). The default knows no types, which keeps the
+            previous behaviour for bindings that do not implement it.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Metamodel.IOclMetamodel.GetProperty(System.Object,System.String)">
+            <summary>
+            <c>element.propertyName</c> — navigate a property. Returns <see cref="F:OCL.NET.Core.Values.OclValue.Void"/>
+            for an absent single-valued property, an empty collection for an absent
+            multi-valued one, never a CLR null.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Metamodel.UnknownOclTypeException">
+            <summary>
+            Thrown by an <see cref="T:OCL.NET.Core.Validation.IOclModel"/> when asked to enumerate instances
+            of a type name its binding does not know at all. This is deliberately distinct
+            from an empty result: an unknown context type means the rule can never fire, and
+            the validator reports that as a diagnostic finding instead of silently passing —
+            the most expensive failure mode for a reference validator is a silent pass.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.OclEngine">
+            <summary>
+            Convenience entry point that ties parser, interpreter and validator together for
+            the common cases. Lower layers stay available for advanced use; this is the
+            "embed it in three lines" facade:
+            <code>
+            var engine = new OclEngine();
+            var findings = engine.Validate(model, rules);          // model is an IOclModel binding
+            var ok = engine.Evaluate("self.x->size() = 1", model, self).AsBool();
+            </code>
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.OclEngine.Parse(System.String)">
+            <summary>Parse a bare OCL expression into an AST.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.OclEngine.Evaluate(System.String,OCL.NET.Core.Metamodel.IOclMetamodel,OCL.NET.Core.Values.OclValue)">
+            <summary>Parse and evaluate an expression against a model element bound as <c>self</c>.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.OclEngine.Compile(System.Collections.Generic.IEnumerable{OCL.NET.Core.Validation.OclRuleSpec},System.Collections.Generic.IEnumerable{OCL.NET.Core.Ast.OclOperationDef})">
+            <summary>Compile a rule set once (with optional <c>def:</c> helpers) for repeated validation.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.OclEngine.Validate(OCL.NET.Core.Validation.IOclModel,OCL.NET.Core.Validation.CompiledRuleSet)">
+            <summary>Validate a model against a pre-compiled rule set.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.OclEngine.Validate(OCL.NET.Core.Validation.IOclModel,System.Collections.Generic.IEnumerable{OCL.NET.Core.Validation.OclRuleSpec},System.Collections.Generic.IEnumerable{OCL.NET.Core.Ast.OclOperationDef})">
+            <summary>Validate a model against rules, compiling them on the fly (convenient for one-offs).</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Parser.OclAstBuilder">
+            <summary>
+            Lowers the ANTLR parse tree into OCL.NET's own <see cref="T:OCL.NET.Core.Ast.OclExpression"/> AST.
+            Visitor returns <see cref="T:OCL.NET.Core.Ast.OclExpression"/> for every expression alternative;
+            the constraint/file wrappers are assembled by <see cref="T:OCL.NET.Core.Parser.OclParser"/>, so this
+            visitor stays single-purpose. Keeping our AST separate from ANTLR's tree means
+            the interpreter (and later passes) run against a stable, hand-owned shape.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Parser.OclParseException">
+            <summary>
+            Thrown when OCL source text cannot be parsed. Carries the <see cref="P:OCL.NET.Core.Parser.OclParseException.Location"/>
+            of the first syntax error so callers can point the user at the offending
+            constraint line/column.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Parser.OclParser">
+            <summary>
+            Public front end: OCL source text → OCL.NET AST. Wraps the ANTLR-generated
+            lexer/parser, installs a fail-fast error handler (the default ANTLR behaviour
+            recovers and writes to the console — we want a clean <see cref="T:OCL.NET.Core.Parser.OclParseException"/>
+            with a source location instead), and hands the parse tree to
+            <see cref="T:OCL.NET.Core.Parser.OclAstBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Parser.OclParser.ParseConstraints(System.String)">
+            <summary>Parse the <c>context … inv …</c> invariants of a rule file (ignoring any <c>def:</c> blocks).</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Parser.OclParser.ParseDefinitions(System.String)">
+            <summary>Parse the <c>def:</c> operation definitions of a helper file (ignoring any <c>inv</c> blocks).</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Parser.OclParser.ParseConstraint(System.String)">
+            <summary>Parse exactly one invariant. Throws if the text holds more or fewer than one.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Parser.OclParser.ParseExpression(System.String)">
+            <summary>
+            Parse a bare expression (no <c>context/inv</c> wrapper) — convenient for tests
+            and REPL use. EOF-anchored: trailing garbage (e.g. a typo splitting an operator)
+            is a parse error, never silently ignored.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Parser.OclParser.Guard``1(System.String,System.Func{OCL.NET.Core.Grammar.OclParser,``0})">
+            <summary>Run a parse and convert any ANTLR failure into a clean <see cref="T:OCL.NET.Core.Parser.OclParseException"/> with a source location.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Parser.OclParser.ThrowingErrorListener">
+            <summary>Turns the first lexer or parser syntax error into an <see cref="T:OCL.NET.Core.Parser.OclParseException"/>.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Validation.CompiledRule">
+            <summary>
+            A single rule parsed once. A parse failure is captured (not thrown) so it can be
+            reported as a finding at validation time rather than aborting compilation.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Validation.CompiledRule.#ctor(System.String,OCL.NET.Core.Validation.ValidationSeverity,OCL.NET.Core.Ast.OclConstraint,OCL.NET.Core.Parser.OclParseException)">
+            <summary>
+            A single rule parsed once. A parse failure is captured (not thrown) so it can be
+            reported as a finding at validation time rather than aborting compilation.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Validation.CompiledRuleSet">
+            <summary>
+            A set of rules parsed once together with their helper operations, ready to be
+            run against many models. Build it once via <see cref="M:OCL.NET.Core.Validation.OclValidator.Compile(System.Collections.Generic.IEnumerable{OCL.NET.Core.Validation.OclRuleSpec},System.Collections.Generic.IEnumerable{OCL.NET.Core.Ast.OclOperationDef})"/> and
+            reuse it — this is the AST-caching that keeps repeated validation cheap.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Validation.IOclModel">
+             <summary>
+             A validatable model: an <see cref="T:OCL.NET.Core.Metamodel.IOclMetamodel"/> (type identity + property
+             navigation) extended with the two things the validator needs beyond evaluating
+             a single expression — enumerating the instances a <c>context</c> applies to, and
+             identifying an instance for a finding.
+            
+             Splitting this from <see cref="T:OCL.NET.Core.Metamodel.IOclMetamodel"/> keeps the pure expression
+             evaluator independent of how a model lists its elements.
+             </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Validation.IOclModel.InstancesOf(System.String)">
+            <summary>All instances a <c>context TypeName</c> invariant must hold for — i.e. every element that <c>oclIsKindOf(TypeName)</c>.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Validation.IOclModel.IdOf(OCL.NET.Core.Values.OclValue)">
+            <summary>A stable identifier for <paramref name="instance"/> (e.g. an AML ID) for use as a finding's target; null if unavailable.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Validation.OclRuleSpec">
+            <summary>
+            A validation rule: an OCL invariant plus the metadata the engine attaches to
+            any finding it produces. The <see cref="P:OCL.NET.Core.Validation.OclRuleSpec.OclConstraint"/> text carries its own
+            <c>context</c> type and invariant name; <see cref="P:OCL.NET.Core.Validation.OclRuleSpec.Id"/>/<see cref="P:OCL.NET.Core.Validation.OclRuleSpec.Severity"/>/
+            <see cref="P:OCL.NET.Core.Validation.OclRuleSpec.Source"/> are the catalogue bookkeeping around it.
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Validation.OclRuleSpec.#ctor(System.String,OCL.NET.Core.Validation.ValidationSeverity,System.String,System.String)">
+            <summary>
+            A validation rule: an OCL invariant plus the metadata the engine attaches to
+            any finding it produces. The <see cref="P:OCL.NET.Core.Validation.OclRuleSpec.OclConstraint"/> text carries its own
+            <c>context</c> type and invariant name; <see cref="P:OCL.NET.Core.Validation.OclRuleSpec.Id"/>/<see cref="P:OCL.NET.Core.Validation.OclRuleSpec.Severity"/>/
+            <see cref="P:OCL.NET.Core.Validation.OclRuleSpec.Source"/> are the catalogue bookkeeping around it.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Validation.OclValidator">
+             <summary>
+             Runs OCL rules over a model and reports violations. Rules are parsed once into a
+             <see cref="T:OCL.NET.Core.Validation.CompiledRuleSet"/> (with their <c>def:</c> helper operations); for each
+             rule the validator enumerates the instances of its <c>context</c> type, evaluates
+             the body against each, and records a finding wherever the body is not <c>true</c>
+             (false, or — per OCL's fail-safe default — undefined).
+            
+             A rule that fails to parse, or an instance that throws during evaluation (e.g. an
+             operation outside the supported subset), yields a diagnostic finding rather than
+             derailing the whole pass — mirroring the hard-coded validator's per-rule isolation.
+             </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Validation.OclValidator.Compile(System.Collections.Generic.IEnumerable{OCL.NET.Core.Validation.OclRuleSpec},System.Collections.Generic.IEnumerable{OCL.NET.Core.Ast.OclOperationDef})">
+            <summary>Parse a rule set once (with optional <c>def:</c> helper operations) for repeated validation.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Validation.OclValidator.Validate(OCL.NET.Core.Validation.IOclModel,OCL.NET.Core.Validation.CompiledRuleSet)">
+            <summary>Validate using a pre-compiled rule set (no re-parsing).</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Validation.OclValidator.Validate(OCL.NET.Core.Validation.IOclModel,System.Collections.Generic.IEnumerable{OCL.NET.Core.Validation.OclRuleSpec},System.Collections.Generic.IEnumerable{OCL.NET.Core.Ast.OclOperationDef})">
+            <summary>Convenience: compile and validate in one call. Parses each invocation — prefer <see cref="M:OCL.NET.Core.Validation.OclValidator.Compile(System.Collections.Generic.IEnumerable{OCL.NET.Core.Validation.OclRuleSpec},System.Collections.Generic.IEnumerable{OCL.NET.Core.Ast.OclOperationDef})"/> for repeated use.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Validation.ValidationSeverity">
+            <summary>Triage level of a finding, ordered Info &lt; Warning &lt; Error.</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Validation.ValidationFinding">
+            <summary>
+            One rule violation: which rule, how severe, a human-readable message, and the
+            id of the offending model element (for editor focus jumps).
+            </summary>
+        </member>
+        <member name="M:OCL.NET.Core.Validation.ValidationFinding.#ctor(System.String,OCL.NET.Core.Validation.ValidationSeverity,System.String,System.String)">
+            <summary>
+            One rule violation: which rule, how severe, a human-readable message, and the
+            id of the offending model element (for editor focus jumps).
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Values.OclKind">
+            <summary>The runtime category of an <see cref="T:OCL.NET.Core.Values.OclValue"/>.</summary>
+        </member>
+        <member name="F:OCL.NET.Core.Values.OclKind.Object">
+            <summary>An opaque model element supplied by the metamodel binding (e.g. a CAEX InternalElement).</summary>
+        </member>
+        <member name="F:OCL.NET.Core.Values.OclKind.Void">
+            <summary>OCL <c>OclVoid</c> — the value of an undefined navigation (null).</summary>
+        </member>
+        <member name="F:OCL.NET.Core.Values.OclKind.Invalid">
+            <summary>OCL <c>OclInvalid</c> — the result of an erroneous evaluation (e.g. division by zero).</summary>
+        </member>
+        <member name="T:OCL.NET.Core.Values.OclValue">
+            <summary>
+            A tagged union over the value types the OCL interpreter produces. Immutable;
+            constructed only through the static factories so the singletons
+            (<see cref="F:OCL.NET.Core.Values.OclValue.True"/>/<see cref="F:OCL.NET.Core.Values.OclValue.False"/>/<see cref="F:OCL.NET.Core.Values.OclValue.Void"/>/<see cref="F:OCL.NET.Core.Values.OclValue.Invalid"/>)
+            stay canonical.
+            </summary>
+        </member>
+        <member name="F:OCL.NET.Core.Values.OclValue.Void">
+            <summary>OCL <c>OclVoid</c> — result of an undefined navigation.</summary>
+        </member>
+        <member name="F:OCL.NET.Core.Values.OclValue.Invalid">
+            <summary>OCL <c>OclInvalid</c> — result of an erroneous evaluation.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Values.OclValue.Obj(System.Object)">
+            <summary>Wrap an opaque model element. The metamodel binding owns its identity semantics.</summary>
+        </member>
+        <member name="P:OCL.NET.Core.Values.OclValue.IsDefined">
+            <summary>True unless the value is <c>OclVoid</c> or <c>OclInvalid</c> (OCL <c>oclIsUndefined</c> is the inverse).</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Values.OclValue.AsReal">
+            <summary>Numeric value as a double; widens Integer to Real.</summary>
+        </member>
+        <member name="M:OCL.NET.Core.Values.OclValue.ValueEquals(OCL.NET.Core.Values.OclValue)">
+            <summary>
+            OCL value equality (<c>=</c>). Numbers compare by value across Integer/Real;
+            strings and booleans by value; objects by their underlying <see cref="M:System.Object.Equals(System.Object)"/>
+            (the metamodel binding is responsible for ID-based identity there — Aml.Engine
+            wrappers are not reference-stable); collections structurally and order-sensitively.
+            Void/Invalid are equal only to themselves.
+            </summary>
+        </member>
+        <member name="T:OCL.NET.Core.Grammar.OclBaseVisitor`1">
+            <summary>
+            This class provides an empty implementation of <see cref="T:OCL.NET.Core.Grammar.IOclVisitor`1"/>,
+            which can be extended to create a visitor which only needs to handle a subset
+            of the available methods.
+            </summary>
+            <typeparam name="Result">The return type of the visit operation.</typeparam>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitFile_(OCL.NET.Core.Grammar.OclParser.File_Context)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.file_"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitExprEof(OCL.NET.Core.Grammar.OclParser.ExprEofContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.exprEof"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitUnit(OCL.NET.Core.Grammar.OclParser.UnitContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.unit"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitConstraint(OCL.NET.Core.Grammar.OclParser.ConstraintContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.constraint"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitOperationDef(OCL.NET.Core.Grammar.OclParser.OperationDefContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.operationDef"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitParamList(OCL.NET.Core.Grammar.OclParser.ParamListContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.paramList"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitParam(OCL.NET.Core.Grammar.OclParser.ParamContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.param"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitDotOpCall(OCL.NET.Core.Grammar.OclParser.DotOpCallContext)">
+            <summary>
+            Visit a parse tree produced by the <c>dotOpCall</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitOrExpr(OCL.NET.Core.Grammar.OclParser.OrExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>orExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitDotNav(OCL.NET.Core.Grammar.OclParser.DotNavContext)">
+            <summary>
+            Visit a parse tree produced by the <c>dotNav</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitXorExpr(OCL.NET.Core.Grammar.OclParser.XorExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>xorExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitLetExpr(OCL.NET.Core.Grammar.OclParser.LetExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>letExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitEqExpr(OCL.NET.Core.Grammar.OclParser.EqExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>eqExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitUnaryExpr(OCL.NET.Core.Grammar.OclParser.UnaryExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>unaryExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitImpliesExpr(OCL.NET.Core.Grammar.OclParser.ImpliesExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>impliesExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitPrimaryExpr(OCL.NET.Core.Grammar.OclParser.PrimaryExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>primaryExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitAddExpr(OCL.NET.Core.Grammar.OclParser.AddExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>addExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitArrowCall(OCL.NET.Core.Grammar.OclParser.ArrowCallContext)">
+            <summary>
+            Visit a parse tree produced by the <c>arrowCall</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitMulExpr(OCL.NET.Core.Grammar.OclParser.MulExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>mulExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitIfExpr(OCL.NET.Core.Grammar.OclParser.IfExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>ifExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitRelExpr(OCL.NET.Core.Grammar.OclParser.RelExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>relExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitAndExpr(OCL.NET.Core.Grammar.OclParser.AndExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>andExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitArgList(OCL.NET.Core.Grammar.OclParser.ArgListContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.argList"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitIteratorBody(OCL.NET.Core.Grammar.OclParser.IteratorBodyContext)">
+            <summary>
+            Visit a parse tree produced by the <c>iteratorBody</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.iterBody"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitSimpleArgs(OCL.NET.Core.Grammar.OclParser.SimpleArgsContext)">
+            <summary>
+            Visit a parse tree produced by the <c>simpleArgs</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.iterBody"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitIterVars(OCL.NET.Core.Grammar.OclParser.IterVarsContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.iterVars"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitLiteralPrimary(OCL.NET.Core.Grammar.OclParser.LiteralPrimaryContext)">
+            <summary>
+            Visit a parse tree produced by the <c>literalPrimary</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitSelfPrimary(OCL.NET.Core.Grammar.OclParser.SelfPrimaryContext)">
+            <summary>
+            Visit a parse tree produced by the <c>selfPrimary</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitNamePrimary(OCL.NET.Core.Grammar.OclParser.NamePrimaryContext)">
+            <summary>
+            Visit a parse tree produced by the <c>namePrimary</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitParenPrimary(OCL.NET.Core.Grammar.OclParser.ParenPrimaryContext)">
+            <summary>
+            Visit a parse tree produced by the <c>parenPrimary</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitCollectionLiteral(OCL.NET.Core.Grammar.OclParser.CollectionLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>collectionLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitCollectionKind(OCL.NET.Core.Grammar.OclParser.CollectionKindContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.collectionKind"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitIntLiteral(OCL.NET.Core.Grammar.OclParser.IntLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>intLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitRealLiteral(OCL.NET.Core.Grammar.OclParser.RealLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>realLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitStringLiteral(OCL.NET.Core.Grammar.OclParser.StringLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>stringLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitTrueLiteral(OCL.NET.Core.Grammar.OclParser.TrueLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>trueLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitFalseLiteral(OCL.NET.Core.Grammar.OclParser.FalseLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>falseLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.OclBaseVisitor`1.VisitTypeName(OCL.NET.Core.Grammar.OclParser.TypeNameContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.typeName"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="T:OCL.NET.Core.Grammar.IOclVisitor`1">
+            <summary>
+            This interface defines a complete generic visitor for a parse tree produced
+            by <see cref="T:OCL.NET.Core.Grammar.OclParser"/>.
+            </summary>
+            <typeparam name="Result">The return type of the visit operation.</typeparam>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitFile_(OCL.NET.Core.Grammar.OclParser.File_Context)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.file_"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitExprEof(OCL.NET.Core.Grammar.OclParser.ExprEofContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.exprEof"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitUnit(OCL.NET.Core.Grammar.OclParser.UnitContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.unit"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitConstraint(OCL.NET.Core.Grammar.OclParser.ConstraintContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.constraint"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitOperationDef(OCL.NET.Core.Grammar.OclParser.OperationDefContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.operationDef"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitParamList(OCL.NET.Core.Grammar.OclParser.ParamListContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.paramList"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitParam(OCL.NET.Core.Grammar.OclParser.ParamContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.param"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitDotOpCall(OCL.NET.Core.Grammar.OclParser.DotOpCallContext)">
+            <summary>
+            Visit a parse tree produced by the <c>dotOpCall</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitOrExpr(OCL.NET.Core.Grammar.OclParser.OrExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>orExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitDotNav(OCL.NET.Core.Grammar.OclParser.DotNavContext)">
+            <summary>
+            Visit a parse tree produced by the <c>dotNav</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitXorExpr(OCL.NET.Core.Grammar.OclParser.XorExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>xorExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitLetExpr(OCL.NET.Core.Grammar.OclParser.LetExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>letExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitEqExpr(OCL.NET.Core.Grammar.OclParser.EqExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>eqExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitUnaryExpr(OCL.NET.Core.Grammar.OclParser.UnaryExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>unaryExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitImpliesExpr(OCL.NET.Core.Grammar.OclParser.ImpliesExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>impliesExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitPrimaryExpr(OCL.NET.Core.Grammar.OclParser.PrimaryExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>primaryExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitAddExpr(OCL.NET.Core.Grammar.OclParser.AddExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>addExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitArrowCall(OCL.NET.Core.Grammar.OclParser.ArrowCallContext)">
+            <summary>
+            Visit a parse tree produced by the <c>arrowCall</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitMulExpr(OCL.NET.Core.Grammar.OclParser.MulExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>mulExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitIfExpr(OCL.NET.Core.Grammar.OclParser.IfExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>ifExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitRelExpr(OCL.NET.Core.Grammar.OclParser.RelExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>relExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitAndExpr(OCL.NET.Core.Grammar.OclParser.AndExprContext)">
+            <summary>
+            Visit a parse tree produced by the <c>andExpr</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitArgList(OCL.NET.Core.Grammar.OclParser.ArgListContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.argList"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitIteratorBody(OCL.NET.Core.Grammar.OclParser.IteratorBodyContext)">
+            <summary>
+            Visit a parse tree produced by the <c>iteratorBody</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.iterBody"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitSimpleArgs(OCL.NET.Core.Grammar.OclParser.SimpleArgsContext)">
+            <summary>
+            Visit a parse tree produced by the <c>simpleArgs</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.iterBody"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitIterVars(OCL.NET.Core.Grammar.OclParser.IterVarsContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.iterVars"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitLiteralPrimary(OCL.NET.Core.Grammar.OclParser.LiteralPrimaryContext)">
+            <summary>
+            Visit a parse tree produced by the <c>literalPrimary</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitSelfPrimary(OCL.NET.Core.Grammar.OclParser.SelfPrimaryContext)">
+            <summary>
+            Visit a parse tree produced by the <c>selfPrimary</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitNamePrimary(OCL.NET.Core.Grammar.OclParser.NamePrimaryContext)">
+            <summary>
+            Visit a parse tree produced by the <c>namePrimary</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitParenPrimary(OCL.NET.Core.Grammar.OclParser.ParenPrimaryContext)">
+            <summary>
+            Visit a parse tree produced by the <c>parenPrimary</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitCollectionLiteral(OCL.NET.Core.Grammar.OclParser.CollectionLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>collectionLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.primary"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitCollectionKind(OCL.NET.Core.Grammar.OclParser.CollectionKindContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.collectionKind"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitIntLiteral(OCL.NET.Core.Grammar.OclParser.IntLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>intLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitRealLiteral(OCL.NET.Core.Grammar.OclParser.RealLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>realLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitStringLiteral(OCL.NET.Core.Grammar.OclParser.StringLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>stringLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitTrueLiteral(OCL.NET.Core.Grammar.OclParser.TrueLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>trueLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitFalseLiteral(OCL.NET.Core.Grammar.OclParser.FalseLiteralContext)">
+            <summary>
+            Visit a parse tree produced by the <c>falseLiteral</c>
+            labeled alternative in <see cref="M:OCL.NET.Core.Grammar.OclParser.literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:OCL.NET.Core.Grammar.IOclVisitor`1.VisitTypeName(OCL.NET.Core.Grammar.OclParser.TypeNameContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:OCL.NET.Core.Grammar.OclParser.typeName"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+    </members>
+</doc>

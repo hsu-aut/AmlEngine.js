@@ -1,0 +1,8 @@
+<Ä x=""><Attribute xmlns="http://www.dke.de/CAEX" y-z="{guid}">
+    <data Name='&apos;' v='nl
+x' xmlns="http://example.org/x"></data>
+    <data y-z="tab	here"><Item x=" "
+    xml:space="default" /><![CDATA[😀]]><b v='&quot;' /></data>
+    <_u Name="a b" x="&#13;"></_u>
+    <b ID='1' x="&#9;"/>
+  </Attribute>"quoted"</Ä>

@@ -1,0 +1,31 @@
+<Ä><x-y y-z="a b" v="'" ID="{guid}" xmlns="http://www.dke.de/CAEX">
+    <_u ID="&#10;"
+    xmlns:q="http://example.org/x">
+      <?pi data?>
+      <?pi  x?>
+    </_u>
+    <data><Ä xmlns="http://example.org/x" ID='&#9;'></Ä><![CDATA[--]]></data>
+    <a v="nl
+x"></a>
+    a &amp; b
+  </x-y><_u>
+    <n.m y-z='1' Name="1"/>
+    <p:Attribute x="" xmlns="urn:a" xmlns:p="http://www.dke.de/CAEX">
+      <Ä ID="&lt;&gt;" p:x="a b"/>
+      <_u p:v="cr
+x" p:ID="'" ID="cr
+x" xmlns="urn:a">
+        <p:InternalElement v="1" p:y-z='&quot;' Name="&#10;"></p:InternalElement>
+      </_u>
+      <Ä xmlns="http://www.dke.de/CAEX">
+        <a></a>
+      </Ä>
+      <?pi?>
+    </p:Attribute>
+    	
+  </_u><InternalElement x='&lt;&gt;' ns1:Name="&lt;&gt;" xmlns="urn:a" xmlns:ns1="http://www.dke.de/CAEX"><Item
+    ns1:x=" ">
+      <b y-z="tab	here" ID="&amp;"
+    Name="&#13;">😀<Item /><ns1:x-y y-z="&amp;" xmlns="http://www.dke.de/CAEX"/><_u Name="&#13;" x=" " ns1:Name="Ä€😀">-&#x20AC;</_u></b>
+    </Item><n.m xmlns="http://example.org/x" Name="nl
+x" ns1:x='&lt;&gt;'/></InternalElement><Attribute y-z="&lt;&gt;" xml:space="preserve"><data/><![CDATA[<tag>]]></Attribute></Ä>

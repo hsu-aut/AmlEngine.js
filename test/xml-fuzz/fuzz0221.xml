@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><Attribute xmlns="urn:a"
+    v='cr
+x' xml:space="preserve">
+  <InternalElement Name='1' x="&#x20;">
+    <b ns1:v="{guid}" ns1:y-z="a b" xmlns="http://example.org/x" xmlns:ns1="urn:a"/>
+  </InternalElement>
+</Attribute>

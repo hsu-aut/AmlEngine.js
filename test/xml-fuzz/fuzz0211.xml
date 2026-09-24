@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Item ID="cr
+x"
+    Name="a b" xmlns="http://www.dke.de/CAEX"><b/><Attribute
+    xmlns="urn:a" ID="&#13;" v="&#10;" x='&#9;'>
+    <InternalElement x="&#9;"></InternalElement>
+    <a xmlns="http://example.org/x" Name="{guid}"><x-y y-z="nl
+x" ID='&#x20;'>
+        <!--c-->
+      </x-y></a>
+    <!--c-->
+    <x-y v="{guid}" ID="&lt;&gt;" Name="&quot;">
+      <!--- x-->
+      &#x9;
+      <Item Name="cr
+x" xmlns="http://example.org/x" xmlns:xsi="http://www.dke.de/CAEX"><?pi data?></Item>
+      <Attribute v="&#9;">
+        <Attribute x='' xmlns:q="urn:a">
+          <InternalElement xmlns:ns1="urn:a"/>
+          <b xmlns="http://example.org/x"
+    ID="&#x20;" x="1"/>
+          ]]&gt;&#10;
+          <a />
+        </Attribute>
+        <!--multi
+line-->
+      </Attribute>
+    </x-y>
+  </Attribute>&#10;
+</Item>
+<!-- tail -->

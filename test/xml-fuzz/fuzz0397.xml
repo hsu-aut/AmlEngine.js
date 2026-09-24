@@ -1,0 +1,30 @@
+<b>
+  <Item
+    xmlns="http://example.org/x"
+    xmlns:q="urn:b"><Ä xmlns="urn:a" ID="&amp;" x="tab	here"/><_u q:Name="&#x20;" x='&quot;' v="&#10;" xmlns="http://www.dke.de/CAEX"></_u></Item>
+  <Attribute v="'">&apos;&#xD;&lt;<Attribute y-z="nl
+x"
+    x="&amp;"> <a y-z="&amp;" v="&#10;" ID='' xmlns="http://www.dke.de/CAEX" xmlns:xsi="urn:b">
+        <xsi:x-y/>
+      </a>x
+y&#32;<Ä y-z='&amp;'>
+        <data xmlns:q="urn:b" ID="&quot;" v='&quot;' Name="'"></data>
+        <Item xmlns="urn:b" ID=" " Name=" ">
+          "quoted"
+          <!--multi
+line-->
+        </Item>
+        <!--- x-->
+      </Ä></Attribute></Attribute>
+  <x-y
+    ID='' Name="&amp;"/>
+  <a y-z="nl
+x" v=" ">
+    &amp;
+    <?pi data?>
+    <a Name="nl
+x"></a>
+    <!--multi
+line-->
+  </a>
+</b>

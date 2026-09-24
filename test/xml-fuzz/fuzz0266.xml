@@ -1,0 +1,26 @@
+<?xml version="1.0" standalone="yes"?>
+<n.m
+    Name="tab	here" ID="&lt;&gt;"
+    xmlns="urn:a">
+  "quoted"
+  <xsi:Attribute Name="nl
+x" xmlns:xsi="http://www.dke.de/CAEX"></xsi:Attribute>
+  <Attribute xmlns="http://www.dke.de/CAEX">
+    <Ä x="{guid}"></Ä>
+    <!-- c -->
+    <n.m v="&lt;&gt;"></n.m>
+    <n.m x="&amp;">
+      <data y-z="nl
+x" x="&amp;"/>
+      <data />
+      <x-y xmlns="urn:a" y-z='&#10;'>
+        <![CDATA[😀]]>
+        <!--multi
+line-->
+          
+        <!--- x-->
+      </x-y>
+      <![CDATA[--]]>
+    </n.m>
+  </Attribute>
+</n.m>

@@ -1,0 +1,6 @@
+<_u xmlns="urn:a" xmlns:ns1="http://example.org/x" ID="&#x20;" y-z="tab	here">trail  ÄÖÜ ß&#x20AC;  lead&quot;<ns1:_u
+    xmlns:xsi="http://example.org/x" x=""><_u xmlns="urn:b">
+      <_u><a x="&quot;" ID="&#13;"/></_u>
+      <?pi  x?>
+    </_u></ns1:_u></_u>
+<!-- tail -->

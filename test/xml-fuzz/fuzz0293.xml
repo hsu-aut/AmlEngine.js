@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Attribute xmlns="urn:a" ID="&#9;" v='&#x20;' Name="&#13;">
+  <![CDATA[😀]]>
+  <Attribute y-z="&lt;&gt;" v="&quot;" />
+  <q:b xmlns:q="urn:b" v="Ä€😀" x='a b'><_u/>&amp;&amp;<data q:ID="nl
+x"></data></q:b>
+  <n.m v='&#9;' Name="&#9;" y-z="{guid}" xmlns="http://www.dke.de/CAEX"/>
+</Attribute>

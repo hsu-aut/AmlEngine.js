@@ -1,0 +1,18 @@
+<?xml version="1.0"?><Item y-z="'" ID='tab	here' xml:space="preserve">
+  <x-y
+    ID="&#9;" Name="a b">
+    x
+y
+    <x-y xmlns="urn:b" xmlns:ns1="http://www.dke.de/CAEX" v="&quot;" x="nl
+x" xml:space="preserve"/>
+    &gt;
+    "quoted"&gt;
+  </x-y>
+  <?pi  x?>
+  <a x="&lt;&gt;" v="cr
+x" y-z=""/>
+  <data Name='a b' x="1">
+    trail  &#x9;
+    <q:x-y xmlns:q="urn:b"><q:x-y xmlns="urn:b"/>ÄÖÜ ß&#10;&#x20AC;</q:x-y>
+  </data>
+</Item>

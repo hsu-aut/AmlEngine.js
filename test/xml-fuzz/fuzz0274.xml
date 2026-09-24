@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- head -->
+<_u p:ID="" xmlns:p="urn:b"><_u
+    xmlns="http://example.org/x">
+    
+
+    <_u ID="tab	here">
+      <_u ID="&#10;" x="{guid}" y-z="&#x20;"/>
+      &#32;
+      <InternalElement>
+        <p:b p:ID="nl
+x" y-z="&amp;">
+          <![CDATA[x
+y]]>
+          ÄÖÜ ß
+        </p:b>
+      </InternalElement>
+    </_u>
+    <Ä Name="a b" ID="cr
+x" y-z="&quot;">
+      <p:data p:x="&amp;" x="{guid}"/>
+      <InternalElement
+    p:x="'">
+        <InternalElement ID="">
+          <?pi?>
+        </InternalElement>
+        <a>
+          ÄÖÜ ß
+          	
+          <b/>
+        </a>
+        <InternalElement xmlns="urn:a">
+          <Ä ID="&amp;"
+    p:v="&#x20;" p:Name="&quot;" xml:space="preserve"/>
+          <Ä
+    xmlns:xsi="urn:b" />
+          &lt;
+        </InternalElement>
+         
+      </InternalElement>
+      <![CDATA[a & b]]>
+    </Ä>
+     
+  </_u><Item xmlns="urn:b" p:ID="&#x20;">
+    &#x9;
+    €&#x9;
+    <!--multi
+line-->
+    <p:a Name="a b" p:x=""><p:a y-z="&#13;" ID=""></p:a><data p:v="&#9;">
+        <data y-z="cr
+x" ID="cr
+x"></data>
+        <?pi  x?>
+      </data>&amp;</p:a>
+  </Item></_u>

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<n.m x='a b'>
+  <Item Name='&amp;' xmlns="urn:b" />
+  <x-y xmlns="urn:a" xmlns:q="urn:b"><q:n.m xmlns="urn:b" />  lead&#10;</x-y>
+</n.m>

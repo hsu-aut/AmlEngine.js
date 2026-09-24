@@ -1,0 +1,20 @@
+<b xmlns="urn:a">
+  <Ä />
+  <x-y xmlns:ns1="urn:a"><ns1:Attribute y-z="tab	here"
+    v="{guid}" x='&#9;' xmlns="urn:a">
+      <x-y
+    ns1:y-z='cr
+x' xmlns:ns1="urn:b"></x-y>
+        
+    </ns1:Attribute>a &amp; b&#x9;  </x-y>
+  <![CDATA[text]]>
+  <Item v="{guid}" y-z="Ä€😀"><Attribute
+    xmlns="urn:a">
+      &lt;
+      &lt;
+      <Attribute
+    x='Ä€😀' ID="nl
+x" Name='Ä€😀' xmlns:p="urn:a">
+</Attribute>
+    </Attribute>&#32;--&#10;<Attribute xmlns="urn:b" ID="&#x20;" x="{guid}"/></Item>
+</b>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- head -->
+<Item ns1:Name="&amp;" ID="&amp;" xmlns:ns1="http://example.org/x">
+  <data
+    xmlns="urn:a" x='{guid}' v='tab	here'></data>
+</Item>

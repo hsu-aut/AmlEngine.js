@@ -1,0 +1,9 @@
+<p:a xmlns="urn:b" xmlns:p="urn:a" y-z="cr
+x"><n.m xmlns="http://www.dke.de/CAEX" x="Ä€😀" p:Name='Ä€😀'>
+    <p:data p:x="&#13;" Name="cr
+x" />
+    <!--multi
+line-->
+    ÄÖÜ ß
+    <![CDATA[  lead]]>
+  </n.m>&#10;</p:a>

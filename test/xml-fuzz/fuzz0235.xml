@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><q:a xmlns="http://example.org/x" xmlns:q="urn:b">
+  it's
+  <x-y v=" "></x-y>
+  <n.m xsi:x='&#10;' Name="&#x20;"
+    ID='&#9;' xmlns:xsi="http://www.dke.de/CAEX" />
+  <!--multi
+line-->
+</q:a>

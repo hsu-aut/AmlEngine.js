@@ -1,0 +1,10 @@
+
+
+<Ä v="cr
+x" x="nl
+x" y-z="Ä€😀">
+  <data ID="a b" x="{guid}" Name="a b" xmlns:ns1="urn:a"/>
+  <InternalElement xmlns:p="urn:b"><!--multi
+line--><?pi a ? b?>  <data ID="&quot;"/></InternalElement>
+  &#10;
+</Ä>

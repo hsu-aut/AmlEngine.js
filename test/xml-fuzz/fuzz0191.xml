@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<p:Item xmlns:p="urn:b" y-z="nl
+x" ID="'">
+  <p:data p:y-z='&#13;' xmlns="http://www.dke.de/CAEX"><b p:y-z='&#9;' x="&#13;" xml:space="preserve">
+      <p:data ID=" "><?pi  x?><Item y-z="&#10;" v="1" ID="nl
+x"></Item> <![CDATA[ ]]></p:data>
+      <p:a>
+        <p:_u>
+          &gt;
+          "quoted"
+        </p:_u>
+        <n.m xmlns:p="urn:a" p:Name="&quot;">
+          <b
+    p:ID=" " p:x="'" v='nl
+x'/>
+        </n.m>
+        &gt;
+        -
+      </p:a>
+      <InternalElement x="Ä€😀" xmlns="http://example.org/x"><a xmlns="urn:a" Name="&#10;" p:ID="{guid}" y-z="&amp;">trail  </a>text<!--c--></InternalElement>
+    </b><Attribute x="cr
+x" p:x="{guid}" p:v="'" /></p:data>
+  ]]&gt;
+</p:Item>

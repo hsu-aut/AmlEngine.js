@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><Ä>
+  --
+  €&lt;
+  <Attribute ID='&#13;' Name="a b">
+    €
+    <?pi a ? b?>
+    <Ä ID="&quot;"><Ä x="" Name="">text&#xD;<!-- c --><!--- x--></Ä>
+<b y-z="" Name="{guid}" x=" "><![CDATA["quoted"]]><n.m Name="tab	here" x="nl
+x" ID="&quot;" xmlns:xsi="http://example.org/x" /><Ä Name="&#x20;" x="&lt;&gt;" xmlns="http://www.dke.de/CAEX">
+          <x-y ID="&#13;" Name="&quot;" xmlns="http://example.org/x"/>
+          <![CDATA[  lead]]>
+          <?pi a ? b?>
+        </Ä>&quot;</b></Ä>
+    <x-y x="a b" ID="&lt;&gt;" xmlns="urn:a">
+      <![CDATA[<tag>]]>
+    </x-y>
+  </Attribute>
+</Ä>

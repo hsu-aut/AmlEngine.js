@@ -1,0 +1,11 @@
+<?xml version="1.0"?><n.m xmlns="http://example.org/x" x="&#9;">
+  <data v="cr
+x"> <InternalElement>
+      <![CDATA[ÄÖÜ ß]]>
+      <!--c-->
+      <p:b p:v="&#10;" ID="cr
+x" xmlns:p="http://www.dke.de/CAEX"/>
+    </InternalElement></data>
+  text&quot;
+</n.m>
+<!-- tail -->

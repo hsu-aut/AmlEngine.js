@@ -1,0 +1,5 @@
+
+<a>"quoted"<p:Item xmlns:p="http://example.org/x" x="1" v='nl
+x' p:x="tab	here"><p:b xml:space="default" xmlns:p="http://www.dke.de/CAEX"></p:b><p:Item
+    xmlns="http://example.org/x"></p:Item>&#x20AC;</p:Item></a>
+<!-- tail -->

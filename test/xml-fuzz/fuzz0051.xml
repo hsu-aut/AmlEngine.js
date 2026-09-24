@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<_u xmlns="urn:b" xmlns:xsi="urn:a" y-z='&quot;' xsi:ID="&amp;" x="&amp;">&amp;<xsi:_u v="" ID="tab	here">
+    <![CDATA[  ]]>
+    <xsi:Ä xmlns="urn:a" xmlns:q="http://example.org/x"
+    ID="&lt;&gt;"
+    xml:space="default">
+      <xsi:Item v='&#13;'><n.m xmlns:p="urn:b" Name="&amp;"><x-y ns1:Name="cr
+x" Name='' x="nl
+x" xmlns:ns1="http://example.org/x"/><!--multi
+line--></n.m></xsi:Item>
+      <Attribute xmlns="urn:b" y-z="nl
+x" ID="'"
+    xml:space="default" />
+    </xsi:Ä>
+    <ns1:n.m xmlns:ns1="http://example.org/x"></ns1:n.m>
+  </xsi:_u></_u>

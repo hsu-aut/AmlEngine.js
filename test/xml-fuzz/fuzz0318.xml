@@ -1,0 +1,10 @@
+
+
+<n.m><x-y v="nl
+x">
+    <_u Name="&#13;" x="">
+        
+    </_u>
+    <InternalElement><Ä Name="&amp;"><b Name="'" v="&#13;"/></Ä>&#10;</InternalElement>
+  </x-y><data v="&#x20;" x=" " Name="&amp;"></data><!--multi
+line--><Item xmlns="urn:a" x="&#10;" Name='&apos;'><Item xmlns="http://example.org/x"><!--- x--><![CDATA[  ]]></Item><!--c--><p:b xmlns="http://www.dke.de/CAEX" xmlns:p="urn:a"/></Item></n.m>

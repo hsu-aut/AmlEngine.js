@@ -1,0 +1,44 @@
+{
+  "name": "amlengine-js",
+  "version": "0.0.1",
+  "description": "AutomationML engine for JavaScript: CAEX 2.15 and 3.0 documents in Node and the browser, ported from Aml.Engine.",
+  "license": "MIT",
+  "author": "Hamied Nabizada",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "oracle": "bash scripts/oracle.sh"
+  },
+  "keywords": [
+    "automationml",
+    "aml",
+    "caex",
+    "iec-62714",
+    "engine"
+  ],
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}

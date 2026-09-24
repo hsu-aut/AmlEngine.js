@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<a x='&apos;' xmlns="urn:b">
+  <_u xmlns="urn:b" x="'">
+    <?pi  x?>
+    <InternalElement ID="{guid}"></InternalElement>
+    &#10;
+    <data Name="&#13;"></data>
+  </_u>
+</a>
+<!-- tail -->

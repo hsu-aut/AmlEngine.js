@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><InternalElement xmlns="http://example.org/x" Name="&quot;" ID="Ä€😀"><_u>
+    <x-y x="1" Name="&#9;"></x-y>
+    <ns1:a xmlns="http://www.dke.de/CAEX" xmlns:ns1="http://www.dke.de/CAEX">
+      <x-y ID="tab	here" />
+      <Item y-z="'" ID="&amp;"/>
+      <q:data ID=" " x="'"
+    xmlns:q="http://example.org/x"/>
+      <data y-z="1" ns1:ID="tab	here" ID='&amp;'/>
+    </ns1:a>
+  </_u></InternalElement>

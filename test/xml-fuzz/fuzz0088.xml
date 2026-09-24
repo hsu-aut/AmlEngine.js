@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InternalElement
+    y-z="&lt;&gt;" ID="&#x20;" xmlns:p="http://example.org/x">
+  text&#xD;
+  <p:n.m ID="cr
+x" p:y-z=' '/>
+  <data><InternalElement y-z="&#9;"/><n.m Name=" ">
+      --&apos;
+      &#32;
+      <b><x-y v="1" Name="{guid}"
+    x="Ä€😀"/></b>
+    </n.m><!-- c --></data>
+</InternalElement>
+<!-- tail -->

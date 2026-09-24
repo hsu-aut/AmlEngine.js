@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="MPS500_PlantStructure.aml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.1</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="mps500-plant-generator" OriginID="mps500-plant-0.1" OriginVersion="0.1.0" LastWritingDateTime="2026-07-27T12:00:00.0000000+02:00" />
+  <ExternalReference Path="AutomationML_Base_Libraries_AMLEd2_2.11.0.aml" Alias="AutomationMLBaseLibrariesAMLEd22_11_0" />
+  <InterfaceClassLib Name="MPS500_InterfaceClassLib">
+    <Description>Anschlusspunkte der Anlagenstruktur: Material-, Energie- und Kommunikationsschnittstellen.</Description>
+    <Version>0.1.0</Version>
+    <InterfaceClass Name="MaterialIn" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Port">
+      <Description>Materialfluss-Eingang (Werkstueckuebernahme).</Description>
+    </InterfaceClass>
+    <InterfaceClass Name="MaterialOut" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Port">
+      <Description>Materialfluss-Ausgang (Werkstueckuebergabe).</Description>
+    </InterfaceClass>
+    <InterfaceClass Name="ElectricalIn" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Port">
+      <Description>Elektrischer Versorgungsanschluss 24 V DC.</Description>
+    </InterfaceClass>
+    <InterfaceClass Name="PneumaticIn" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Port">
+      <Description>Pneumatischer Versorgungsanschluss 6 bar.</Description>
+    </InterfaceClass>
+    <InterfaceClass Name="EthernetPort" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Port">
+      <Description>Industrial-Ethernet-Anschluss.</Description>
+    </InterfaceClass>
+    <InterfaceClass Name="ResourceCoupling" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Port">
+      <Description>Kopplungspunkt zwischen einem Betriebsmittel der Anlagenstruktur und der zugehoerigen fpb:TechnicalResource des FPD-Prozessmodells.</Description>
+    </InterfaceClass>
+    <InterfaceClass Name="PlaceFusion" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Port">
+      <Description>Kopplungspunkt einer Uebergabestelle zweier Petri-Netze. Zwei ueber PlaceFusion verbundene Stellen sind im Sinne der Netzfusion dieselbe Stelle.</Description>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="MPS500_RoleClassLib">
+    <Description>Semantik der Hierarchieebenen der Anlagenstruktur (Anlage, Linie, Station, Modul, Geraet).</Description>
+    <Version>0.1.0</Version>
+    <RoleClass Name="Plant" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure">
+      <Description>Anlagenstandort. Oberste Ebene der Anlagenstruktur.</Description>
+    </RoleClass>
+    <RoleClass Name="ProductionLine" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure">
+      <Description>Verkettete Fertigungslinie aus mehreren Stationen.</Description>
+    </RoleClass>
+    <RoleClass Name="Station" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure">
+      <Description>Mechatronisch abgeschlossene Station der Linie.</Description>
+    </RoleClass>
+    <RoleClass Name="Module" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure">
+      <Description>Funktionsgruppe innerhalb einer Station.</Description>
+    </RoleClass>
+    <RoleClass Name="Device" RefBaseClassPath="AutomationMLBaseLibrariesAMLEd22_11_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+      <Description>Einzelgeraet (Aktor, Sensor, Steuerung).</Description>
+    </RoleClass>
+    <RoleClass Name="Actuator" RefBaseClassPath="MPS500_RoleClassLib/Device">
+      <Description>Stellendes Geraet.</Description>
+    </RoleClass>
+    <RoleClass Name="Sensor" RefBaseClassPath="MPS500_RoleClassLib/Device">
+      <Description>Erfassendes Geraet.</Description>
+    </RoleClass>
+    <RoleClass Name="Controller" RefBaseClassPath="MPS500_RoleClassLib/Device">
+      <Description>Steuerndes oder informationsverarbeitendes Geraet.</Description>
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="MPS500_SystemUnitClassLib">
+    <Description>Wiederverwendbare Typklassen fuer Stationen, Module und Geraete der MPS 500-FMS.</Description>
+    <Version>0.1.0</Version>
+    <SystemUnitClass Name="AnalogSensor" ID="{59456ba8-b852-5fb6-bf5e-46ec6d4cf52b}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Sensor" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="AssemblyRobot" ID="{f7508f16-d1e9-57c0-9437-260867c6936a}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="AssemblyStation" ID="{4e118a30-22a8-59f9-b266-37049cd68129}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Station" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="ClampingUnit" ID="{bc5669c7-677b-5f2f-bae6-dc346d0856a7}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="ConveyorSegment" ID="{cf29820e-8751-5d84-9fa0-8507c2ce1b84}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="DcMotor" ID="{a9b9dd41-2f5d-5c5a-bd6a-32517f64b093}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Actuator" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="DistributingStation" ID="{47f5bbc7-2b8f-5bb4-9c97-5e91f8508363}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Station" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="DrillSpindle" ID="{a0fd683d-ab4a-525f-9e29-807bff8fc110}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Actuator" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="DrillingUnit" ID="{eb103d5d-1186-564b-9a97-214840650f6a}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="HandlingUnit" ID="{2a0b93c5-dae5-5127-b72a-3dc4bcc2133d}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="IdentificationUnit" ID="{504c1cc6-67a8-5e93-89ea-85401f988116}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="InductiveSensor" ID="{58cd56b6-378e-5d1c-94af-9eec05dbb019}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Sensor" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="LineControl" ID="{e6049490-85c5-5f2b-8d34-8d8c95f34cf4}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="LinearAxis" ID="{98ff9631-77b2-557e-b1a5-37a3ddd2e145}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Actuator" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="MesClient" ID="{7f538d46-c73e-5102-89d0-1595fb664749}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Controller" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="NetworkSwitch" ID="{6cfce9f4-22bd-5309-80cc-d5f5a3ed869a}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Controller" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="OpticalSensor" ID="{ed3639a2-774a-5497-8cff-f33c9710ea10}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Sensor" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="PalletPool" ID="{2fbdef97-e591-5c7e-bc28-1929c8b41b06}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="ParallelGripper" ID="{87d1aec4-35d7-591f-9b9b-c602d765ae20}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Actuator" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="PartsBuffer" ID="{2f24609c-0554-599e-b314-f295cd5c9d4e}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="PickAndPlaceUnit" ID="{cbfba5c9-d046-5a05-9082-6046df9a8ca5}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="Plant" ID="{6c681dda-a59a-5fa2-b790-86fd034cd174}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Plant" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="PlcCpu" ID="{073d70b0-fb00-520b-a27f-e616d9d47e4a}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Controller" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="PneumaticCylinder" ID="{47004e56-b1e9-5799-98c9-d028c1df5590}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Actuator" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="PositionSensor" ID="{56d9a498-0a20-598f-98fc-a8ba55bd9b57}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Sensor" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="ProcessingStation" ID="{4c117386-013e-5668-9c77-9cd2dda5d295}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Station" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="ProductionLine" ID="{d310786a-0895-5a39-91b5-371eb8d45b1d}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/ProductionLine" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="RfidReadWriteHead" ID="{1ae138dc-5af5-592b-adbc-31322456b208}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Sensor" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="RobotArm" ID="{9a9a2ba4-8119-5d85-af6b-dee576af4829}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Actuator" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="RobotController" ID="{ac070b06-db58-5dec-bde8-65aaddb7e8e6}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Controller" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="RotaryActuator" ID="{5307783e-5a4f-5914-bea0-224c938d4186}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Actuator" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="RotaryIndexingTable" ID="{c0ad5436-8263-50a3-8266-f82e764aa0b6}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="StackMagazine" ID="{87b946c5-1ec1-5569-a4c3-8997714f47ed}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="StackerCrane" ID="{47dde7fd-f88f-5966-afac-ad51be54bbf5}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="StorageRack" ID="{4caaf3f0-dd4b-54ba-a268-29539d1d3863}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="StorageStation" ID="{d0cd08c0-2609-52a7-a0ea-97467b764007}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Station" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="SwivelHandling" ID="{7295837c-9d35-50db-94cb-9028c086847e}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="TestingUnit" ID="{7a58a317-204f-54f7-bb9c-2b2f1b86b5e0}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Module" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="TransferSystem" ID="{1aa8b5ae-03d2-5dda-8f4e-6826f977ef60}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Station" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="VacuumGripper" ID="{b87cce5b-25d9-5d92-a668-aea42a8fdff8}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Actuator" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="ValveTerminal" ID="{f18497b9-79d4-5430-b686-f5255d94409f}">
+      <Attribute Name="Manufacturer" AttributeDataType="xs:string" />
+      <Attribute Name="TypeDesignation" AttributeDataType="xs:string" />
+      <Attribute Name="SerialNumber" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="MPS500_RoleClassLib/Controller" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <InstanceHierarchy Name="MPS500_PlantStructure" ID="{1e011154-e47a-51e0-a0fc-e07b5a8b658f}">
+    <Description>Klassische AML-Anlagenstruktur der MPS 500-FMS: Anlage &gt; Linie &gt; Station &gt; Modul &gt; Geraet. Die Aufteilung in Module und Geraete ist eine dokumentierte Annahme und gegen die reale Ausbaustufe zu pruefen.</Description>
+    <Version>0.1.0</Version>
+    <InternalElement Name="PL01_LearningFactory" ID="{57889811-8a33-5c28-84c3-b40c1d8735a0}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/Plant">
+      <Description>Anlagenstandort, in dem die MPS 500-FMS betrieben wird.</Description>
+      <Attribute Name="SiteDesignation" AttributeDataType="xs:string">
+        <Value>Lernfabrik</Value>
+      </Attribute>
+      <Attribute Name="Location" AttributeDataType="xs:string">
+        <Value>n.a.</Value>
+      </Attribute>
+      <InternalElement Name="LN10_MPS500_FMS" ID="{742d83a3-80b4-5c87-9352-cbedfa846dbf}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ProductionLine">
+        <Description>Verkettete Fertigungslinie zur Montage eines Pneumatikzylinders.</Description>
+        <Attribute Name="Manufacturer" AttributeDataType="xs:string">
+          <Value>Festo Didactic</Value>
+        </Attribute>
+        <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+          <Value>MPS 500-FMS</Value>
+        </Attribute>
+        <Attribute Name="StationCount" AttributeDataType="xs:string">
+          <Value>5</Value>
+        </Attribute>
+        <Attribute Name="CommissioningYear" AttributeDataType="xs:string">
+          <Value>n.a.</Value>
+        </Attribute>
+        <ExternalInterface Name="ResourceCoupling" ID="{844568c0-a710-588d-8116-0cea7e866106}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+          <Description>Kopplungspunkt zur fpb:TechnicalResource T_MPS500_FMS des FPD-Prozessmodells.</Description>
+        </ExternalInterface>
+        <InternalElement Name="ST10_Distributing" ID="{c0313bf3-4419-568d-b6dd-02523cab64c6}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/DistributingStation">
+          <Description>Vereinzelt Zylindergehaeuse aus dem Stapelmagazin und uebergibt sie an das Transfersystem.</Description>
+          <Attribute Name="StationNumber" AttributeDataType="xs:string">
+            <Value>10</Value>
+          </Attribute>
+          <Attribute Name="Manufacturer" AttributeDataType="xs:string">
+            <Value>Festo Didactic</Value>
+          </Attribute>
+          <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+            <Value>Station Verteilen</Value>
+          </Attribute>
+          <Attribute Name="SupplyVoltage_V" AttributeDataType="xs:string">
+            <Value>24</Value>
+          </Attribute>
+          <Attribute Name="SupplyPressure_bar" AttributeDataType="xs:string">
+            <Value>6</Value>
+          </Attribute>
+          <ExternalInterface Name="ResourceCoupling" ID="{8743c21a-7663-585b-9133-4578bc687389}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+            <Description>Kopplungspunkt zur fpb:TechnicalResource T_Station_Distributing des FPD-Prozessmodells.</Description>
+          </ExternalInterface>
+          <ExternalInterface Name="MaterialOut" ID="{af34edc8-4fbc-558a-a554-36bacd2db8a4}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialOut" />
+          <ExternalInterface Name="ElectricalIn" ID="{68974510-e939-5d82-b99e-ba41cc8da9a4}" RefBaseClassPath="MPS500_InterfaceClassLib/ElectricalIn" />
+          <ExternalInterface Name="PneumaticIn" ID="{5df7d618-0413-567e-9b2f-2de62c4dbf25}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+          <ExternalInterface Name="EthernetPort" ID="{2cc83e25-0453-5c12-8aa2-1d3e2107ca1d}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+          <InternalElement Name="MD_Magazine" ID="{c5a08cff-af4d-553c-ae9f-d20bdb9b5a42}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/StackMagazine">
+            <Description>Schwerkraftmagazin fuer Gehaeuse-Rohteile.</Description>
+            <Attribute Name="Capacity_pcs" AttributeDataType="xs:string">
+              <Value>8</Value>
+            </Attribute>
+            <InternalElement Name="DV_Ejection_cylinder" ID="{513ff7a8-a13d-50b6-8203-c1c2ff9c993f}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PneumaticCylinder">
+              <Description>Schiebt das unterste Werkstueck aus dem Magazin.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Doppeltwirkender Zylinder</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Magazine_empty_sensor" ID="{1e225ab2-ee9b-5078-953e-37c65e538c7d}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/OpticalSensor">
+              <Description>Meldet leeres Magazin.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Optischer Naeherungsschalter</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Sensor" />
+            </InternalElement>
+            <InternalElement Name="DV_Ejection_endpos_sensor" ID="{6143e8ed-4fbd-514d-a4e3-411a1d9affcf}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PositionSensor">
+              <Description>Endlagenabfrage des Auswerfzylinders.</Description>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>2</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Sensor" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Transfer_arm" ID="{e6041170-4eeb-5f17-8e68-ad45267adbb9}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/SwivelHandling">
+            <Description>Schwenkarm mit Vakuumgreifer zur Werkstueckuebergabe.</Description>
+            <InternalElement Name="DV_Swivel_drive" ID="{7a233def-e404-5008-ae9d-531655c679b3}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/RotaryActuator">
+              <Description>Schwenkt zwischen Magazin- und Uebergabeposition.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Schwenkantrieb</Value>
+              </Attribute>
+              <Attribute Name="SwivelRange_deg" AttributeDataType="xs:string">
+                <Value>180</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Vacuum_gripper" ID="{9d0e1da9-7d5e-5bb9-9aa4-1ab655504ebf}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/VacuumGripper">
+              <Description>Haelt das Werkstueck.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Vakuumsauger</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Control" ID="{42f37e96-4b3d-5979-8923-bc07a465993c}">
+            <Description>Steuerungsmodul der Station.</Description>
+            <InternalElement Name="CTRL_PLC" ID="{554fe93a-eceb-5b89-8d87-233d54e182fa}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PlcCpu">
+              <Description>Stationssteuerung.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>SPS-Steuerung</Value>
+              </Attribute>
+              <Attribute Name="IPAddress" AttributeDataType="xs:string">
+                <Value>192.168.0.10</Value>
+              </Attribute>
+              <Attribute Name="StationTag" AttributeDataType="xs:string">
+                <Value>ST10</Value>
+              </Attribute>
+              <ExternalInterface Name="EthernetPort" ID="{9f173165-cf96-5b45-9e53-d4335db412e8}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <InternalElement Name="CTRL_ValveTerminal" ID="{af6dc9b1-720d-5096-9b83-2a89f3bf6988}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ValveTerminal">
+              <Description>Pneumatische Ventilinsel der Station.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Ventilinsel</Value>
+              </Attribute>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>1</Value>
+              </Attribute>
+              <ExternalInterface Name="PneumaticIn" ID="{0694a451-9279-52dd-9ae2-646f3f5113e7}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Station" />
+        </InternalElement>
+        <InternalElement Name="ST20_PartsDistributing" ID="{4673b228-43b5-55a1-a016-ae2c7ad3ea29}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/DistributingStation">
+          <Description>Stellt Kolben, Feder und Deckel fuer die Montage bereit.</Description>
+          <Attribute Name="StationNumber" AttributeDataType="xs:string">
+            <Value>20</Value>
+          </Attribute>
+          <Attribute Name="Manufacturer" AttributeDataType="xs:string">
+            <Value>Festo Didactic</Value>
+          </Attribute>
+          <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+            <Value>Station Verteilen (Kleinteile)</Value>
+          </Attribute>
+          <Attribute Name="SupplyVoltage_V" AttributeDataType="xs:string">
+            <Value>24</Value>
+          </Attribute>
+          <Attribute Name="SupplyPressure_bar" AttributeDataType="xs:string">
+            <Value>6</Value>
+          </Attribute>
+          <ExternalInterface Name="ResourceCoupling" ID="{b0a50b6f-bf41-5b38-a954-4ae4ba4cf6dd}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+            <Description>Kopplungspunkt zur fpb:TechnicalResource T_Station_PartsDistributing des FPD-Prozessmodells.</Description>
+          </ExternalInterface>
+          <ExternalInterface Name="MaterialOut" ID="{ba7d4783-769f-5a1c-b356-c2b18498e707}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialOut" />
+          <ExternalInterface Name="ElectricalIn" ID="{18e1a29c-e5cb-5513-ada3-759db217ceac}" RefBaseClassPath="MPS500_InterfaceClassLib/ElectricalIn" />
+          <ExternalInterface Name="PneumaticIn" ID="{5032bb57-62b2-5670-9ef0-b74ba25f39b0}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+          <ExternalInterface Name="EthernetPort" ID="{95e6d995-7faf-5a07-acc9-882ee217d639}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+          <InternalElement Name="MD_Parts_magazine" ID="{00741929-66be-52a1-9fe7-5846334b31d2}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/StackMagazine">
+            <Description>Dreifachmagazin fuer Kolben, Feder und Deckel.</Description>
+            <Attribute Name="Compartments" AttributeDataType="xs:string">
+              <Value>3</Value>
+            </Attribute>
+            <Attribute Name="Capacity_pcs" AttributeDataType="xs:string">
+              <Value>8</Value>
+            </Attribute>
+            <InternalElement Name="DV_Feeder_cylinder" ID="{58582a0a-1057-52e1-87c7-700d3e01611f}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PneumaticCylinder">
+              <Description>Je ein Vereinzeler pro Teilesorte.</Description>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>3</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Part_present_sensor" ID="{ed9d4383-e56c-581a-b2be-3fca96acc71a}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/OpticalSensor">
+              <Description>Fuellstandsabfrage je Schacht.</Description>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>3</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Sensor" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Pick_and_place" ID="{5bb8899b-b0a5-5623-93d1-e08f3cb1f5ab}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PickAndPlaceUnit">
+            <Description>Zweiachsige Handhabung zur Ablage der Kleinteile auf der Palette.</Description>
+            <InternalElement Name="DV_Linear_axis_X" ID="{60c89cae-aa19-551f-8470-897792b236ac}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/LinearAxis">
+              <Description>Horizontalachse.</Description>
+              <Attribute Name="Stroke_mm" AttributeDataType="xs:string">
+                <Value>200</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Lift_cylinder" ID="{9877006c-b941-578b-aa9b-3265e9cfee3e}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PneumaticCylinder">
+              <Description>Hubachse.</Description>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Parallel_gripper" ID="{1c5c7db7-1d88-5f71-be3d-95e72c3d5894}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ParallelGripper">
+              <Description>Parallelgreifer.</Description>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Control" ID="{ad8df8f3-145c-5fb5-ba5f-fe1273242375}">
+            <Description>Steuerungsmodul der Station.</Description>
+            <InternalElement Name="CTRL_PLC" ID="{66f6f6c8-25ea-5168-8d84-44a9d214b9a3}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PlcCpu">
+              <Description>Stationssteuerung.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>SPS-Steuerung</Value>
+              </Attribute>
+              <Attribute Name="IPAddress" AttributeDataType="xs:string">
+                <Value>192.168.0.20</Value>
+              </Attribute>
+              <Attribute Name="StationTag" AttributeDataType="xs:string">
+                <Value>ST20</Value>
+              </Attribute>
+              <ExternalInterface Name="EthernetPort" ID="{1fc6d35f-7560-5685-8e65-f1769e64ddc4}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <InternalElement Name="CTRL_ValveTerminal" ID="{845bf1bf-05e1-5914-a43e-6f88c6780577}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ValveTerminal">
+              <Description>Pneumatische Ventilinsel der Station.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Ventilinsel</Value>
+              </Attribute>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>1</Value>
+              </Attribute>
+              <ExternalInterface Name="PneumaticIn" ID="{153f8e52-4e74-5045-9a1f-00835d8fe261}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Station" />
+        </InternalElement>
+        <InternalElement Name="ST30_Processing" ID="{b7f95ffd-d753-582c-a353-c98d4fa93dc8}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ProcessingStation">
+          <Description>Bohrt das Gehaeuse auf dem Rundschalttisch und prueft die Bohrung.</Description>
+          <Attribute Name="StationNumber" AttributeDataType="xs:string">
+            <Value>30</Value>
+          </Attribute>
+          <Attribute Name="Manufacturer" AttributeDataType="xs:string">
+            <Value>Festo Didactic</Value>
+          </Attribute>
+          <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+            <Value>Station Bearbeiten</Value>
+          </Attribute>
+          <Attribute Name="SupplyVoltage_V" AttributeDataType="xs:string">
+            <Value>24</Value>
+          </Attribute>
+          <Attribute Name="SupplyPressure_bar" AttributeDataType="xs:string">
+            <Value>6</Value>
+          </Attribute>
+          <ExternalInterface Name="ResourceCoupling" ID="{4096e2bd-57ae-5a8f-b3df-37cbf8a7b43e}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+            <Description>Kopplungspunkt zur fpb:TechnicalResource T_Station_Processing des FPD-Prozessmodells.</Description>
+          </ExternalInterface>
+          <ExternalInterface Name="MaterialIn" ID="{521fa591-d185-5b59-a4e4-1ddc424e1308}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialIn" />
+          <ExternalInterface Name="MaterialOut" ID="{0fd4c59c-8899-5fe4-93ff-d4a47ba3b59a}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialOut" />
+          <ExternalInterface Name="ElectricalIn" ID="{8a96c026-e1f4-5055-9a79-7115ff53474a}" RefBaseClassPath="MPS500_InterfaceClassLib/ElectricalIn" />
+          <ExternalInterface Name="PneumaticIn" ID="{647406bc-6a1a-5526-b873-df2614464609}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+          <ExternalInterface Name="EthernetPort" ID="{165125f9-36bd-5023-a88d-f2139c861675}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+          <InternalElement Name="MD_Rotary_indexing_table" ID="{d82a3a0b-e06d-5078-b9cc-96f8280e7836}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/RotaryIndexingTable">
+            <Description>Taktet das Werkstueck durch die Bearbeitungspositionen.</Description>
+            <Attribute Name="Positions" AttributeDataType="xs:string">
+              <Value>4</Value>
+            </Attribute>
+            <ExternalInterface Name="ResourceCoupling" ID="{2c895938-9ee0-52d1-aa95-3f3f53aded95}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+              <Description>Kopplungspunkt zur fpb:TechnicalResource T_Rotary_indexing_table des FPD-Prozessmodells.</Description>
+            </ExternalInterface>
+            <InternalElement Name="DV_Index_drive" ID="{2e00bd57-14b1-5077-bc1f-2e6c693e2beb}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/DcMotor">
+              <Description>Antrieb des Rundschalttisches.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Gleichstrommotor mit Getriebe</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Index_position_sensor" ID="{9993f740-2e92-53f1-ac76-87fa033e0060}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/InductiveSensor">
+              <Description>Positionsabfrage der Teilung.</Description>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>2</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Sensor" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Clamping_unit" ID="{5c62c1fa-2547-5aca-b065-34139814aed6}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ClampingUnit">
+            <Description>Spannt das Werkstueck waehrend der Bearbeitung.</Description>
+            <ExternalInterface Name="ResourceCoupling" ID="{3be96839-5036-5e7b-8490-068da7b9c278}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+              <Description>Kopplungspunkt zur fpb:TechnicalResource T_Clamping_unit des FPD-Prozessmodells.</Description>
+            </ExternalInterface>
+            <InternalElement Name="DV_Clamp_cylinder" ID="{83a958d9-b2f2-5a9a-b983-068ffdffdd3f}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PneumaticCylinder">
+              <Description>Spannzylinder.</Description>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Drilling_unit" ID="{e0e2e1c8-92ee-5cf2-bcc0-fae89ea5f7d9}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/DrillingUnit">
+            <Description>Bohreinheit mit Z-Zustellachse.</Description>
+            <Attribute Name="SpindleSpeed_rpm" AttributeDataType="xs:string">
+              <Value>3000</Value>
+            </Attribute>
+            <ExternalInterface Name="ResourceCoupling" ID="{4be0cdd1-6b2d-5821-a736-23feb5dc364d}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+              <Description>Kopplungspunkt zur fpb:TechnicalResource T_Drilling_unit des FPD-Prozessmodells.</Description>
+            </ExternalInterface>
+            <InternalElement Name="DV_Drill_spindle" ID="{8c68ad02-e51a-5e43-a492-a7510d16c141}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/DrillSpindle">
+              <Description>Bohrspindel.</Description>
+              <Attribute Name="ToolDiameter_mm" AttributeDataType="xs:string">
+                <Value>5</Value>
+              </Attribute>
+              <ExternalInterface Name="ResourceCoupling" ID="{7fc366b6-836b-5b22-8112-bd7640e6a388}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+                <Description>Kopplungspunkt zur fpb:TechnicalResource T_Drill_spindle des FPD-Prozessmodells.</Description>
+              </ExternalInterface>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Linear_axis_Z" ID="{e9c1182f-1788-5db0-8c57-19565575e078}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/LinearAxis">
+              <Description>Zustellachse der Bohreinheit.</Description>
+              <Attribute Name="Stroke_mm" AttributeDataType="xs:string">
+                <Value>40</Value>
+              </Attribute>
+              <ExternalInterface Name="ResourceCoupling" ID="{d486aa3a-51b5-5d64-b4ef-1f35a3d8e743}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+                <Description>Kopplungspunkt zur fpb:TechnicalResource T_Linear_drive_Z des FPD-Prozessmodells.</Description>
+              </ExternalInterface>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Z_endpos_sensor" ID="{7e646c91-0720-5e4d-9c64-0cc4aa53f685}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PositionSensor">
+              <Description>Endlagenabfrage der Z-Achse.</Description>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>2</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Sensor" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Testing_unit" ID="{8e7b6272-e56e-5b3f-b28c-4f00242882e0}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/TestingUnit">
+            <Description>Prueft Vorhandensein und Tiefe der Bohrung.</Description>
+            <ExternalInterface Name="ResourceCoupling" ID="{4dce639c-db35-5db9-9693-6ee19f10bebd}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+              <Description>Kopplungspunkt zur fpb:TechnicalResource T_Testing_unit des FPD-Prozessmodells.</Description>
+            </ExternalInterface>
+            <InternalElement Name="DV_Probe_cylinder" ID="{c772e0ed-e119-5504-b03f-0c7466d5f325}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PneumaticCylinder">
+              <Description>Zustellung des Pruefdorns.</Description>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Depth_probe" ID="{85342c10-226b-506c-b745-e5c7abd4cc9f}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/AnalogSensor">
+              <Description>Analoge Tiefenmessung.</Description>
+              <Attribute Name="MeasuringRange_mm" AttributeDataType="xs:string">
+                <Value>10</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Sensor" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Handling_unit" ID="{a3013431-3e13-538b-aa29-6d0b6b1e453d}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/HandlingUnit">
+            <Description>Uebergibt das bearbeitete Gehaeuse an das Transfersystem.</Description>
+            <ExternalInterface Name="ResourceCoupling" ID="{28c33990-be59-54e5-8628-64330638f9f0}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+              <Description>Kopplungspunkt zur fpb:TechnicalResource T_Handling_unit des FPD-Prozessmodells.</Description>
+            </ExternalInterface>
+            <InternalElement Name="DV_Transfer_cylinder" ID="{493a84b0-f87f-5578-ad7b-5171be704eee}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PneumaticCylinder">
+              <Description>Ausschubzylinder.</Description>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Control" ID="{7918ae72-9258-589f-bedf-a2ac99eb3e95}">
+            <Description>Steuerungsmodul der Station.</Description>
+            <InternalElement Name="CTRL_PLC" ID="{50754ca2-b6b6-5c36-a6d5-2de809662638}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PlcCpu">
+              <Description>Stationssteuerung.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>SPS-Steuerung</Value>
+              </Attribute>
+              <Attribute Name="IPAddress" AttributeDataType="xs:string">
+                <Value>192.168.0.30</Value>
+              </Attribute>
+              <Attribute Name="StationTag" AttributeDataType="xs:string">
+                <Value>ST30</Value>
+              </Attribute>
+              <ExternalInterface Name="EthernetPort" ID="{c5df6d72-c32a-53a7-a0d2-61a11a95b8a8}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <InternalElement Name="CTRL_ValveTerminal" ID="{ddf6d84e-7743-51ad-910a-3206a693d9b3}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ValveTerminal">
+              <Description>Pneumatische Ventilinsel der Station.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Ventilinsel</Value>
+              </Attribute>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>2</Value>
+              </Attribute>
+              <ExternalInterface Name="PneumaticIn" ID="{38dff21f-477b-53a5-a82b-e81d9db75970}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Station" />
+        </InternalElement>
+        <InternalElement Name="ST40_Assembly" ID="{d8cdd4fe-25db-5275-a8d2-093f18af2e95}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/AssemblyStation">
+          <Description>Fuegt Kolben, Feder und Deckel in das bearbeitete Gehaeuse.</Description>
+          <Attribute Name="StationNumber" AttributeDataType="xs:string">
+            <Value>40</Value>
+          </Attribute>
+          <Attribute Name="Manufacturer" AttributeDataType="xs:string">
+            <Value>Festo Didactic</Value>
+          </Attribute>
+          <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+            <Value>Station Montieren</Value>
+          </Attribute>
+          <Attribute Name="SupplyVoltage_V" AttributeDataType="xs:string">
+            <Value>24</Value>
+          </Attribute>
+          <Attribute Name="SupplyPressure_bar" AttributeDataType="xs:string">
+            <Value>6</Value>
+          </Attribute>
+          <ExternalInterface Name="ResourceCoupling" ID="{6a12b91b-557e-5b2b-afda-7cfdfe5470ab}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+            <Description>Kopplungspunkt zur fpb:TechnicalResource T_Station_Assembly des FPD-Prozessmodells.</Description>
+          </ExternalInterface>
+          <ExternalInterface Name="MaterialIn" ID="{dc8c2e75-8507-58ed-afb5-4f20b6fe802d}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialIn" />
+          <ExternalInterface Name="MaterialOut" ID="{86f71180-14c1-56c8-ba03-eea5d37a79f5}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialOut" />
+          <ExternalInterface Name="ElectricalIn" ID="{d2c5a38a-e134-59d4-b08c-13e2f3b970d7}" RefBaseClassPath="MPS500_InterfaceClassLib/ElectricalIn" />
+          <ExternalInterface Name="PneumaticIn" ID="{04c5c463-db7e-5a50-bb4f-29653ca967c3}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+          <ExternalInterface Name="EthernetPort" ID="{d9a0f8bc-a680-58ce-96e3-2517aaa2118d}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+          <InternalElement Name="MD_Robot" ID="{e1e98a58-ea23-5499-a710-fbfc44813cd1}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/AssemblyRobot">
+            <Description>Montageroboter.</Description>
+            <Attribute Name="Axes" AttributeDataType="xs:string">
+              <Value>4</Value>
+            </Attribute>
+            <Attribute Name="Payload_kg" AttributeDataType="xs:string">
+              <Value>1</Value>
+            </Attribute>
+            <InternalElement Name="DV_Robot_arm" ID="{adb4f6d6-4329-5c2a-b236-1d3d3c4586c3}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/RobotArm">
+              <Description>Roboterarm.</Description>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Robot_controller" ID="{8468da5c-d081-5d58-89df-c3b537eb32da}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/RobotController">
+              <Description>Robotersteuerung.</Description>
+              <Attribute Name="IPAddress" AttributeDataType="xs:string">
+                <Value>192.168.0.41</Value>
+              </Attribute>
+              <ExternalInterface Name="EthernetPort" ID="{af156700-1384-54da-b8fd-b691e71ba139}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <InternalElement Name="DV_Assembly_gripper" ID="{70dc2adf-b983-5449-84d7-c43ed7f734fd}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ParallelGripper">
+              <Description>Montagegreifer.</Description>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Parts_buffer" ID="{2881cc17-7785-5e05-b027-b85f99cfaa43}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PartsBuffer">
+            <Description>Bereitstellungspuffer fuer die Anbauteile.</Description>
+            <Attribute Name="Slots" AttributeDataType="xs:string">
+              <Value>3</Value>
+            </Attribute>
+            <InternalElement Name="DV_Buffer_sensor" ID="{cfb78f72-8ce3-50bd-ad13-3c7ad8db584d}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/OpticalSensor">
+              <Description>Belegtabfrage je Platz.</Description>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>3</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Sensor" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Control" ID="{28ca65b4-59ee-5104-bfd1-ab3191caee63}">
+            <Description>Steuerungsmodul der Station.</Description>
+            <InternalElement Name="CTRL_PLC" ID="{fe862fd8-81c7-5dc4-843e-e9983704f1b9}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PlcCpu">
+              <Description>Stationssteuerung.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>SPS-Steuerung</Value>
+              </Attribute>
+              <Attribute Name="IPAddress" AttributeDataType="xs:string">
+                <Value>192.168.0.40</Value>
+              </Attribute>
+              <Attribute Name="StationTag" AttributeDataType="xs:string">
+                <Value>ST40</Value>
+              </Attribute>
+              <ExternalInterface Name="EthernetPort" ID="{5ba1395f-1e56-5aa7-9fde-b810a2e64d32}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <InternalElement Name="CTRL_ValveTerminal" ID="{4c892506-5305-588c-9504-db3971d5f963}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ValveTerminal">
+              <Description>Pneumatische Ventilinsel der Station.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Ventilinsel</Value>
+              </Attribute>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>1</Value>
+              </Attribute>
+              <ExternalInterface Name="PneumaticIn" ID="{767b4f83-7f65-5576-96c5-412e7e7aaa68}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Station" />
+        </InternalElement>
+        <InternalElement Name="ST50_Storage" ID="{a69f8596-778d-5c76-8687-7623a116cb86}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/StorageStation">
+          <Description>Lagert die fertigen Pneumatikzylinder im Hochregal ein.</Description>
+          <Attribute Name="StationNumber" AttributeDataType="xs:string">
+            <Value>50</Value>
+          </Attribute>
+          <Attribute Name="Manufacturer" AttributeDataType="xs:string">
+            <Value>Festo Didactic</Value>
+          </Attribute>
+          <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+            <Value>Station Lagern</Value>
+          </Attribute>
+          <Attribute Name="SupplyVoltage_V" AttributeDataType="xs:string">
+            <Value>24</Value>
+          </Attribute>
+          <Attribute Name="SupplyPressure_bar" AttributeDataType="xs:string">
+            <Value>6</Value>
+          </Attribute>
+          <ExternalInterface Name="ResourceCoupling" ID="{cfa13d2a-f308-5b16-889b-79f284c0fd67}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+            <Description>Kopplungspunkt zur fpb:TechnicalResource T_Station_Storage des FPD-Prozessmodells.</Description>
+          </ExternalInterface>
+          <ExternalInterface Name="MaterialIn" ID="{5ac6c2d0-ec13-5cae-bce6-fa7cf001657e}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialIn" />
+          <ExternalInterface Name="ElectricalIn" ID="{7b3b2cef-d38e-5851-b882-7a53298324b4}" RefBaseClassPath="MPS500_InterfaceClassLib/ElectricalIn" />
+          <ExternalInterface Name="PneumaticIn" ID="{7263091d-326c-5279-bfd9-4927cd3d663a}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+          <ExternalInterface Name="EthernetPort" ID="{ff508e2f-8e05-5267-97f7-e6b77c236ec0}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+          <InternalElement Name="MD_Rack" ID="{210133af-8c07-55a4-9935-ab4190a1ed22}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/StorageRack">
+            <Description>Hochregal mit 32 Lagerplaetzen.</Description>
+            <Attribute Name="Rows" AttributeDataType="xs:string">
+              <Value>4</Value>
+            </Attribute>
+            <Attribute Name="Columns" AttributeDataType="xs:string">
+              <Value>8</Value>
+            </Attribute>
+            <Attribute Name="Capacity_pcs" AttributeDataType="xs:string">
+              <Value>32</Value>
+            </Attribute>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Stacker_crane" ID="{11d7f8c0-5e21-5a97-abba-530d93ac5526}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/StackerCrane">
+            <Description>Regalbediengeraet.</Description>
+            <InternalElement Name="DV_Stacker_axis_X" ID="{6c20ca0f-d3a8-59dc-8c81-f7e73cd137f5}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/LinearAxis">
+              <Description>Fahrachse.</Description>
+              <Attribute Name="Stroke_mm" AttributeDataType="xs:string">
+                <Value>800</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Stacker_axis_Z" ID="{5cae5caf-d310-5622-835c-7c883fda3fb6}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/LinearAxis">
+              <Description>Hubachse.</Description>
+              <Attribute Name="Stroke_mm" AttributeDataType="xs:string">
+                <Value>400</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Storage_gripper" ID="{39d2917e-98db-5e99-a9ae-b188e515328c}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ParallelGripper">
+              <Description>Lastaufnahmemittel.</Description>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Control" ID="{acd837bf-42bb-504d-b3ac-e6b62104dbcf}">
+            <Description>Steuerungsmodul der Station.</Description>
+            <InternalElement Name="CTRL_PLC" ID="{b7188ec2-4d0f-5b92-bb4a-5f41b4393f4f}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PlcCpu">
+              <Description>Stationssteuerung.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>SPS-Steuerung</Value>
+              </Attribute>
+              <Attribute Name="IPAddress" AttributeDataType="xs:string">
+                <Value>192.168.0.50</Value>
+              </Attribute>
+              <Attribute Name="StationTag" AttributeDataType="xs:string">
+                <Value>ST50</Value>
+              </Attribute>
+              <ExternalInterface Name="EthernetPort" ID="{0978e4eb-fe1c-5da6-8816-4f9a251a2a36}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <InternalElement Name="CTRL_ValveTerminal" ID="{61eb6dfd-feab-56ac-b32f-d899a2c00e77}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ValveTerminal">
+              <Description>Pneumatische Ventilinsel der Station.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>Ventilinsel</Value>
+              </Attribute>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>1</Value>
+              </Attribute>
+              <ExternalInterface Name="PneumaticIn" ID="{c2b6992e-50f9-54e7-a82e-fc04975a3538}" RefBaseClassPath="MPS500_InterfaceClassLib/PneumaticIn" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Station" />
+        </InternalElement>
+        <InternalElement Name="TS10_Transfer_system" ID="{cc29f0d9-07b7-5ab9-920e-f2bed3b2196e}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/TransferSystem">
+          <Description>Umlaufendes Palettentransfersystem, das alle Stationen verkettet. Die Palettenanzahl begrenzt die gleichzeitig im Umlauf befindlichen Auftraege.</Description>
+          <Attribute Name="Manufacturer" AttributeDataType="xs:string">
+            <Value>Festo Didactic</Value>
+          </Attribute>
+          <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+            <Value>Palettentransfersystem</Value>
+          </Attribute>
+          <Attribute Name="PalletCount" AttributeDataType="xs:string">
+            <Value>6</Value>
+          </Attribute>
+          <Attribute Name="SupplyVoltage_V" AttributeDataType="xs:string">
+            <Value>24</Value>
+          </Attribute>
+          <ExternalInterface Name="ResourceCoupling" ID="{7e92f38c-66e5-5ebe-94f5-bda553d92dcb}" RefBaseClassPath="MPS500_InterfaceClassLib/ResourceCoupling">
+            <Description>Kopplungspunkt zur fpb:TechnicalResource T_Transfer_system des FPD-Prozessmodells.</Description>
+          </ExternalInterface>
+          <ExternalInterface Name="MaterialIn_ST10" ID="{293d34f8-bf1b-5e80-bae7-bb284ee52119}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialIn" />
+          <ExternalInterface Name="MaterialIn_ST20" ID="{eb171711-71b0-58dc-a1fd-77a94d04e77c}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialIn" />
+          <ExternalInterface Name="MaterialIn_ST30" ID="{77293725-60b2-5cd2-a5a8-fd6f4905c7e7}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialIn" />
+          <ExternalInterface Name="MaterialIn_ST40" ID="{a6f9577e-b3f2-50a1-8aa0-1c2849937c4a}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialIn" />
+          <ExternalInterface Name="MaterialOut_ST30" ID="{16652712-8897-5c3c-86bc-6595bd5c03da}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialOut" />
+          <ExternalInterface Name="MaterialOut_ST40" ID="{c61dc67d-2765-5fe0-8d2a-829cb0f42594}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialOut" />
+          <ExternalInterface Name="MaterialOut_ST50" ID="{e8224f61-393e-5e46-bf9e-fe57c4fbde2e}" RefBaseClassPath="MPS500_InterfaceClassLib/MaterialOut" />
+          <ExternalInterface Name="ElectricalIn" ID="{5a62f58f-c9a8-5d8a-9601-2ff271e32565}" RefBaseClassPath="MPS500_InterfaceClassLib/ElectricalIn" />
+          <ExternalInterface Name="EthernetPort" ID="{6f5262f7-2f4c-5887-b72f-1e808f518b31}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+          <InternalElement Name="MD_Conveyor_loop" ID="{38b72998-2a37-5b7e-89aa-7af18b259339}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/ConveyorSegment">
+            <Description>Gurtfoerderer-Umlauf mit sechs Segmenten.</Description>
+            <Attribute Name="SegmentCount" AttributeDataType="xs:string">
+              <Value>6</Value>
+            </Attribute>
+            <Attribute Name="Length_mm" AttributeDataType="xs:string">
+              <Value>4800</Value>
+            </Attribute>
+            <InternalElement Name="DV_Conveyor_motor" ID="{ec06af8a-01b9-57ca-a821-ffc174899cec}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/DcMotor">
+              <Description>Segmentantriebe.</Description>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>6</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <InternalElement Name="DV_Stopper" ID="{3c4b9a9d-cc3e-58b0-8181-bb8b15169abb}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PneumaticCylinder">
+              <Description>Vereinzelerstopper vor jeder Station.</Description>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>6</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Actuator" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Identification" ID="{4f166e9f-7b97-57ad-b375-b84f88904eb6}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/IdentificationUnit">
+            <Description>RFID-Identifikation der Werkstuecktraeger.</Description>
+            <InternalElement Name="DV_RFID_head" ID="{cd9bfb8b-053b-56b4-8033-46dd58794164}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/RfidReadWriteHead">
+              <Description>Schreib-Lese-Kopf je Station.</Description>
+              <Attribute Name="Quantity" AttributeDataType="xs:string">
+                <Value>6</Value>
+              </Attribute>
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Sensor" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Pallet_pool" ID="{f9812299-8e3a-53bc-8573-d3423f0f160b}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PalletPool">
+            <Description>Werkstuecktraeger im Umlauf. Kapazitaetsgrenze des Systems.</Description>
+            <Attribute Name="PalletCount" AttributeDataType="xs:string">
+              <Value>6</Value>
+            </Attribute>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <InternalElement Name="MD_Control" ID="{d175a4dc-ef30-5741-9815-fa4b1fc35b63}">
+            <Description>Steuerungsmodul des Transfersystems.</Description>
+            <InternalElement Name="CTRL_PLC" ID="{6d1f5ac2-48ca-54dc-82aa-e444e5951f46}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/PlcCpu">
+              <Description>Stationssteuerung.</Description>
+              <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+                <Value>SPS-Steuerung</Value>
+              </Attribute>
+              <Attribute Name="IPAddress" AttributeDataType="xs:string">
+                <Value>192.168.0.60</Value>
+              </Attribute>
+              <Attribute Name="StationTag" AttributeDataType="xs:string">
+                <Value>TS10</Value>
+              </Attribute>
+              <ExternalInterface Name="EthernetPort" ID="{514e648d-3365-5ded-b676-fa1e4ca4086e}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+              <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+            </InternalElement>
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+          </InternalElement>
+          <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Station" />
+        </InternalElement>
+        <InternalElement Name="MD_Line_control" ID="{0e09c25a-60f8-586a-aa6e-a7ac7eddab76}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/LineControl">
+          <Description>Leitrechner und Netzwerkinfrastruktur der Linie.</Description>
+          <Attribute Name="IPAddress" AttributeDataType="xs:string">
+            <Value>192.168.0.1</Value>
+          </Attribute>
+          <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+            <Value>Leitebene / MES</Value>
+          </Attribute>
+          <ExternalInterface Name="EthernetPort" ID="{1a35ba1c-aeeb-54ec-ba9f-64f96ad43d67}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+          <InternalElement Name="DV_Switch" ID="{e3fd3522-e7f6-55e2-8ba7-958a7dd25cae}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/NetworkSwitch">
+            <Description>Industrial-Ethernet-Switch.</Description>
+            <Attribute Name="Ports" AttributeDataType="xs:string">
+              <Value>8</Value>
+            </Attribute>
+            <ExternalInterface Name="EthernetPort_ST10" ID="{ff102320-ca74-5c9b-adb2-a9f36666de95}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+            <ExternalInterface Name="EthernetPort_ST20" ID="{7970dbf7-b240-5cf0-be85-a70de9a0c479}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+            <ExternalInterface Name="EthernetPort_ST30" ID="{1e3dbce5-7191-54bb-a5e8-14a71eb174de}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+            <ExternalInterface Name="EthernetPort_ST40" ID="{3177c692-114c-53f3-9de6-a4f1ec237139}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+            <ExternalInterface Name="EthernetPort_ST50" ID="{a1179fbe-fe14-51cb-9e89-98aae7871d11}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+            <ExternalInterface Name="EthernetPort_TS10" ID="{19c98f4d-7458-57af-956c-4c289f3da1d1}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+          </InternalElement>
+          <InternalElement Name="DV_MES_client" ID="{a9e44ef4-8d54-5699-9dae-4c42b6fda033}" RefBaseSystemUnitPath="MPS500_SystemUnitClassLib/MesClient">
+            <Description>Auftragsverwaltung und Rueckmeldung.</Description>
+            <Attribute Name="TypeDesignation" AttributeDataType="xs:string">
+              <Value>MES-Arbeitsplatz</Value>
+            </Attribute>
+            <ExternalInterface Name="EthernetPort" ID="{e389b8c7-c9f3-5e28-a248-325747b5d299}" RefBaseClassPath="MPS500_InterfaceClassLib/EthernetPort" />
+            <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Controller" />
+          </InternalElement>
+          <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Module" />
+        </InternalElement>
+        <InternalLink Name="MF_01_ST10_to_TS10" ID="{4e2832bf-7c96-5ec5-9c23-151c6e74faab}" RefPartnerSideA="{af34edc8-4fbc-558a-a554-36bacd2db8a4}" RefPartnerSideB="{293d34f8-bf1b-5e80-bae7-bb284ee52119}" />
+      <InternalLink Name="MF_02_ST20_to_TS10" ID="{5b5c65d1-42ec-5285-9e42-fece0efee91b}" RefPartnerSideA="{ba7d4783-769f-5a1c-b356-c2b18498e707}" RefPartnerSideB="{eb171711-71b0-58dc-a1fd-77a94d04e77c}" />
+      <InternalLink Name="MF_03_TS10_to_ST30" ID="{33c0da2e-d09d-5bb3-bc48-cd8367a0b178}" RefPartnerSideA="{16652712-8897-5c3c-86bc-6595bd5c03da}" RefPartnerSideB="{521fa591-d185-5b59-a4e4-1ddc424e1308}" />
+      <InternalLink Name="MF_04_ST30_to_TS10" ID="{69d16976-2c75-527c-911b-228fd0de0931}" RefPartnerSideA="{0fd4c59c-8899-5fe4-93ff-d4a47ba3b59a}" RefPartnerSideB="{77293725-60b2-5cd2-a5a8-fd6f4905c7e7}" />
+      <InternalLink Name="MF_05_TS10_to_ST40" ID="{6c24e4a0-c778-5674-8338-219251e25062}" RefPartnerSideA="{c61dc67d-2765-5fe0-8d2a-829cb0f42594}" RefPartnerSideB="{dc8c2e75-8507-58ed-afb5-4f20b6fe802d}" />
+      <InternalLink Name="MF_06_ST40_to_TS10" ID="{77ae084b-1f2e-59e5-95c4-cb9c6b1dc9e9}" RefPartnerSideA="{86f71180-14c1-56c8-ba03-eea5d37a79f5}" RefPartnerSideB="{a6f9577e-b3f2-50a1-8aa0-1c2849937c4a}" />
+      <InternalLink Name="MF_07_TS10_to_ST50" ID="{76db9070-e6e1-53b6-89ec-cf0bf2644dcd}" RefPartnerSideA="{e8224f61-393e-5e46-bf9e-fe57c4fbde2e}" RefPartnerSideB="{5ac6c2d0-ec13-5cae-bce6-fa7cf001657e}" />
+      <InternalLink Name="NW_01_ST10_to_Switch" ID="{e472295b-dbb6-5059-b1fd-fe7a36fa381b}" RefPartnerSideA="{2cc83e25-0453-5c12-8aa2-1d3e2107ca1d}" RefPartnerSideB="{ff102320-ca74-5c9b-adb2-a9f36666de95}" />
+      <InternalLink Name="NW_02_ST20_to_Switch" ID="{07946698-fb50-5779-a184-f8da689c61b0}" RefPartnerSideA="{95e6d995-7faf-5a07-acc9-882ee217d639}" RefPartnerSideB="{7970dbf7-b240-5cf0-be85-a70de9a0c479}" />
+      <InternalLink Name="NW_03_ST30_to_Switch" ID="{503a170e-0795-5b5e-a8bd-55f8ba1d2d1a}" RefPartnerSideA="{165125f9-36bd-5023-a88d-f2139c861675}" RefPartnerSideB="{1e3dbce5-7191-54bb-a5e8-14a71eb174de}" />
+      <InternalLink Name="NW_04_ST40_to_Switch" ID="{93539038-21fd-5cb7-8c29-90edc604fb4b}" RefPartnerSideA="{d9a0f8bc-a680-58ce-96e3-2517aaa2118d}" RefPartnerSideB="{3177c692-114c-53f3-9de6-a4f1ec237139}" />
+      <InternalLink Name="NW_05_ST50_to_Switch" ID="{aa799f01-69d9-5cfb-baac-0740507751e4}" RefPartnerSideA="{ff508e2f-8e05-5267-97f7-e6b77c236ec0}" RefPartnerSideB="{a1179fbe-fe14-51cb-9e89-98aae7871d11}" />
+      <InternalLink Name="NW_06_TS10_to_Switch" ID="{07400855-1c0d-53fb-a439-fb5ecaed4885}" RefPartnerSideA="{6f5262f7-2f4c-5887-b72f-1e808f518b31}" RefPartnerSideB="{19c98f4d-7458-57af-956c-4c289f3da1d1}" />
+      <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/ProductionLine" />
+      </InternalElement>
+      <RoleRequirements RefBaseRoleClassPath="MPS500_RoleClassLib/Plant" />
+    </InternalElement>
+  </InstanceHierarchy>
+</CAEXFile>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Attribute x=" " v=" ">&gt;<![CDATA[-]]><n.m x="'" v='&#x20;' ID="&quot;">
+    <data
+    ns1:x='1' ns1:v="{guid}" Name="&#x20;" xmlns="http://example.org/x" xmlns:ns1="http://www.dke.de/CAEX">
+      <!--- x-->
+      <![CDATA[x
+y]]>
+      <InternalElement xml:space="preserve" xmlns="urn:a" xmlns:xsi="http://www.dke.de/CAEX">
+        <?pi data?>
+      </InternalElement>
+    </data>
+    <_u x="&#10;"/>
+    &#x20AC;
+    <a xmlns="http://example.org/x"
+    v="tab	here" Name="&quot;"/>
+  </n.m><!--multi
+line--></Attribute>

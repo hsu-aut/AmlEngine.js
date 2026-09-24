@@ -1,0 +1,12 @@
+<_u y-z="nl
+x"
+    v="&quot;" xmlns="urn:a"><q:Attribute
+    x="{guid}" xmlns="http://example.org/x" xmlns:q="urn:b"><Item x="cr
+x" q:x="&lt;&gt;">
+      <InternalElement v=" " x="cr
+x" xml:space="default">]]&gt;</InternalElement>
+      text
+    </Item><q:data ID="&#10;">
+      😀
+    </q:data></q:Attribute><!--c--><![CDATA["quoted"]]><b xmlns="http://example.org/x"><x-y y-z="nl
+x"/><!--- x--></b></_u>

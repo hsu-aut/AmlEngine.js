@@ -1,0 +1,20 @@
+
+<x-y>a &amp; b&gt;<data x="cr
+x" xmlns="http://example.org/x">
+    &lt;tag>
+    <ns1:data xmlns="urn:b"
+    xmlns:ns1="urn:b" y-z="&#13;" v="cr
+x">
+      <!-- c -->
+      €
+    </ns1:data>
+    <data xmlns:p="http://www.dke.de/CAEX"
+    Name="nl
+x" y-z="nl
+x" v="&lt;&gt;">
+      <p:InternalElement p:Name="&#10;" ID='{guid}'/>
+      <![CDATA[😀]]>
+      	
+      <![CDATA[	]]>
+    </data>
+  </data><![CDATA[text]]></x-y>

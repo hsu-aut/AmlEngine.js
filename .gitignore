@@ -1,0 +1,6 @@
+node_modules/
+dist/
+oracle/bin/
+oracle/obj/
+test/oracle-out/
+*.log

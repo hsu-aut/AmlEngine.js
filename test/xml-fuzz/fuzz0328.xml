@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b xmlns:ns1="http://example.org/x" ns1:y-z=" " ID="nl
+x">
+  <x-y ID="&#9;">	&quot;<p:a xmlns:p="urn:a" ns1:Name="&#x20;" x="&quot;"></p:a><ns1:data
+    xmlns:xsi="http://www.dke.de/CAEX"><![CDATA[a & b]]><xsi:InternalElement xmlns="http://example.org/x"/><?pi a ? b?></ns1:data></x-y>
+  <![CDATA[	]]>
+  <_u
+    ns1:v="tab	here"
+    x='&#x20;' />
+  <x-y x="1" />
+</b>

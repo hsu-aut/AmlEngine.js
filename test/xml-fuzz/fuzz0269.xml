@@ -1,0 +1,8 @@
+<Ä>
+  <a x="cr
+x"></a>
+  <ns1:Attribute x="&#10;"
+    y-z='&#13;' xmlns:ns1="http://example.org/x"></ns1:Attribute>
+  <b ID=' ' Name="a b" xml:space="default" xmlns:p="urn:b"/>
+  <InternalElement Name='{guid}'></InternalElement>
+</Ä>

@@ -1,0 +1,9 @@
+<!-- head -->
+<a x="&#13;" ID="&amp;" xmlns="http://www.dke.de/CAEX">
+  <data Name="" y-z="&#13;">
+    ]]&gt;&amp;
+    a &amp; b
+    <![CDATA["quoted"]]>
+  </data>
+</a>
+<!-- tail -->

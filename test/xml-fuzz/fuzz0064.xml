@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><Ä xmlns:q="urn:b">
+  <?pi a ? b?>
+  <a q:y-z="a b"><Attribute q:y-z="" x="cr
+x"></Attribute><q:_u>
+      <q:n.m xmlns="urn:b">
+        <!--multi
+line-->
+      </q:n.m>
+      <q:InternalElement v="1">&#10;</q:InternalElement>
+        &#xD;
+    </q:_u><n.m y-z=" " x="{guid}"></n.m></a>
+</Ä>

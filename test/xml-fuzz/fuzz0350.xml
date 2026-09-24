@@ -1,0 +1,17 @@
+<InternalElement v="'">
+  <Ä v="&quot;" Name="'" y-z="&#x20;" xml:space="preserve" xmlns:p="urn:a"><data
+    x="&#10;" Name='&quot;' xml:space="preserve" xmlns="urn:b">
+      <![CDATA[it's]]>
+      <InternalElement><Attribute xmlns="http://www.dke.de/CAEX"
+    xmlns:ns1="urn:b"/>trail  <x-y><_u x=" " xml:space="preserve"
+    xmlns="urn:b" /><![CDATA[a & b]]><p:a xmlns="http://www.dke.de/CAEX"
+    p:x='{guid}' p:y-z=" " v="Ä€😀"/></x-y>&lt;</InternalElement>
+      <InternalElement Name="1" v="&#10;"></InternalElement>
+      <Item ID='' xmlns="http://example.org/x">
+        	
+        <![CDATA[]]]]>
+        trail  
+        &#x9;
+      </Item>
+    </data></Ä>
+</InternalElement>

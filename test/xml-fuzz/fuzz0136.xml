@@ -1,0 +1,31 @@
+<!-- head -->
+<Item>
+  <![CDATA[😀]]>
+  &#x20AC;
+  
+
+  <data>
+    <![CDATA[  lead]]>
+    a &amp; b
+    <_u>
+      <![CDATA[  ]]>
+    </_u>
+    <x-y Name="nl
+x" x="&#9;" y-z="&#x20;"
+    xmlns:xsi="http://www.dke.de/CAEX">
+      <n.m
+    v='1' Name='cr
+x'><Attribute ID="&#9;" xsi:ID="&#x20;" xml:space="default">a &amp; b&gt;&gt;a &amp; b&amp;-</Attribute><_u xmlns="http://example.org/x"
+    xmlns:ns1="http://example.org/x"></_u></n.m>
+      x
+y
+      <_u Name="{guid}" v="Ä€😀" xml:space="preserve" xmlns:xsi="http://example.org/x">
+        <InternalElement x="&#10;">ÄÖÜ ß</InternalElement>
+        <Attribute xmlns="http://www.dke.de/CAEX"/>
+        <!-- c -->
+        <![CDATA[]]]]>
+      </_u>
+      <b xmlns:q="http://www.dke.de/CAEX"></b>
+    </x-y>
+  </data>
+</Item>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><n.m xml:space="preserve">
+  <data
+    xmlns:xsi="urn:b">
+    <InternalElement xml:space="preserve"></InternalElement>
+    it's
+  </data>
+  text
+  <?pi?>
+  <!--- x-->
+</n.m>

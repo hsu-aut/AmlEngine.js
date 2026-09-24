@@ -1,0 +1,4 @@
+
+<InternalElement xmlns:ns1="urn:a" ns1:Name='&#x20;' y-z="">
+  <Attribute Name='Ä€😀' y-z="&lt;&gt;" xmlns="http://example.org/x"><![CDATA[it's]]><a v="Ä€😀" Name='&#9;'/></Attribute>
+</InternalElement>

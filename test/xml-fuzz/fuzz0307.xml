@@ -1,0 +1,10 @@
+
+
+<x-y>
+  <Attribute x="{guid}" v="&#13;"><?pi a ? b?><a y-z='nl
+x'
+    xml:space="default" /><InternalElement ID=""></InternalElement>  </Attribute>
+  <b x="nl
+x"></b>
+  &quot;
+</x-y>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Item v=' ' xmlns="http://example.org/x">
+  <Ä xsi:x="1" v="a b" xmlns="urn:a" xmlns:xsi="http://example.org/x"></Ä>
+  <_u y-z='&apos;' />
+  <!--multi
+line-->
+</Item>

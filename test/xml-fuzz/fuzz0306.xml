@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Attribute>
+  "quoted"
+  <ns1:n.m y-z='{guid}' x="{guid}" ns1:x="&lt;&gt;"
+    xmlns:ns1="http://example.org/x"/>
+  
+&gt;
+  <_u x="1"/>
+</Attribute>
+<!-- tail -->

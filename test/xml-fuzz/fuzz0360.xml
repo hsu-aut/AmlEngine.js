@@ -1,0 +1,20 @@
+<!-- head -->
+<b
+    ID='tab	here'>
+  <![CDATA[-]]>
+  <InternalElement Name='' x='1'>
+    <a Name="&quot;" xmlns="http://example.org/x">
+      <Item ID="nl
+x" v='&#x20;' y-z='&#x20;'><Ä y-z="&#10;"/>€&#xD;<data ID="&#10;" y-z="&#13;">
+          <Attribute x="cr
+x"/>
+          <![CDATA[it's]]>
+          "quoted"
+        </data><InternalElement Name="cr
+x" x='a b'></InternalElement></Item>
+      <Attribute xmlns="http://example.org/x"/>
+      &#10;
+    </a>
+  </InternalElement>
+  &#x9;
+</b>

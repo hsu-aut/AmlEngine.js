@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<a>
+  -
+  <b xsi:y-z="" xsi:x="1" xmlns="urn:b" xmlns:xsi="urn:b">
+    	
+  </b>
+  <q:a xmlns="urn:a" xmlns:q="urn:a"
+    v='&#10;'>
+    <![CDATA[--]]>
+  </q:a>
+  <p:Ä xml:space="default" xmlns:p="http://example.org/x" />
+</a>

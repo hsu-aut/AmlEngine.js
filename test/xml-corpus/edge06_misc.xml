@@ -1,0 +1,7 @@
+<!-- lead -->
+<?pi x?>
+<r>
+	<a>  mixed <b/> text </a>
+	<c xml:space="preserve">  <d/>  </c>
+</r>
+<!-- trail -->

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- head -->
+<_u xmlns="urn:a" v="&quot;" x="&quot;">]]&gt;<Attribute y-z="" xmlns:q="http://example.org/x">
+    &#32;
+    <n.m ID="nl
+x" x='1' xmlns:ns1="urn:a"><!--- x--></n.m>
+    <q:Attribute xmlns="http://www.dke.de/CAEX" v="nl
+x" Name="Ä€😀"></q:Attribute>
+    <q:Item q:Name="&amp;" xmlns="urn:b"><?pi data?><![CDATA[  ]]></q:Item>
+  </Attribute>a &amp; b </_u>
