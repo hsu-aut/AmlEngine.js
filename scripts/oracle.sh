@@ -10,4 +10,6 @@ node scripts/gen-xops.mjs test/xml-ops/xops.json 300 40 4242 >/dev/null
 $ORACLE xops test/xml-ops/xops.json test/oracle-out/xops.json
 $ORACLE schema test/oracle-out/schema
 $ORACLE xml test/oracle-out/xml test/xml-corpus/* test/xml-fuzz/* test/corpus/*.aml
+node scripts/gen-engine-ops.mjs test/engine-ops/ops.json 150 60 777 >/dev/null
+$ORACLE engineops test/engine-ops/ops.json test/corpus test/oracle-out/engineops.json
 $ORACLE dump test/oracle-out/dump test/corpus/*.aml >/dev/null

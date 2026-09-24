@@ -6,10 +6,16 @@ using Oracle;
 // Reference oracle: runs the original Aml.Engine so the JS engine can be compared against it.
 //   dump <outDir> <file.aml>...   writes <name>.json (read model) and <name>.saved.aml (SaveToStream)
 
+// Deterministic formatting: the JS port reproduces .NET under the invariant culture.
+System.Globalization.CultureInfo.DefaultThreadCurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
+System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
+
 var json = new JsonSerializerOptions { WriteIndented = true };
 
 // Directories stand for all files in them (keeps command lines short).
-if (args.FirstOrDefault() != "xops")
+if (args.FirstOrDefault() is not ("xops" or "sys" or "engineops"))
 args = args.Take(2).Concat(args.Skip(2).SelectMany<string, string>(a => Directory.Exists(a)
     ? Directory.GetFiles(a).OrderBy(f => f, StringComparer.Ordinal)
     : new[] { a })).ToArray();
@@ -71,6 +77,16 @@ switch (args.FirstOrDefault())
             SchemaDump.Export(Aml.Engine.Schema.AMLSchemaManager3_0.Instance).ToJsonString(json));
         File.WriteAllText(Path.Combine(args[1], "caex215.json"),
             SchemaDump.Export(Aml.Engine.Schema.AMLSchemaManager2_15.Instance).ToJsonString(json));
+        break;
+
+    case "engineops":
+        // engineops <scripts.json> <corpusDir> <out.json>
+        EngineOpsOracle.Run(args[1], args[2], args[3]);
+        break;
+
+    case "sys":
+        // System value conversions (DateTime, TimeSpan, decimal, XmlConvert, ...): see SysOracle.cs
+        SysOracle.Run(args[1], args[2]);
         break;
 
     case "xops":
