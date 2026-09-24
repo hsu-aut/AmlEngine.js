@@ -65,7 +65,15 @@ export class FormatException extends SystemException {
   }
 }
 
-export class OverflowException extends SystemException {
+export class ArithmeticException extends SystemException {
+  override name = 'ArithmeticException';
+
+  constructor(message = 'Overflow or underflow in the arithmetic operation.') {
+    super(message);
+  }
+}
+
+export class OverflowException extends ArithmeticException {
   override name = 'OverflowException';
 
   constructor(message = 'Arithmetic operation resulted in an overflow.') {
@@ -111,4 +119,20 @@ export function dotNetExceptionName(err: unknown): string {
   if (err instanceof RangeError) return 'StackOverflowException';
   if (err instanceof Error) return err.name;
   return 'Exception';
+}
+
+export class UriFormatException extends FormatException {
+  override name = 'UriFormatException';
+
+  constructor(message = 'Invalid URI: The format of the URI could not be determined.') {
+    super(message);
+  }
+}
+
+export class DivideByZeroException extends ArithmeticException {
+  override name = 'DivideByZeroException';
+
+  constructor(message = 'Attempted to divide by zero.') {
+    super(message);
+  }
 }

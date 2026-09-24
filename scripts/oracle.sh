@@ -13,3 +13,7 @@ $ORACLE xml test/oracle-out/xml test/xml-corpus/* test/xml-fuzz/* test/corpus/*.
 node scripts/gen-engine-ops.mjs test/engine-ops/ops.json 150 60 777 >/dev/null
 $ORACLE engineops test/engine-ops/ops.json test/corpus test/oracle-out/engineops.json
 $ORACLE dump test/oracle-out/dump test/corpus/*.aml >/dev/null
+node scripts/gen-sys-cases.mjs test/system/cases.json >/dev/null
+$ORACLE sys test/system/cases.json test/oracle-out/sys.json
+node scripts/gen-invalid-caex.mjs test/validation/cases 10 3682 >/dev/null
+$ORACLE validate test/oracle-out/validate test/corpus/*.aml test/validation/cases

@@ -6,3 +6,4 @@ test/xml-fuzz/** binary
 *.aml binary
 test/xml-ops/** binary
 test/engine-ops/** binary
+test/system/cases.json binary

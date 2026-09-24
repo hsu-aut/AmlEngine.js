@@ -1,4 +1,6 @@
-// XML 1.0 (fifth edition) character classes, as used by System.Xml.
+import { XmlCharType } from '../system/XmlCharType.js';
+
+// XML character classes, as used by System.Xml in .NET 8.
 
 export class XmlException extends Error {
   constructor(
@@ -11,49 +13,60 @@ export class XmlException extends Error {
   }
 }
 
-const NAME_START =
-  'A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D' +
-  '\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\u{10000}-\\u{EFFFF}';
-const NAME_REST = NAME_START + '\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040';
-
-const NCNAME = new RegExp(`^[${NAME_START}][${NAME_REST}]*$`, 'u');
-const NAME = new RegExp(`^[:${NAME_START}][:${NAME_REST}]*$`, 'u');
-const NAME_START_CHAR = new RegExp(`[:${NAME_START}]`, 'u');
-const NAME_CHAR = new RegExp(`[:${NAME_REST}]`, 'u');
-
-export function isNCName(s: string): boolean {
-  return NCNAME.test(s);
-}
-
-export function isName(s: string): boolean {
-  return NAME.test(s);
-}
+// Name characters follow the table .NET 8 uses (XML 1.0 4th edition letters for the BMP, see
+// src/system/XmlCharType.ts, generated from .NET); characters outside the BMP are accepted as
+// in the 5th edition, like .NET's surrogate handling.
+const isSupplementary = (cp: number): boolean => cp >= 0x10000 && cp <= 0xeffff;
 
 export function isNameStartChar(ch: string): boolean {
-  return NAME_START_CHAR.test(ch);
+  const cp = ch.codePointAt(0)!;
+  if (cp > 0xffff) return isSupplementary(cp);
+  return XmlCharType.isStartNCNameSingleChar(cp) || cp === 0x3a;
 }
 
 export function isNameChar(ch: string): boolean {
-  return NAME_CHAR.test(ch);
+  const cp = ch.codePointAt(0)!;
+  if (cp > 0xffff) return isSupplementary(cp);
+  return XmlCharType.isNameSingleChar(cp);
+}
+
+function isNCNameStart(cp: number): boolean {
+  return cp > 0xffff ? isSupplementary(cp) : XmlCharType.isStartNCNameSingleChar(cp);
+}
+
+function isNCNameRest(cp: number): boolean {
+  return cp > 0xffff ? isSupplementary(cp) : XmlCharType.isNCNameSingleChar(cp);
+}
+
+export function isNCName(s: string): boolean {
+  return firstInvalid(s, false) < 0;
+}
+
+export function isName(s: string): boolean {
+  return firstInvalid(s, true) < 0;
+}
+
+/** Index of the first character that makes s an invalid (NC)Name, or -1. */
+function firstInvalid(s: string, colon: boolean): number {
+  if (s.length === 0) return 0;
+  let i = 0;
+  for (const ch of s) {
+    const cp = ch.codePointAt(0)!;
+    const ok = (colon && cp === 0x3a) || (i === 0 ? isNCNameStart(cp) : isNCNameRest(cp));
+    if (!ok) return i;
+    i += ch.length;
+  }
+  return -1;
 }
 
 export function verifyNCName(s: string): string {
-  if (s.length === 0) throw new XmlException('The empty string \'\' is not a valid local name.');
-  if (!isNCName(s)) {
-    const cp = s.codePointAt(firstInvalidIndex(s))!;
-    const ch = String.fromCodePoint(cp);
-    throw new XmlException(`The '${ch}' character, hexadecimal value 0x${cp.toString(16).toUpperCase()}, cannot be included in a name.`);
+  if (s.length === 0) throw new XmlException("The empty string '' is not a valid local name.");
+  const i = firstInvalid(s, false);
+  if (i >= 0) {
+    const cp = s.codePointAt(i)!;
+    throw new XmlException(`The '${String.fromCodePoint(cp)}' character, hexadecimal value 0x${cp.toString(16).toUpperCase()}, cannot be included in a name.`);
   }
   return s;
-}
-
-function firstInvalidIndex(s: string): number {
-  let i = 0;
-  for (const ch of s) {
-    if (i === 0 ? !isNameStartChar(ch) || ch === ':' : !isNameChar(ch) || ch === ':') return i;
-    i += ch.length;
-  }
-  return 0;
 }
 
 /** XML 1.0 Char production. */

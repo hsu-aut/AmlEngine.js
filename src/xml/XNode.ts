@@ -8,6 +8,7 @@
 
 import { XName, XNamespace, type XNameLike, toXName } from './XName.js';
 import { isWhitespaceOnly } from './XmlChars.js';
+import { formatDouble } from '../system/Number.js';
 import { ArgumentException, ArgumentNullException, InvalidOperationException } from '../system/exceptions.js';
 
 export enum XmlNodeType {
@@ -1085,29 +1086,9 @@ export function numberToXmlString(v: number): string {
   return formatDoubleR(v);
 }
 
-/**
- * .NET Core 3.0+ double.ToString("R", InvariantCulture): shortest round-trip digits, scientific
- * notation when the exponent is < -5 or >= 15 ("E+XX"/"E-XX", at least two exponent digits).
- */
+/** double.ToString("R", InvariantCulture), from the system layer (verified against .NET). */
 export function formatDoubleR(v: number): string {
-  if (v === 0) return '0';
-  const neg = v < 0;
-  const [mant, expStr] = Math.abs(v).toExponential().split('e');
-  const digits = mant.replace('.', '');
-  const exp = parseInt(expStr, 10);
-  let s: string;
-  if (exp >= 15 || exp < -5) {
-    const m = digits.length > 1 ? digits[0] + '.' + digits.slice(1) : digits;
-    const e = Math.abs(exp).toString().padStart(2, '0');
-    s = `${m}E${exp < 0 ? '-' : '+'}${e}`;
-  } else if (exp < 0) {
-    s = '0.' + '0'.repeat(-exp - 1) + digits;
-  } else if (digits.length <= exp + 1) {
-    s = digits + '0'.repeat(exp + 1 - digits.length);
-  } else {
-    s = digits.slice(0, exp + 1) + '.' + digits.slice(exp + 1);
-  }
-  return neg ? '-' + s : s;
+  return formatDouble(v, 'R');
 }
 
 function missingParent(): Error {
