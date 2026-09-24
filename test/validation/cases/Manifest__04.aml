@@ -1,0 +1,2992 @@
+<?xml version="1.0" encoding="utf-8"?><!-- mutations: swapSiblings, xsiType, prefixedWrongNamespace -->
+<CAEXFile FileName="Manifest.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>1.0</Version>
+  <Copyright>P2O-Lab (c) 2019</Copyright>
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation DocumentVersions="Recommendations">
+    <Document DocumentIdentifier="VDI/VDE/NAMUR 2658-1" Version="1.0.0" />
+	<Document DocumentIdentifier="VDI/VDE/NAMUR 2658-2" Version="1.0.0" />
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Stephan Hensel</WriterName>
+      <WriterID>shensel</WriterID>
+      <WriterVendor>P2O-Lab</WriterVendor>
+      <WriterVendorURL />
+      <WriterVersion>1.0.0</WriterVersion>
+      <WriterRelease />
+      <LastWritingDateTime>03/13/2019 14:37:59</LastWritingDateTime>
+      <WriterProjectTitle>Bucket</WriterProjectTitle>
+      <WriterProjectID>ja</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <InstanceHierarchy Name="ModuleTypePackage">
+    <InternalElement Name="P2O-Bucket" ID="728558bf-9793-4313-b475-c3cbbd07d2e6" RefBaseSystemUnitPath="MTPSUCLib/ModuleTypePackage">
+      <InternalElement Name="Communication" RefBaseSystemUnitPath="MTPSUCLib/CommunicationSet" ID="44c9e763-73e0-4263-aae9-7986f91ddbc3">
+        <InternalElement Name="InstanceList" ID="5f5110bf-5d33-436d-ae7e-5d22ca0e41c6" RefBaseSystemUnitPath="MTPSUCLib/CommunicationSet/InstanceList">
+          <InternalElement Name="BucketLevel" ID="739a8457-c56b-4d4a-b23a-f769a4e46497" RefBaseSystemUnitPath="MTPDataObjectSUCLib/DataAssembly/AnaView">
+            <Attribute Name="TagName" AttributeDataType="xs:string">
+              <Value>BucketLevel</Value>
+            </Attribute>
+            <Attribute Name="TagDescription" AttributeDataType="xs:string">
+              <Value>Static range of the bucket level</Value>
+            </Attribute>
+            <Attribute Name="V" AttributeDataType="xs:IDREF" />
+            <Attribute Name="VSclMin" AttributeDataType="xs:IDREF">
+              <Value>0</Value>
+            </Attribute>
+            <Attribute Name="VSclMax" AttributeDataType="xs:IDREF">
+              <Value>10</Value>
+            </Attribute>
+            <Attribute Name="VUnit" AttributeDataType="xs:IDREF">
+              <Value>1038</Value>
+            </Attribute>
+            <Attribute Name="WQC" AttributeDataType="xs:IDREF" />
+            <Attribute Name="OSLevel" AttributeDataType="xs:IDREF" />
+            <Attribute Name="RefID" AttributeDataType="xs:ID" />
+            <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+          </InternalElement>
+		  <InternalElement Name="OBIText" ID="0477ebf4-f822-4eb7-a3e0-c2dc988f8cbd" RefBaseSystemUnitPath="MTPDataObjectSUCLib/DataAssembly/StrView">
+            <Attribute Name="TagName" AttributeDataType="xs:string">
+              <Value>OBIText</Value>
+            </Attribute>
+            <Attribute Name="TagDescription" AttributeDataType="xs:string" />
+            <Attribute Name="Text" AttributeDataType="xs:IDREF">
+              <Value>OBI</Value>
+            </Attribute>
+            <Attribute Name="WQC" AttributeDataType="xs:IDREF" />
+            <Attribute Name="OSLevel" AttributeDataType="xs:IDREF" />
+            <Attribute Name="RefID" AttributeDataType="xs:ID">
+				<Value>0e169e83-c95f-4ef8-aad4-07fee093a334</Value>
+			</Attribute>
+            <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+          </InternalElement>
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <InternalElement Name="SourceList" ID="0a66385b-a171-4a4a-8960-66cd2ee6e51c" RefBaseSystemUnitPath="MTPSUCLib/CommunicationSet/SourceList">
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      </InternalElement>
+      <InternalElement Name="HMI" RefBaseSystemUnitPath="MTPHMISUCLib/HMISet" ID="bc5ae137-7728-4a7b-bcf7-fca7a74d4ed0">
+        <ExternalInterface Name="HMIReference" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" ID="e690214c-da2c-4a60-bf25-9b2f3927d8b0">
+          <Attribute Name="refURI" AttributeDataType="xs:IDREF">
+            <Value>752a5c30-f4ed-4f09-a2fd-62c146a1b311</Value>
+          </Attribute>
+        </ExternalInterface>
+        <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      </InternalElement>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="HMI" ID="752a5c30-f4ed-4f09-a2fd-62c146a1b311">
+    <InternalElement Name="BucketPicture" ID="ded86eef-6066-4174-a3d1-71aa56f5a820" RefBaseSystemUnitPath="MTPHMISUCLib/Picture">
+      <Attribute Name="HierarchyLevel" AttributeDataType="xs:string">
+        <Value>0</Value>
+      </Attribute>
+      <Attribute Name="Width" AttributeDataType="xs:integer">
+        <Value>1920</Value>
+      </Attribute>
+      <Attribute Name="Height" AttributeDataType="xs:integer">
+        <Value>1080</Value>
+      </Attribute>
+	  <InternalElement Name="BucketGroup" ID="c0480357-8015-4af0-8b87-e12a23b2015f" RefBaseSystemUnitPath="MTPHMISUCLib/SemanticGroup">
+        <InternalElement Name="Bucket" ID="5557041e-84f8-4112-a04a-065c753a60bd" RefBaseSystemUnitPath="MTPHMISUCLib/VisualObject">
+          <Attribute Name="Width" AttributeDataType="xs:integer">
+            <Value>400</Value>
+          </Attribute>
+          <Attribute Name="Height" AttributeDataType="xs:integer">
+            <Value>700</Value>
+          </Attribute>
+          <Attribute Name="Rotation" AttributeDataType="xs:integer">
+            <Value>0</Value>
+          </Attribute>
+          <Attribute Name="ZIndex" AttributeDataType="xs:integer">
+          <Value>0</Value>
+          </Attribute>
+          <Attribute Name="eClassVersion" AttributeDataType="xs:string">
+            <Value>10.1</Value>
+          </Attribute>
+          <Attribute Name="eClassClassificationClass" AttributeDataType="xs:string">
+            <Value>20050290</Value>
+          </Attribute>
+          <Attribute Name="eClassIRDI" AttributeDataType="xs:string" />
+          <Attribute Name="X" AttributeDataType="xs:integer">
+            <Value>560</Value>
+          </Attribute>
+          <Attribute Name="Y" AttributeDataType="xs:integer">
+            <Value>300</Value>
+          </Attribute>
+          <Attribute Name="RefID" AttributeDataType="xs:ID" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <InternalElement Name="Henkel" ID="98835602-16ff-4a5a-8690-8c46297335bb" RefBaseSystemUnitPath="MTPHMISUCLib/VisualObject">
+          <Attribute Name="Width" AttributeDataType="xs:integer">
+            <Value>400</Value>
+          </Attribute>
+          <Attribute Name="Height" AttributeDataType="xs:integer">
+            <Value>200</Value>
+          </Attribute>
+          <Attribute Name="Rotation" AttributeDataType="xs:integer">
+            <Value>0</Value>
+          </Attribute>
+          <Attribute Name="ZIndex" AttributeDataType="xs:integer">
+          <Value>0</Value>
+          </Attribute>
+          <Attribute Name="eClassVersion" AttributeDataType="xs:string">
+            <Value>10.1</Value>
+          </Attribute>
+          <Attribute Name="eClassClassificationClass" AttributeDataType="xs:string">
+            <Value>20420302</Value>
+          </Attribute>
+          <Attribute Name="eClassIRDI" AttributeDataType="xs:string" />
+          <Attribute Name="X" AttributeDataType="xs:integer">
+            <Value>560</Value>
+          </Attribute>
+          <Attribute Name="Y" AttributeDataType="xs:integer">
+            <Value>100</Value>
+          </Attribute>
+          <Attribute Name="RefID" AttributeDataType="xs:ID" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+		<InternalElement Name="OBIText" ID="33d637d3-1d6d-4ca1-b40d-56847a51a3e9" RefBaseSystemUnitPath="MTPHMISUCLib/VisualObject">
+        <Attribute Name="Width" AttributeDataType="xs:integer">
+          <Value>400</Value>
+        </Attribute>
+        <Attribute Name="Height" AttributeDataType="xs:integer">
+          <Value>200</Value>
+        </Attribute>
+        <Attribute Name="Rotation" AttributeDataType="xs:integer">
+          <Value>0</Value>
+        </Attribute>
+        <Attribute Name="ZIndex" AttributeDataType="xs:integer">
+          <Value>1</Value>
+        </Attribute>
+        <Attribute Name="eClassVersion" AttributeDataType="xs:string">
+          <Value>10.1</Value>
+        </Attribute>
+        <Attribute Name="eClassClassificationClass" AttributeDataType="xs:string">
+          <Value>27210390</Value>
+        </Attribute>
+        <Attribute Name="eClassIRDI" AttributeDataType="xs:string" />
+        <Attribute Name="X" AttributeDataType="xs:integer">
+          <Value>560</Value>
+        </Attribute>
+        <Attribute Name="Y" AttributeDataType="xs:integer">
+          <Value>350</Value>
+        </Attribute>
+        <Attribute Name="RefID" AttributeDataType="xs:ID">
+          <Value>0e169e83-c95f-4ef8-aad4-07fee093a334</Value>
+        </Attribute>
+      </InternalElement>
+      </InternalElement>
+      <InternalElement Name="Input" ID="8fe3c592-44b1-4c78-9cc2-1b299dce2fe9" RefBaseSystemUnitPath="MTPHMISUCLib/TopologyObject/Termination/Source">
+        <Attribute Name="X" AttributeDataType="xs:integer">
+          <Value>760</Value>
+        </Attribute>
+        <Attribute Name="Y" AttributeDataType="xs:integer">
+          <Value>50</Value>
+        </Attribute>
+        <Attribute Name="RefID" AttributeDataType="xs:ID" />
+        <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      </InternalElement>
+  </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <Description>Standard Automation Markup Language Interface Class Library - Part 1 Content extended with Part 3 and Part 4 Content</Description>
+    <Version>2.2.2</Version>
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="Order" RefBaseClassPath="AutomationMLBaseInterface">
+        <Attribute Name="Direction" AttributeDataType="xs:string" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="InterlockingConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="PPRConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="ExternalDataConnector">
+          <Attribute Name="refType" AttributeDataType="xs:string" />
+          <Attribute Name="target" AttributeDataType="xs:token" />
+        </InterfaceClass>
+        <InterfaceClass Name="PLCopenXMLInterface" RefBaseClassPath="ExternalDataConnector">
+          <InterfaceClass Name="LogicInterface" RefBaseClassPath="PLCopenXMLInterface">
+            <InterfaceClass Name="SequencingLogicInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/PLCopenXMLInterface/LogicInterface" />
+            <InterfaceClass Name="BehaviourLogicInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/PLCopenXMLInterface/LogicInterface" />
+            <InterfaceClass Name="SequencingBehaviourLogicInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/PLCopenXMLInterface/LogicInterface" />
+            <InterfaceClass Name="InterlockingLogicInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/PLCopenXMLInterface/LogicInterface" />
+          </InterfaceClass>
+          <InterfaceClass Name="LogicElementInterface" RefBaseClassPath="PLCopenXMLInterface" />
+          <InterfaceClass Name="VariableInterface" RefBaseClassPath="PLCopenXMLInterface">
+            <InterfaceClass Name="InterlockingVariableInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/PLCopenXMLInterface/VariableInterface">
+              <Attribute Name="SafeConditionEquals" AttributeDataType="xs:boolean">
+                <DefaultValue>true</DefaultValue>
+              </Attribute>
+            </InterfaceClass>
+          </InterfaceClass>
+        </InterfaceClass>
+      </InterfaceClass>
+      <InterfaceClass Name="Communication" RefBaseClassPath="AutomationMLBaseInterface">
+        <InterfaceClass Name="SignalInterface" RefBaseClassPath="Communication" />
+      </InterfaceClass>
+      <InterfaceClass Name="AttachmentInterface" RefBaseClassPath="AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <InterfaceClassLib Name="MTPCommunicationICLib">
+    <Description>InterfaceClassLibrary who contains the base interfaces of a MTP Communication Description</Description>
+    <InterfaceClass Name="DataItem">
+      <Description>InterfaceClass who represents the a common source item - all defined source items derive from SourceItem</Description>
+      <Attribute Name="Access" Unit="" AttributeDataType="xs:unsignedByte">
+        <Description>Bit Definition: [0] = NoAccess ; [1] = Read ; [2] = Write ; [3] = Read/Write</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <InterfaceClass Name="OPCUAItem" RefBaseClassPath="MTPCommunicationICLib/DataItem">
+        <Description>Base class for a opc ua data item</Description>
+        <Attribute Name="Identifier" Unit="" AttributeDataType="xs:string">
+          <Description>Identifier of the OPC UA Node - IdentifierType (depends on AttributeDataType): xs:string = string ; xs:ID = GUID ; xs:Base64Binary = ByteArray ; xs:int = Integer</Description>
+          <DefaultValue />
+          <Value />
+        </Attribute>
+        <Attribute Name="Namespace" Unit="" AttributeDataType="xs:string">
+          <Description>Namespace of the OPC UA Node</Description>
+          <DefaultValue />
+          <Value />
+        </Attribute>
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <InterfaceClassLib Name="MTPHMIICLib">
+    <Description>Library with all MTP HMI Interface Classes</Description>
+    <InterfaceClass Name="ConnectorInterface">
+      <Description>Abstract Connection Interface</Description>
+      <InterfaceClass Name="InformationFlowConnector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface">
+        <Description>Connection Point for internal Links between two different information ports</Description>
+      </InterfaceClass>
+      <InterfaceClass Name="MassFlowConnector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface">
+        <Description>Connection point for internal links between two different Nozzles</Description>
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <Description>Automation Markup Language Base Role Class Library - Part 1 Content extended with Part 3 and Part 4 Content</Description>
+    <Version>2.2.2</Version>
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Group" RefBaseClassPath="AutomationMLBaseRole">
+        <Attribute Name="AssociatedFacet" AttributeDataType="xs:string" />
+        <RoleClass Name="InterlockingSourceGroup" RefBaseClassPath="Group" />
+        <RoleClass Name="InterlockingTargetGroup" RefBaseClassPath="Group" />
+      </RoleClass>
+      <RoleClass Name="Facet" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRole">
+        <Attribute Name="Direction" AttributeDataType="xs:string" />
+        <Attribute Name="Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" />
+        <ExternalInterface Name="ConnectionPoint" ID="9942bd9c-c19d-44e4-a197-11b9edf264e7" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Product" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Process" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Structure" RefBaseClassPath="AutomationMLBaseRole">
+        <RoleClass Name="ProductStructure" RefBaseClassPath="Structure" />
+        <RoleClass Name="ProcessStructure" RefBaseClassPath="Structure" />
+        <RoleClass Name="ResourceStructure" RefBaseClassPath="Structure" />
+      </RoleClass>
+      <RoleClass Name="PropertySet" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Frame" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="LogicObject" RefBaseClassPath="AutomationMLBaseRole" />
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="MTPSUCLib">
+    <Description>SystemUnitClassLibrary who contains the base elements of a MTP Package</Description>
+    <SystemUnitClass Name="ModuleTypePackage">
+      <Description>SystemUnitClass who represents the entry point into a MTP Package</Description>
+      <Attribute Name="Version" Unit="" AttributeDataType="xs:string">
+        <Description>MTP Package Version</Description>
+        <DefaultValue>1.0</DefaultValue>
+        <Value />
+      </Attribute>
+      <InternalElement Name="CommunicationSet" RefBaseSystemUnitPath="MTPSUCLib/CommunicationSet" ID="92ba728f-f5cd-4b02-a758-364717736d82">
+        <InternalElement Name="SourceList" RefBaseSystemUnitPath="MTPSUCLib/CommunicationSet/SourceList" ID="0a66b62b-931c-49b3-8753-c3368a5980f1">
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <InternalElement Name="InstanceList" RefBaseSystemUnitPath="MTPSUCLib/CommunicationSet/InstanceList" ID="12ecf3f7-fe5a-4be4-afc9-c0949a4d4f6a">
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="MTPSet">
+      <Description>SystemUnitClass for the ServiceSet</Description>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="CommunicationSet" RefBaseClassPath="MTPSUCLib/MTPSet">
+      <Description>Base class for the MTP Communication Facet </Description>
+      <InternalElement Name="SourceList" RefBaseSystemUnitPath="MTPSUCLib/CommunicationSet/SourceList" ID="acf39f2c-0327-4d54-b32d-cb52a654766c">
+        <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      </InternalElement>
+      <InternalElement Name="InstanceList" RefBaseSystemUnitPath="MTPSUCLib/CommunicationSet/InstanceList" ID="ea6c0003-ba78-4cb2-8ab7-99a6ba86cb54">
+        <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      </InternalElement>
+      <SystemUnitClass Name="InstanceList">
+        <Description>SystemUnitClass for the List of DataAssemblies</Description>
+        <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      </SystemUnitClass>
+      <SystemUnitClass Name="SourceList">
+        <Description>SystemUnitClass for the List of Server Sources</Description>
+        <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="LinkedObject">
+      <Description>Base Class for CrossSet referencing of ObjectInstances</Description>
+      <Attribute Name="RefID" Unit="" AttributeDataType="xs:ID">
+        <Description>Reference ID - Relation of different data sets to a complete described Instance Object</Description>
+        <DefaultValue />
+        <Value />
+      </Attribute>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="MTPCommunicationSUCLib">
+    <Description>SystemUnitClassLibrary who contains the base elements of a MTP Communication Description</Description>
+    <SystemUnitClass Name="ServerAssembly">
+      <Description>SystemUnitClass who represents the a common source object - all defined sources derive from SourceAssembly</Description>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <SystemUnitClass Name="OPCUAServer" RefBaseClassPath="MTPCommunicationSUCLib/ServerAssembly">
+        <Description>Base class for all opc ua server instances inside the communication facets</Description>
+        <Attribute Name="Endpoint" Unit="" AttributeDataType="xs:string">
+          <Description>Endpoint URL of the server - like 'opc.tcp://192.186.2.1:5555</Description>
+          <DefaultValue />
+          <Value />
+        </Attribute>
+      </SystemUnitClass>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="MTPHMISUCLib">
+    <Description>SystemUnitClassLibrary who contains the base elements of a MTP HMI Description</Description>
+    <SystemUnitClass Name="HMISet" RefBaseClassPath="MTPSUCLib/MTPSet">
+      <Description>SystemUnitClass for the HMISet</Description>
+      <ExternalInterface Name="HMIReference" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" ID="f695ccaf-0fc3-409e-8d69-e678155fc073">
+        <Description>Reference Path to the HMI Description External Reference (xs:anyURI): 'Folder1/hmiFile.aml' Internal Reference (xs:anyURI): 'GUID/' </Description>
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+      </ExternalInterface>
+    </SystemUnitClass>
+    <SystemUnitClass Name="PortObject">
+      <Description>HMI Port Object Class</Description>
+      <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+        <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+        <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <SystemUnitClass Name="LogicalPort" RefBaseClassPath="MTPHMISUCLib/PortObject">
+        <Description>Logical Port Object</Description>
+        <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/InformationFlowConnector" ID="faa335a2-95a9-47a2-bf18-2475185ccb03" />
+      </SystemUnitClass>
+      <SystemUnitClass Name="MeasurementPoint" RefBaseClassPath="MTPHMISUCLib/PortObject">
+        <Description>Measurement Point Object</Description>
+        <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/InformationFlowConnector" ID="b7a2f18c-ef1f-46e9-8f69-9c0d2bc4c618" />
+      </SystemUnitClass>
+      <SystemUnitClass Name="Nozzle" RefBaseClassPath="MTPHMISUCLib/PortObject">
+        <Description>Nozzle Object</Description>
+        <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/MassFlowConnector" ID="51efe90a-33e7-418f-9f93-d7e5f53b3654" />
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="TopologyObject">
+      <Description>Topology Object</Description>
+      <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+        <Description>X-Coordinate of the Topology Object</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+        <Description>Y-Coordinates of the Topology Object</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <SystemUnitClass Name="Junction" RefBaseClassPath="MTPHMISUCLib/TopologyObject">
+        <Description>Junction Connection Object</Description>
+        <InternalElement Name="Nozzle1" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/Nozzle" ID="265673c5-32f6-4450-9167-97b27988df71">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/MassFlowConnector" ID="0da42215-b9a0-4e26-8aed-86b1867bac5d" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <InternalElement Name="Nozzle2" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/Nozzle" ID="680580a6-86e0-454d-875a-177126109230">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/MassFlowConnector" ID="4b6904e5-86e0-4d02-9aad-3078022b321d" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <InternalElement Name="Nozzle3" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/Nozzle" ID="00b5b9d6-f665-4256-949e-bf295f94b714">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/MassFlowConnector" ID="c982fca2-2b4a-4d00-87ee-ee502ac5016f" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+      </SystemUnitClass>
+      <SystemUnitClass Name="Termination" RefBaseClassPath="MTPHMISUCLib/TopologyObject">
+        <Description>Termination Connection Object</Description>
+        <Attribute Name="RefID" Unit="" AttributeDataType="xs:ID">
+          <Description>Reference of identical terminations</Description>
+          <DefaultValue />
+          <Value />
+        </Attribute>
+        <InternalElement Name="Nozzle" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/Nozzle" ID="c7c83640-2c04-4d8b-b85b-2e8dcd1b3785">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/MassFlowConnector" ID="ec2836ae-ac14-4cd7-a63e-ef108c34320b" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <SystemUnitClass Name="Sink" RefBaseClassPath="MTPHMISUCLib/TopologyObject/Termination">
+          <Description>Sink Connection Object</Description>
+          <InternalElement Name="Nozzle" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/Nozzle" ID="2dc19506-de77-4d90-9812-2ede2c2a9fe1">
+            <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+              <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+              <DefaultValue>0</DefaultValue>
+              <Value />
+            </Attribute>
+            <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+              <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+              <DefaultValue>0</DefaultValue>
+              <Value />
+            </Attribute>
+            <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/MassFlowConnector" ID="bec08ca7-95cc-4726-853e-088adbe8894c" />
+            <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+          </InternalElement>
+        </SystemUnitClass>
+        <SystemUnitClass Name="Source" RefBaseClassPath="MTPHMISUCLib/TopologyObject/Termination">
+          <Description>Source Connection Object</Description>
+          <InternalElement Name="Nozzle" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/Nozzle" ID="c66fa4c9-52f2-47f4-989e-d5b1560b08a2">
+            <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+              <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+              <DefaultValue>0</DefaultValue>
+              <Value />
+            </Attribute>
+            <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+              <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+              <DefaultValue>0</DefaultValue>
+              <Value />
+            </Attribute>
+            <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/MassFlowConnector" ID="cae8946b-2c77-4b86-846b-1aebc427319b" />
+            <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+          </InternalElement>
+        </SystemUnitClass>
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Connection">
+      <Description>HMI Connection Object</Description>
+      <Attribute Name="Edgepath" Unit="" AttributeDataType="xs:string">
+        <Description>Edgepath Notation x1,y1;x2,y2;x3,y3.. (including the start and end port coordinates in their absolute values)</Description>
+        <DefaultValue />
+        <Value />
+      </Attribute>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <SystemUnitClass Name="Pipe" RefBaseClassPath="MTPHMISUCLib/Connection">
+        <Description>Pipe Connection Object</Description>
+        <InternalElement Name="Nozzle1" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/Nozzle" ID="5de4d836-3220-41d8-bd31-6e2b0351d103">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/MassFlowConnector" ID="ab6fef00-dad3-4a77-a7d2-73dd444afa68" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <InternalElement Name="Nozzle2" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/Nozzle" ID="17448e63-f3e8-419c-ad13-df5fda034233">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/MassFlowConnector" ID="49c56a5c-14c8-4354-be57-0b17519ec5d0" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+      </SystemUnitClass>
+      <SystemUnitClass Name="FunctionLine" RefBaseClassPath="MTPHMISUCLib/Connection">
+        <Description>Function Line Object with a fixed direction from start to end port</Description>
+        <InternalElement Name="Start" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/LogicalPort" ID="4650dc52-7a16-422f-abc5-c69f0485589d">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/InformationFlowConnector" ID="035efa0c-0d8b-4b5b-a176-9a021a7017ed" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <InternalElement Name="End" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/LogicalPort" ID="aec37a57-89e1-4ed5-b5ae-e629743166e3">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/InformationFlowConnector" ID="0baa3d02-f467-4ad4-9f4b-3640d61f0871" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+      </SystemUnitClass>
+      <SystemUnitClass Name="MeasurementLine" RefBaseClassPath="MTPHMISUCLib/Connection">
+        <Description>Measurement Line Object</Description>
+        <InternalElement Name="Start" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/MeasurementPoint" ID="a6315fbc-1b60-4288-a0d3-a8a6bdaed8ba">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/InformationFlowConnector" ID="ccc1cc06-b19d-4459-ba86-993cd63d5155" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+        <InternalElement Name="End" RefBaseSystemUnitPath="MTPHMISUCLib/PortObject/MeasurementPoint" ID="c26e7734-9ba1-42b5-8744-2bd07f3c7ec3">
+          <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+            <Description>X-Coordinate of the Port relative to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+            <Description>Y-Coordinates of the Port relativ to the Parent Coordinates</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+          </Attribute>
+          <ExternalInterface Name="Connector" RefBaseClassPath="MTPHMIICLib/ConnectorInterface/InformationFlowConnector" ID="cbadb990-23b6-422f-8340-536c7b513b34" />
+          <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+        </InternalElement>
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Picture">
+      <Description>HMI Picture Object</Description>
+      <Attribute Name="Width" Unit="" AttributeDataType="xs:Integer">
+        <Description>Width of the Picture in Pixel</Description>
+        <DefaultValue>1920</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="Height" Unit="" AttributeDataType="xs:Integer">
+        <Description>Height of the Picture in Pixel</Description>
+        <DefaultValue>1080</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="HierarchyLevel" Unit="" AttributeDataType="xs:string">
+        <Description>Picture Hierarchy Level - formatted string : x.y.z</Description>
+        <DefaultValue />
+        <Value />
+      </Attribute>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="SemanticGroup">
+      <Description>HMI Semantic Group Object</Description>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="VisualObject" RefBaseClassPath="MTPSUCLib/LinkedObject">
+      <Description>HMI Visual Object - Visual Representation of a Data Assembly Structure</Description>
+      <Attribute Name="Width" Unit="" AttributeDataType="xs:integer">
+        <Description>Width of the Picture Item</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="Height" Unit="" AttributeDataType="xs:integer">
+        <Description>Height of the Picture Item</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="X" Unit="" AttributeDataType="xs:integer">
+        <Description>X-Coordinate of the Picture Item</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="Y" Unit="" AttributeDataType="xs:integer">
+        <Description>Y-Coordinates of the Picture Item</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="Rotation" Unit="" AttributeDataType="xs:integer">
+        <Description>Rotation Value of the Picture Item</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="ZIndex" Unit="" AttributeDataType="xs:integer">
+        <Description>ZIndex of Picture Item</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+      </Attribute>
+      <Attribute Name="eClassVersion" Unit="" AttributeDataType="xs:string">
+        <Description>The Attribute shall define the version of the eclass catalogue, which the eclass category is related to: i.E. ECLASS-{Major}.{Release} -&gt; ECLASS-1.0</Description>
+        <DefaultValue />
+        <Value />
+      </Attribute>
+      <Attribute Name="eClassClassificationClass" Unit="" AttributeDataType="xs:string">
+        <Description>The attrtibue shall define the version of the eclass classification class for the aml object. The value shall be the coded name of the classification class as 8-digit integer. Two digits for each hierarchical level</Description>
+        <DefaultValue />
+        <Value />
+      </Attribute>
+      <Attribute Name="eClassIRDI" Unit="" AttributeDataType="xs:string">
+        <Description>This attribute shall contain the IRDI of the Class - i.E. 0173-1---ADVANCED_1_1#01-ADN862#003</Description>
+        <DefaultValue />
+        <Value />
+      </Attribute>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="MTPDataObjectSUCLib">
+    <Description>SystemUnitClassLibrary from VDI/VDE/NAMUR 2658-3</Description>
+    <Version>0.1.0</Version>
+    <SystemUnitClass Name="DataAssembly" RefBaseClassPath="MTPSUCLib/LinkedObject">
+      <Description>MTP DataAssembly Object Class</Description>
+      <Version>0.1.0</Version>
+      <Attribute Name="TagName" Unit="" AttributeDataType="xs:string">
+        <Description>TagName Field (see TagName)</Description>
+        <DefaultValue />
+        <Value />
+        <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        <Attribute Name="aml-lang=EN-US" AttributeDataType="xs:string">
+          <Value>This is an Example </Value>
+        </Attribute>
+      </Attribute>
+      <Attribute Name="TagDescription" Unit="" AttributeDataType="xs:string">
+        <Description>TagDescription Field (see TagDescription)</Description>
+        <DefaultValue />
+        <Value />
+        <RefSemantic CorrespondingAttributePath="mtp:standard" />
+      </Attribute>
+      <Attribute Name="OSLevel" Unit="" AttributeDataType="xs:byte">
+        <Description>OSLevel Variable (see OSLevel)</Description>
+        <DefaultValue>0</DefaultValue>
+        <Value />
+        <RefSemantic CorrespondingAttributePath="mtp:standard" />
+      </Attribute>
+      <Attribute Name="WQC" Unit="" AttributeDataType="xs:byte">
+        <Description>Worst Quality Code Variable (see WQC)</Description>
+        <DefaultValue>255</DefaultValue>
+        <Value />
+        <RefSemantic CorrespondingAttributePath="mtp:standard" />
+      </Attribute>
+      <SystemUnitClass Name="AnaView" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP AnalogView Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="V" Unit="" AttributeDataType="xs:double">
+          <Description>Value</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VSclMin" Unit="" AttributeDataType="xs:double">
+          <Description>Value Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VSclMax" Unit="" AttributeDataType="xs:double">
+          <Description>Value Scale High Limit (see ScaleSettings)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VUnit" Unit="" AttributeDataType="xs:integer">
+          <Description>Value Unit (see UnitSettings)</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="AnaMon" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/AnaView">
+          <Description>MTP Analog Monitoring Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="VAHEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Alarm High Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VAHLim" Unit="" AttributeDataType="xs:double">
+            <Description>Limit Value for Alarm High</Description>
+            <DefaultValue>95.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VAHAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Alarm High Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWHEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Warning High Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWHLim" Unit="" AttributeDataType="xs:double">
+            <Description>Limit Value for Warning High</Description>
+            <DefaultValue>90.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWHAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Warning High Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTHEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Tolerance High Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTHLim" Unit="" AttributeDataType="xs:double">
+            <Description>Limit Value for Tolerance High</Description>
+            <DefaultValue>85.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTHAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Tolerance High Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTLEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Tolerance Low Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTLLim" Unit="" AttributeDataType="xs:double">
+            <Description>Limit Value for Tolerance Low</Description>
+            <DefaultValue>15.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTLAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Tolerance Low Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWLEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Warning Low Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWLLim" Unit="" AttributeDataType="xs:double">
+            <Description>Limit Value for Warning Low</Description>
+            <DefaultValue>10.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWLAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Warning Low Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VALEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Alarm Low Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VALLim" Unit="" AttributeDataType="xs:double">
+            <Description>Limit Value for Alarm Low</Description>
+            <DefaultValue>5.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VALAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Alarm Low Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="DigView" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP DigitalView Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="V" Unit="" AttributeDataType="xs:long">
+          <Description>Value</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VSclMin" Unit="" AttributeDataType="xs:long">
+          <Description>Value Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VSclMax" Unit="" AttributeDataType="xs:long">
+          <Description>Value Scale High Limit (see ScaleSettings)</Description>
+          <DefaultValue>100</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VUnit" Unit="" AttributeDataType="xs:integer">
+          <Description>Value Unit (see UnitSettings)</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="DigMon" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/DigView">
+          <Description>MTP Digital Monitoring Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="VAHEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Alarm High Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VAHLim" Unit="" AttributeDataType="xs:long">
+            <Description>Limit Value for Alarm High</Description>
+            <DefaultValue>95</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VAHAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Alarm High Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWHEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Warning High Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWHLim" Unit="" AttributeDataType="xs:long">
+            <Description>Limit Value for Warning High</Description>
+            <DefaultValue>90</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWHAct" Unit="" AttributeDataType="xs:boolean">
+            <Value />
+            <DefaultValue>false</DefaultValue>
+            <Description>Warning High Active</Description>
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTHEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Tolerance High Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTHLim" Unit="" AttributeDataType="xs:long">
+            <Description>Limit Value for Tolerance High</Description>
+            <DefaultValue>85</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTHAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Tolerance High Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTLEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Tolerance Low Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTLLim" Unit="" AttributeDataType="xs:long">
+            <Description>Limit Value for Tolerance Low</Description>
+            <DefaultValue>15</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VTLAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Tolerance Low Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWLEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Warning Low Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWLLim" Unit="" AttributeDataType="xs:long">
+            <Description>Limit Value for Warning Low</Description>
+            <DefaultValue>10</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VWLAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Warning Low Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VALEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Alarm Low Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VALLim" Unit="" AttributeDataType="xs:long">
+            <Description>Limit Value for Alarm Low</Description>
+            <DefaultValue>5</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VALAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Alarm Low Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="BinView" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP BinView Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="V" Unit="" AttributeDataType="xs:boolean">
+          <Description>Binary Value</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VState0" Unit="" AttributeDataType="xs:string">
+          <Description>Text Replacement for false</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VState1" Unit="" AttributeDataType="xs:string">
+          <Description>Text Replacement for true</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="BinMon" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/BinView">
+          <Description>MTP Binary Monitoring Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="VFlutEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Fluttering Recognition</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VFlutTi" Unit="seconds" AttributeDataType="xs:double">
+            <Description>Period of an active signal before it will be recognized as flutter-free</Description>
+            <DefaultValue>10.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VFlutCnt" Unit="" AttributeDataType="xs:integer">
+            <Description>Counts of the allowed fluttering signals in the defined period FlutTi</Description>
+            <DefaultValue>5</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VFlutAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Fluttering Signal recognized</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="ExtAnaOp" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP ExtAnaOp Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="VOut" Unit="" AttributeDataType="xs:double">
+          <Description>Value Output</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VSclMin" Unit="" AttributeDataType="xs:double">
+          <Description>Value Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VSclMax" Unit="" AttributeDataType="xs:double">
+          <Description>Value Scale High Limit (see ScaleSettings)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VUnit" Unit="" AttributeDataType="xs:integer">
+          <Description>Value Unit (see UnitSettings)</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VMin" Unit="" AttributeDataType="xs:double">
+          <Description>Value Low Limit (see ValueLimitation)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VMax" Unit="" AttributeDataType="xs:double">
+          <Description>Value High Limit (see ValueLimitation)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VExt" Unit="" AttributeDataType="xs:double">
+          <Description>Strategy Parameter Value from External Source (external-automatic)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VRbk" Unit="" AttributeDataType="xs:double">
+          <Description>Readback Value</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="ExtIntAnaOp" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/ExtAnaOp">
+          <Description>MTP ExtIntAnaOp Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="VExt" Unit="" AttributeDataType="xs:double">
+            <Description>External Value (relevant, if external source is active, see OperationMode) </Description>
+            <DefaultValue>0.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VInt" Unit="" AttributeDataType="xs:double">
+            <Description>Internal Value (relevant, if internal source is active, see OperationMode)</Description>
+            <DefaultValue>0.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+            <Description>Operation Mode Mask (see OperationMode, only Source Mode used)</Description>
+            <DefaultValue>16384</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <SystemUnitClass Name="AdvAnaOp" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/ExtAnaOp/ExtIntAnaOp">
+            <Description>MTP AdvAnaOp Object Class</Description>
+            <Version>0.1.0</Version>
+            <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+              <Description>Operation Mode Mask (see OperationMode, BaseOperation and Source Mode used)</Description>
+              <DefaultValue>16400</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <SystemUnitClass Name="AnaServParam" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/ExtAnaOp/ExtIntAnaOp/AdvAnaOp">
+              <Description>MTP Strategy Analog Parameter Object Class for cross-vendor approach</Description>
+              <AdditionalInformation>cross-vendor approach for ACHEMA 2018</AdditionalInformation>
+              <Attribute Name="VOp" Unit="" AttributeDataType="xs:double">
+                <Description>Strategy Parameter Value from Operator Source (manual)</Description>
+                <DefaultValue>0.0</DefaultValue>
+                <Value />
+                <RefSemantic CorrespondingAttributePath="mtp:standard" />
+              </Attribute>
+              <Attribute Name="Sync" AttributeDataType="xs:boolean" />
+            </SystemUnitClass>
+          </SystemUnitClass>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="ExtDigOp" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP ExtDigOp Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="VOut" Unit="" AttributeDataType="xs:long">
+          <Description>Value Output</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VSclMin" Unit="" AttributeDataType="xs:long">
+          <Description>Value Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VSclMax" Unit="" AttributeDataType="xs:long">
+          <Description>Value Scale High Limit (see ScaleSettings)</Description>
+          <DefaultValue>100</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VUnit" Unit="" AttributeDataType="xs:integer">
+          <Description>Value Unit (see UnitSettings)</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VMin" Unit="" AttributeDataType="xs:long">
+          <Description>Value Low Limit (see ValueLimitation)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VMax" Unit="" AttributeDataType="xs:long">
+          <Description>Value High Limit (see ValueLimitation)</Description>
+          <DefaultValue>100</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VExt" Unit="" AttributeDataType="xs:long">
+          <Description>Strategy Parameter Value from External Source (external-automatic)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VRbk" Unit="" AttributeDataType="xs:long">
+          <Description>Readback Value</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="ExtIntDigOp" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/ExtDigOp">
+          <Description>MTP clsExtIntDigOp Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="VExt" Unit="" AttributeDataType="xs:long">
+            <Description>External Value (relevant, if external source is active, see OperationMode) </Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VInt" Unit="" AttributeDataType="xs:long">
+            <Description>Internal Value (relevant, if internal source is active, see OperationMode)</Description>
+            <DefaultValue>0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+            <Description>Operation Mode Mask (see OperationMode, only Source Mode used)</Description>
+            <DefaultValue>16384</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <SystemUnitClass Name="AdvDigOp" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/ExtDigOp/ExtIntDigOp">
+            <Description>MTP AdvDigOp Object Class</Description>
+            <Version>0.1.0</Version>
+            <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+              <Description>Operation Mode Mask (see OperationMode, BaseOperation and Source Mode used)</Description>
+              <DefaultValue>16400</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <SystemUnitClass Name="DigServParam" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/ExtDigOp/ExtIntDigOp/AdvDigOp">
+              <Description>MTP Strategy Digital Parameter Object Class for cross-vendor approach</Description>
+              <AdditionalInformation>cross-vendor approach for ACHEMA 2018</AdditionalInformation>
+              <Attribute Name="VOp" Unit="" AttributeDataType="xs:unsingedLong">
+                <Description>Strategy Parameter Value from Operator Source (manual)</Description>
+                <DefaultValue>0</DefaultValue>
+                <Value />
+                <RefSemantic CorrespondingAttributePath="mtp:standard" />
+              </Attribute>
+              <Attribute Name="Sync" AttributeDataType="xs:boolean" />
+            </SystemUnitClass>
+          </SystemUnitClass>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="ExtBinOp" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP External Binary Operation Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="VOut" Unit="" AttributeDataType="xs:boolean">
+          <Description>Binary Value Output</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VState0" Unit="" AttributeDataType="xs:string">
+          <Description>Text Replacement for false</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VState1" Unit="" AttributeDataType="xs:string">
+          <Description>Text Replacement for true</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="VExt" Unit="" AttributeDataType="xs:boolean">
+          <Description>External Value</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="ExtIntBinOp" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/ExtBinOp">
+          <Description>MTP External Internal Operation Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="VExt" Unit="" AttributeDataType="xs:boolean">
+            <Description>External Value (relevant, if external source is active, see OperationMode) </Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="VInt" Unit="" AttributeDataType="xs:boolean">
+            <Description>Internal Value (relevant, if internal source is active, see OperationMode)</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+            <Description>Operation Mode Mask (see OperationMode, only Source Mode used)</Description>
+            <DefaultValue>16384</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <SystemUnitClass Name="AdvBinOp" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/ExtBinOp/ExtIntBinOp">
+            <Description>MTP Advanced Binary Operation Object Class</Description>
+            <Version>0.1.0</Version>
+            <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+              <Description>Operation Mode Mask (see OperationMode, BaseOperation and Source Mode used)</Description>
+              <DefaultValue>16400</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <SystemUnitClass Name="BinServParam" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/ExtBinOp/ExtIntBinOp/AdvBinOp">
+              <Description>MTP Strategy Binary Parameter Object Class for cross-vendor approach</Description>
+              <AdditionalInformation>cross-vendor approach for ACHEMA 2018</AdditionalInformation>
+              <Attribute Name="VOp" Unit="" AttributeDataType="xs:boolean">
+                <Description>Strategy Parameter Value from Operator Source (manual)</Description>
+                <DefaultValue>false</DefaultValue>
+                <Value />
+                <RefSemantic CorrespondingAttributePath="mtp:standard" />
+              </Attribute>
+              <Attribute Name="Sync" AttributeDataType="xs:boolean" />
+            </SystemUnitClass>
+          </SystemUnitClass>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="PIDCtrl" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP PID Controller Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+          <Description>Operation Mode Mask (see OeprationModes, ExtendedOperation - and SourceMode used)</Description>
+          <DefaultValue>16640</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PV" Unit="" AttributeDataType="xs:double">
+          <Description>Process Value</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PVSclMin" Unit="" AttributeDataType="xs:double">
+          <Description>Process Value Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PVSclMax" Unit="" AttributeDataType="xs:double">
+          <Description>Process Value Scale High Limit (see ScaleSettings)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PVUnit" Unit="" AttributeDataType="xs:integer">
+          <Description>Process Value Unit (see UnitSettings)</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SP" Unit="" AttributeDataType="xs:double">
+          <Description>Setpoint</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SPSclMin" Unit="" AttributeDataType="xs:double">
+          <Description>Setpoint Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SPSclMax" Unit="" AttributeDataType="xs:double">
+          <Description>Setpoint Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SPUnit" Unit="" AttributeDataType="xs:integer">
+          <Description>Setpoint Unit (see UnitSettings)</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SPExtMin" Unit="" AttributeDataType="xs:double">
+          <Description>External Setpoint Low Limit (see ValueLimitation)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SPExtMax" Unit="" AttributeDataType="xs:double">
+          <Description>External Setpoint High Limit (see ValueLimitation)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SPExt" Unit="" AttributeDataType="xs:double">
+          <Description>External Setpoint</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SPIntMin" Unit="" AttributeDataType="xs:double">
+          <Description>Internal Setpoint Low Limit (see ValueLimitation)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SPIntMax" Unit="" AttributeDataType="xs:double">
+          <Description>Internal Setpoint High Limit (see ValueLimitation)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SPInt" Unit="" AttributeDataType="xs:double">
+          <Description>Internal Setpoint</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="MVOp" Unit="" AttributeDataType="xs:double">
+          <Description>Manipulated Value from Operator</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="MV" Unit="" AttributeDataType="xs:double">
+          <Description>Manipulated Value</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="MVMin" Unit="" AttributeDataType="xs:double">
+          <Description>Minimal Manipulated Value (see ValueLimitation)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="MVMax" Unit="" AttributeDataType="xs:double">
+          <Description>Maximal Manipulated Value (see ValueLimitation)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="MVSclMin" Unit="" AttributeDataType="xs:double">
+          <Description>Manipulated Value Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="MVSclMax" Unit="" AttributeDataType="xs:double">
+          <Description>Manipulated Value Scale High Limit (see ScaleSettings)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="MVUnit" Unit="" AttributeDataType="xs:integer">
+          <Description>Manipulated Value Unit (see UnitSettings)</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="P" Unit="" AttributeDataType="xs:double">
+          <Description>Propotional Parameter</Description>
+          <DefaultValue>1.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Ts" Unit="" AttributeDataType="xs:double">
+          <Description>Integration Parameter</Description>
+          <DefaultValue>1.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Td" Unit="" AttributeDataType="xs:double">
+          <Description>Derivation Parameter</Description>
+          <DefaultValue>1.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+      </SystemUnitClass>
+      <SystemUnitClass Name="BinDrv" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP BinDrv Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+          <Description>Operation Mode Mask (see OeprationModes, ExtendedOperation used)</Description>
+          <DefaultValue>256</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="StopOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Stop Command from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Command from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Command from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="StopLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Stop Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdCtrl" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Control</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevCtrl" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Control</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdFbkEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Feedback Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdFbk" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Feedback Signal</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevFbkEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Feedback Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevFbk" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Feedback Signal</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SafePos" Unit="" AttributeDataType="xs:boolean">
+          <Description>Safe Position</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Trip" Unit="" AttributeDataType="xs:boolean">
+          <Description>Drive Protection Indicator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PermEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Permit Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Permit" Unit="" AttributeDataType="xs:boolean">
+          <Description>Permit locks the Entity to be activated</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="IntlEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Interlock Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Interlock" Unit="" AttributeDataType="xs:boolean">
+          <Description>Interlock locks the Entity to the safe state</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ProtEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Protect Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Protect" Unit="" AttributeDataType="xs:boolean">
+          <Description>Protect locks the Entity to the safe state – a reset is required</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ResetLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reset from internal link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ResetOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reset from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="MonBinDrv" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/BinDrv">
+          <Description>MTP MonBinDrv Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="MonEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Monitor Enable</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonSafePos" Unit="" AttributeDataType="xs:boolean">
+            <Description>Monitor SafePos</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonStatErr" Unit="" AttributeDataType="xs:boolean">
+            <Description>Static Error active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonDynErr" Unit="" AttributeDataType="xs:boolean">
+            <Description>Dynamic Error active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonStatTi" Unit="seconds" AttributeDataType="xs:double">
+            <Description>Monitoring Time for uncontrolled changes</Description>
+            <DefaultValue>3.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonDynTi" Unit="seconds" AttributeDataType="xs:double">
+            <Description>Monitoring Time for controlled changes</Description>
+            <DefaultValue>3.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="AnaDrv" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP AnaDrv Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+          <Description>Operation Mode Mask (see OeprationModes, ExtendedOperation - and SourceMode used)</Description>
+          <DefaultValue>16640</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="StopOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Stop Command from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Command from Operator</Description>
+          <DefaultValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="AttributeFamilyType">false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Command from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="StopLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Stop Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdCtrl" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Control</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevCtrl" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Control</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdFbkEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Feedback Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="FwdFbk" Unit="" AttributeDataType="xs:boolean">
+          <Description>Forward Feedack Signal</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevFbkEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Feedback Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RevFbk" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reverse Feedback Signal</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SafePos" Unit="" AttributeDataType="xs:boolean">
+          <Description>Safe Position</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Trip" Unit="" AttributeDataType="xs:boolean">
+          <Description>Drive Protection Indicator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Rpm" Unit="" AttributeDataType="xs:double">
+          <Description>RPM Setpoint</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RpmSclMin" Unit="" AttributeDataType="xs:double">
+          <Description>RPM Setpoint Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RpmSclMax" Unit="" AttributeDataType="xs:double">
+          <Description>RPM Setpoint Scale High Limit (see ScaleSettings)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RpmUnit" Unit="" AttributeDataType="xs:integer">
+          <Description>RPM Setpoint Unit (see UnitSettings)</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RpmMin" Unit="" AttributeDataType="xs:double">
+          <Description>RPM Setpoint Low Limit (see ValueLimitation)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RpmMax" Unit="" AttributeDataType="xs:double">
+          <Description>RPM Setpoint High Limit (see ValueLimitation)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RpmExt" Unit="" AttributeDataType="xs:double">
+          <Description>RPM External Setpoint</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RpmInt" Unit="" AttributeDataType="xs:double">
+          <Description>RPM Internal Setpoint</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="RpmFbk" Unit="" AttributeDataType="xs:double">
+          <Description>RPM Feedback Signal</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PermEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Permit Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Permit" Unit="" AttributeDataType="xs:boolean">
+          <Description>Permit locks the Entity to be activated</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="IntlEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Interlock Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Interlock" Unit="" AttributeDataType="xs:boolean">
+          <Description>Interlock locks the Entity to the safe state</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ProtEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Protect Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Protect" Unit="" AttributeDataType="xs:boolean">
+          <Description>Protect locks the Entity to the safe state – a reset is required</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ResetLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reset from internal link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ResetOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reset from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="MonAnaDrv" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/AnaDrv">
+          <Description>MTP MonAnaDrv Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="MonEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Monitor Enable</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonSafePos" Unit="" AttributeDataType="xs:boolean">
+            <Description>Monitor SafePos</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonStatErr" Unit="" AttributeDataType="xs:boolean">
+            <Description>Static Error active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonDynErr" Unit="" AttributeDataType="xs:boolean">
+            <Description>Dynamic Error active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonStatTi" Unit="s" AttributeDataType="xs:double">
+            <Description>Monitoring Time for uncontrolled changes</Description>
+            <DefaultValue>3.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonDynTi" Unit="s" AttributeDataType="xs:double">
+            <Description>Monitoring Time for controlled changes</Description>
+            <DefaultValue>3.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="RpmAHEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Alarm High Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="RpmAHLim" Unit="" AttributeDataType="xs:double">
+            <Description>Limit Value for Alarm High</Description>
+            <DefaultValue>98.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="RpmAHAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Alarm High Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="RpmALEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Enable Alarm Low Limit</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="RpmALLim" Unit="" AttributeDataType="xs:double">
+            <Description>Limit Value for Alarm Low</Description>
+            <DefaultValue>2.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="RpmALAct" Unit="" AttributeDataType="xs:boolean">
+            <Description>Alarm Low Active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="RpmErr" Unit="" AttributeDataType="xs:double">
+            <Description>RPM Error</Description>
+            <DefaultValue>2.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="StartingFbk" Unit="" AttributeDataType="xs:boolean">
+            <Description>Starting Feedback</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="StoppingFbk" Unit="" AttributeDataType="xs:boolean">
+            <Description>Stopping Feedback</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="BinVlv" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP BinVlv Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+          <Description>Operation Mode Mask (see OeprationModes, ExtendedOperation used)</Description>
+          <DefaultValue>256</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SafePos" Unit="" AttributeDataType="xs:boolean">
+          <Description>Safe Position</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="OpenFbkEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Open Feedback Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="CloseFbkEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Close Feedback Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="OpenOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Open Command from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="CloseOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Close Command from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="OpenLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Open Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="CloseLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Close Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Ctrl" Unit="" AttributeDataType="xs:boolean">
+          <Description>Valve Control</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="OpenFbk" Unit="" AttributeDataType="xs:boolean">
+          <Description>Open Feedback Signal</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="CloseFbk" Unit="" AttributeDataType="xs:boolean">
+          <Description>Close Feedback Signal</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PermEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Permit Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Permit" Unit="" AttributeDataType="xs:boolean">
+          <Description>Permit - Avoid to activate the valve</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="IntlEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Interlock Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Interlock" Unit="" AttributeDataType="xs:boolean">
+          <Description>Interlock - Activate Safe Pos, locks the control interface without reset</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ProtEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Protect Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Protect" Unit="" AttributeDataType="xs:boolean">
+          <Description>Protect - Activate Safe Pos, locks the control interface, reset required</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ResetLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reset from internal link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ResetOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reset from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="MonBinVlv" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/BinVlv">
+          <Description>MTP MonBinVlv Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="MonEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Monitor Enable</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonSafePos" Unit="" AttributeDataType="xs:boolean">
+            <Description>Set the Error Behaviour, if an error occurs</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonStatErr" Unit="" AttributeDataType="xs:boolean">
+            <Description>Static Error active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonDynErr" Unit="" AttributeDataType="xs:boolean">
+            <Description>Dynamic Error active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonStatTi" Unit="s" AttributeDataType="xs:double">
+            <Description>Monitoring Time for uncontrolled changes</Description>
+            <DefaultValue>3.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonDynTi" Unit="s" AttributeDataType="xs:double">
+            <Description>Monitoring Time for controlled changes</Description>
+            <DefaultValue>3.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="AnaVlv" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP AnaVlv Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+          <Description>Operation Mode Mask (see OeprationModes, ExtendedOperation - and SourceMode used)</Description>
+          <DefaultValue>16640</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="SafePos" Unit="" AttributeDataType="xs:boolean">
+          <Description>Safe Position</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="OpenFbkEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Open Feedback Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="CloseFbkEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Close Feedback Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="OpenOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Open Command from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="CloseOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Close Command from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="OpenLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Open Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="CloseLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Close Command from Internal Link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Ctrl" Unit="" AttributeDataType="xs:boolean">
+          <Description>Valve Control</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="OpenFbk" Unit="" AttributeDataType="xs:boolean">
+          <Description>Open Feedack Signal</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="CloseFbk" Unit="" AttributeDataType="xs:boolean">
+          <Description>Close Feedback Signal</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosCtrl" Unit="" AttributeDataType="xs:double">
+          <Description>Position Setpoint</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosSclMin" Unit="" AttributeDataType="xs:double">
+          <Description>Position Setpoint Scale Low Limit (see ScaleSettings)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosSclMax" Unit="" AttributeDataType="xs:double">
+          <Description>Position Setpoint Scale High Limit (see ScaleSettings)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosUnit" Unit="" AttributeDataType="xs:integer">
+          <Description>Position Setpoint Unit (see UnitSettings)</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosMin" Unit="" AttributeDataType="xs:double">
+          <Description>Position Setpoint Low Limit (see ValueLimitation)</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosMax" Unit="" AttributeDataType="xs:double">
+          <Description>Position Setpoint High Limit (see ValueLimitation)</Description>
+          <DefaultValue>100.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosExt" Unit="" AttributeDataType="xs:double">
+          <Description>Position External Setpoint</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosInt" Unit="" AttributeDataType="xs:double">
+          <Description>Position Internal Setpoint</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosFbkEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Position Feedback Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PosFbk" Unit="" AttributeDataType="xs:double">
+          <Description>Position Feedack Signal</Description>
+          <DefaultValue>0.0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="PermEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Permit Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Permit" Unit="" AttributeDataType="xs:boolean">
+          <Description>Permit - Avoid to activate the valve</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="IntlEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Interlock Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Interlock" Unit="" AttributeDataType="xs:boolean">
+          <Description>Interlock - Activate Safe Pos, locks the control interface without reset</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ProtEn" Unit="" AttributeDataType="xs:boolean">
+          <Description>Protect Enable</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Protect" Unit="" AttributeDataType="xs:boolean">
+          <Description>Protect - Activate Safe Pos, locks the control interface, reset required</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ResetLi" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reset from internal link</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ResetOp" Unit="" AttributeDataType="xs:boolean">
+          <Description>Reset from Operator</Description>
+          <DefaultValue>false</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="MonAnaVlv" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/AnaVlv">
+          <Description>MTP MonAnaVlv Object Class</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="MonEn" Unit="" AttributeDataType="xs:boolean">
+            <Description>Monitor Enable</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonSafePos" Unit="" AttributeDataType="xs:boolean">
+            <Description>Set the Error Behaviour, if an error occurs</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonStatErr" Unit="" AttributeDataType="xs:boolean">
+            <Description>Static Error active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonDynErr" Unit="" AttributeDataType="xs:boolean">
+            <Description>Dynamic Error active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonStatTi" Unit="s" AttributeDataType="xs:double">
+            <Description>Monitoring Time for uncontrolled changes</Description>
+            <DefaultValue>3.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonDynTi" Unit="s" AttributeDataType="xs:double">
+            <Description>Monitoring Time for controlled changes</Description>
+            <DefaultValue>3.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="PosOpngFbk" Unit="" AttributeDataType="xs:boolean">
+            <Description>Position is changing to open</Description>
+            <DefaultValue>false</DefaultValue>
+            <w:Value xmlns:w="urn:wrong" />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="PosClsngFbk" Unit="" AttributeDataType="xs:boolean">
+            <Description>Position is changing to close</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="PosReachedFbk" Unit="" AttributeDataType="xs:boolean">
+            <Description>Position reached</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="PosTolerance" Unit="" AttributeDataType="xs:double">
+            <Description>Positon Tolerance for Calculation</Description>
+            <DefaultValue>1.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="PosDefClose" Unit="" AttributeDataType="xs:double">
+            <Description>Position to define close position</Description>
+            <DefaultValue>1.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="PosDefOpen" Unit="" AttributeDataType="xs:double">
+            <Description>Position to define open position</Description>
+            <DefaultValue>99.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonPosTi" Unit="s" AttributeDataType="xs:double">
+            <Description>Monitoring Time until position is reached</Description>
+            <DefaultValue>3.0</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="MonPosErr" Unit="" AttributeDataType="xs:boolean">
+            <Description>Position Error active</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="OpenFbk" Unit="" AttributeDataType="xs:boolean">
+            <Description>Position Open achieved</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="CloseFbk" Unit="" AttributeDataType="xs:boolean">
+            <Description>Position Close achieved</Description>
+            <DefaultValue>false</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="LockView4" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP Interlock View Object Class with 4 Inputs</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="Logic" Unit="" AttributeDataType="xs:boolean">
+          <Description>Logical Behavior</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In1En" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 1 - Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In1" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 1 - Value</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In1QC" Unit="" AttributeDataType="xs:byte">
+          <Description>Locking Input 1 - Quality Code</Description>
+          <DefaultValue>255</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In1Inv" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 1 - Invertation Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In1Txt" Unit="" AttributeDataType="xs:string">
+          <Description>Locking Input 1 - Additional Text</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In2En" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 2 - Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In2" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 2 - Value</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In2QC" Unit="" AttributeDataType="xs:byte">
+          <Description>Locking Input 2 - Quality Code</Description>
+          <DefaultValue>255</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In2Inv" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 2 - Invertation Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In2Txt" Unit="" AttributeDataType="xs:string">
+          <Description>Locking Input 2 - Additional Text</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In3En" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 3 - Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In3" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 3 - Value</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In3QC" Unit="" AttributeDataType="xs:byte">
+          <Description>Locking Input 3 - Quality Code</Description>
+          <DefaultValue>255</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In3Inv" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 3 - Invertation Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In3Txt" Unit="" AttributeDataType="xs:string">
+          <Description>Locking Input 3 - Additional Text</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In4En" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 4 - Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In4" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 4 - Value</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In4QC" Unit="" AttributeDataType="xs:byte">
+          <Description>Locking Input 4 - Quality Code</Description>
+          <DefaultValue>255</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In4Inv" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Input 4 - Invertation Enable</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="In4Txt" Unit="" AttributeDataType="xs:string">
+          <Description>Locking Input 4 - Additional Text</Description>
+          <DefaultValue />
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="Out" Unit="" AttributeDataType="xs:boolean">
+          <Description>Locking Result Output - Value</Description>
+          <DefaultValue>true</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="OutQC" Unit="" AttributeDataType="xs:byte">
+          <Description>Locking Result Output - Quality Code</Description>
+          <DefaultValue>255</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <SystemUnitClass Name="LockView8" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/LockView4">
+          <Description>MTP Interlock View Object Class with 8 Inputs</Description>
+          <Version>0.1.0</Version>
+          <Attribute Name="In5En" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 5 - Enable</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In5" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 5 - Value</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In5QC" Unit="" AttributeDataType="xs:byte">
+            <Description>Locking Input 5 - Quality Code</Description>
+            <DefaultValue>255</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In5Inv" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 5 - Invertation Enable</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In5Txt" Unit="" AttributeDataType="xs:string">
+            <Description>Locking Input 5 - Additional Text</Description>
+            <DefaultValue />
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In6En" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 6 - Enable</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In6" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 6 - Value</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In6QC" Unit="" AttributeDataType="xs:byte">
+            <Description>Locking Input 6 - Quality Code</Description>
+            <DefaultValue>255</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In6Inv" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 6 - Invertation Enable</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In6Txt" Unit="" AttributeDataType="xs:string">
+            <Description>Locking Input 6 - Additional Text</Description>
+            <DefaultValue />
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In7En" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 7 - Enable</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In7" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 7 - Value</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In7QC" Unit="" AttributeDataType="xs:byte">
+            <Description>Locking Input 7 - Quality Code</Description>
+            <DefaultValue>255</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In7Inv" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 7 - Invertation Enable</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In7Txt" Unit="" AttributeDataType="xs:string">
+            <Description>Locking Input 7 - Additional Text</Description>
+            <DefaultValue />
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In8En" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 8 - Enable</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In8" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 8 - Value</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In8QC" Unit="" AttributeDataType="xs:byte">
+            <Description>Locking Input 8 - Quality Code</Description>
+            <DefaultValue>255</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In8Inv" Unit="" AttributeDataType="xs:boolean">
+            <Description>Locking Input 8 - Invertation Enable</Description>
+            <DefaultValue>true</DefaultValue>
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <Attribute Name="In8Txt" Unit="" AttributeDataType="xs:string">
+            <Description>Locking Input 8 - Additional Text</Description>
+            <DefaultValue />
+            <Value />
+            <RefSemantic CorrespondingAttributePath="mtp:standard" />
+          </Attribute>
+          <SystemUnitClass Name="LockView16" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly/LockView4/LockView8">
+            <Description>MTP Interlock View Object Class with 16 Inputs</Description>
+            <Version>0.1.0</Version>
+            <Attribute Name="In9En" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 9 - Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In9" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 9 - Value</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In9QC" Unit="" AttributeDataType="xs:byte">
+              <Description>Locking Input 9 - Quality Code</Description>
+              <DefaultValue>255</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In9Inv" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 9 - Invertation Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In9Txt" Unit="" AttributeDataType="xs:string">
+              <Description>Locking Input 9 - Additional Text</Description>
+              <DefaultValue />
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In10En" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 10 - Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In10" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 10 - Value</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In10QC" Unit="" AttributeDataType="xs:byte">
+              <Description>Locking Input 10 - Quality Code</Description>
+              <DefaultValue>255</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In10Inv" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 10 - Invertation Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In10Txt" Unit="" AttributeDataType="xs:string">
+              <Description>Locking Input 10 - Additional Text</Description>
+              <DefaultValue />
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In11En" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 11 - Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In11" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 11 - Value</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In11QC" Unit="" AttributeDataType="xs:byte">
+              <Description>Locking Input 11 - Quality Code</Description>
+              <DefaultValue>255</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In11Inv" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 11 - Invertation Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In11Txt" Unit="" AttributeDataType="xs:string">
+              <Description>Locking Input 11 - Additional Text</Description>
+              <DefaultValue />
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In12En" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 12 - Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In12" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 12 - Value</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In12QC" Unit="" AttributeDataType="xs:byte">
+              <Description>Locking Input 12 - Quality Code</Description>
+              <DefaultValue>255</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In12Inv" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 12 - Invertation Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In12Txt" Unit="" AttributeDataType="xs:string">
+              <Description>Locking Input 12 - Additional Text</Description>
+              <DefaultValue />
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In13En" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 13 - Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In13" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 13 - Value</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In13QC" Unit="" AttributeDataType="xs:byte">
+              <Description>Locking Input 13 - Quality Code</Description>
+              <DefaultValue>255</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In13Inv" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 13 - Invertation Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In13Txt" Unit="" AttributeDataType="xs:string">
+              <Description>Locking Input 13 - Additional Text</Description>
+              <DefaultValue />
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In14En" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 14 - Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In14" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 14 - Value</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In14QC" Unit="" AttributeDataType="xs:byte">
+              <Description>Locking Input 14 - Quality Code</Description>
+              <DefaultValue>255</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In14Inv" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 14 - Invertation Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In14Txt" Unit="" AttributeDataType="xs:string">
+              <Description>Locking Input 14 - Additional Text</Description>
+              <DefaultValue />
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In15En" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 15 - Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In15" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 15 - Value</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In15QC" Unit="" AttributeDataType="xs:byte">
+              <Description>Locking Input 15 - Quality Code</Description>
+              <DefaultValue>255</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In15Inv" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 15 - Invertation Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In15Txt" Unit="" AttributeDataType="xs:string">
+              <Description>Locking Input 15 - Additional Text</Description>
+              <DefaultValue />
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In16En" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 16 - Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In16" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 16 - Value</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In16QC" Unit="" AttributeDataType="xs:byte">
+              <Description>Locking Input 16 - Quality Code</Description>
+              <DefaultValue>255</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In16Inv" Unit="" AttributeDataType="xs:boolean">
+              <Description>Locking Input 16 - Invertation Enable</Description>
+              <DefaultValue>true</DefaultValue>
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+            <Attribute Name="In16Txt" Unit="" AttributeDataType="xs:string">
+              <Description>Locking Input 16 - Additional Text</Description>
+              <DefaultValue />
+              <Value />
+              <RefSemantic CorrespondingAttributePath="mtp:standard" />
+            </Attribute>
+          </SystemUnitClass>
+        </SystemUnitClass>
+      </SystemUnitClass>
+      <SystemUnitClass Name="StrView" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP String View Object Class</Description>
+        <Version>0.1.0</Version>
+        <Attribute Name="Text" Unit="" AttributeDataType="xs:string">
+          <Description>Text Value</Description>
+          <DefaultValue>Text</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+      </SystemUnitClass>
+      <SystemUnitClass Name="ServiceControl" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly">
+        <Description>MTP Service Control Object Class for cross-vendor approach</Description>
+        <AdditionalInformation>cross-vendor approach for ACHEMA 2018</AdditionalInformation>
+        <Attribute Name="OpMode" Unit="" AttributeDataType="xs:unsignedLong">
+          <Description>Operation Mode Mask (see OeprationModes, ExtendedOperation - and SourceMode used)</Description>
+          <DefaultValue>16640</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ControlMan" Unit="" AttributeDataType="xs:unsingedLong">
+          <Description>Command-Variable – Operator (active in manual)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ControlInt" Unit="" AttributeDataType="xs:unsingedLong">
+          <Description>Command-Variable – Internal (active in internal automatic)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ControlExt" Unit="" AttributeDataType="xs:unsingedLong">
+          <Description>Command-Variable – External (active in external automatic)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="StrategyMan" Unit="" AttributeDataType="xs:unsingedLong">
+          <Description>Select-Variable – Operator (active in manual)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="StrategyInt" Unit="" AttributeDataType="xs:unsingedLong">
+          <Description>Select-Variable – Internal (active in internal automatic)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="StrategyExt" Unit="" AttributeDataType="xs:unsingedLong">
+          <Description>Select-Variable – External (active in external automatic)</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="ControlEnable" Unit="" AttributeDataType="xs:unsingedLong">
+          <Description>ControlEnable-Variable – Transition Clearance from the Current State</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="State" Unit="" AttributeDataType="xs:unsingedLong">
+          <Description>State-Variable – Current State</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="CurrentStrategy" Unit="" AttributeDataType="xs:unsingedLong">
+          <Description>Current Strategy Variable</Description>
+          <DefaultValue>0</DefaultValue>
+          <Value />
+          <RefSemantic CorrespondingAttributePath="mtp:standard" />
+        </Attribute>
+        <Attribute Name="InteractQuestion" AttributeDataType="xs:integer" />
+        <Attribute Name="InteractAnswer" AttributeDataType="xs:integer" />
+        <Attribute Name="PosTextId" AttributeDataType="xs:integer" />
+      </SystemUnitClass>
+      <SystemUnitClass Name="HealthStateView" RefBaseClassPath="MTPDataObjectSUCLib/DataAssembly" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

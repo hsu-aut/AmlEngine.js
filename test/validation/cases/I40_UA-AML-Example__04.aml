@@ -1,0 +1,425 @@
+<!-- mutations: removeElement, breakDateTime --><CAEXFile xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" FileName="I40_UA-AML-Example.aml" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>CAEXEditor</WriterName>
+      <WriterID>CAEXEditor20130613</WriterID>
+      <WriterVendor>Fraunhofer IOSB</WriterVendor>
+      <WriterVendorURL>www.mes.fraunhofer.de</WriterVendorURL>
+      <WriterVersion>2.2.15</WriterVersion>
+      <WriterRelease />
+      <LastWritingDateTime>2017-02-20T15:02:20.0500020+01:00</LastWritingDateTime>
+      <WriterProjectTitle />
+      <WriterProjectID />
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>AutomationML Editor</WriterName>
+      <WriterID>916578CA-FE0D-474E-A4FC-9E1719892369</WriterID>
+      <WriterVendor>AutomationML e.V.</WriterVendor>
+      <WriterVendorURL>www.AutomationML.org</WriterVendorURL>
+      <WriterVersion>6.0.1.0</WriterVersion>
+      <WriterRelease>6.0.1.0</WriterRelease>
+      <LastWritingDateTime>2022-05-05T08:36:54.4292426</LastWritingDateTime>
+      <WriterProjectTitle>unspecified</WriterProjectTitle>
+      <WriterProjectID>unspecified</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <InstanceHierarchy Name="I4.0Fabrik">
+    <Version>0.3.5</Version>
+    <InternalElement Name="Modulare Konzeptfabrik" ID="282c58aa-1c61-40c0-adbe-c6006c8aee6b">
+      <Attribute Name="Breite" AttributeDataType="xs:unsignedInt" Unit="mm">
+        <Value>2336</Value>
+      </Attribute>
+      <Attribute Name="Länge" AttributeDataType="xs:unsignedInt" Unit="mm">
+        <Value>3915</Value>
+      </Attribute>
+      <Attribute Name="Höhe" AttributeDataType="xs:unsignedInt" Unit="mm">
+        <Value>1797</Value>
+      </Attribute>
+      <InternalElement Name="Station Packen" ID="8f11d523-8848-4964-8c18-b26b5ab2fcc0">
+        <Description>Die Station Kommissionieren ist für die Befüllung der Trays mit Flaschen zuständig. Die Trays werden auf jeder Seite mit je 3 Flaschen bestückt.
+Die Flaschen werden auf dem Transportband der Station gestoppt. Die Kamera überprüft ob der Tray auf dem Transportsystem leer ist. Sind sechs Flaschen am Ende des Bandes angelangt, nimmt der Greifer die ersten drei Flaschen und lagert diese auf den Tray auf dem Werkstückträger wartenden Tray aus. Anschließend werden die nächsten 3 Flaschen auf den Tray ausgelagert. Sind beide Seiten des Trays befüllt, wird der Werkstückträger entlassen und an die Station Hochregallager transportiert.</Description>
+        <Version>0.1</Version>
+        <Attribute Name="Position" AttributeDataType="xs:unsignedInt">
+          <Value>10</Value>
+        </Attribute>
+        <Attribute Name="Breite" AttributeDataType="xs:unsignedInt" Unit="mm">
+          <Value>700</Value>
+        </Attribute>
+        <Attribute Name="Maximale Breite mit Kamera" AttributeDataType="xs:unsignedInt" Unit="mm">
+          <Value>750</Value>
+        </Attribute>
+        <Attribute Name="Länge" AttributeDataType="xs:unsignedInt" Unit="mm">
+          <Value>700</Value>
+        </Attribute>
+        <Attribute Name="Maximale Länge mit Kamera und Handling" AttributeDataType="xs:unsignedInt" Unit="mm">
+          <Value>980</Value>
+        </Attribute>
+        <Attribute Name="Höhe" AttributeDataType="xs:unsignedInt" Unit="mm">
+          <Value>1524</Value>
+        </Attribute>
+        <Attribute Name="Maximale Höhe" AttributeDataType="xs:unsignedInt" Unit="mm">
+          <Value>1524</Value>
+        </Attribute>
+        <Attribute Name="Gewicht" AttributeDataType="xs:unsignedInt" Unit="kg">
+          <Value>200</Value>
+        </Attribute>
+        <Attribute Name="Maximale Anzahl von Flaschen im Greifer" AttributeDataType="xs:unsignedInt" Unit="Stk">
+          <Value>3</Value>
+        </Attribute>
+        <Attribute Name="Maximale Anzahl von Flaschen auf dem Band" AttributeDataType="xs:unsignedInt" Unit="Stk">
+          <Value>8</Value>
+        </Attribute>
+        <InternalElement Name="Start" ID="bd800d94-1c48-46d3-9cc5-e1c238fa3af0">
+          <Attribute Name="LEDValue" AttributeDataType="xs:boolean">
+            <Description>Blinkt = Aufforderung/Freigabe Start; leuchtet = Automatikbetrieb aktiv</Description>
+            <Attribute Name="aml-opcua-variable">
+              <RefSemantic CorrespondingAttributePath="aml-dataSourceType:OPCUA" />
+              <Attribute Name="RefDataSource">
+                <Value>1ea9c9d1-6ed3-431f-9935-db2b8c8f2bb5</Value>
+              </Attribute>
+              <Attribute Name="NodeId">
+                <Value>ns=7;s=AFB_Packaging.CPU 314C-2 PNDP.H1</Value>
+              </Attribute>
+            </Attribute>
+          </Attribute>
+          <Attribute Name="LEDBezeichner">
+            <Value>H1</Value>
+          </Attribute>
+          <Attribute Name="TasterValue" AttributeDataType="xs:boolean">
+            <Description>Starte Automatikbetrieb</Description>
+            <Attribute Name="aml-opcua-variable">
+              <RefSemantic CorrespondingAttributePath="aml-dataSourceType:OPCUA" />
+              <Attribute Name="RefDataSource">
+                <Value>1ea9c9d1-6ed3-431f-9935-db2b8c8f2bb5</Value>
+              </Attribute>
+              <Attribute Name="NodeId">
+                <Value>ns=7;s=AFB_Packaging.CPU 314C-2 PNDP.S1</Value>
+              </Attribute>
+            </Attribute>
+          </Attribute>
+          <Attribute Name="TasterBezeichner">
+            
+          </Attribute>
+          <SupportedRoleClass RefRoleClassPath="ExampleRoleClassLib/BedienpanelBedienelement/BedienpanelLED" />
+          <SupportedRoleClass RefRoleClassPath="ExampleRoleClassLib/BedienpanelBedienelement/BedienpanelTaster" />
+        </InternalElement>
+        <InternalElement Name="Stop" ID="8e04da19-af16-4b97-a165-50be34bf87e2">
+          <Attribute Name="TasterValue" AttributeDataType="xs:boolean">
+            <Description>Stoppt den Automatikbetrieb sofort</Description>
+            <Attribute Name="aml-opcua-variable">
+              <RefSemantic CorrespondingAttributePath="aml-dataSourceType:OPCUA" />
+              <Attribute Name="RefDataSource">
+                <Value>1ea9c9d1-6ed3-431f-9935-db2b8c8f2bb5</Value>
+              </Attribute>
+              <Attribute Name="NodeId">
+                <Value>ns=7;s=AFB_Packaging.CPU 314C-2 PNDP.S2</Value>
+              </Attribute>
+            </Attribute>
+          </Attribute>
+          <Attribute Name="TasterBezeichner">
+            <Value>S2</Value>
+          </Attribute>
+          <SupportedRoleClass RefRoleClassPath="ExampleRoleClassLib/BedienpanelBedienelement/BedienpanelTaster" />
+        </InternalElement>
+        <SupportedRoleClass RefRoleClassPath="AutomationMLExtendedRoleClassLib/ProductionUnit" />
+      </InternalElement>
+    </InternalElement>
+    <InternalElement Name="OPCUA Server" ID="1ea9c9d1-6ed3-431f-9935-db2b8c8f2bb5">
+      <Attribute Name="DiscoveryURL" AttributeDataType="xs:anyURI">
+        <Value>opc.tcp://i40-demoanlage:4845</Value>
+      </Attribute>
+      <Attribute Name="NameSpaceTable">
+        <Attribute Name="0" AttributeDataType="xs:anyURI">
+          <Value>http://opcfoundation.org/UA/</Value>
+        </Attribute>
+      </Attribute>
+      <RoleRequirements RefBaseRoleClassPath="DataVariableRoleClassLib/DataSource/OPCUA-Server" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <Description>Standard Automation Markup Language Interface Class Library</Description>
+    <Version>2.2.0</Version>
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="Order" RefBaseClassPath="AutomationMLBaseInterface">
+        <Attribute Name="Direction" AttributeDataType="xs:string" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="InterlockingConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="PPRConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="ExternalDataConnector" />
+        <InterfaceClass Name="PLCopenXMLInterface" RefBaseClassPath="ExternalDataConnector" />
+      </InterfaceClass>
+      <InterfaceClass Name="Communication" RefBaseClassPath="AutomationMLBaseInterface">
+        <InterfaceClass Name="SignalInterface" RefBaseClassPath="Communication" />
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="ExampleRoleClassLib">
+    <Version>0.1</Version>
+    <RoleClass Name="BedienpanelBedienelement" RefBaseClassPath="AutomationMLExtendedRoleClassLib/HMI">
+      <RoleClass Name="BedienpanelLED" RefBaseClassPath="ExampleRoleClassLib/BedienpanelBedienelement">
+        <Attribute Name="LEDValue" AttributeDataType="xs:boolean">
+          <Attribute Name="aml-opcua-variable">
+            <Attribute Name="VariableNodeId">
+              <Value>ns=7;s=</Value>
+            </Attribute>
+            <Attribute Name="VariableName">
+              <Value>H1</Value>
+            </Attribute>
+            <Attribute Name="ServerAddress">
+              <Value>opc.tcp://I40-DEMOANLAGE:4845</Value>
+            </Attribute>
+            <Attribute Name="ServerAlias">
+              <Value>I4.0 Siemens S7</Value>
+            </Attribute>
+          </Attribute>
+        </Attribute>
+        <Attribute Name="LEDBezeichner" />
+      </RoleClass>
+      <RoleClass Name="BedienpanelTaster" RefBaseClassPath="ExampleRoleClassLib/BedienpanelBedienelement">
+        <Attribute Name="TasterValue" AttributeDataType="xs:boolean">
+          <Attribute Name="aml-opcua-variable">
+            <Attribute Name="VariableNodeId">
+              <Value>ns=7;s=</Value>
+            </Attribute>
+            <Attribute Name="VariableName">
+              <Value>S1</Value>
+            </Attribute>
+            <Attribute Name="ServerAddress">
+              <Value>opc.tcp://I40-DEMOANLAGE:4845</Value>
+            </Attribute>
+            <Attribute Name="ServerAlias">
+              <Value>I4.0 Siemens S7</Value>
+            </Attribute>
+          </Attribute>
+        </Attribute>
+        <Attribute Name="TasterBezeichner" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="DataVariableRoleClassLib">
+    <Version>0.2.4</Version>
+    <RoleClass Name="DataSource" RefBaseClassPath="CommunicationRoleClassLib/LogicalDevice">
+      <Version>0.1</Version>
+      <RoleClass Name="OPCUA-Server" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+        <Version>0.1</Version>
+        <Attribute Name="DiscoveryURL" AttributeDataType="xs:anyURI">
+          <Description>If this attribute is given all others except of the namespace table are obsolet.</Description>
+        </Attribute>
+        <Attribute Name="EndpointURL" AttributeDataType="xs:anyURI" />
+        <Attribute Name="TransportProfileURI" AttributeDataType="xs:anyURI" />
+        <Attribute Name="SecurityPolicy" />
+        <Attribute Name="MessageSecurityMode" />
+        <Attribute Name="UserToken" />
+        <Attribute Name="NameSpaceTable">
+          <Attribute Name="0" AttributeDataType="xs:anyURI">
+            <Value>http://opcfoundation.org/UA/</Value>
+          </Attribute>
+        </Attribute>
+      </RoleClass>
+      <RoleClass Name="iTOT-Client" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+        <Version>0.1</Version>
+        <Attribute Name="Host" />
+        <Attribute Name="Port" AttributeDataType="xs:unsignedInt" />
+        <Attribute Name="ReconnectTimeout" AttributeDataType="xs:double" Unit="sec" />
+        <Attribute Name="KeepAlive" AttributeDataType="xs:boolean">
+          <DefaultValue>FALSE</DefaultValue>
+        </Attribute>
+        <Attribute Name="NoDelay" AttributeDataType="xs:boolean">
+          <DefaultValue>FALSE</DefaultValue>
+        </Attribute>
+        <Attribute Name="PLCType"><Revision><RevisionDate>2021-01-01</RevisionDate><AuthorName>me</AuthorName></Revision>
+          <Description>(S7-1200)</Description>
+        </Attribute>
+        <Attribute Name="Priority" AttributeDataType="xs:unsignedInt" />
+        <Attribute Name="QueueSize" AttributeDataType="xs:unsignedInt" />
+        <Attribute Name="WriteQueueSize" AttributeDataType="xs:unsignedInt" Unit="Bytes" />
+        <RoleClass Name="iTOT-DataBlock" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+          <Version>0.1</Version>
+          <Attribute Name="DBName" />
+          <Attribute Name="Type">
+            <Constraint Name="InputOrOutput">
+              <NominalScaledType>
+                <RequiredValue>Input</RequiredValue>
+                <RequiredValue>Output</RequiredValue>
+              </NominalScaledType>
+            </Constraint>
+          </Attribute>
+          <Attribute Name="RegisterNumber" AttributeDataType="xs:unsignedInt">
+            <Description>Optional</Description>
+          </Attribute>
+          <Attribute Name="LocalEventList">
+            <Description>optional</Description>
+          </Attribute>
+          <Attribute Name="DBBaustein" AttributeDataType="xs:unsignedInt">
+            <Description>Optional</Description>
+          </Attribute>
+          <Attribute Name="RefDataSource" />
+        </RoleClass>
+      </RoleClass>
+      <RoleClass Name="CanBus" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+        <Version>0.1</Version>
+        <Attribute Name="DeviceName" />
+        <Attribute Name="Baudrate" />
+      </RoleClass>
+      <RoleClass Name="ProfinetHost" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+        <Version>0.1</Version>
+      </RoleClass>
+      <RoleClass Name="ModbusTCPHost" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+        <Version>0.1</Version>
+      </RoleClass>
+      <RoleClass Name="IOLink" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+        <Version>0.1</Version>
+      </RoleClass>
+      <RoleClass Name="EthernetIP" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+        <Version>0.1</Version>
+      </RoleClass>
+      <RoleClass Name="MTConnect" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+        <Version>0.1</Version>
+      </RoleClass>
+      <RoleClass Name="CCLink" RefBaseClassPath="DataVariableRoleClassLib/DataSource">
+        <Version>0.1</Version>
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <Description>Automation Markup Language base role class library</Description>
+    <Version>2.2.0</Version>
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Group" RefBaseClassPath="AutomationMLBaseRole">
+        <Attribute Name="AssociatedFacet" AttributeDataType="xs:string" />
+      </RoleClass>
+      <RoleClass Name="Facet" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRole">
+        <Attribute Name="Direction" AttributeDataType="xs:string" />
+        <Attribute Name="Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" />
+        <ExternalInterface Name="ConnectionPoint" ID="9942bd9c-c19d-44e4-a197-11b9edf264e7" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Product" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Process" RefBaseClassPath="AutomationMLBaseRole" />
+      <RoleClass Name="Structure" RefBaseClassPath="AutomationMLBaseRole">
+        <RoleClass Name="ProductStructure" RefBaseClassPath="Structure" />
+        <RoleClass Name="ProcessStructure" RefBaseClassPath="Structure" />
+        <RoleClass Name="ResourceStructure" RefBaseClassPath="Structure" />
+      </RoleClass>
+      <RoleClass Name="PropertySet" RefBaseClassPath="AutomationMLBaseRole" />
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="AutomationMLBMIRoleClassLib">
+    <Description>Automation Markup Language Batch Manufacturing Industry Role Class Library</Description>
+    <Version>1.1.0</Version>
+    <RoleClass Name="BatchManufacturingEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+  </RoleClassLib>
+  <RoleClassLib Name="AutomationMLCMIRoleClassLib">
+    <Description>Automation Markup Language Continuous Manufacturing Industry Role Class Library</Description>
+    <Version>1.1.0</Version>
+    <RoleClass Name="ContManufacturingEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+  </RoleClassLib>
+  <RoleClassLib Name="AutomationMLCSRoleClassLib">
+    <Description>Automation Markup Language Control Industry Role Class Library</Description>
+    <Version>2.3.0</Version>
+    <RoleClass Name="ControlEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource">
+      <RoleClass Name="Communication" RefBaseClassPath="ControlEquipment" />
+      <RoleClass Name="ControlHardware" RefBaseClassPath="ControlEquipment">
+        <RoleClass Name="PC" RefBaseClassPath="ControlHardware" />
+        <RoleClass Name="IPC" RefBaseClassPath="ControlHardware" />
+        <RoleClass Name="EmbeddedDevice" RefBaseClassPath="ControlHardware" />
+        <RoleClass Name="Handheld" RefBaseClassPath="ControlHardware" />
+      </RoleClass>
+      <RoleClass Name="Sensor" RefBaseClassPath="ControlEquipment" />
+      <RoleClass Name="Actuator" RefBaseClassPath="ControlEquipment" />
+      <RoleClass Name="Controller" RefBaseClassPath="ControlEquipment">
+        <RoleClass Name="PLC" RefBaseClassPath="Controller" />
+        <RoleClass Name="NC" RefBaseClassPath="Controller" />
+        <RoleClass Name="RC" RefBaseClassPath="Controller" />
+        <RoleClass Name="PAC" RefBaseClassPath="Controller" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="AutomationMLDMIRoleClassLib">
+    <Description>Automation Markup Language  Discrete Manufacturing Industry Role Class Library</Description>
+    <Version>2.4.0</Version>
+    <RoleClass Name="DiscManufacturingEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource">
+      <RoleClass Name="Transport" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Storage" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Fixture" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Gate" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Robot" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Tool" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Carrier" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="Machine" RefBaseClassPath="DiscManufacturingEquipment" />
+      <RoleClass Name="StaticObject" RefBaseClassPath="DiscManufacturingEquipment" />
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="AutomationMLExtendedRoleClassLib">
+    <Version>2.7.0</Version>
+    <RoleClass Name="PLCFacet" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+    <RoleClass Name="HMIFacet" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+    <RoleClass Name="Enterprise" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="Site" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="Area" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="ProductionLine" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="WorkCell" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="ProcessCell" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="Unit" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="ProductionUnit" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="StorageZone" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="StorageUnit" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure" />
+    <RoleClass Name="Turntable" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+    <RoleClass Name="Conveyor" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport">
+      <RoleClass Name="BeltConveyor" RefBaseClassPath="Conveyor" />
+      <RoleClass Name="RollConveyor" RefBaseClassPath="Conveyor" />
+      <RoleClass Name="ChainConveyor" RefBaseClassPath="Conveyor" />
+      <RoleClass Name="PalletConveyor" RefBaseClassPath="Conveyor" />
+      <RoleClass Name="OverheadConveyor" RefBaseClassPath="Conveyor" />
+    </RoleClass>
+    <RoleClass Name="LiftingTable" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+    <RoleClass Name="AGV" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+    <RoleClass Name="Transposer" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+    <RoleClass Name="CarrierHandlingSystem" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+    <RoleClass Name="BodyStore" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Storage" />
+    <RoleClass Name="Lift" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+    <RoleClass Name="Rollerbed" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+    <RoleClass Name="StationaryTool" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Tool" />
+    <RoleClass Name="MovableTool" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Tool" />
+    <RoleClass Name="ControlCabinet" RefBaseClassPath="AutomationMLCSRoleClassLib/ControlEquipment" />
+    <RoleClass Name="IODevice" RefBaseClassPath="AutomationMLCSRoleClassLib/ControlEquipment" />
+    <RoleClass Name="HMI" RefBaseClassPath="AutomationMLCSRoleClassLib/ControlEquipment">
+      <RoleClass Name="WarningEquipment" RefBaseClassPath="AutomationMLExtendedRoleClassLib/HMI" />
+    </RoleClass>
+    <RoleClass Name="ActuatingDrive" RefBaseClassPath="AutomationMLCSRoleClassLib/ControlEquipment/Actuator" />
+    <RoleClass Name="MotionController" RefBaseClassPath="AutomationMLCSRoleClassLib/ControlEquipment" />
+    <RoleClass Name="Panel" RefBaseClassPath="AutomationMLCSRoleClassLib/ControlEquipment/ControlHardware" />
+    <RoleClass Name="MeasuringEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    <RoleClass Name="Clamp" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Fixture" />
+    <RoleClass Name="ProcessController" RefBaseClassPath="AutomationMLCSRoleClassLib/ControlEquipment/Controller" />
+    <RoleClass Name="Loader" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Storage" />
+    <RoleClass Name="Unloader" RefBaseClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Storage" />
+  </RoleClassLib>
+  <RoleClassLib Name="CommunicationRoleClassLib">
+    <Description>AutomationML Communication Role Class Library</Description>
+    <Version>1.0.1</Version>
+    <RoleClass Name="PhysicalDevice" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+      <RoleClass Name="PhysicalEndpointlist" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="VariableList" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    </RoleClass>
+    <RoleClass Name="PhysicalConnection" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    <RoleClass Name="PhysicalNetwork" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    <RoleClass Name="LogicalDevice" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+      <RoleClass Name="LogicalEndpointlist" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    </RoleClass>
+    <RoleClass Name="LogicalConnection" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    <RoleClass Name="LogicalNetwork" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    <RoleClass Name="CommunicationPackage" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+  </RoleClassLib>
+</CAEXFile>

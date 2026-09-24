@@ -1,0 +1,5 @@
+<!-- mutations: removeRequiredAttribute, addUndeclaredAttribute, insertTextInEmpty --><CAEXFile SchemaVersion="3.0" FileName="EmptyAML.aml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" xmlns:c="http://www.dke.de/CAEX" c:Name="x">
+<SuperiorStandardVersion>AutomationML 2.1</SuperiorStandardVersion>
+<SourceDocumentInformation OriginName="AutomationML Editor" OriginVersion="6.4.2.17" LastWritingDateTime="2025-10-30T09:51:40.1031131+01:00" OriginProjectID="unspecified" OriginProjectTitle="unspecified" OriginRelease="6.4.2.17" OriginVendor="AutomationML e.V." OriginVendorURL="www.AutomationML.org">line1
+line2</SourceDocumentInformation>
+</CAEXFile>

@@ -4,6 +4,7 @@ import { XDocument } from './XNode.js';
 import { parseXml } from './XmlParser.js';
 import { DEFAULT_WRITER_SETTINGS, type XmlWriterSettings, writeDocument } from './XmlWriter.js';
 import { UTF8, decodeXml, encodeWithPreamble, getEncoding } from './encoding.js';
+import { EncoderFallbackException } from '../system/exceptions.js';
 
 export * from './XName.js';
 export * from './XNode.js';
@@ -51,6 +52,16 @@ export function saveXDocument(doc: XDocument, options: SaveOptions = {}): Uint8A
     encodingName: enc.webName,
     canEncode: enc.canEncode,
   });
+  // Text and attribute values already carry character entities for unencodable characters;
+  // anything left (comments, PIs, CDATA, names) makes .NET's encoder fallback throw.
+  if (enc !== UTF8) {
+    for (const ch of text) {
+      const cp = ch.codePointAt(0)!;
+      if (!enc.canEncode(cp)) {
+        throw new EncoderFallbackException(`Unable to translate Unicode character \\u${cp.toString(16).toUpperCase().padStart(4, '0')} to code page of ${enc.webName}.`);
+      }
+    }
+  }
   return encodeWithPreamble(text, enc, true);
 }
 

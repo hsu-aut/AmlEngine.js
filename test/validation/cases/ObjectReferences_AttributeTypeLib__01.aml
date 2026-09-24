@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><!-- mutations: spacePreserve, removeElement -->
+<CAEXFile SchemaVersion="3.0" FileName="ObjectReferences_AttributeTypeLib.aml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion xml:space="preserve">AutomationML 2.1
+	</SuperiorStandardVersion>
+  
+  <!--
+    Multi-Context Reference Framework — AttributeType library.
+    Concept: Drath/Nabizada, "A Flexible Reference Framework for Multi-Hierarchical
+    AutomationML Models" (ETFA 2026). Descriptions follow the paper wording
+    ("the referencing object"). IDs preserved from the AutomationML reference
+    artifact (..._ObjectReferences_AttributeTypeLib_AMLEd2_1.0.1.aml) so files stay
+    interoperable with the official library. This file is the single swap point:
+    replace it with the official AML-Space version if/when one is published.
+  -->
+  <AttributeTypeLib Name="AutomationML_ObjectReferences_AttributeTypeLib" ID="207a2f21-f41a-47f7-b8a7-1e640cad289c">
+    <Description>Library of object reference types</Description>
+    <Version>1.0.0</Version>
+    <AttributeType Name="refObj" ID="6bfeebe7-d1f4-4085-b34d-dea400a87740" AttributeDataType="xs:IDREF">
+      <Description>generic reference type for referencing another object</Description>
+      <Version>1.0.0</Version>
+    </AttributeType>
+    <AttributeType Name="refBaseObj" ID="94df107c-15e4-4381-92c1-b0ad8043d19d" AttributeDataType="xs:IDREF" RefAttributeType="AutomationML_ObjectReferences_AttributeTypeLib/refObj">
+      <Description>attribute type for referencing another object that is considered identical, enabling the modeling of further aspects of the master object, supporting multi-layered, multi-context, and multi-aspect object representation</Description>
+      <Version>1.0.0</Version>
+    </AttributeType>
+    <AttributeType Name="refExtendedObj" ID="223848cc-78a2-47f9-b593-3f86a1bccf7d" AttributeDataType="xs:IDREF" RefAttributeType="AutomationML_ObjectReferences_AttributeTypeLib/refObj">
+      <Description>attribute type for referencing another object that models details of the referencing object</Description>
+      <Version>1.0.0</Version>
+    </AttributeType>
+    <AttributeType Name="refComposedObj" ID="7dc12b9e-70fe-4c48-90a9-39a632419530" AttributeDataType="xs:IDREF" RefAttributeType="AutomationML_ObjectReferences_AttributeTypeLib/refObj">
+      <Description>attribute type for referencing another object that models a composition of the referencing object</Description>
+      <Version>1.0.0</Version>
+    </AttributeType>
+  </AttributeTypeLib>
+</CAEXFile>

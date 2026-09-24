@@ -1,0 +1,1357 @@
+<?xml version="1.0" encoding="utf-8"?><!-- mutations: insertText, spacePreserve, swapSiblings -->
+<CAEXFile SchemaVersion="3.0" FileName="VDI3682_Lib_v0.1.aml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.1</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="AutomationML Editor" OriginID="916578CA-FE0D-474E-A4FC-9E1719892369" OriginVersion="6.4.3.1" LastWritingDateTime="2026-02-20T17:49:35.1004796+01:00" OriginProjectID="unspecified" OriginProjectTitle="unspecified" OriginRelease="6.4.3.1" OriginVendor="AutomationML e.V." OriginVendorURL="www.AutomationML.org" />
+  <ExternalReference Path="https://9t4kqL7NX8JsW6o@automationml.ovgu.de/public.php/webdav/AutomationML_Base_Libraries_AMLEd2_2.11.0.aml" Alias="AutomationMLBaseLibrariesAMLEd22_11_0" />
+  <ExternalReference Path="https://9t4kqL7NX8JsW6o@automationml.ovgu.de/public.php/webdav/AutomationML_BasicProperties_Libraries_AMLEd2_0.0.5.aml" Alias="AutomationMLBasicPropertiesLibrariesAMLEd20_0_5" />
+  <ExternalReference Path="https://9t4kqL7NX8JsW6o@automationml.ovgu.de/public.php/webdav/AutomationML_B2MML_RoleClassLib_AMLEd2_2.0.0.aml" Alias="AutomationMLB2MMLRoleClassLibAMLEd22_0_0" />
+  <ExternalReference Path="https://9t4kqL7NX8JsW6o@automationml.ovgu.de/public.php/webdav/AutomationML_AutomationComponent.GraphicRepresentation_RoleClassLib_AMLEd2_1.0.0-beta.aml" Alias="AutomationMLAutomationComponent.GraphicRepresentationRoleClassLibAMLEd21_0_0-beta" />
+  <ExternalReference Path="https://9t4kqL7NX8JsW6o@automationml.ovgu.de/public.php/webdav/AutomationML_AutomationComponent.Connector_Libraries_AMLEd2_1.0.0-beta.aml" Alias="AutomationMLAutomationComponent.ConnectorLibrariesAMLEd21_0_0-beta" />
+  <InstanceHierarchy Name="InstanceHierarchy" ID="6304ee32-cbee-4f1d-b677-c2011ec5227a">
+    <Version>1.0.0</Version>
+    <InternalElement Name="Aufheizen" ID="5410bcf4-c823-4f8d-accb-17e99e86fe72" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Process">
+      <InternalElement Name="Aufheizen mit Prüfung" ID="a02804cd-5c44-48fd-9a28-9b920e4fcace" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_SystemLimit" />
+      <InternalElement Name="Rohstoff" ID="e37b97e5-0b2a-42f5-87f6-758a958542a2" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string">
+            <Value>c50336d6-9a7f-46e3-a7f5-e6187618dd69</Value>
+          </Attribute>
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string">
+            <Value>Rohstoff</Value>
+          </Attribute>
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double">
+              <Value>675</Value>
+            </Attribute>
+            <Attribute Name="y" AttributeDataType="xs:double">
+              <Value>155</Value>
+            </Attribute>
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double">
+            <Value>50</Value>
+          </Attribute>
+          <Attribute Name="height" AttributeDataType="xs:double">
+            <Value>50</Value>
+          </Attribute>
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowOut" ID="014a1154-6f1c-4a75-9814-36ac6c1ad768" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double">
+              <Value>700</Value>
+            </Attribute>
+            <Attribute Name="y" AttributeDataType="xs:double">
+              <Value>205</Value>
+            </Attribute>
+          </Attribute>
+          <Attribute Name="FPD_Waypoint" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Waypoint">
+            <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+              <Attribute Name="x" AttributeDataType="xs:double">
+                <Value>700</Value>
+              </Attribute>
+              <Attribute Name="y" AttributeDataType="xs:double">
+                <Value>258</Value>
+              </Attribute>
+            </Attribute>
+          </Attribute>
+          <Attribute Name="FPD_Waypoint1" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Waypoint">
+            <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+              <Attribute Name="x" AttributeDataType="xs:double">
+                <Value>830</Value>
+              </Attribute>
+              <Attribute Name="y" AttributeDataType="xs:double">
+                <Value>258</Value>
+              </Attribute>
+            </Attribute>
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Strom" ID="76957a7e-c153-4172-9728-e7188d175ffe" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Energy">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowOut" ID="4fe5f15f-53f5-461f-a0b1-ce3b577d156b" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Temperatur" ID="7f3d5da4-9d07-4c8c-9dac-dcafe1ca03f7" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Information">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowOut" ID="6e4e1e35-ff76-436b-a776-2e4280ec5c2f" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Erhitzen" ID="e03abbfc-f41e-4f0d-af92-948c8712c939" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_ProcessOperator">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowIn" ID="7b0cacdc-4150-4b83-8205-f18cbdf525e9" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double">
+              <Value>830</Value>
+            </Attribute>
+            <Attribute Name="y" AttributeDataType="xs:double">
+              <Value>309</Value>
+            </Attribute>
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowIn1" ID="00158169-d8e8-4b24-a7c1-af56468c4995" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowIn2" ID="8b51b1a9-6c31-4623-b4c1-d064d974e544" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowOut" ID="bdc0de0a-c8df-46a7-b9da-538acc08a1f4" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowOut1" ID="7846242f-d56a-4bc8-851d-1889af53b459" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_Usage" ID="2960c4d5-0c5d-4cbc-939c-a04df140e6e6" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Usage">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <InternalElement Name="Erhitzen" ID="01f6d94d-ce68-4258-a664-ce54eda360ab" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Process">
+          <InternalElement Name="SL_Erhitzen" ID="1d26226e-9c5c-4024-a051-4622771cbac0" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_SystemLimit" />
+          <InternalElement Name="Rohstoff" ID="cbd8be3b-3202-4eaf-a3f4-53ae5a0fa644" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowOut" ID="eaa59be6-123d-4a8a-b21d-03e8237b3f12" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalElement Name="Strom" ID="cde61bf3-49e7-4c03-9a55-448ef5f8e290" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Energy">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowOut" ID="596efc10-8d47-4459-84b6-2584baec39c4" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut1" ID="f7845002-c908-4b2e-a626-580a9f4fcf7c" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalElement Name="Temperatur" ID="db6fda7f-6633-4b63-bf03-2c32031805d0" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Information">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowOut" ID="b22423d9-3b89-4888-85f8-e4d7cf789872" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut1" ID="fbcb6742-30db-4ee7-8e65-106593681ef9" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalElement Name="Vorwärmen" ID="1d06fe1e-5998-4175-b98f-8841f4870d07" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_ProcessOperator">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowIn" ID="c33ae062-fb5d-4950-9fa3-5b2114e2a4cf" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowIn1" ID="90254f3e-4a30-4449-a0b5-017eaaa0aa3a" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowIn2" ID="13a66b03-c975-4f60-84b6-a5883dc6f98d" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut" ID="e55a2753-7b5d-42ac-9e4f-0fad133d9fdf" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut1" ID="7738e22b-47ca-4909-8ab8-a1ef1cb42163" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalElement Name="Produkt_Vorgewärmt" ID="d52827db-9886-4f99-9f48-8eb07962ac07" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowIn" ID="df8b268a-5e7b-4159-b5ce-90a32e24f862" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut" ID="7827ea32-77f4-442f-98b7-017caa6bb019" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalElement Name="Fertigheizen" ID="d88c9032-8665-4406-a61f-b24c82727397" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_ProcessOperator">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowIn" ID="de578f97-23ef-4259-8ed9-ae02e543238f" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowIn1" ID="6ea67d39-1760-484b-b490-9c8f9ffac1d6" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowIn2" ID="00c83abe-b76f-4e07-ae7c-f4a8ad7a5bc3" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut" ID="cb679dfe-105f-42cb-a2eb-19e1e7f69d7f" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut1" ID="180ae0ee-8868-41a2-b450-dfc2726824e6" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalElement Name="Abwärme" ID="960d028a-02b6-471e-a9e7-ddbd9198dd3e" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Energy">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowIn" ID="d920d3c1-a20e-406c-baae-8152b7b16075" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowIn1" ID="fd17c131-4115-41c6-8b8a-4a02e7a0134d" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalElement Name="Warmprodukt" ID="4f4294a0-dfbb-4df1-bd48-f926547df040" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string">x
+y</Attribute>
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowIn" ID="6dcb6f99-6609-47ce-9b76-3af3d32a5d2f" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalLink RefPartnerSideA="eaa59be6-123d-4a8a-b21d-03e8237b3f12" RefPartnerSideB="c33ae062-fb5d-4950-9fa3-5b2114e2a4cf" Name="Link" />
+          <InternalLink RefPartnerSideA="596efc10-8d47-4459-84b6-2584baec39c4" RefPartnerSideB="90254f3e-4a30-4449-a0b5-017eaaa0aa3a" Name="Link1" />
+          <InternalLink RefPartnerSideA="b22423d9-3b89-4888-85f8-e4d7cf789872" RefPartnerSideB="13a66b03-c975-4f60-84b6-a5883dc6f98d" Name="Link2" />
+          <InternalLink RefPartnerSideA="e55a2753-7b5d-42ac-9e4f-0fad133d9fdf" RefPartnerSideB="df8b268a-5e7b-4159-b5ce-90a32e24f862" Name="Link3" />
+          <InternalLink RefPartnerSideA="7738e22b-47ca-4909-8ab8-a1ef1cb42163" RefPartnerSideB="d920d3c1-a20e-406c-baae-8152b7b16075" Name="Link4" />
+          <InternalLink RefPartnerSideA="7827ea32-77f4-442f-98b7-017caa6bb019" RefPartnerSideB="de578f97-23ef-4259-8ed9-ae02e543238f" Name="Link5" />
+          <InternalLink RefPartnerSideA="f7845002-c908-4b2e-a626-580a9f4fcf7c" RefPartnerSideB="6ea67d39-1760-484b-b490-9c8f9ffac1d6" Name="Link6" />
+          <InternalLink RefPartnerSideA="fbcb6742-30db-4ee7-8e65-106593681ef9" RefPartnerSideB="00c83abe-b76f-4e07-ae7c-f4a8ad7a5bc3" Name="Link7" />
+          <InternalLink RefPartnerSideA="cb679dfe-105f-42cb-a2eb-19e1e7f69d7f" RefPartnerSideB="fd17c131-4115-41c6-8b8a-4a02e7a0134d" Name="Link8" />
+          <InternalLink RefPartnerSideA="180ae0ee-8868-41a2-b450-dfc2726824e6" RefPartnerSideB="6dcb6f99-6609-47ce-9b76-3af3d32a5d2f" Name="Link9" />
+        </InternalElement>
+      </InternalElement>
+      <InternalElement Name="Heizplatte" ID="d6a7db3b-1eae-4544-ade8-3696374f7ac6" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_TechnicalResource">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_Usage" ID="d35f9220-7433-4add-891d-c5994cc88039" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Usage">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Warmprodukt" ID="19b40bb4-ff78-4ec7-ba3a-f2b8dc6c4486" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowIn" ID="ba48a516-b289-4431-a652-5609f7a1aed5" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_FlowOut" ID="7298e7db-25de-4e60-a90e-205a6097c2f6" RefBaseClassPath="FPD_InterfaceClassLib/FPD_FlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Abwärme" ID="b39ac2cd-d6de-41c7-9528-98f193905031" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Energy">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowIn" ID="67975029-7c19-46e3-9230-1862447fad44" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Prüfen" ID="5debc861-c675-4fa1-9428-84d28036773d" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_ProcessOperator">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_FlowIn" ID="877c4e5b-25c7-4009-8fd2-834b76ad6ef9" RefBaseClassPath="FPD_InterfaceClassLib/FPD_FlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_AlternativeFlowOut" ID="2c302b23-3790-449e-98e6-486b4de8205c" RefBaseClassPath="FPD_InterfaceClassLib/FPD_AlternativeFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_AlternativeFlowOut1" ID="bd918e91-6add-4481-a02a-73275cf8f0d8" RefBaseClassPath="FPD_InterfaceClassLib/FPD_AlternativeFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Gutprodukt" ID="719a1cc5-3f5a-4603-8afb-afef0068d612" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_AlternativeFlowIn" ID="77dbe388-e9f6-477f-963d-dd12a02a4c50" RefBaseClassPath="FPD_InterfaceClassLib/FPD_AlternativeFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Ausschuss" ID="31c9900c-fdad-43e5-a0ed-96449e2e7043" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_AlternativeFlowIn" ID="e8db3e67-6125-4a79-b904-cabc93ec2e57" RefBaseClassPath="FPD_InterfaceClassLib/FPD_AlternativeFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalLink RefPartnerSideA="014a1154-6f1c-4a75-9814-36ac6c1ad768" RefPartnerSideB="7b0cacdc-4150-4b83-8205-f18cbdf525e9" Name="Link" />
+      <InternalLink RefPartnerSideA="4fe5f15f-53f5-461f-a0b1-ce3b577d156b" RefPartnerSideB="00158169-d8e8-4b24-a7c1-af56468c4995" Name="Link1" />
+      <InternalLink RefPartnerSideA="6e4e1e35-ff76-436b-a776-2e4280ec5c2f" RefPartnerSideB="8b51b1a9-6c31-4623-b4c1-d064d974e544" Name="Link2" />
+      <InternalLink RefPartnerSideA="2960c4d5-0c5d-4cbc-939c-a04df140e6e6" RefPartnerSideB="d35f9220-7433-4add-891d-c5994cc88039" Name="Link3" />
+      <InternalLink RefPartnerSideA="bdc0de0a-c8df-46a7-b9da-538acc08a1f4" RefPartnerSideB="ba48a516-b289-4431-a652-5609f7a1aed5" Name="Link4" />
+      <InternalLink RefPartnerSideA="7846242f-d56a-4bc8-851d-1889af53b459" RefPartnerSideB="67975029-7c19-46e3-9230-1862447fad44" Name="Link5" />
+      <InternalLink RefPartnerSideA="7298e7db-25de-4e60-a90e-205a6097c2f6" RefPartnerSideB="877c4e5b-25c7-4009-8fd2-834b76ad6ef9" Name="Link6" />
+      <InternalLink RefPartnerSideA="2c302b23-3790-449e-98e6-486b4de8205c" RefPartnerSideB="77dbe388-e9f6-477f-963d-dd12a02a4c50" Name="Link7" />
+      <InternalLink RefPartnerSideA="bd918e91-6add-4481-a02a-73275cf8f0d8" RefPartnerSideB="e8db3e67-6125-4a79-b904-cabc93ec2e57" Name="Link8" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="InstanceHierarchy1" ID="5eb3c6f2-6aae-4d93-be8d-ef1a222b9178">
+    <Version>1.0.0</Version>
+    <InternalElement Name="Aufheizen" ID="0a04dd69-2301-40dd-ad15-b2b0af18df1f" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Process">
+      <InternalElement Name="Aufheizen mit Prüfung" ID="bca270d8-7272-40a4-abf2-f4bfa4694716" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_SystemLimit" />
+      <InternalElement Name="Rohstoff" ID="415a7437-b49f-4f1f-bdcd-d46910ce952f" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string">
+            <Value>c50336d6-9a7f-46e3-a7f5-e6187618dd69</Value>
+          </Attribute>
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string">
+            <Value>Rohstoff</Value>
+          </Attribute>
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double">
+              <Value>675</Value>
+            </Attribute>
+            <Attribute Name="y" AttributeDataType="xs:double">
+              <Value>155</Value>
+            </Attribute>
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double">
+            <Value>50</Value>
+          </Attribute>
+          <Attribute Name="height" AttributeDataType="xs:double">
+            <Value>50</Value>
+          </Attribute>
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowOut" ID="8061f37d-061e-4530-81e9-95a5b4d6dfdc" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double">
+              <Value>700</Value>
+            </Attribute>
+            <Attribute Name="y" AttributeDataType="xs:double">
+              <Value>205</Value>
+            </Attribute>
+          </Attribute>
+          <Attribute Name="FPD_Waypoint" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Waypoint">
+            <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+              <Attribute Name="y" AttributeDataType="xs:double">
+                <Value>258</Value>
+              </Attribute>
+              <Attribute Name="x" AttributeDataType="xs:double">
+                <Value>700</Value>
+              </Attribute>
+            </Attribute>
+          </Attribute>
+          <Attribute Name="FPD_Waypoint1" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Waypoint">
+            <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+              <Attribute Name="x" AttributeDataType="xs:double">
+                <Value>830</Value>
+              </Attribute>
+              <Attribute Name="y" AttributeDataType="xs:double">
+                <Value>258</Value>
+              </Attribute>
+            </Attribute>
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowOut1" ID="9bc19846-90ab-4c43-a12a-03bb7e56d952" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Strom" ID="f077548a-82ff-44b0-82f9-9670b01857e2" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Energy">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowOut" ID="994ad074-5e7b-4bd6-9439-f795bc6ac214" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowOut1" ID="6af22a9a-00fa-41c9-a8d2-77e22a59f91f" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowOut2" ID="903456ac-2707-4fd5-b607-05dd225809c9" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Temperatur" ID="cf27f98d-dd7f-45ee-b4fe-e2811cb9cd05" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Information">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowOut" ID="9acb5a6f-d15b-4692-a143-808c96e2b0e7" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowOut1" ID="f5e8b0c2-dce8-48e1-be7c-ec49a72f7e73" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowOut2" ID="460424de-47e8-465e-b0c3-be16d9d0ac62" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Erhitzen" ID="6cfedc39-0c3c-4776-bbf8-e7b67cf8c23b" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_ProcessOperator">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowIn" ID="85e27453-581b-4dbc-bf71-14fca49f8416" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double">
+              <Value>830</Value>
+            </Attribute>
+            <Attribute Name="y" AttributeDataType="xs:double">
+              <Value>309</Value>
+            </Attribute>
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowIn1" ID="bfe6d15d-3e1d-4f41-91f3-a04b89c1deea" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowIn2" ID="cc693323-c088-456f-902c-784e06cb91c0" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowOut" ID="26f66a86-5ad9-4013-9f09-a6b20a986572" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowOut1" ID="84b316cd-a035-4c85-ab97-3a24b321bf6e" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_Usage" ID="d57b02e3-1c64-411b-9f68-2498fea9ccfb" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Usage">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <InternalElement Name="Erhitzen" ID="cecdbfb3-1c96-4fb5-acc8-25df622f2f8f" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Process">
+          <InternalElement Name="SL_Erhitzen" ID="d4df09b2-e1b9-4da7-9d03-01ce63be6aa4" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_SystemLimit" />
+          <InternalElement Name="Vorwärmen" ID="392c1658-cb6b-4fda-bc51-31d6ce7d4720" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_ProcessOperator">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowIn" ID="367951f4-3283-48af-b705-73e9cc569e18" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowIn1" ID="36d7d54d-2f74-4561-888f-768aa5a3660c" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowIn2" ID="5becb8f7-028c-4b1f-9caf-1a63631e7d19" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut" ID="93d1094c-2a44-46c2-864f-0db061a748d1" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut1" ID="8dd11b37-8954-4f3a-95d5-9dc2f5dbf4e6" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalElement Name="Produkt_Vorgewärmt" ID="f8484b5f-f32f-41b8-8e1c-0673af9e55ee" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowIn" ID="70e72ce5-c409-4aeb-9ea1-f1e0acb226d0" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut" ID="61c8a286-2e4d-4317-a9f0-de6c1a7f340f" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalElement Name="Fertigheizen" ID="b62518b2-40ee-4d9c-b58e-cd830db61424" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_ProcessOperator">
+            <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+              <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+              <Attribute Name="longName" AttributeDataType="xs:string" />
+              <Attribute Name="shortName" AttributeDataType="xs:string" />
+              <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+              <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+            </Attribute>
+            <Attribute Name="Characteristics" AttributeDataType="xs:string">
+              <Description>Container for characteristics</Description>
+            </Attribute>
+            <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+              <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+              <Attribute Name="width" AttributeDataType="xs:double" />
+              <Attribute Name="height" AttributeDataType="xs:double" />
+            </Attribute>
+            <ExternalInterface Name="FPD_ParallelFlowIn" ID="c7377956-6905-46c3-92df-1579b108e799" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowIn1" ID="b5ba37d0-6406-4b7f-ac9b-a9d53a354b89" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowIn2" ID="bd67bfd0-7f1d-4169-9854-c9a4716e401c" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut" ID="00843241-ef5a-4b23-9cda-c568602c5fde" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+            <ExternalInterface Name="FPD_ParallelFlowOut1" ID="db53b3c8-8168-4b7f-bb35-7fa85e7cc1ba" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowOut">
+              <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+                <Attribute Name="x" AttributeDataType="xs:double" />
+                <Attribute Name="y" AttributeDataType="xs:double" />
+              </Attribute>
+            </ExternalInterface>
+          </InternalElement>
+          <InternalLink RefPartnerSideA="93d1094c-2a44-46c2-864f-0db061a748d1" RefPartnerSideB="70e72ce5-c409-4aeb-9ea1-f1e0acb226d0" Name="Link3" />
+          <InternalLink RefPartnerSideA="61c8a286-2e4d-4317-a9f0-de6c1a7f340f" RefPartnerSideB="c7377956-6905-46c3-92df-1579b108e799" Name="Link5" />
+        </InternalElement>
+      </InternalElement>
+      <InternalElement Name="Heizplatte" ID="364a1ce6-a63f-4e7a-95bc-7667e7d589ae" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_TechnicalResource">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_Usage" ID="09150ba1-5b9d-47b8-8e97-7bf29c76ddb2" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Usage">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Warmprodukt" ID="025aa17b-be8a-4057-a210-31d682212e55" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowIn" ID="bbfc56c6-1c7b-45e8-a021-fd3d058e2ff8" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_FlowOut" ID="bd1e1464-b62b-4d9f-92c0-9ed4ff316cb9" RefBaseClassPath="FPD_InterfaceClassLib/FPD_FlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowIn1" ID="768fe4ef-e186-4a76-9e97-1fd27f85443a" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Abwärme" ID="8e63aa9c-544b-447b-b83e-60ffe5c1df83" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Energy">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_ParallelFlowIn" ID="1436a259-e842-4099-8b7d-29fb2796e438" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_ParallelFlowIn1" ID="ceca6859-1561-4e6b-a974-cfe5ba0b47a0" RefBaseClassPath="FPD_InterfaceClassLib/FPD_ParallelFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Prüfen" ID="98cf55fa-2ce1-4154-b3a6-f6c5441d918c" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_ProcessOperator">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_FlowIn" ID="47c47801-d476-4b55-b622-84c38a36b6e3" RefBaseClassPath="FPD_InterfaceClassLib/FPD_FlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_AlternativeFlowOut" ID="63dc8e6a-5e31-4cc4-95e0-a8111a1fffa8" RefBaseClassPath="FPD_InterfaceClassLib/FPD_AlternativeFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+        <ExternalInterface Name="FPD_AlternativeFlowOut1" ID="d4cd5181-4985-4591-8f32-a0824de7586f" RefBaseClassPath="FPD_InterfaceClassLib/FPD_AlternativeFlowOut">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Gutprodukt" ID="efcd9412-b1d0-499e-b3f1-45318f2bd9ff" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_AlternativeFlowIn" ID="253d399c-7caa-47e4-a168-f1fec0c185b6" RefBaseClassPath="FPD_InterfaceClassLib/FPD_AlternativeFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="Ausschuss" ID="0467e11d-c5c1-422d-a842-f1980e7616b5" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_Product">
+        <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+          <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+          <Attribute Name="longName" AttributeDataType="xs:string" />
+          <Attribute Name="shortName" AttributeDataType="xs:string" />
+          <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+          <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+        </Attribute>
+        <Attribute Name="Characteristics" AttributeDataType="xs:string">
+          <Description>Container for characteristics</Description>
+        </Attribute>
+        <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+          <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+          <Attribute Name="width" AttributeDataType="xs:double" />
+          <Attribute Name="height" AttributeDataType="xs:double" />
+        </Attribute>
+        <ExternalInterface Name="FPD_AlternativeFlowIn" ID="5cdaace2-a44d-4b03-a0ac-bf22781836f5" RefBaseClassPath="FPD_InterfaceClassLib/FPD_AlternativeFlowIn">
+          <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+            <Attribute Name="x" AttributeDataType="xs:double" />
+            <Attribute Name="y" AttributeDataType="xs:double" />
+          </Attribute>
+        </ExternalInterface>
+      </InternalElement>
+      <InternalLink RefPartnerSideA="8061f37d-061e-4530-81e9-95a5b4d6dfdc" RefPartnerSideB="85e27453-581b-4dbc-bf71-14fca49f8416" Name="Link" />
+      <InternalLink RefPartnerSideA="994ad074-5e7b-4bd6-9439-f795bc6ac214" RefPartnerSideB="bfe6d15d-3e1d-4f41-91f3-a04b89c1deea" Name="Link1" />
+      <InternalLink RefPartnerSideA="9acb5a6f-d15b-4692-a143-808c96e2b0e7" RefPartnerSideB="cc693323-c088-456f-902c-784e06cb91c0" Name="Link2" />
+      <InternalLink RefPartnerSideA="d57b02e3-1c64-411b-9f68-2498fea9ccfb" RefPartnerSideB="09150ba1-5b9d-47b8-8e97-7bf29c76ddb2" Name="Link3" />
+      <InternalLink RefPartnerSideA="26f66a86-5ad9-4013-9f09-a6b20a986572" RefPartnerSideB="bbfc56c6-1c7b-45e8-a021-fd3d058e2ff8" Name="Link4" />
+      <InternalLink RefPartnerSideA="84b316cd-a035-4c85-ab97-3a24b321bf6e" RefPartnerSideB="1436a259-e842-4099-8b7d-29fb2796e438" Name="Link5" />
+      <InternalLink RefPartnerSideA="bd1e1464-b62b-4d9f-92c0-9ed4ff316cb9" RefPartnerSideB="47c47801-d476-4b55-b622-84c38a36b6e3" Name="Link6" />
+      <InternalLink RefPartnerSideA="63dc8e6a-5e31-4cc4-95e0-a8111a1fffa8" RefPartnerSideB="253d399c-7caa-47e4-a168-f1fec0c185b6" Name="Link7" />
+      <InternalLink RefPartnerSideA="d4cd5181-4985-4591-8f32-a0824de7586f" RefPartnerSideB="5cdaace2-a44d-4b03-a0ac-bf22781836f5" Name="Link8" />
+      <InternalLink RefPartnerSideA="6af22a9a-00fa-41c9-a8d2-77e22a59f91f" RefPartnerSideB="36d7d54d-2f74-4561-888f-768aa5a3660c" Name="Link9" />
+      <InternalLink RefPartnerSideA="9bc19846-90ab-4c43-a12a-03bb7e56d952" RefPartnerSideB="367951f4-3283-48af-b705-73e9cc569e18" Name="Link10" />
+      <InternalLink RefPartnerSideA="f5e8b0c2-dce8-48e1-be7c-ec49a72f7e73" RefPartnerSideB="5becb8f7-028c-4b1f-9caf-1a63631e7d19" Name="Link11" />
+      <InternalLink RefPartnerSideA="903456ac-2707-4fd5-b607-05dd225809c9" RefPartnerSideB="b5ba37d0-6406-4b7f-ac9b-a9d53a354b89" Name="Link12" />
+      <InternalLink RefPartnerSideA="460424de-47e8-465e-b0c3-be16d9d0ac62" RefPartnerSideB="bd67bfd0-7f1d-4169-9854-c9a4716e401c" Name="Link13" />
+      <InternalLink RefPartnerSideA="768fe4ef-e186-4a76-9e97-1fd27f85443a" RefPartnerSideB="00843241-ef5a-4b23-9cda-c568602c5fde" Name="Link14" />
+      <InternalLink RefPartnerSideA="ceca6859-1561-4e6b-a974-cfe5ba0b47a0" RefPartnerSideB="db53b3c8-8168-4b7f-bb35-7fa85e7cc1ba" Name="Link15" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="FPD_InterfaceClassLib" ID="a61b44df-8f48-4ca1-9514-8c8095141501">
+    <Version>1.0.0</Version>
+    <InterfaceClass Name="FPD_Port" ID="d087023d-d416-458d-9f8a-63a65b864b5a">
+      <Version>1.0.0</Version>
+      <Attribute Name="PortCoordinate" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+        <Attribute Name="x" AttributeDataType="xs:double" />
+        <Attribute Name="y" AttributeDataType="xs:double" />
+      </Attribute>
+    </InterfaceClass>
+    <InterfaceClass Name="FPD_FlowIn" ID="17caa715-c777-4e1d-ac3d-d74ff58f10a5" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Port">
+      <Version>1.0.0</Version>
+    </InterfaceClass>
+    <InterfaceClass Name="FPD_FlowOut" ID="ac2b02ce-1cf4-4387-86c5-efd561b0e5e3" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Port">
+      <Version>1.0.0</Version>
+    </InterfaceClass>
+    <InterfaceClass Name="FPD_Usage" ID="f555b1d0-5cb0-45b5-b90b-017e810913bd" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Port">
+      <Version>1.0.0</Version>
+    </InterfaceClass>
+    <InterfaceClass Name="FPD_ParallelFlowIn" ID="1420b6c8-cdda-492f-ae10-2783f75ac468" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Port">
+      <Version>1.0.0</Version>
+    </InterfaceClass>
+    <InterfaceClass Name="FPD_ParallelFlowOut" ID="2a2baf03-8c54-4baa-950c-9badad594769" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Port">
+      <Version>1.0.0</Version>
+    </InterfaceClass>
+    <InterfaceClass Name="FPD_AlternativeFlowIn" ID="c43c4278-d5c2-4121-a1fa-478f99cb6e49" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Port">
+      <Version>1.0.0</Version>
+    </InterfaceClass>
+    <InterfaceClass Name="FPD_AlternativeFlowOut" ID="3d96b5f9-006e-4524-9e57-f60a028d6077" RefBaseClassPath="FPD_InterfaceClassLib/FPD_Port">
+      <Version>1.0.0</Version>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <SystemUnitClassLib Name="FPD_SystemUnitClassLib" ID="aec7b6c6-96f4-498c-be27-b2a4e89b52b4">
+    <Version>1.0.0</Version>
+    <Revision>
+      <RevisionDate>2026-02-18T17:22:52.3589747+01:00</RevisionDate>
+      <AuthorName />
+    </Revision>
+    <SystemUnitClass Name="FPD_Object" ID="6ea01087-c177-4b8f-8fd6-88df51f30865">
+      <Version>1.0.0</Version>
+      <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+        <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+        <Attribute Name="longName" AttributeDataType="xs:string" />
+        <Attribute Name="shortName" AttributeDataType="xs:string" />
+        <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+        <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+      </Attribute>
+      <Attribute Name="Characteristics" AttributeDataType="xs:string">
+        <Description>Container for characteristics</Description>
+      </Attribute>
+      <Attribute Name="Visual" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_ElementVisual">
+        <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+          <Attribute Name="x" AttributeDataType="xs:double" />
+          <Attribute Name="y" AttributeDataType="xs:double" />
+        </Attribute>
+        <Attribute Name="width" AttributeDataType="xs:double" />
+        <Attribute Name="height" AttributeDataType="xs:double" />
+      </Attribute>
+    </SystemUnitClass>
+    <SystemUnitClass Name="FPD_SystemLimit" ID="5d438cc1-8bf7-48d7-a6eb-ef546fe0cfb4" RefBaseClassPath="FPD_SystemUnitClassLib/FPD_Object">
+      <Version>1.0.0</Version>
+    </SystemUnitClass>
+    <SystemUnitClass Name="FPD_ProcessOperator" ID="56b26b4e-b3f1-4ae7-9548-65b717eec1ec" RefBaseClassPath="FPD_SystemUnitClassLib/FPD_Object">
+      <Version>1.0.0</Version>
+    </SystemUnitClass>
+    <SystemUnitClass Name="FPD_TechnicalResource" ID="54ddb620-44ea-4296-8dd4-aeec0bbcfa29" RefBaseClassPath="FPD_SystemUnitClassLib/FPD_Object">
+      <Version>1.0.0</Version>
+    </SystemUnitClass>
+    <SystemUnitClass Name="FPD_State" ID="b5526b6b-8f8a-4104-a290-ff726c40ca29" RefBaseClassPath="FPD_SystemUnitClassLib/FPD_Object">
+      <Version>1.0.0</Version>
+    </SystemUnitClass>
+    <SystemUnitClass Name="FPD_Product" ID="d38142c7-1d4b-4373-9c53-52d397b308a1" RefBaseClassPath="FPD_SystemUnitClassLib/FPD_State">
+      <Version>1.0.0</Version>
+    </SystemUnitClass>
+    <SystemUnitClass Name="FPD_Information" ID="0d29f0e9-cbec-481e-8606-4377251e70eb" RefBaseClassPath="FPD_SystemUnitClassLib/FPD_State">
+      <Version>1.0.0</Version>
+    </SystemUnitClass>
+    <SystemUnitClass Name="FPD_Energy" ID="523a5288-8191-45ec-a805-de53f6509553" RefBaseClassPath="FPD_SystemUnitClassLib/FPD_State">
+      <Version>1.0.0</Version>
+    </SystemUnitClass>
+    <SystemUnitClass Name="FPD_Process" ID="6eeddd22-3e29-4eff-aec8-737286831429">
+      <Version>1.0.0</Version>
+      <InternalElement Name="SystemLimit" ID="256f6306-dc11-4e39-a465-2f96f4dcc59f" RefBaseSystemUnitPath="FPD_SystemUnitClassLib/FPD_SystemLimit" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="FPD_AttributeTypeLib" ID="feb8a455-8e63-4af5-ba69-9361aef50c00">
+    <Version>1.0.0</Version>
+    <AttributeType Name="FPD_Identification" ID="b0bcc917-8645-4d64-ad2e-9e2ea14a9c83" AttributeDataType="xs:string">
+      <Version>1.0.0</Version>
+      <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+      <Attribute Name="longName" AttributeDataType="xs:string" />
+      <Attribute Name="shortName" AttributeDataType="xs:string" />
+      <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+      <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+    </AttributeType>
+    <AttributeType Name="FPD_Characteristic" ID="792d065c-9b5c-4605-a615-6fa0f9b053d6" AttributeDataType="xs:string">
+      <Version>1.0.0</Version>
+      <Attribute Name="Identification" AttributeDataType="xs:string" RefAttributeType="FPD_AttributeTypeLib/FPD_Identification">
+        <Attribute Name="uniqueIdent" AttributeDataType="xs:string" />
+        <Attribute Name="longName" AttributeDataType="xs:string" />
+        <Attribute Name="shortName" AttributeDataType="xs:string" />
+        <Attribute Name="versionNumber" AttributeDataType="xs:string" />
+        <Attribute Name="revisionNumber" AttributeDataType="xs:string" />
+      </Attribute>
+      <Attribute Name="DescriptiveElement" AttributeDataType="xs:string">
+        <Attribute Name="valueDeterminationProcess" AttributeDataType="xs:string" xml:space="preserve">   </Attribute>
+        <Attribute Name="representivity" AttributeDataType="xs:string" />
+        <Attribute Name="setpointValue" AttributeDataType="xs:string" />
+        <Attribute Name="validityLimits" AttributeDataType="xs:string" />
+        <Attribute Name="actualValues" AttributeDataType="xs:string" />
+      </Attribute>
+      <Attribute Name="RelationalElement" AttributeDataType="xs:string">
+        <Attribute Name="view" AttributeDataType="xs:string" />
+        <Attribute Name="model" AttributeDataType="xs:string" />
+        <Attribute Name="regulationsForRelationalGeneration" AttributeDataType="xs:string" />
+      </Attribute>
+    </AttributeType>
+  </AttributeTypeLib>
+  <AttributeTypeLib Name="FPD_VisualAttributeTypeLib" ID="c82d0ee5-cd8d-4fd3-84a0-f9352b16b837">
+    <Version>1.0.0</Version>
+    <AttributeType Name="FPD_ElementVisual" ID="8705608e-dd7d-490e-8557-86a57d00af95" AttributeDataType="xs:string">
+      <Version>1.0.0</Version>
+      <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+        <Attribute Name="x" AttributeDataType="xs:double" />
+        <Attribute Name="y" AttributeDataType="xs:double" />
+      </Attribute>
+      <Attribute Name="width" AttributeDataType="xs:double" />
+      <Attribute Name="height" AttributeDataType="xs:double" />
+    </AttributeType>
+    <AttributeType Name="FPD_Waypoint" ID="94a87ac4-acd0-456e-890f-61db30769fb4" AttributeDataType="xs:string">
+      <Version>1.0.0</Version>
+      <Attribute Name="position" AttributeDataType="xs:string" RefAttributeType="FPD_VisualAttributeTypeLib/FPD_Coordinate">
+        <Attribute Name="x" AttributeDataType="xs:double" />
+        <Attribute Name="y" AttributeDataType="xs:double" />
+      </Attribute>
+    </AttributeType>
+    <AttributeType Name="FPD_Coordinate" ID="2bc7727a-438d-4514-8775-ddcd2f6f32a0" AttributeDataType="xs:string">
+      <Version>1.0.0</Version>
+      <Attribute Name="x" AttributeDataType="xs:double" />
+      <Attribute Name="y" AttributeDataType="xs:double" />
+    </AttributeType>
+  </AttributeTypeLib>
+</CAEXFile>

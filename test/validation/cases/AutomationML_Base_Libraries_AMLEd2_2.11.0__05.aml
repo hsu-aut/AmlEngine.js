@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?><!-- mutations: duplicateElement, changeSchemaVersion -->
+<!-- edited with XMLSpy v2014 sp1 (http://www.altova.com) by Forschungszentrum Deutschland (ABB AG) -->
+<CAEXFile xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="2.15" FileName="AutomationML_Base_Libraries_AMLEd2_2.11.0.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.1</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="Base_Libraries" OriginID="9812555f-a8ad-4daf-9685-752ab0c64c75" OriginVersion="2.11.0" LastWritingDateTime="2025-01-07T14:36:59.8012617+01:00" OriginProjectID="" OriginProjectTitle="" OriginRelease="2.11.0" OriginVendor="AutomationML" OriginVendorURL="https://automationml.org/AutomationML_Base_Libraries_AMLEd2_2.11.0.aml" />
+  <ExternalReference Path="https://9t4kqL7NX8JsW6o@automationml.ovgu.de/public.php/webdav/AutomationML_Base_Libraries_AMLEd2_2.10.0.aml" Alias="AutomationMLBaseLibrariesAMLEd22_10_0">
+    <Description>VersionRef</Description>
+    <Version>OldVersion</Version>
+  </ExternalReference>
+  <ExternalReference Path="https://9t4kqL7NX8JsW6o@automationml.ovgu.de/public.php/webdav/AutomationML_Base.Geometry_Libraries_AMLEd2_2.12.0.aml" Alias="AutomationMLBase.GeometryLibrariesAMLEd22_12_0">
+    <Description>VersionRef</Description>
+    <Version>NewVersion</Version>
+  </ExternalReference>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib" ID="d430ff4f-13d5-4698-b71b-6dc7abacd20f">
+    <Description>Standard Automation Markup Language Interface Class Library</Description>
+    <Version>2.11.0</Version>
+    <Revision>
+      <RevisionDate>2025-01-07T14:36:59.6250973+01:00</RevisionDate>
+      <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib</OldVersion>
+      <AuthorName>drath</AuthorName>
+    </Revision>
+    <Revision>
+      <RevisionDate>2025-01-14T17:44:46.5762351+01:00</RevisionDate>
+      <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib</NewVersion>
+      <AuthorName>drath</AuthorName>
+    </Revision>
+    <InterfaceClass Name="AutomationMLBaseInterface" ID="1080f36f-1bf2-4eb6-bba1-a83b8512fb18">
+      <Description>super class of all AML interface classes</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.6306549+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.5792138+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <InterfaceClass Name="Order" RefBaseClassPath="AutomationMLBaseInterface" ID="ffc7f6d3-eb12-43bc-8608-9a03a31234e5">
+        <Description>interface class for modelling orders</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.6366005+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Order</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5822033+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Order</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction" />
+      </InterfaceClass>
+      <InterfaceClass Name="Port" RefBaseClassPath="AutomationMLBaseInterface" ID="6a4498cf-e793-4995-9cd9-4b4cd7f609a4">
+        <Description>interface class for modelling nested interfaces</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.6571722+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Port</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5858686+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Port</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Constraint Name="AllowedValues">
+            <NominalScaledType>
+              <RequiredValue>In</RequiredValue>
+              <RequiredValue>Out</RequiredValue>
+              <RequiredValue>InOut</RequiredValue>
+            </NominalScaledType>
+          </Constraint>
+        </Attribute>
+        <Attribute Name="Cardinality" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category" />
+      </InterfaceClass>
+      <InterfaceClass Name="PPRConnector" RefBaseClassPath="AutomationMLBaseInterface" ID="ffce1c7e-12f3-4f69-bb12-db064641bfa1">
+        <Description>interface class for modelling a relation between resources, products and processes</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.6626369+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PPRConnector</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5896965+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PPRConnector</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+      </InterfaceClass>
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLBaseInterface" ID="daf4f0d5-60c7-4680-9de5-839c45943f84">
+        <Description>interface class to model references to external documents</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.6679267+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5935935+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="ExternalDataConnector" ID="8c7c8874-c710-4c29-b370-adea4fa74472">
+          <Description>interface class to reference external COLLADA documents</Description>
+          <Version>1.0.0</Version>
+          <Revision>
+            <RevisionDate>2025-01-07T14:36:59.6730801+01:00</RevisionDate><RevisionDate>2025-01-07T14:36:59.6730801+01:00</RevisionDate>
+            <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface</OldVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+          <Revision>
+            <RevisionDate>2025-01-14T17:44:46.6150435+01:00</RevisionDate>
+            <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface</NewVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+        </InterfaceClass>
+        <InterfaceClass Name="PLCopenXMLInterface" RefBaseClassPath="ExternalDataConnector" ID="e85a7f4d-0568-4071-99dd-251dd6762200">
+          <Description>interface class to reference external PLXopen XML documents</Description>
+          <Version>1.0.0</Version>
+          <Revision>
+            <RevisionDate>2025-01-07T14:36:59.6784243+01:00</RevisionDate>
+            <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/PLCopenXMLInterface</OldVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+          <Revision>
+            <RevisionDate>2025-01-14T17:44:46.6178927+01:00</RevisionDate>
+            <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/PLCopenXMLInterface</NewVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+        </InterfaceClass>
+        <InterfaceClass Name="ExternalDataReference" RefBaseClassPath="ExternalDataConnector" ID="cdf421ef-b928-4c17-8f82-a901704b39c3">
+          <Description>interface class to reference general external documents</Description>
+          <Version>1.0.0</Version>
+          <Revision>
+            <RevisionDate>2025-01-07T14:36:59.6908005+01:00</RevisionDate>
+            <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/ExternalDataReference</OldVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+          <Revision>
+            <RevisionDate>2025-01-14T17:44:46.6205682+01:00</RevisionDate>
+            <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/ExternalDataReference</NewVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+          <Attribute Name="MIMEType" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/MIMEType" />
+        </InterfaceClass>
+      </InterfaceClass>
+      <InterfaceClass Name="Communication" RefBaseClassPath="AutomationMLBaseInterface" ID="4eeaf400-d298-4cc2-9f73-3579cad22fe2">
+        <Description>abstract interface class to model communication interfaces</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.6963015+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Communication</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.6232285+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Communication</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <InterfaceClass Name="SignalInterface" RefBaseClassPath="Communication" ID="18660ec2-09a2-4153-abe1-6613478719d2">
+          <Description>interface class to model signals</Description>
+          <Version>1.0.0</Version>
+          <Revision>
+            <RevisionDate>2025-01-07T14:36:59.701268+01:00</RevisionDate>
+            <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Communication/SignalInterface</OldVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+          <Revision>
+            <RevisionDate>2025-01-14T17:44:46.6257895+01:00</RevisionDate>
+            <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Communication/SignalInterface</NewVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+        </InterfaceClass>
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib" ID="6fcf865c-957c-405a-b597-120ad913965b">
+    <Description>Automation Markup Language base role class library</Description>
+    <Version>2.11.0</Version>
+    <Revision>
+      <RevisionDate>2025-01-07T14:36:59.524837+01:00</RevisionDate>
+      <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib</OldVersion>
+      <AuthorName>drath</AuthorName>
+    </Revision>
+    <Revision>
+      <RevisionDate>2025-01-14T17:44:46.4894278+01:00</RevisionDate>
+      <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib</NewVersion>
+      <AuthorName>drath</AuthorName>
+    </Revision>
+    <RoleClass Name="AutomationMLBaseRole" ID="b26f396f-6e1f-4139-8263-6d797041225c">
+      <Description>super class of all AML role classes</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.5425664+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.5229402+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <RoleClass Name="Group" RefBaseClassPath="AutomationMLBaseRole" ID="adf6e16d-981e-4d1c-9105-45e8e0dcfcb1">
+        <Description>role class providing a sub view on objects </Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.550596+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5362444+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Attribute Name="AssociatedFacet" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/AssociatedFacet" />
+      </RoleClass>
+      <RoleClass Name="Facet" RefBaseClassPath="AutomationMLBaseRole" ID="a68cec18-d28c-463c-ad89-ca64f25bbd25">
+        <Description>role class providing a sub view on attributes or interfaces</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.5583268+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5409731+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+      </RoleClass>
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRole" ID="8d9a5cdd-5206-43ea-8e25-4b226cfd485d">
+        <Description>base class for all AML resource role classes</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.5742925+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5447814+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+      </RoleClass>
+      <RoleClass Name="Product" RefBaseClassPath="AutomationMLBaseRole" ID="3eeac58c-5591-4f6a-ac53-e503b26ff4af">
+        <Description>base class for all AML product role classes</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.5799864+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Product</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5482054+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Product</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+      </RoleClass>
+      <RoleClass Name="Process" RefBaseClassPath="AutomationMLBaseRole" ID="cdb61a99-a5f1-417d-a00c-f1b1f73a109c">
+        <Description>base class for all AML process role classes</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.5853419+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Process</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5513802+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Process</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+      </RoleClass>
+      <RoleClass Name="Structure" RefBaseClassPath="AutomationMLBaseRole" ID="d640d655-05a8-4d80-9d61-c8e669b7d00d">
+        <Description>base class for all structure elements </Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.5906319+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5544804+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <RoleClass Name="ProductStructure" RefBaseClassPath="Structure" ID="6ad1c51a-bc2f-4a1d-8b9a-7fb8119c1d10">
+          <Description>base class for a product stucture</Description>
+          <Version>1.0.0</Version>
+          <Revision>
+            <RevisionDate>2025-01-07T14:36:59.5958272+01:00</RevisionDate>
+            <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ProductStructure</OldVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+          <Revision>
+            <RevisionDate>2025-01-14T17:44:46.5573326+01:00</RevisionDate>
+            <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ProductStructure</NewVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+        </RoleClass>
+        <RoleClass Name="ProcessStructure" RefBaseClassPath="Structure" ID="1272b435-6c68-4e9d-8b32-bfca8c330932">
+          <Description>base class for a process stucture</Description>
+          <Version>1.0.0</Version>
+          <Revision>
+            <RevisionDate>2025-01-07T14:36:59.6092423+01:00</RevisionDate>
+            <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ProcessStructure</OldVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+          <Revision>
+            <RevisionDate>2025-01-14T17:44:46.5600436+01:00</RevisionDate>
+            <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ProcessStructure</NewVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+        </RoleClass>
+        <RoleClass Name="ResourceStructure" RefBaseClassPath="Structure" ID="148c0bbb-ee68-45f0-a038-5bc409842168">
+          <Description>base class for a ressource stucture</Description>
+          <Version>1.0.0</Version>
+          <Revision>
+            <RevisionDate>2025-01-07T14:36:59.6147137+01:00</RevisionDate>
+            <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure</OldVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+          <Revision>
+            <RevisionDate>2025-01-14T17:44:46.5705535+01:00</RevisionDate>
+            <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure</NewVersion>
+            <AuthorName>drath</AuthorName>
+          </Revision>
+        </RoleClass>
+      </RoleClass>
+      <RoleClass Name="ExternalData" RefBaseClassPath="AutomationMLBaseRole" ID="50c9a126-22de-475c-854b-7ff3d3e03b80">
+        <Description>base class for all document type roles</Description>
+        <Version>1.0.0</Version>
+        <Revision>
+          <RevisionDate>2025-01-07T14:36:59.6197782+01:00</RevisionDate>
+          <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/ExternalData</OldVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+        <Revision>
+          <RevisionDate>2025-01-14T17:44:46.5733216+01:00</RevisionDate>
+          <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/ExternalData</NewVersion>
+          <AuthorName>drath</AuthorName>
+        </Revision>
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib" ID="d66acc58-eefc-47ba-ac34-6ac35016f26b">
+    <Description>Standard Automation Markup Language Attribute Type Library</Description>
+    <Version>2.11.0</Version>
+    <Revision>
+      <RevisionDate>2025-01-07T14:36:59.7069023+01:00</RevisionDate>
+      <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib</OldVersion>
+      <AuthorName>drath</AuthorName>
+    </Revision>
+    <Revision>
+      <RevisionDate>2025-01-14T17:44:46.6284639+01:00</RevisionDate>
+      <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib</NewVersion>
+      <AuthorName>drath</AuthorName>
+    </Revision>
+    <AttributeType Name="Direction" AttributeDataType="xs:string" ID="5950256a-f43d-4eb2-9966-10261b96080c">
+      <Description>direction of an CAEX interface</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.7134134+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/Direction</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6311899+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/Direction</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Constraint Name="AllowedValues">
+        <NominalScaledType>
+          <RequiredValue>In</RequiredValue>
+          <RequiredValue>Out</RequiredValue>
+          <RequiredValue>InOut</RequiredValue>
+        </NominalScaledType>
+      </Constraint>
+    </AttributeType>
+    <AttributeType Name="Cardinality" ID="01e4adb0-f8e9-4644-81e1-16f92737ad55">
+      <Description>allowed maximum and minimum number of connects from or to an interface</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.7203592+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/Cardinality</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6339922+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/Cardinality</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+      <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+    </AttributeType>
+    <AttributeType Name="Category" AttributeDataType="xs:string" ID="d01ffd9e-1e59-4d4a-a088-856a1b7e0115">
+      <Description>user defined kind of an interface</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.733195+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/Category</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6435537+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/Category</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+    </AttributeType>
+    <AttributeType Name="refURI" AttributeDataType="xs:anyURI" ID="47cd96fd-74d7-4694-94a9-5cd68f69eed7">
+      <Description>path or URI to an external document</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.7383866+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/refURI</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6463539+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/refURI</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+    </AttributeType>
+    <AttributeType Name="AssociatedFacet" AttributeDataType="xs:string" ID="c30166d8-a577-44a2-9229-ce578a51f40c">
+      <Description>name of a related facet</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.7434425+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/AssociatedFacet</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6490916+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/AssociatedFacet</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+    </AttributeType>
+    <AttributeType Name="ListType" ID="0fb77b54-3f55-4943-9e4d-f157582dcb2c">
+      <Description>unsorted list of attributes</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.74846+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/ListType</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6518282+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/ListType</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+    </AttributeType>
+    <AttributeType Name="OrderedListType" ID="d19b786e-905f-4d5b-a5df-ffef866ddb90">
+      <Description>sorted list of attributes</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.7544594+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/OrderedListType</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6544723+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/OrderedListType</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+    </AttributeType>
+    <AttributeType Name="LocalizedAttribute" AttributeDataType="xs:string" ID="7aab19d2-77f0-46a9-b2d4-0ec563cfe46a">
+      <Description>sub-attribute describing a language alternative of its parent attribute</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.7594993+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/LocalizedAttribute</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6579287+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/LocalizedAttribute</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+    </AttributeType>
+    <AttributeType Name="AssociatedExternalValue" ID="ccb86d5f-64fb-4473-ae65-6d76ab34d253">
+      <Description>contains nested attributes which allow to interconnect a CAEX attribute to an item in an external document</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.7758317+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/AssociatedExternalValue</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6615377+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/AssociatedExternalValue</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Attribute Name="refCAEXAttribute" />
+      <Attribute Name="refURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+      <Attribute Name="Direction" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction" />
+    </AttributeType>
+    <AttributeType Name="MIMEType" AttributeDataType="xs:string" ID="5f73faf9-3439-437a-8e5b-cb77edc7d339">
+      <Description>MIMEType of a referenced document</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.782961+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/MIMEType</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6653902+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/MIMEType</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+    </AttributeType>
+    <AttributeType Name="DocLang" AttributeDataType="xs:string" ID="84257c64-e4d3-495d-b716-a8aa8fffa227">
+      <Description>language of a referenced document</Description>
+      <Version>1.0.0</Version>
+      <Revision>
+        <RevisionDate>2025-01-07T14:36:59.7898513+01:00</RevisionDate>
+        <OldVersion>AutomationMLBaseLibrariesAMLEd22_10_0@AutomationMLBaseAttributeTypeLib/DocLang</OldVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+      <Revision>
+        <RevisionDate>2025-01-14T17:44:46.6690257+01:00</RevisionDate>
+        <NewVersion>AutomationMLBase.GeometryLibrariesAMLEd22_12_0@AutomationMLBaseAttributeTypeLib/DocLang</NewVersion>
+        <AuthorName>drath</AuthorName>
+      </Revision>
+    </AttributeType>
+  </AttributeTypeLib>
+</CAEXFile>

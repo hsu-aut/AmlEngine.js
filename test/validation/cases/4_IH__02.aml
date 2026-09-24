@@ -1,0 +1,4 @@
+<!-- mutations: removeRequiredAttribute, removeAnyAttribute --><CAEXFile SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <InstanceHierarchy Name="ManufacturingSystem">
+  </InstanceHierarchy>
+</CAEXFile>

@@ -1,0 +1,5 @@
+<!-- mutations: addUndeclaredAttribute, emptyContent --><CAEXFile FileName="2_IE.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="./CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:lang="not a lang">
+  <InstanceHierarchy Name="ManufacturingSystem">
+    <InternalElement Name="firstScrewdriver" ID="788eb291-f103-4fdc-aba0-4893b599f556" />
+  </InstanceHierarchy>
+</CAEXFile>

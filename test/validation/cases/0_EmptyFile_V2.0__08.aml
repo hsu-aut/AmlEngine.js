@@ -1,0 +1,3 @@
+<!-- mutations: removeRequiredAttribute, removeRequiredAttribute, duplicateElement --><CAEXFile xsi:noNamespaceSchemaLocation="./Source/CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" /><AdditionalInformation AutomationMLVersion="2.0" />
+</CAEXFile>

@@ -136,3 +136,7 @@ export class DivideByZeroException extends ArithmeticException {
     super(message);
   }
 }
+
+export class EncoderFallbackException extends ArgumentException {
+  override name = 'EncoderFallbackException';
+}

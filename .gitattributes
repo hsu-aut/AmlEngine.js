@@ -7,3 +7,4 @@ test/xml-fuzz/** binary
 test/xml-ops/** binary
 test/engine-ops/** binary
 test/system/cases.json binary
+test/validation/cases/** binary
