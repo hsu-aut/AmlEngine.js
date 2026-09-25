@@ -15,7 +15,7 @@ System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.Culture
 var json = new JsonSerializerOptions { WriteIndented = true };
 
 // Directories stand for all files in them (keeps command lines short).
-if (args.FirstOrDefault() is not ("xops" or "sys" or "engineops"))
+if (args.FirstOrDefault() is not ("xops" or "sys" or "engineops" or "values" or "amlobjects" or "mutations" or "reads"))
 args = args.Take(2).Concat(args.Skip(2).SelectMany<string, string>(a => Directory.Exists(a)
     ? Directory.GetFiles(a).OrderBy(f => f, StringComparer.Ordinal)
     : new[] { a })).ToArray();
@@ -77,6 +77,20 @@ switch (args.FirstOrDefault())
             SchemaDump.Export(Aml.Engine.Schema.AMLSchemaManager3_0.Instance).ToJsonString(json));
         File.WriteAllText(Path.Combine(args[1], "caex215.json"),
             SchemaDump.Export(Aml.Engine.Schema.AMLSchemaManager2_15.Instance).ToJsonString(json));
+        break;
+
+    // Coverage work packages: each command gets the remaining arguments unchanged.
+    case "values":
+        ValuesOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "amlobjects":
+        AmlObjectsOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "mutations":
+        MutationsOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "reads":
+        ReadsOracle.Run(args.Skip(1).ToArray());
         break;
 
     case "validate":
