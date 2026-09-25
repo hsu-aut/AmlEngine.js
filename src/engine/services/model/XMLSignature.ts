@@ -4,7 +4,7 @@
 // XDocument, LoadFromString parses with XDocument.Parse (XmlDocument.LoadXml in C#).
 
 import { T } from '../../registry.js';
-import { ArgumentNullException, IndexOutOfRangeException } from '../../../system/exceptions.js';
+import { ArgumentNullException, IndexOutOfRangeException, OverflowException } from '../../../system/exceptions.js';
 import { isWhiteSpace } from '../../../system/Char.js';
 import { isNullOrEmpty } from '../../../system/strings.js';
 import { parseXDocument, XElement, XName, type XDocument } from '../../../xml/index.js';
@@ -57,6 +57,10 @@ export class XMLSignature extends XMLSignatureElement {
       if (isWhiteSpace(at(i))) {
         num++;
       }
+    }
+    // new char[inputCount - num]: a negative length throws OverflowException.
+    if (inputCount - num < 0) {
+      throw new OverflowException();
     }
     const array: string[] = [];
     for (let i = 0; i < inputCount; i++) {

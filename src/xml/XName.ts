@@ -1,7 +1,7 @@
 // Port of System.Xml.Linq.XNamespace / XName. Both are interned, so reference equality is
 // name equality, as in .NET.
 
-import { XmlException as XmlExceptionLike, verifyNCName } from './XmlChars.js';
+import { verifyNCName } from './XmlChars.js';
 import { ArgumentException } from '../system/exceptions.js';
 
 export class XNamespace {
@@ -26,6 +26,8 @@ export class XNamespace {
   getName(localName: string): XName {
     let name = this.names.get(localName);
     if (!name) {
+      // XmlConvert.VerifyNCName: ArgumentException.ThrowIfNullOrEmpty(name) before the name check.
+      if (localName === '') throw new ArgumentException('The value cannot be an empty string.', 'name');
       verifyNCName(localName);
       name = new XName(this, localName);
       this.names.set(localName, name);
@@ -54,10 +56,12 @@ export class XName {
   static get(localName: string, namespaceName: string): XName;
   static get(name: string, namespaceName?: string): XName {
     if (namespaceName !== undefined) return XNamespace.get(namespaceName).getName(name);
-    if (name.length === 0) throw new ArgumentException(`The empty string '' is not a valid name.`);
+    // .NET 8: ArgumentException.ThrowIfNullOrEmpty(expandedName).
+    if (name.length === 0) throw new ArgumentException('The value cannot be an empty string.', 'expandedName');
     if (name[0] !== '{') return XNamespace.None.getName(name);
     const end = name.lastIndexOf('}');
-    if (end <= 1 || end === name.length - 1) throw new XmlExceptionLike(`The '{' character, hexadecimal value 0x7B, cannot be included in a name.`);
+    // .NET: ArgumentException (SR.Argument_InvalidExpandedName).
+    if (end <= 1 || end === name.length - 1) throw new ArgumentException(`'${name}' is an invalid expanded name.`);
     return XNamespace.get(name.substring(1, end)).getName(name.substring(end + 1));
   }
 

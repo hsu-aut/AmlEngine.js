@@ -120,7 +120,7 @@ export class AMLLibraryServerDataProfile extends PasswordProtected implements IC
     }
     const result = c.charCodeAt(0) - 48;
     if (fileName.length < 3) {
-      throw new ArgumentOutOfRangeException('startIndex');
+      throw new ArgumentOutOfRangeException('startIndex', 'startIndex cannot be larger than length of string.');
     }
     originalName = fileName.substring(3);
     if (result >= AMLFileContentTypeCount) {

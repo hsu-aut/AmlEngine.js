@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="uniq215.aml" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd">
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="IE1" ID="{11110000-0000-0000-0000-000000000001}" RefBaseSystemUnitPath="SUCL/S2">
+      <Attribute Name="x" AttributeDataType="xs:string">
+        <Attribute Name="xs" />
+      </Attribute>
+      <Attribute Name="y" />
+      <ExternalInterface Name="ix" ID="{11110000-0000-0000-0000-000000000011}" RefBaseClassPath="ICL/I1">
+        <Attribute Name="ixa" />
+      </ExternalInterface>
+      <ExternalInterface Name="iy" ID="{11110000-0000-0000-0000-000000000012}" RefBaseClassPath="ICL/I1" />
+      <SupportedRoleClass RefRoleClassPath="RCL/R1" />
+      <SupportedRoleClass RefRoleClassPath="RCL/R3" />
+      <SupportedRoleClass RefRoleClassPath="RCL/Missing" />
+      <RoleRequirements RefBaseRoleClassPath="RCL/R1">
+        <Attribute Name="a1" />
+        <Attribute Name="rq" />
+        <Attribute Name="R3.a3" />
+        <Attribute Name="R3.a3.a3s" />
+        <ExternalInterface Name="e1" ID="{11110000-0000-0000-0000-000000000021}" RefBaseClassPath="ICL/I1" />
+        <ExternalInterface Name="rqi" ID="{11110000-0000-0000-0000-000000000022}" RefBaseClassPath="ICL/I1" />
+        <ExternalInterface Name="R3.e3" ID="{11110000-0000-0000-0000-000000000023}" RefBaseClassPath="ICL/I1" />
+      </RoleRequirements>
+      <MappingObject>
+        <AttributeNameMapping SystemUnitAttributeName="x" RoleAttributeName="a1" />
+        <AttributeNameMapping SystemUnitAttributeName="y" RoleAttributeName="R3.a3" />
+        <AttributeNameMapping SystemUnitAttributeName="nope" RoleAttributeName="nope" />
+        <InterfaceNameMapping SystemUnitInterfaceName="ix" RoleInterfaceName="e1" />
+        <InterfaceNameMapping SystemUnitInterfaceName="iy" RoleInterfaceName="R3.e3" />
+        <InterfaceNameMapping SystemUnitInterfaceName="nope" RoleInterfaceName="nope" />
+      </MappingObject>
+    </InternalElement>
+    <InternalElement Name="IE2" ID="{11110000-0000-0000-0000-000000000002}">
+      <Attribute Name="z" />
+      <ExternalInterface Name="iz" ID="{11110000-0000-0000-0000-000000000013}" />
+      <MappingObject>
+        <AttributeNameMapping SystemUnitAttributeName="z" RoleAttributeName="a1" />
+        <InterfaceNameMapping SystemUnitInterfaceName="iz" RoleInterfaceName="e1" />
+      </MappingObject>
+    </InternalElement>
+    <InternalElement Name="IE3" ID="{11110000-0000-0000-0000-000000000003}">
+      <Attribute Name="w" />
+      <SupportedRoleClass RefRoleClassPath="RCL/R2" />
+      <MappingObject>
+        <AttributeNameMapping SystemUnitAttributeName="w" RoleAttributeName="a2" />
+        <InterfaceNameMapping SystemUnitInterfaceName="w" RoleInterfaceName="e2" />
+      </MappingObject>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="I1">
+      <Attribute Name="ia" />
+    </InterfaceClass>
+    <InterfaceClass Name="I2" RefBaseClassPath="ICL/I1" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="R1">
+      <Attribute Name="a1">
+        <Attribute Name="a1s" />
+      </Attribute>
+      <ExternalInterface Name="e1" ID="{11110000-0000-0000-0000-000000000031}" RefBaseClassPath="ICL/I1">
+        <Attribute Name="e1a" />
+      </ExternalInterface>
+    </RoleClass>
+    <RoleClass Name="R2" RefBaseClassPath="RCL/R1">
+      <Attribute Name="a2" />
+      <ExternalInterface Name="e2" ID="{11110000-0000-0000-0000-000000000032}" RefBaseClassPath="ICL/I2" />
+    </RoleClass>
+    <RoleClass Name="R3">
+      <Attribute Name="a3">
+        <Attribute Name="a3s" />
+      </Attribute>
+      <Attribute Name="b3" />
+      <ExternalInterface Name="e3" ID="{11110000-0000-0000-0000-000000000033}" RefBaseClassPath="ICL/I1" />
+      <ExternalInterface Name="f3" ID="{11110000-0000-0000-0000-000000000034}" RefBaseClassPath="ICL/I1" />
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="S1">
+      <Attribute Name="s1">
+        <Attribute Name="s1s" />
+      </Attribute>
+      <ExternalInterface Name="si1" ID="{11110000-0000-0000-0000-000000000041}" RefBaseClassPath="ICL/I1">
+        <Attribute Name="si1a" />
+      </ExternalInterface>
+      <SupportedRoleClass RefRoleClassPath="RCL/R1">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="a1" />
+          <InterfaceNameMapping SystemUnitInterfaceName="si1" RoleInterfaceName="e1" />
+        </MappingObject>
+      </SupportedRoleClass>
+      <InternalLink Name="L1" RefPartnerSideA="S1:si1" RefPartnerSideB="sie:x" />
+      <SystemUnitClass Name="S1n" RefBaseClassPath="S1" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="S2" RefBaseClassPath="SUCL/S1">
+      <Attribute Name="s2" />
+      <ExternalInterface Name="si2" ID="{11110000-0000-0000-0000-000000000042}" RefBaseClassPath="ICL/I2" />
+      <SupportedRoleClass RefRoleClassPath="RCL/R2">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s1.s1s" RoleAttributeName="a1.a1s" />
+          <InterfaceNameMapping SystemUnitInterfaceName="si1" RoleInterfaceName="e2" />
+        </MappingObject>
+      </SupportedRoleClass>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

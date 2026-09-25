@@ -239,13 +239,13 @@ class ContentTypeHelper {
   }
 
   getContentType(partUri: ValidatedPartUri): ContentType | null {
-    const o = this._overrideDictionary?.get(partUri.normalizedPartUriString);
+    const o = this._overrideDictionary?.get(partUri.partUriString);
     if (o !== undefined) return o.contentType;
     return this._defaultDictionary.get(partUri.partUriExtension.toUpperCase())?.contentType ?? null;
   }
 
   deleteContentType(partUri: ValidatedPartUri): void {
-    if (this._overrideDictionary != null && this._overrideDictionary.remove(partUri.normalizedPartUriString)) {
+    if (this._overrideDictionary != null && this._overrideDictionary.remove(partUri.partUriString)) {
       this._dirty = true;
     }
   }
@@ -337,14 +337,16 @@ class ContentTypeHelper {
     throwIfXmlAttributeMissing('ContentType', contentType, 'Override');
     const key = PackUriHelper.validatePartUri(new Uri(partName, UriKind.Relative));
     this._overrideDictionary ??= new SlotDictionary();
-    this._overrideDictionary.add(key.normalizedPartUriString, { uri: key, contentType: new ContentType(contentType) });
+    // The override dictionary of .NET is keyed by the part URI as written (case sensitive): overrides
+    // differing in case are separate entries, an exact duplicate throws ArgumentException.
+    this._overrideDictionary.add(key.partUriString, { uri: key, contentType: new ContentType(contentType) });
     processEndElement(element, 'Override');
   }
 
   private addOverrideElement(partUri: ValidatedPartUri, contentType: ContentType): void {
     this.deleteContentType(partUri);
     this._overrideDictionary ??= new SlotDictionary();
-    this._overrideDictionary.add(partUri.normalizedPartUriString, { uri: partUri, contentType });
+    this._overrideDictionary.add(partUri.partUriString, { uri: partUri, contentType });
     this._dirty = true;
   }
 
@@ -573,6 +575,10 @@ class InternalRelationshipCollection implements Iterable<PackageRelationship> {
   }
 
   static throwIfInvalidXsdId(id: string): void {
+    // XmlConvert.VerifyNCName: an empty ID throws ArgumentException (only XmlException is wrapped).
+    if (id === '') {
+      throw new ArgumentException('The value cannot be an empty string.', 'name');
+    }
     if (!isNCName(id)) {
       throw new XmlException(`'${id}' ID is not a valid XSD ID.`);
     }

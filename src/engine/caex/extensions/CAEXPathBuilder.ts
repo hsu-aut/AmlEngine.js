@@ -7,6 +7,7 @@
 import { XElement, XName } from '../../../xml/index.js';
 import { ArgumentException, ArgumentNullException, ArgumentOutOfRangeException, IndexOutOfRangeException } from '../../../system/exceptions.js';
 import { isNullOrEmpty, isNullOrWhiteSpace } from '../../../system/strings.js';
+import { cultureEndsWith as compareInfoIsSuffix, cultureStartsWith as compareInfoIsPrefix } from '../../../system/CompareInfo.js';
 import { from } from '../../../system/linq.js';
 import { CAEXDocument_CAEXSchema } from '../CAEXDocument.js';
 import { XmlCAEXSchema } from '../../xmlext/XmlCAEXSchema.js';
@@ -959,16 +960,15 @@ function trimEndChars(s: string, chars: string[]): string {
 }
 
 /**
- * string.StartsWith(string) is culture sensitive in .NET. The port compares ordinally, which is
- * identical except for ignorable code points and canonically equivalent sequences.
+ * string.StartsWith(string) is culture sensitive in .NET (see src/system/CompareInfo.ts).
  */
 function cultureStartsWith(s: string, value: string | null): boolean {
   if (value === null) throw new ArgumentNullException('value');
-  return s.startsWith(value);
+  return compareInfoIsPrefix(s, value);
 }
 
 /** string.EndsWith(string), culture sensitive in .NET (see cultureStartsWith). */
 function cultureEndsWith(s: string, value: string | null): boolean {
   if (value === null) throw new ArgumentNullException('value');
-  return s.endsWith(value);
+  return compareInfoIsSuffix(s, value);
 }

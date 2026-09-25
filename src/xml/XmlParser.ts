@@ -106,15 +106,23 @@ class Parser {
   }
 
   private parseXmlDeclaration(): void {
+    // XmlTextReaderImpl.ParseXmlDeclaration: version, then optional encoding, then optional
+    // standalone, each preceded by white space; any other name, order or repetition is an error.
     this.pos = 5;
     const attrs = new Map<string, string>();
+    let state = 0; // 0: version expected, 1: after version, 2: after encoding, 3: after standalone
     for (;;) {
-      this.skipWs();
-      if (this.s.startsWith('?>', this.pos)) {
+      const ws = this.skipWs();
+      if (this.s[this.pos] === '?') {
+        if (this.s[this.pos + 1] !== '>' || state === 0) this.fail('Syntax for an XML declaration is invalid.');
         this.pos += 2;
         break;
       }
+      if (!ws && state !== 0) this.fail("Unexpected token '?>' expected.");
       const name = this.readName();
+      if (!((name === 'version' && state === 0) || (name === 'encoding' && state === 1) || (name === 'standalone' && (state === 1 || state === 2)))) {
+        this.fail('Syntax for an XML declaration is invalid.');
+      }
       this.skipWs();
       this.expect('=');
       this.skipWs();
@@ -122,15 +130,14 @@ class Parser {
       if (q !== '"' && q !== "'") this.fail('\'"\' or \'\'\' expected.');
       const end = this.s.indexOf(q, this.pos + 1);
       if (end < 0) this.fail('Unexpected end of file.');
-      attrs.set(name, this.s.substring(this.pos + 1, end));
+      const value = this.s.substring(this.pos + 1, end);
+      if (name === 'version' && value !== '1.0') this.fail(`Version number '${value}' is invalid.`);
+      if (name === 'standalone' && value !== 'yes' && value !== 'no') this.fail('Syntax for an XML declaration is invalid.');
+      attrs.set(name, value);
+      state = name === 'version' ? 1 : name === 'encoding' ? 2 : 3;
       this.pos = end + 1;
     }
-    const version = attrs.get('version');
-    if (version === undefined) this.fail('Version number is missing.');
-    if (version !== '1.0') this.fail(`Version number '${version}' is invalid.`);
-    const standalone = attrs.get('standalone');
-    if (standalone !== undefined && standalone !== 'yes' && standalone !== 'no') this.fail('Syntax for an XML declaration is invalid.');
-    this.doc.declaration = new XDeclaration(version, attrs.get('encoding') ?? null, standalone ?? null);
+    this.doc.declaration = new XDeclaration(attrs.get('version')!, attrs.get('encoding') ?? null, attrs.get('standalone') ?? null);
   }
 
   private parseDoctype(): void {

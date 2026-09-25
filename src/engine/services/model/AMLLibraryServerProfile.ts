@@ -8,7 +8,8 @@
 
 import { T } from '../../registry.js';
 import { registerInterfaces } from '../../interfaces.js';
-import { ArgumentNullException, FormatException, NotSupportedException } from '../../../system/exceptions.js';
+import { ArgumentNullException, FileNotFoundException, FormatException, NotSupportedException } from '../../../system/exceptions.js';
+import * as NetPath from '../../amlobjects/internal/NetPath.js';
 import { isNullOrEmpty, isNullOrWhiteSpace } from '../../../system/strings.js';
 import { from } from '../../../system/linq.js';
 import { Uri, UriKind } from '../../../system/index.js';
@@ -80,85 +81,516 @@ function writeJson(value: unknown, indent: string): string {
   return '{' + NEWLINE + entries.map(([k, v]) => inner + escapeJsonString(k) + ': ' + writeJson(v, inner)).join(',' + NEWLINE) + NEWLINE + indent + '}';
 }
 
+// ---- System.Text.Json emulation: reading ---------------------------------------------------
+//
+// JsonSerializer.Deserialize<AMLLibraryServerProfile>(string, options) streams the tokens of a
+// Utf8JsonReader through the converters: the first syntax or conversion error in document order
+// is thrown as JsonException with the JSON path of the converter frames and the reader position
+// (line number counted by '\n', byte position in the line in UTF-8 bytes). Syntax errors report
+// the position of the offending character (or of the end of the data), conversion errors the
+// position after the current token.
+
 class JsonException extends Error {}
 
-function jsonType(v: unknown): string {
-  if (v === null) return 'Null';
-  if (Array.isArray(v)) return 'StartArray';
-  switch (typeof v) {
-    case 'string':
-      return 'String';
-    case 'number':
-      return 'Number';
-    case 'boolean':
-      return v ? 'True' : 'False';
-    default:
-      return 'StartObject';
+type JsonTokenType = 'None' | 'StartObject' | 'EndObject' | 'StartArray' | 'EndArray' | 'PropertyName' | 'String' | 'Number' | 'True' | 'False' | 'Null';
+
+/** JsonReaderHelper/ThrowHelper.GetPrintableString: printable ASCII as is, other bytes as 0xNN (the first UTF-8 byte). */
+function printable(ch: string): string {
+  const c = ch.charCodeAt(0);
+  if (c >= 0x20 && c < 0x7f) return ch;
+  const b = c < 0x80 ? c : c < 0x800 ? 0xc0 | (c >> 6) : c >= 0xd800 && c <= 0xdbff ? 0xf0 | ((0x10000 + ((c - 0xd800) << 10)) >> 18) : 0xe0 | (c >> 12);
+  return '0x' + b.toString(16).toUpperCase().padStart(2, '0');
+}
+
+function utf8Length(s: string): number {
+  let n = 0;
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    if (c < 0x80) n += 1;
+    else if (c < 0x800) n += 2;
+    else if (c >= 0xd800 && c <= 0xdbff && i + 1 < s.length && s.charCodeAt(i + 1) >= 0xdc00 && s.charCodeAt(i + 1) <= 0xdfff) {
+      n += 4;
+      i++;
+    } else n += 3;
   }
+  return n;
 }
 
-function readString(v: unknown, path: string): string | null {
-  if (v === null) return null;
-  if (typeof v !== 'string') throw new JsonException(`The JSON value could not be converted to System.String. Path: ${path}`);
-  return v;
-}
+const isJsonWhiteSpace = (ch: string) => ch === ' ' || ch === '\t' || ch === '\r' || ch === '\n';
+const isDigit = (ch: string | undefined) => ch !== undefined && ch >= '0' && ch <= '9';
+const isHex = (ch: string) => /^[0-9a-fA-F]$/.test(ch);
 
-function readInt(v: unknown, path: string, type: string): number {
-  if (typeof v !== 'number' || !Number.isInteger(v) || v < -2147483648 || v > 2147483647) {
-    throw new JsonException(`The JSON value could not be converted to ${type}. Path: ${path}`);
+/** The parts of Utf8JsonReader the deserializer uses (single final block, default options). */
+class JsonReader {
+  private i = 0;
+  private line = 0;
+  private lineStart = 0;
+  private readonly stack: string[] = [];
+  tokenType: JsonTokenType = 'None';
+  /** Raw text of a string (without quotes, still escaped) or number token. */
+  raw = '';
+  /** Line and byte position after the current token. */
+  private tokenLine = 0;
+  private tokenPos = 0;
+  /** The JSON path of the deserializer, used in the messages of reader errors. */
+  path: () => string;
+
+  constructor(
+    private readonly s: string,
+    path: () => string,
+  ) {
+    this.path = path;
   }
-  return v;
-}
 
-function readBool(v: unknown, path: string): boolean {
-  if (typeof v !== 'boolean') throw new JsonException(`The JSON value could not be converted to System.Boolean. Path: ${path}`);
-  return v;
-}
-
-function readObject(v: unknown, path: string, type: string): Record<string, unknown> | null {
-  if (v === null) return null;
-  if (typeof v !== 'object' || Array.isArray(v)) {
-    throw new JsonException(`The JSON value could not be converted to ${type}. Path: ${path} (${jsonType(v)})`);
+  private position(index: number): string {
+    return `LineNumber: ${this.line} | BytePositionInLine: ${utf8Length(this.s.substring(this.lineStart, index))}`;
   }
-  return v as Record<string, unknown>;
-}
 
-function readDataProfile(v: unknown, path: string): AMLLibraryServerDataProfile | null {
-  const o = readObject(v, path, 'Aml.Engine.Services.Model.AMLLibraryServerDataProfile');
-  if (o === null) return null;
-  const d = new T.AMLLibraryServerDataProfile();
-  for (const [k, value] of Object.entries(o)) {
-    const p = `${path}.${k}`;
-    switch (k) {
-      case 'AutomationMLEdition':
-        d.automationMLEdition = readInt(value, p, 'Aml.Engine.Services.Model.AMLEditionEnum') as AMLEditionEnum;
-        break;
-      case 'ContentType':
-        d.contentType = readInt(value, p, 'Aml.Engine.Resources.Files.AMLFileContentType');
-        break;
-      case 'Folder':
-        d.folder = readString(value, p);
-        break;
-      case 'UserName':
-        d.userName = readString(value, p);
-        break;
-      case 'BranchOrTag':
-        d.branchOrTag = readString(value, p);
-        break;
-      case 'PasswordHash':
-        d.passwordHash = readString(value, p);
-        break;
+  /** A reader error (JsonReaderException, rethrown by the serializer with the path). */
+  fail(message: string, index: number): never {
+    throw new JsonException(`${message} Path: ${this.path()} | ${this.position(index)}.`);
+  }
+
+  /** A converter error at the position after the current token. */
+  failConvert(typeName: string, path: string): never {
+    throw new JsonException(`The JSON value could not be converted to ${typeName}. Path: ${path} | LineNumber: ${this.tokenLine} | BytePositionInLine: ${this.tokenPos}.`);
+  }
+
+  private skipWhiteSpace(): void {
+    while (this.i < this.s.length && isJsonWhiteSpace(this.s[this.i])) {
+      if (this.s[this.i] === '\n') {
+        this.line++;
+        this.lineStart = this.i + 1;
+      }
+      this.i++;
     }
   }
-  return d;
+
+  private setToken(type: JsonTokenType, end: number): void {
+    this.tokenType = type;
+    this.i = end;
+    this.tokenLine = this.line;
+    this.tokenPos = utf8Length(this.s.substring(this.lineStart, end));
+  }
+
+  read(): boolean {
+    this.skipWhiteSpace();
+    const s = this.s;
+    if (this.i >= s.length) {
+      if (this.stack.length === 0 && this.tokenType !== 'None') return false;
+      this.fail('Expected depth to be zero at the end of the JSON payload. There is an open JSON object or array that should be closed.', this.i);
+    }
+    const c = s[this.i];
+    if (this.tokenType === 'None') {
+      this.consumeValue(c);
+      return true;
+    }
+    if (this.stack.length === 0) {
+      this.fail(`'${printable(c)}' is invalid after a single JSON value. Expected end of data.`, this.i);
+    }
+    const top = this.stack[this.stack.length - 1];
+    switch (this.tokenType) {
+      case 'PropertyName':
+        this.consumeValue(c);
+        return true;
+      case 'StartObject':
+        if (c === '}') return this.endContainer('{', c);
+        if (c === '"') return this.consumePropertyName();
+        if (c === '/') this.fail("'/' is invalid after a value. Expected either ',', '}', or ']'.", this.i);
+        this.fail(`'${printable(c)}' is an invalid start of a property name. Expected a '"'.`, this.i);
+        break;
+      case 'StartArray':
+        if (c === ']') return this.endContainer('[', c);
+        this.consumeValue(c);
+        return true;
+    }
+    if (c === ',') {
+      const comma = this.i;
+      this.i++;
+      this.skipWhiteSpace();
+      if (this.i >= s.length) {
+        // Reported at the position of the comma.
+        this.fail('Expected start of a property name or value, but instead reached end of data.', comma);
+      }
+      const c2 = s[this.i];
+      if (top === '{') {
+        if (c2 === '"') return this.consumePropertyName();
+        if (c2 === '}') this.fail('The JSON object contains a trailing comma at the end which is not supported in this mode. Change the reader options.', this.i);
+        this.fail(`'${printable(c2)}' is an invalid start of a property name. Expected a '"'.`, this.i);
+      }
+      if (c2 === ']') this.fail('The JSON array contains a trailing comma at the end which is not supported in this mode. Change the reader options.', this.i);
+      this.consumeValue(c2);
+      return true;
+    }
+    if (c === '}' || c === ']') {
+      if ((c === '}' && top === '{') || (c === ']' && top === '[')) return this.endContainer(top, c);
+      this.fail(`'${c}' is invalid without a matching open.`, this.i);
+    }
+    this.fail(`'${printable(c)}' is invalid after a value. Expected either ',', '}', or ']'.`, this.i);
+  }
+
+  private endContainer(_open: string, close: string): boolean {
+    this.stack.pop();
+    this.setToken(close === '}' ? 'EndObject' : 'EndArray', this.i + 1);
+    return true;
+  }
+
+  /** Scans a string starting at the opening quote; returns the index after the closing quote. */
+  private scanString(start: number): number {
+    const s = this.s;
+    let j = start + 1;
+    for (;;) {
+      if (j >= s.length) this.fail('Expected end of string, but instead reached end of data.', s.length);
+      const ch = s[j];
+      if (ch === '"') break;
+      if (ch === '\\') {
+        j++;
+        if (j >= s.length) this.fail('Expected end of string, but instead reached end of data.', s.length);
+        const e = s[j];
+        if (e === 'u') {
+          for (let k = 1; k <= 4; k++) {
+            if (j + k >= s.length) this.fail('Expected end of string, but instead reached end of data.', s.length);
+            if (!isHex(s[j + k])) this.fail(`'${printable(s[j + k])}' is not a hex digit following '\\u' within a JSON string. The string should be correctly escaped.`, j + k);
+          }
+          j += 5;
+          continue;
+        }
+        if (!'"\\/bfnrt'.includes(e)) this.fail(`'${printable(e)}' is an invalid escapable character within a JSON string. The string should be correctly escaped.`, j);
+        j++;
+        continue;
+      }
+      if (ch.charCodeAt(0) < 0x20) this.fail(`'${printable(ch)}' is invalid within a JSON string. The string should be correctly escaped.`, j);
+      j++;
+    }
+    this.raw = s.substring(start + 1, j);
+    return j + 1;
+  }
+
+  private consumePropertyName(): boolean {
+    const end = this.scanString(this.i);
+    this.i = end;
+    this.skipWhiteSpace();
+    if (this.i >= this.s.length) this.fail('Expected a value, but instead reached end of data.', this.i);
+    if (this.s[this.i] !== ':') this.fail(`'${printable(this.s[this.i])}' is invalid after a property name. Expected a ':'.`, this.i);
+    this.setToken('PropertyName', this.i + 1);
+    return true;
+  }
+
+  private consumeValue(c: string): void {
+    const s = this.s;
+    const start = this.i;
+    switch (c) {
+      case '"':
+        this.setToken('String', this.scanString(start));
+        return;
+      case '{':
+      case '[':
+        this.stack.push(c);
+        this.setToken(c === '{' ? 'StartObject' : 'StartArray', start + 1);
+        return;
+      case 't':
+      case 'f':
+      case 'n': {
+        const literal = c === 't' ? 'true' : c === 'f' ? 'false' : 'null';
+        for (let k = 0; k < literal.length; k++) {
+          if (s[start + k] !== literal[k]) {
+            this.fail(`'${s.substring(start)}' is an invalid JSON literal. Expected the literal '${literal}'.`, Math.min(start + k, s.length));
+          }
+        }
+        this.setToken(c === 't' ? 'True' : c === 'f' ? 'False' : 'Null', start + literal.length);
+        return;
+      }
+    }
+    if (c !== '-' && !isDigit(c)) this.fail(`'${printable(c)}' is an invalid start of a value.`, start);
+    const endOfData = () => this.fail("Expected a digit ('0'-'9'), but instead reached end of data.", s.length);
+    const afterSign = (j: number) =>
+      this.fail(`'${printable(s[j])}' is invalid within a number, immediately after a sign character ('+' or '-'). Expected a digit ('0'-'9').`, j);
+    let j = start;
+    if (s[j] === '-') {
+      j++;
+      if (j >= s.length) endOfData();
+      if (!isDigit(s[j])) afterSign(j);
+    }
+    if (s[j] === '0') {
+      j++;
+      if (isDigit(s[j])) this.fail(`Invalid leading zero before '${s[j]}'.`, j);
+    } else {
+      while (isDigit(s[j])) j++;
+    }
+    if (s[j] === '.') {
+      j++;
+      if (j >= s.length) endOfData();
+      if (!isDigit(s[j])) this.fail(`'${printable(s[j])}' is invalid within a number, immediately after a decimal point ('.'). Expected a digit ('0'-'9').`, j);
+      while (isDigit(s[j])) j++;
+    }
+    if (s[j] === 'e' || s[j] === 'E') {
+      j++;
+      if (s[j] === '+' || s[j] === '-') j++;
+      if (j >= s.length) endOfData();
+      if (!isDigit(s[j])) afterSign(j);
+      while (isDigit(s[j])) j++;
+    }
+    if (j >= s.length) {
+      if (this.stack.length > 0) this.fail(`'${printable(s[j - 1])}' is an invalid end of a number. Expected a delimiter.`, j);
+    } else if (!isJsonWhiteSpace(s[j]) && s[j] !== ',' && s[j] !== '}' && s[j] !== ']') {
+      this.fail(`'${printable(s[j])}' is an invalid end of a number. Expected a delimiter.`, j);
+    }
+    this.raw = s.substring(start, j);
+    this.setToken('Number', j);
+  }
+
+  /** Utf8JsonReader.Skip: reads to the end of the current object or array. */
+  skip(): void {
+    if (this.tokenType === 'PropertyName') this.read();
+    if (this.tokenType === 'StartObject' || this.tokenType === 'StartArray') {
+      const depth = this.stack.length;
+      while (this.read() && this.stack.length >= depth) {
+        // nested tokens
+      }
+    }
+  }
 }
 
-function readDataProfileList(v: unknown, path: string): AMLLibraryServerDataProfile[] | null {
-  if (v === null) return null;
-  if (!Array.isArray(v)) {
-    throw new JsonException(`The JSON value could not be converted to System.Collections.Generic.List. Path: ${path}`);
+/** Unescapes a JSON string; null for text that is not valid UTF-16 (a lone surrogate from a \u escape). */
+function unescapeJson(raw: string): string | null {
+  const out: string[] = [];
+  for (let i = 0; i < raw.length; i++) {
+    const ch = raw[i];
+    if (ch !== '\\') {
+      out.push(ch);
+      continue;
+    }
+    const e = raw[++i];
+    switch (e) {
+      case 'b':
+        out.push('\b');
+        break;
+      case 'f':
+        out.push('\f');
+        break;
+      case 'n':
+        out.push('\n');
+        break;
+      case 'r':
+        out.push('\r');
+        break;
+      case 't':
+        out.push('\t');
+        break;
+      case 'u':
+        out.push(String.fromCharCode(parseInt(raw.substring(i + 1, i + 5), 16)));
+        i += 4;
+        break;
+      default:
+        out.push(e);
+    }
   }
-  return v.map((x, i) => readDataProfile(x, `${path}[${i}]`) as AMLLibraryServerDataProfile);
+  const s = out.join('');
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    if (c >= 0xd800 && c <= 0xdbff) {
+      const d = s.charCodeAt(i + 1);
+      if (!(d >= 0xdc00 && d <= 0xdfff)) return null;
+      i++;
+    } else if (c >= 0xdc00 && c <= 0xdfff) {
+      return null;
+    }
+  }
+  return s;
+}
+
+/** ReadStack.JsonPath: property names with special characters are written as ['name']. */
+function appendPropertyName(name: string): string {
+  return /[. '\/"[\]()\t\n\r\f\b\\\u0085\u2028\u2029]/.test(name) ? "['" + name + "']" : '.' + name;
+}
+
+interface Frame {
+  prop: string | null;
+  index: number | null;
+}
+
+/** The converters of the profile types, driven by the reader like JsonSerializer. */
+class ProfileDeserializer {
+  private readonly frames: Frame[] = [];
+
+  constructor(private readonly reader: JsonReader) {}
+
+  path(): string {
+    let p = '$';
+    for (const f of this.frames) {
+      if (f.index !== null) p += `[${f.index}]`;
+      else if (f.prop !== null) p += appendPropertyName(f.prop);
+    }
+    return p;
+  }
+
+  private fail(typeName: string): never {
+    this.reader.failConvert(typeName, this.path());
+  }
+
+  private readString(): string | null {
+    const r = this.reader;
+    if (r.tokenType === 'Null') return null;
+    if (r.tokenType !== 'String') this.fail('System.String');
+    const v = unescapeJson(r.raw);
+    if (v === null) this.fail('System.String');
+    return v;
+  }
+
+  private readInt(typeName: string): number {
+    const r = this.reader;
+    if (r.tokenType !== 'Number' || !/^-?(0|[1-9][0-9]*)$/.test(r.raw)) this.fail(typeName);
+    const v = Number(r.raw);
+    if (v < -2147483648 || v > 2147483647) this.fail(typeName);
+    return v === 0 ? 0 : v;
+  }
+
+  private readBool(): boolean {
+    const r = this.reader;
+    if (r.tokenType === 'True') return true;
+    if (r.tokenType === 'False') return false;
+    this.fail('System.Boolean');
+  }
+
+  /** Reads the properties of an object (the reader is on StartObject). */
+  private readProperties(onProperty: (name: string) => boolean): void {
+    const r = this.reader;
+    const frame: Frame = { prop: null, index: null };
+    this.frames.push(frame);
+    for (;;) {
+      r.read();
+      if (r.tokenType === 'EndObject') break;
+      const name = unescapeJson(r.raw) ?? r.raw;
+      frame.prop = name;
+      r.read();
+      if (!onProperty(name)) r.skip();
+      frame.prop = null;
+    }
+    this.frames.pop();
+  }
+
+  readDataProfile(): AMLLibraryServerDataProfile | null {
+    const r = this.reader;
+    const typeName = 'Aml.Engine.Services.Model.AMLLibraryServerDataProfile';
+    if (r.tokenType === 'Null') return null;
+    if (r.tokenType !== 'StartObject') this.fail(typeName);
+    const d = new T.AMLLibraryServerDataProfile() as AMLLibraryServerDataProfile;
+    this.readProperties((name) => {
+      switch (name) {
+        case 'AutomationMLEdition':
+          d.automationMLEdition = this.readInt('Aml.Engine.Services.Model.AMLEditionEnum') as AMLEditionEnum;
+          return true;
+        case 'ContentType':
+          d.contentType = this.readInt('Aml.Engine.Resources.Files.AMLFileContentType');
+          return true;
+        case 'Folder':
+          d.folder = this.readString();
+          return true;
+        case 'UserName':
+          d.userName = this.readString();
+          return true;
+        case 'BranchOrTag':
+          d.branchOrTag = this.readString();
+          return true;
+        case 'PasswordHash':
+          d.passwordHash = this.readString();
+          return true;
+        default:
+          return false;
+      }
+    });
+    return d;
+  }
+
+  private readDataProfileList(): AMLLibraryServerDataProfile[] | null {
+    const r = this.reader;
+    if (r.tokenType === 'Null') return null;
+    if (r.tokenType !== 'StartArray') this.fail('System.Collections.Generic.List`1[Aml.Engine.Services.Model.AMLLibraryServerDataProfile]');
+    const list: AMLLibraryServerDataProfile[] = [];
+    const frame: Frame = { prop: null, index: 0 };
+    this.frames.push(frame);
+    for (;;) {
+      frame.index = list.length;
+      r.read();
+      if ((r.tokenType as JsonTokenType) === 'EndArray') break;
+      list.push(this.readDataProfile() as AMLLibraryServerDataProfile);
+    }
+    this.frames.pop();
+    return list;
+  }
+
+  readProfile(): AMLLibraryServerProfile | null {
+    const r = this.reader;
+    r.read();
+    if (r.tokenType === 'Null') return null;
+    if (r.tokenType !== 'StartObject') this.fail('Aml.Engine.Services.Model.AMLLibraryServerProfile');
+    const p = new T.AMLLibraryServerProfile() as AMLLibraryServerProfile;
+    this.readProperties((name) => {
+      switch (name) {
+        case 'UserName':
+          p.userName = this.readString();
+          return true;
+        case 'AccessRights':
+          p.accessRights = this.readInt('Aml.Engine.Services.Model.AccessRightsEnum') as AccessRightsEnum;
+          return true;
+        case 'NetworkProtocol':
+          p.networkProtocol = this.readInt('Aml.Engine.Services.Model.NetworkProtocolEnum') as NetworkProtocolEnum;
+          return true;
+        case 'ServerName':
+          p.serverName = this.readString();
+          return true;
+        case 'ServiceName':
+          p.serviceName = this.readString();
+          return true;
+        case 'PortNumber':
+          p.portNumber = this.readInt('System.Int32');
+          return true;
+        case 'BaseAddress':
+          p.baseAddress = this.readString();
+          return true;
+        case 'LibraryData':
+          p.libraryData = this.readDataProfileList();
+          return true;
+        case 'BackupData':
+          p.backupData = this.readDataProfile();
+          return true;
+        case 'LibraryCollectionData':
+          p.libraryCollectionData = this.readDataProfileList();
+          return true;
+        case 'ExampleData':
+          p.exampleData = this.readDataProfileList();
+          return true;
+        case 'AdministrationData':
+          p.administrationData = this.readDataProfileList();
+          return true;
+        case 'BranchName':
+          p.branchName = this.readString();
+          return true;
+        case 'IsPublicRepository':
+          p.isPublicRepository = this.readBool();
+          return true;
+        case 'PasswordHash':
+          p.passwordHash = this.readString();
+          return true;
+        default:
+          return false;
+      }
+    });
+    p.onDeserialized();
+    return p;
+  }
+}
+
+/** JsonSerializer.Deserialize<AMLLibraryServerProfile>(json, options). */
+function deserializeProfile(json: string): AMLLibraryServerProfile | null {
+  let deserializer: ProfileDeserializer | null = null;
+  const reader = new JsonReader(json, () => deserializer!.path());
+  deserializer = new ProfileDeserializer(reader);
+  const p = deserializer.readProfile();
+  // The reader must reach the end of the data after the root value.
+  reader.path = () => '$';
+  reader.read();
+  return p;
 }
 
 // ---- helpers for the .NET string functions used below ----------------------------------------
@@ -393,68 +825,10 @@ export class AMLLibraryServerProfile extends PasswordProtected implements ICrede
       throw new FormatException('Profile contains NUL bytes \u2013 file is corrupted or wrong encoding.');
     }
     try {
-      let parsed: unknown;
-      try {
-        parsed = JSON.parse(jsonString);
-      } catch (e) {
-        throw new JsonException(e instanceof Error ? e.message : String(e));
-      }
-      const o = readObject(parsed, '$', 'Aml.Engine.Services.Model.AMLLibraryServerProfile');
-      if (o === null) {
+      const p = deserializeProfile(jsonString);
+      if (p === null) {
         throw new FormatException('Deserialization returned null.');
       }
-      const p = new T.AMLLibraryServerProfile();
-      for (const [k, value] of Object.entries(o)) {
-        const path = `$.${k}`;
-        switch (k) {
-          case 'UserName':
-            p.userName = readString(value, path);
-            break;
-          case 'AccessRights':
-            p.accessRights = readInt(value, path, 'Aml.Engine.Services.Model.AccessRightsEnum') as AccessRightsEnum;
-            break;
-          case 'NetworkProtocol':
-            p.networkProtocol = readInt(value, path, 'Aml.Engine.Services.Model.NetworkProtocolEnum') as NetworkProtocolEnum;
-            break;
-          case 'ServerName':
-            p.serverName = readString(value, path);
-            break;
-          case 'ServiceName':
-            p.serviceName = readString(value, path);
-            break;
-          case 'PortNumber':
-            p.portNumber = readInt(value, path, 'System.Int32');
-            break;
-          case 'BaseAddress':
-            p.baseAddress = readString(value, path);
-            break;
-          case 'LibraryData':
-            p.libraryData = readDataProfileList(value, path);
-            break;
-          case 'BackupData':
-            p.backupData = readDataProfile(value, path);
-            break;
-          case 'LibraryCollectionData':
-            p.libraryCollectionData = readDataProfileList(value, path);
-            break;
-          case 'ExampleData':
-            p.exampleData = readDataProfileList(value, path);
-            break;
-          case 'AdministrationData':
-            p.administrationData = readDataProfileList(value, path);
-            break;
-          case 'BranchName':
-            p.branchName = readString(value, path);
-            break;
-          case 'IsPublicRepository':
-            p.isPublicRepository = readBool(value, path);
-            break;
-          case 'PasswordHash':
-            p.passwordHash = readString(value, path);
-            break;
-        }
-      }
-      p.onDeserialized();
       return p;
     } catch (ex) {
       if (ex instanceof JsonException) {
@@ -472,6 +846,10 @@ export class AMLLibraryServerProfile extends PasswordProtected implements ICrede
     const fs = proc?.getBuiltinModule?.('node:fs') as { readFileSync(path: string): Uint8Array } | undefined;
     if (!fs) {
       throw new NotSupportedException('File access is not available in this environment.');
+    }
+    // File.ReadAllText: FileNotFoundException with the full path for a missing file.
+    if (!NetPath.fileExists(filePath)) {
+      throw new FileNotFoundException(`Could not find file '${NetPath.getFullPath(filePath)}'.`);
     }
     return AMLLibraryServerProfile.loadFromString(readAllText(fs.readFileSync(filePath)));
   }

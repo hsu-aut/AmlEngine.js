@@ -75,6 +75,11 @@ export class Guid {
     return other instanceof Guid && other.toString() === this.toString();
   }
 
+  /** Key for hash based sets (linq HashSet, Distinct): equal GUIDs give the same key, like GetHashCode. */
+  equalityKey(): string {
+    return this.toString();
+  }
+
   /** ToString(format): "D" (default), "N", "B", "P", "X" (case-insensitive), lower-case hex. */
   toString(format?: string | null): string {
     let f = 'd';

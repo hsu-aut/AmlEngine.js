@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="map30.aml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd" xmlns="http://www.dke.de/CAEX">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="x" OriginID="y" OriginVersion="1" LastWritingDateTime="2020-01-01T00:00:00" />
+  <ExternalReference Path="Lib_v2.aml" Alias="NewLib" />
+  <ExternalReference Path="Lib_v1.aml" Alias="OldLib" Version="OldVersion" />
+  <InstanceHierarchy Name="IH">
+    <Version>1.0</Version>
+    <Revision>
+      <RevisionDate>2020-01-01T00:00:00</RevisionDate>
+      <OldVersion>OldLib@IH</OldVersion>
+      <NewVersion>NewLib@IH</NewVersion>
+      <AuthorName>me</AuthorName>
+      <Comment>c</Comment>
+    </Revision>
+    <InternalElement Name="IE1" ID="id-ie1" RefBaseSystemUnitPath="SUCLib/SUC1">
+      <Attribute Name="a1" AttributeDataType="xs:string">
+        <Value>v</Value>
+        <Attribute Name="nested" />
+      </Attribute>
+      <Attribute Name="a2" RefAttributeType="ATLib/AT1" />
+      <Attribute Name="mirrorAttr" RefAttributeType="id-child/x" />
+      <Attribute Name="mirrorAttr2" RefAttributeType="{id-child}/x" />
+      <ExternalInterface Name="EI1" ID="id-ei1" RefBaseClassPath="ICLib/IC1">
+        <Attribute Name="ia" />
+      </ExternalInterface>
+      <ExternalInterface Name="EIm" ID="id-ei1" />
+      <InternalElement Name="Child" ID="id-child" RefBaseSystemUnitPath="SUCLib/SUC1/SUCChild">
+        <Attribute Name="x" />
+        <ExternalInterface Name="EI2" ID="id-ei2" RefBaseClassPath="ICLib/IC1" />
+        <RoleRequirements RefBaseRoleClassPath="RCLib/R2">
+          <MappingObject>
+            <AttributeNameMapping SystemUnitAttributeName="x" RoleAttributeName="rb1" />
+          </MappingObject>
+        </RoleRequirements>
+      </InternalElement>
+      <InternalElement Name="Mirror" ID="id-child" />
+      <InternalElement Name="Facet" ID="id-facet">
+        <Attribute Name="a1" />
+        <ExternalInterface Name="EI1" ID="id-fei1" />
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+      </InternalElement>
+      <InternalLink Name="L1" RefPartnerSideA="id-ei1" RefPartnerSideB="id-ei2" />
+      <InternalLink Name="L2" RefPartnerSideA="id-ie1:EI1" RefPartnerSideB="unknown" />
+      <InternalLink Name="L3" RefPartnerSideA="id-child:EI2" RefPartnerSideB="" />
+      <RoleRequirements RefBaseRoleClassPath="RCLib/R1">
+        <Attribute Name="ra1" />
+        <ExternalInterface Name="REI" ID="id-rei" />
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="a1" RoleAttributeName="ra1" />
+          <AttributeNameMapping SystemUnitAttributeName="a2" RoleAttributeName="nomatch" />
+          <InterfaceNameMapping SystemUnitInterfaceName="EI1" RoleInterfaceName="REI" />
+          <InterfaceIDMapping SystemUnitInterfaceID="id-ei1" RoleInterfaceID="id-rei" />
+          <InterfaceIDMapping SystemUnitInterfaceID="" RoleInterfaceID="" />
+        </MappingObject>
+      </RoleRequirements>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICLib">
+    <Version>1</Version>
+    <InterfaceClass Name="IC1">
+      <Attribute Name="ia" />
+      <InterfaceClass Name="IC1Child" RefBaseClassPath="ICLib/IC1" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCLib">
+    <Version>1</Version>
+    <Revision>
+      <RevisionDate>2020-01-01T00:00:00</RevisionDate>
+      <NewVersion>NewLib@RCLib</NewVersion>
+      <AuthorName>me</AuthorName>
+    </Revision>
+    <RoleClass Name="R1">
+      <Attribute Name="ra1" />
+      <ExternalInterface Name="REI" ID="id-rc-rei" RefBaseClassPath="ICLib/IC1" />
+    </RoleClass>
+    <RoleClass Name="R2" RefBaseClassPath="RCLib/R1">
+      <Attribute Name="rb1" />
+      <Attribute Name="ra1" />
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCLib">
+    <Version>1</Version>
+    <SystemUnitClass Name="SUC1">
+      <Attribute Name="a1" />
+      <ExternalInterface Name="EI1" ID="id-suc-ei1" RefBaseClassPath="ICLib/IC1" />
+      <InternalElement Name="Inner" ID="id-inner">
+        <ExternalInterface Name="EIin" ID="id-eiin" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="RCLib/R1">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="a1" RoleAttributeName="ra1" />
+          <InterfaceIDMapping SystemUnitInterfaceID="id-suc-ei1" RoleInterfaceID="id-rc-rei" />
+        </MappingObject>
+      </SupportedRoleClass>
+      <InternalLink Name="SL" RefPartnerSideA="id-eiin" RefPartnerSideB="id-suc-ei1" />
+      <SystemUnitClass Name="SUCChild" RefBaseClassPath="SUCLib/SUC1">
+        <Attribute Name="a1" />
+        <Attribute Name="b1" />
+        <ExternalInterface Name="EI1" ID="id-succ-ei1" RefBaseClassPath="ICLib/IC1" />
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="SUC2" RefBaseClassPath="NewLib@SUCLib/SUC9" />
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="ATLib">
+    <Version>1</Version>
+    <AttributeType Name="AT1" AttributeDataType="xs:string">
+      <Attribute Name="sub" />
+    </AttributeType>
+    <AttributeType Name="AT2" RefAttributeType="ATLib/AT1">
+      <Attribute Name="sub" />
+      <Attribute Name="sub2" />
+    </AttributeType>
+  </AttributeTypeLib>
+</CAEXFile>

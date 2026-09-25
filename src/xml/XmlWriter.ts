@@ -143,6 +143,21 @@ class WellFormedWriter {
     } else if (prefix === 'xmlns') {
       if (this.pushNamespaceExplicit(localName, value)) this.rawNamespace(localName, value);
       return;
+    } else if (prefix === 'xml' && (localName === 'space' || localName === 'lang')) {
+      // XmlWellFormedWriter: special attributes, written without pushing a namespace; the value
+      // of xml:space must be "default" or "preserve" after trimming.
+      if (localName === 'space') {
+        const v = value.replace(/^[ \t\n\r]+|[ \t\n\r]+$/g, '');
+        if (v !== 'default' && v !== 'preserve') throw new ArgumentException(`'${value}' is an invalid xml:space value.`);
+      }
+      this.raw(` xml:${localName}="${this.escapeAttribute(value)}"`);
+      return;
+    } else if (nsUri.length === 0) {
+      prefix = '';
+    } else {
+      // A prefix declared on this element for another namespace gets a generated one.
+      const i = this.lookupNamespaceIndex(prefix);
+      if (i > this.currentPrevNSTop && this.ns[i].ns !== nsUri) prefix = this.generatePrefix();
     }
     if (prefix.length !== 0) this.pushNamespaceImplicit(prefix, nsUri);
     const qname = prefix.length ? `${prefix}:${localName}` : localName;
@@ -330,9 +345,11 @@ class WellFormedWriter {
   writeDocType(name: string, publicId: string | null, systemId: string | null, subset: string | null): void {
     if (this.settings.indent && !this.mixedContent && this.textPos !== this.len) this.writeIndent();
     let s = '<!DOCTYPE ' + name;
+    // XmlEncodedRawTextWriter.WriteDocType: a space only when there is no public or system id.
     if (publicId !== null) s += ` PUBLIC "${publicId}" "${systemId ?? ''}"`;
     else if (systemId !== null) s += ` SYSTEM "${systemId}"`;
-    if (subset !== null) s += ` [${subset}]`;
+    else s += ' ';
+    if (subset !== null) s += `[${subset}]`;
     this.raw(s + '>');
   }
 

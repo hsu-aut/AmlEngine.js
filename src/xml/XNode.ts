@@ -7,7 +7,7 @@
 //   supported (Aml.Engine never subscribes to them, so .NET takes those paths as well).
 
 import { XName, XNamespace, type XNameLike, toXName } from './XName.js';
-import { isWhitespaceOnly } from './XmlChars.js';
+import { XmlException, isName, isWhitespaceOnly, verifyNCName } from './XmlChars.js';
 import { formatDouble } from '../system/Number.js';
 import { ArgumentException, ArgumentNullException, InvalidOperationException } from '../system/exceptions.js';
 
@@ -194,8 +194,21 @@ export class XCData extends XText {
 }
 
 export class XComment extends XNode {
-  constructor(public value: string) {
+  /** @internal */ _value: string;
+
+  constructor(value: string) {
     super();
+    if (value === null || value === undefined) throw new ArgumentNullException('value');
+    this._value = value;
+  }
+
+  get value(): string {
+    return this._value;
+  }
+
+  set value(v: string) {
+    if (v === null || v === undefined) throw new ArgumentNullException('value');
+    this._value = v;
   }
 
   override get nodeType(): XmlNodeType {
@@ -209,11 +222,34 @@ export class XComment extends XNode {
 }
 
 export class XProcessingInstruction extends XNode {
-  constructor(
-    public target: string,
-    public data: string,
-  ) {
+  /** @internal */ _target: string;
+  /** @internal */ _data: string;
+
+  constructor(target: string, data: string) {
     super();
+    if (target === null || target === undefined) throw new ArgumentNullException('target');
+    if (data === null || data === undefined) throw new ArgumentNullException('data');
+    validatePIName(target);
+    this._target = target;
+    this._data = data;
+  }
+
+  get target(): string {
+    return this._target;
+  }
+
+  set target(v: string) {
+    validatePIName(v);
+    this._target = v;
+  }
+
+  get data(): string {
+    return this._data;
+  }
+
+  set data(v: string) {
+    if (v === null || v === undefined) throw new ArgumentNullException('value');
+    this._data = v;
   }
 
   override get nodeType(): XmlNodeType {
@@ -227,13 +263,24 @@ export class XProcessingInstruction extends XNode {
 }
 
 export class XDocumentType extends XNode {
+  /** @internal */ _name: string;
+
   constructor(
-    public name: string,
+    name: string,
     public publicId: string | null,
     public systemId: string | null,
     public internalSubset: string | null,
   ) {
     super();
+    this._name = verifyName(name);
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  set name(v: string) {
+    this._name = verifyName(v);
   }
 
   override get nodeType(): XmlNodeType {
@@ -262,7 +309,9 @@ export class XAttribute extends XObject {
     }
     this.name = toXName(nameOrOther);
     if (value === null || value === undefined) throw new ArgumentNullException('value');
-    this._value = getStringValue(value);
+    const s = getStringValue(value);
+    validateAttribute(this.name, s);
+    this._value = s;
   }
 
   override get nodeType(): XmlNodeType {
@@ -275,6 +324,7 @@ export class XAttribute extends XObject {
 
   set value(v: string) {
     if (v === null || v === undefined) throw new ArgumentNullException('value');
+    validateAttribute(this.name, v);
     this._value = v;
   }
 
@@ -905,6 +955,11 @@ export class XDocument extends XContainer {
     if (!isWhitespaceOnly(s)) throw new ArgumentException('Non-whitespace characters cannot be added to content.');
   }
 
+  /** @internal XDocument.AddAttributeSkipNotify: a document has no attributes. */
+  override _addAttributeSkipNotify(_a: XAttribute): void {
+    throw new ArgumentException('An attribute cannot be added to content.');
+  }
+
   /** @internal */
   _cloneNode(): XNode {
     return new XDocument(this);
@@ -1089,6 +1144,43 @@ export function numberToXmlString(v: number): string {
 /** double.ToString("R", InvariantCulture), from the system layer (verified against .NET). */
 export function formatDoubleR(v: number): string {
   return formatDouble(v, 'R');
+}
+
+/** XAttribute.ValidateAttribute: the constraints on namespace declarations. */
+function validateAttribute(name: XName, value: string): void {
+  const ns = name.namespace;
+  if (ns === XNamespace.Xmlns) {
+    if (value.length === 0) throw new ArgumentException(`The prefix '${name.localName}' cannot be bound to the empty namespace name.`);
+    if (value === XNamespace.Xml.namespaceName) {
+      if (name.localName !== 'xml') throw new ArgumentException("The prefix 'xml' is bound to the namespace name 'http://www.w3.org/XML/1998/namespace'. Other prefixes must not be bound to this namespace name, and it must not be declared as the default namespace.");
+    } else if (value === XNamespace.Xmlns.namespaceName) {
+      throw new ArgumentException("The prefix 'xmlns' is bound to the namespace name 'http://www.w3.org/2000/xmlns/'. It must not be declared. Other prefixes must not be bound to this namespace name, and it must not be declared as the default namespace.");
+    } else if (name.localName === 'xml') {
+      throw new ArgumentException("The prefix 'xml' is bound to the namespace name 'http://www.w3.org/XML/1998/namespace'. Other prefixes must not be bound to this namespace name, and it must not be declared as the default namespace.");
+    } else if (name.localName === 'xmlns') {
+      throw new ArgumentException("The prefix 'xmlns' is bound to the namespace name 'http://www.w3.org/2000/xmlns/'. It must not be declared. Other prefixes must not be bound to this namespace name, and it must not be declared as the default namespace.");
+    }
+  } else if (ns === XNamespace.None && name.localName === 'xmlns') {
+    if (value === XNamespace.Xml.namespaceName || value === XNamespace.Xmlns.namespaceName) {
+      throw new ArgumentException(`The namespace name '${value}' cannot be declared as the default namespace.`);
+    }
+  }
+}
+
+/** XProcessingInstruction.ValidateName: XmlConvert.VerifyNCName, and not "xml" in any case. */
+function validatePIName(name: string): void {
+  if (name === null || name === undefined) throw new ArgumentNullException('name');
+  if (name.length === 0) throw new ArgumentException("The empty string '' is not a valid name.", 'name');
+  verifyNCName(name);
+  if (name.toLowerCase() === 'xml') throw new ArgumentException(`'${name}' is an invalid name for processing instructions.`);
+}
+
+/** XmlConvert.VerifyName. */
+function verifyName(name: string): string {
+  if (name === null || name === undefined) throw new ArgumentNullException('name');
+  if (name.length === 0) throw new ArgumentException("The empty string '' is not a valid name.", 'name');
+  if (!isName(name)) throw new XmlException(`Invalid name character in '${name}'.`);
+  return name;
 }
 
 function missingParent(): Error {

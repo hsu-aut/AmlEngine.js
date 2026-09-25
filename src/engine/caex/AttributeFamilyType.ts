@@ -1,7 +1,7 @@
 // Port of Aml.Engine.CAEX.AttributeFamilyType (Aml.Engine 4.5.2).
 
 import { T } from '../registry.js';
-import { registerInterfaces } from '../interfaces.js';
+import { implementsInterface, registerInterfaces } from '../interfaces.js';
 import { XElement } from '../../xml/index.js';
 import { InvalidCastException } from '../../system/exceptions.js';
 import { isNullOrEmpty } from '../../system/strings.js';
@@ -271,17 +271,17 @@ export class AttributeFamilyType extends AttributeTypeType implements Iterable<A
 
   /**
    * Gets the reference (inheritance) hierarchy: this instance and the reference hierarchy of an
-   * associated BaseClass. With a class as second argument, this is the obsolete generic C#
-   * overload `GetReferenceHierarchy<T>(bool)`, which returns a snapshot (C# Queue<T>) and throws
-   * an InvalidCastException for an element that is not of that class.
+   * associated BaseClass. With a class (or a C# interface name) as second argument, this is the
+   * obsolete generic C# overload `GetReferenceHierarchy<T>(bool)`, which returns a snapshot (C#
+   * Queue<T>) and throws an InvalidCastException for an element that is not of that type.
    */
   getReferenceHierarchy(includeExternals?: boolean): Iterable<AttributeFamilyType>;
-  getReferenceHierarchy<TClass>(includeExternals: boolean, type: AnyCtor<TClass>): TClass[];
-  getReferenceHierarchy<TClass>(includeExternals = true, type?: AnyCtor<TClass>): Iterable<AttributeFamilyType> | TClass[] {
+  getReferenceHierarchy<TClass>(includeExternals: boolean, type: AnyCtor<TClass> | string): TClass[];
+  getReferenceHierarchy<TClass>(includeExternals = true, type?: AnyCtor<TClass> | string): Iterable<AttributeFamilyType> | TClass[] {
     if (type !== undefined) {
       return from(this.getReferenceHierarchy(includeExternals))
         .select((x) => {
-          if (!(x instanceof type)) throw new InvalidCastException('Specified cast is not valid.');
+          if (!(typeof type === 'string' ? implementsInterface(x, type) : x instanceof type)) throw new InvalidCastException('Specified cast is not valid.');
           return x as TClass;
         })
         .toList();

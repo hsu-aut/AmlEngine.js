@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="revision30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SourceObjectInformation OriginID="o1" SourceObjID="s1" />
+  <SourceObjectInformation OriginID="o2" />
+  <RoleClassLib Name="RCL">
+    <Version>1.0.0</Version>
+    <Revision>
+      <RevisionDate>2020-01-02T03:04:05</RevisionDate>
+      <NewVersion>RCL2</NewVersion>
+      <AuthorName>A</AuthorName>
+      <Comment>moved</Comment>
+    </Revision>
+    <RoleClass Name="R1">
+      <Version>1.0</Version>
+      <Revision>
+        <RevisionDate>2021-06-07T08:09:10Z</RevisionDate>
+        <NewVersion>RCL2/R1</NewVersion>
+        <AuthorName>B</AuthorName>
+      </Revision>
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="RCL2">
+    <Version>2.0.0</Version>
+    <Revision>
+      <RevisionDate>2020-01-02T03:04:05+05:00</RevisionDate>
+      <OldVersion>RCL</OldVersion>
+      <AuthorName>A</AuthorName>
+    </Revision>
+    <Revision>
+      <RevisionDate>not a date</RevisionDate>
+      <OldVersion>   </OldVersion>
+      <NewVersion></NewVersion>
+      <AuthorName></AuthorName>
+    </Revision>
+    <RoleClass Name="R1">
+      <Version>1.0</Version>
+      <Revision>
+        <RevisionDate>2021-06-07</RevisionDate>
+        <OldVersion>RCL/R1</OldVersion>
+        <AuthorName>B</AuthorName>
+      </Revision>
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="RCLX">
+    <Version>1.0.0</Version>
+    <Revision>
+      <RevisionDate>2022-02-02T02:02:02.1234567</RevisionDate>
+      <OldVersion>RCL</OldVersion>
+      <AuthorName>C</AuthorName>
+      <Comment>Extension</Comment>
+    </Revision>
+  </RoleClassLib>
+  <RoleClassLib Name="RCLY">
+    <Version>1.0.0</Version>
+    <Revision>
+      <Version>Extension</Version>
+      <RevisionDate>2022-02-02</RevisionDate>
+      <OldVersion>RCL</OldVersion>
+      <AuthorName>D</AuthorName>
+    </Revision>
+    <Revision>
+      <RevisionDate>2022-02-03</RevisionDate>
+      <NewVersion>RCL&#xAD;</NewVersion>
+      <AuthorName>E</AuthorName>
+    </Revision>
+  </RoleClassLib>
+  <RoleClassLib Name="RCLZ">
+    <Version>3.0.0</Version>
+  </RoleClassLib>
+  <InterfaceClassLib Name="ICL">
+    <Version>1.0.0</Version>
+    <InterfaceClass Name="I1" />
+  </InterfaceClassLib>
+</CAEXFile>

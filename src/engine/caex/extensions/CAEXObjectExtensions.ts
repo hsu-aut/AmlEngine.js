@@ -3,6 +3,7 @@
 import { T } from '../../registry.js';
 import { ArgumentNullException } from '../../../system/exceptions.js';
 import { isNullOrEmpty } from '../../../system/strings.js';
+import { cultureEndsWith as compareInfoIsSuffix } from '../../../system/CompareInfo.js';
 import { from, type Enumerable } from '../../../system/linq.js';
 import type { XElement } from '../../../xml/index.js';
 import { XmlCAEXAttributes } from '../../xmlext/XmlCAEXAttributes.js';
@@ -188,10 +189,9 @@ export class CAEXObjectExtensions {
 }
 
 /**
- * string.EndsWith(string) is culture sensitive in .NET; the port compares ordinally (identical
- * except for ignorable code points and canonically equivalent sequences).
+ * string.EndsWith(string) is culture sensitive in .NET (see src/system/CompareInfo.ts).
  */
 function cultureEndsWith(s: string, value: string | null): boolean {
   if (value === null || value === undefined) throw new ArgumentNullException('value');
-  return s.endsWith(value);
+  return compareInfoIsSuffix(s, value);
 }

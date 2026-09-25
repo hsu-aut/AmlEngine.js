@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="xsource30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <ExternalReference Path="base.aml" Alias="EXT" />
+  <ExternalReference Path="other.aml" Alias="OTH" />
+  <InstanceHierarchy Name="XIH">
+    <InternalElement Name="xie" ID="44440000-0000-0000-0000-000000000001" RefBaseSystemUnitPath="SL/C2">
+      <ExternalInterface Name="p" ID="44440000-0000-0000-0000-000000000011" RefBaseClassPath="EXT@Base/Port" />
+      <RoleRequirements RefBaseRoleClassPath="SRL/SR" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="SIL">
+    <InterfaceClass Name="SI" RefBaseClassPath="OTH@X/Y" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="SRL">
+    <RoleClass Name="SR" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SL">
+    <SystemUnitClass Name="C1" RefBaseClassPath="EXT@Base/X">
+      <ExternalInterface Name="e" RefBaseClassPath="SIL/SI" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="C2" RefBaseClassPath="SL/C1">
+      <InternalElement Name="inner" ID="44440000-0000-0000-0000-000000000021" RefBaseSystemUnitPath="C2" />
+      <SupportedRoleClass RefRoleClassPath="SRL/SR" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="C3" RefBaseClassPath="Missing/Path">
+      <Revision>
+        <RevisionDate>2020-01-01T00:00:00</RevisionDate>
+        <OldVersion>OTH@X/Y</OldVersion>
+        <NewVersion>SL/C1</NewVersion>
+        <AuthorName>a</AuthorName>
+      </Revision>
+      <ExternalInterface Name="c3ei" RefBaseClassPath="C3" />
+      <InternalElement Name="c3ie" ID="44440000-0000-0000-0000-000000000031" RefBaseSystemUnitPath="SL/C3" />
+      <SupportedRoleClass RefRoleClassPath="C3" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

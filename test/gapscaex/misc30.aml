@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="misc30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation>text info</AdditionalInformation>
+  <AdditionalInformation><Nested A="1">x</Nested></AdditionalInformation>
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SuperiorStandardVersion>Other</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="A" OriginID="id1" OriginVersion="1.0" LastWritingDateTime="2020-01-02T03:04:05" OriginVendor="V" OriginVendorURL="u" OriginRelease="r" OriginProjectTitle="t" OriginProjectID="p" />
+  <SourceDocumentInformation OriginName="A" OriginID="id1" OriginVersion="1.0" LastWritingDateTime="2020-01-02T03:04:05" OriginVendor="V" OriginVendorURL="u" OriginRelease="r" OriginProjectTitle="t" OriginProjectID="p" />
+  <SourceDocumentInformation OriginName="B" OriginID="id2" OriginVersion="2.0" />
+  <InstanceHierarchy Name="IH" ChangeMode="create">
+    <Description ChangeMode="change">IH description</Description>
+    <Version ChangeMode="DELETE">1.0</Version>
+    <Copyright ChangeMode="bogus">(c)</Copyright>
+    <Flag>true</Flag>
+    <Flag>False</Flag>
+    <Flag>maybe</Flag>
+    <Date>2020-01-02T03:04:05</Date>
+    <Date>2020-01-02T03:04:05Z</Date>
+    <Date>2020-01-02T03:04:05+02:00</Date>
+    <Date>bad</Date>
+    <Text>a</Text>
+    <Text />
+    <InternalElement Name="IE1" ID="22220000-0000-0000-0000-000000000001" RefBaseSystemUnitPath="SUCL/S1">
+      <Attribute Name="a" AttributeDataType="xs:int" RefAttributeType="ATL/AT1">
+        <DefaultValue>5</DefaultValue>
+        <Value>7</Value>
+        <Attribute Name="b" AttributeDataType="xs:double">
+          <DefaultValue>1.5</DefaultValue>
+        </Attribute>
+        <Constraint Name="c1">
+          <OrdinalScaledType>
+            <RequiredMaxValue>10</RequiredMaxValue>
+            <RequiredValue>5</RequiredValue>
+            <RequiredMinValue>1</RequiredMinValue>
+          </OrdinalScaledType>
+        </Constraint>
+        <Constraint Name="c2">
+          <NominalScaledType>
+            <RequiredValue>1</RequiredValue>
+            <RequiredValue>2</RequiredValue>
+          </NominalScaledType>
+        </Constraint>
+        <Constraint Name="c3">
+          <UnknownType>
+            <Requirements>anything</Requirements>
+          </UnknownType>
+        </Constraint>
+      </Attribute>
+      <Attribute Name="s" AttributeDataType="xs:string" />
+      <ExternalInterface Name="ei1" ID="22220000-0000-0000-0000-000000000011" RefBaseClassPath="ICL/I1">
+        <ExternalInterface Name="ei1n" ID="22220000-0000-0000-0000-000000000012" RefBaseClassPath="ICL/I1" />
+      </ExternalInterface>
+      <ExternalInterface Name="ei2" ID="22220000-0000-0000-0000-000000000013" RefBaseClassPath="ICL/I2" />
+      <InternalElement Name="IE1a" ID="22220000-0000-0000-0000-000000000002" />
+      <InternalElement Name="sie" ID="22220000-0000-0000-0000-000000000005">
+        <InternalElement Name="other" ID="22220000-0000-0000-0000-000000000006" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="RCL/R1" />
+    </InternalElement>
+    <InternalElement Name="IE2" ID="22220000-0000-0000-0000-000000000003" RefBaseSystemUnitPath="22220000-0000-0000-0000-000000000001">
+      <ExternalInterface Name="ei1" ID="22220000-0000-0000-0000-000000000014" RefBaseClassPath="22220000-0000-0000-0000-000000000011" />
+    </InternalElement>
+    <InternalElement Name="IE3" ID="22220000-0000-0000-0000-000000000004">
+      <ExternalInterface Name="x" ID="22220000-0000-0000-0000-000000000015" RefBaseClassPath="ICL/I2" />
+    </InternalElement>
+    <InternalLink Name="L1" RefPartnerSideA="22220000-0000-0000-0000-000000000011" RefPartnerSideB="22220000-0000-0000-0000-000000000015" />
+    <InternalLink Name="L2" RefPartnerSideA="22220000-0000-0000-0000-000000000015" RefPartnerSideB="22220000-0000-0000-0000-000000000011" />
+    <InternalLink Name="L3" RefPartnerSideA="22220000-0000-0000-0000-000000000013" RefPartnerSideB="22220000-0000-0000-0000-000000000015" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <Version>1.0</Version>
+    <InterfaceClass Name="I1">
+      <Attribute Name="ia" />
+      <ExternalInterface Name="icei" ID="22220000-0000-0000-0000-000000000021">
+        <ExternalInterface Name="icein" ID="22220000-0000-0000-0000-000000000022" />
+      </ExternalInterface>
+      <InterfaceClass Name="I1n" />
+    </InterfaceClass>
+    <InterfaceClass Name="I2" RefBaseClassPath="ICL/I1" />
+  </InterfaceClassLib>
+  <InterfaceClassLib Name="ICL2" />
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="R1">
+      <RoleClass Name="R1n" />
+    </RoleClass>
+    <RoleClass Name="R2" RefBaseClassPath="RCL/R1" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="S1">
+      <InternalElement Name="sie" ID="22220000-0000-0000-0000-000000000031">
+        <InternalElement Name="sub" ID="22220000-0000-0000-0000-000000000033" />
+      </InternalElement>
+      <InternalElement Name="sie2" ID="22220000-0000-0000-0000-000000000032" />
+      <SystemUnitClass Name="S1n" RefBaseClassPath="S1" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="S2" RefBaseClassPath="SUCL/S1" />
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="ATL">
+    <AttributeType Name="AT1" AttributeDataType="xs:int">
+      <DefaultValue>3</DefaultValue>
+      <Attribute Name="atc" />
+      <AttributeType Name="AT1n" />
+    </AttributeType>
+    <AttributeType Name="AT2" RefAttributeType="ATL/AT1" />
+  </AttributeTypeLib>
+</CAEXFile>

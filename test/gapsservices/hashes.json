@@ -1,0 +1,90 @@
+[
+  {
+    "plain": "secret",
+    "hash": "ikdUSuKFULnJYUjfZ+30HFHAN7ZiwxxeveD5/8OBwgQ="
+  },
+  {
+    "plain": "p",
+    "hash": "XLQpZ/FfMUpciMqiFaDCTOWecjdnAqfA//54tWVnyAo="
+  },
+  {
+    "plain": "pässwörd €",
+    "hash": "8WEFXkp6GouLxGAiUWevCU6ZjhAuYoduVtoZBSb6ltw="
+  },
+  {
+    "plain": "aaaaaaaaaaaaaaa",
+    "hash": "F7JXFSRUSucJ90M597SgMgYOEFzEZB4nnIoZjfjBrGM="
+  },
+  {
+    "plain": "bbbbbbbbbbbbbbbb",
+    "hash": "n/2AdtMNR9+AGH3QlKJKUDUsLdoN1M/yqcJMmrMyUVr9+z3rvy6oRr8/GkN92qRO"
+  },
+  {
+    "plain": "ccccccccccccccccccccccccccccccccc",
+    "hash": "x52ba61tu+MNcSdzXPhRoFofUreDI3/oVx6MLTGvkBNN2QoWBJbKcD7FIBMybUW3rfi8WwjDKRji4rKXNcE6Lw=="
+  },
+  {
+    "plain": " spaces ",
+    "hash": "G9HJOxUVUGlVPN2L/lXHRGzSEidt2xcotpnwcZALtdA="
+  },
+  {
+    "plain": "日本語",
+    "hash": "DLC1Njfnz9HYHtM+LrkcbBNpfgvd/YNiiMSV3wKGo6M="
+  },
+  {
+    "plain": "line\nbreak",
+    "hash": "CO25kHeF3MIOFi3sDvya7ttKblICD5nIZDhGtmbdBNM="
+  },
+  {
+    "plain": "\u0000nul",
+    "hash": "nMVeJq+EpPOZEyGDHZcfvt5jNv5/ofawPDgzE3jZtQU="
+  },
+  {
+    "plain": null,
+    "hash": ""
+  },
+  {
+    "plain": null,
+    "hash": "not base64!"
+  },
+  {
+    "plain": null,
+    "hash": "AAAA"
+  },
+  {
+    "plain": null,
+    "hash": "yLRLWqPZfIRi+zMMP49i"
+  },
+  {
+    "plain": null,
+    "hash": "6nJFBo1p+Evapgm5YsDU9g=="
+  },
+  {
+    "plain": null,
+    "hash": "V6EONHC3yLxUgrJB7Zqj1zY="
+  },
+  {
+    "plain": null,
+    "hash": "NX6DmSKqAt9TNdKNJY8hRGH/93MCP2FXyyth3q4ftK8="
+  },
+  {
+    "plain": null,
+    "hash": "Q9g775wSZVxz5HEAWOHCL9iNKiX5HsO+OeeE4dEe99apOVNlu75AYBbuP4oFGRZn"
+  },
+  {
+    "plain": null,
+    "hash": "ikdUSuKFULnJYUjfZ+30HFHAN7ZiwxxeveD5/8OB"
+  },
+  {
+    "plain": null,
+    "hash": "ikdUSuKFULnJYUjfZ+30HFHAN7ZiwxxeveD5/8OBwgQ====="
+  },
+  {
+    "plain": null,
+    "hash": " XLQpZ/FfMUpciMqiFaDCTOWecjdnAqfA//54tWVnyAo="
+  },
+  {
+    "plain": null,
+    "hash": "8aEFXkp6GouLxGAiUWevCU6ZjhAuYoduVtoZBSb6ltw="
+  }
+]

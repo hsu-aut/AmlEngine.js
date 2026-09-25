@@ -46,16 +46,31 @@ function cmp<T>(c?: IEqualityComparer<T> | null): IEqualityComparer<T> {
   return (c ?? DefaultComparer) as IEqualityComparer<T>;
 }
 
-/** A hash set with a custom comparer (keys decide buckets, equals decides membership). */
+/**
+ * HashSet<T> with a custom comparer (keys decide buckets, equals decides membership). Items live
+ * in slots like the entries of .NET's HashSet: a removed slot goes onto a free list and the next
+ * Add reuses the most recently freed slot, so enumeration order matches .NET after removals.
+ */
 export class HashSet<T> implements Iterable<T> {
-  private readonly buckets = new Map<unknown, T[]>();
+  private readonly buckets = new Map<unknown, number[]>();
+  private slots: (T | undefined)[] = [];
+  private used: boolean[] = [];
+  private freeList: number[] = [];
   private count_ = 0;
 
   constructor(
     items?: Iterable<T> | null,
     private readonly comparer: IEqualityComparer<T> = DefaultComparer as IEqualityComparer<T>,
   ) {
-    if (items) for (const x of items) this.add(x);
+    if (items instanceof HashSet && items.comparer === comparer) {
+      // HashSet(HashSet) with the same comparer copies the entries, free slots included.
+      const src = items as HashSet<T>;
+      for (const [k, b] of src.buckets) this.buckets.set(k, [...b]);
+      this.slots = [...src.slots];
+      this.used = [...src.used];
+      this.freeList = [...src.freeList];
+      this.count_ = src.count_;
+    } else if (items) for (const x of items) this.add(x);
   }
 
   get count(): number {
@@ -64,42 +79,48 @@ export class HashSet<T> implements Iterable<T> {
 
   add(x: T): boolean {
     const k = this.comparer.key(x);
-    const b = this.buckets.get(k);
-    if (!b) {
-      this.buckets.set(k, [x]);
-      this.count_++;
-      return true;
-    }
-    if (b.some((y) => this.comparer.equals(y, x))) return false;
-    b.push(x);
+    let b = this.buckets.get(k);
+    if (b && b.some((i) => this.comparer.equals(this.slots[i] as T, x))) return false;
+    const i = this.freeList.length > 0 ? this.freeList.pop()! : this.slots.length;
+    this.slots[i] = x;
+    this.used[i] = true;
+    if (!b) this.buckets.set(k, (b = []));
+    b.push(i);
     this.count_++;
     return true;
   }
 
   contains(x: T): boolean {
     const b = this.buckets.get(this.comparer.key(x));
-    return !!b && b.some((y) => this.comparer.equals(y, x));
+    return !!b && b.some((i) => this.comparer.equals(this.slots[i] as T, x));
   }
 
   remove(x: T): boolean {
     const k = this.comparer.key(x);
     const b = this.buckets.get(k);
     if (!b) return false;
-    const i = b.findIndex((y) => this.comparer.equals(y, x));
-    if (i < 0) return false;
-    b.splice(i, 1);
+    const j = b.findIndex((i) => this.comparer.equals(this.slots[i] as T, x));
+    if (j < 0) return false;
+    const i = b[j];
+    b.splice(j, 1);
     if (b.length === 0) this.buckets.delete(k);
+    this.slots[i] = undefined;
+    this.used[i] = false;
+    this.freeList.push(i);
     this.count_--;
     return true;
   }
 
   clear(): void {
     this.buckets.clear();
+    this.slots = [];
+    this.used = [];
+    this.freeList = [];
     this.count_ = 0;
   }
 
   *[Symbol.iterator](): Iterator<T> {
-    for (const b of this.buckets.values()) yield* b;
+    for (let i = 0; i < this.slots.length; i++) if (this.used[i]) yield this.slots[i] as T;
   }
 }
 
@@ -124,12 +145,14 @@ export class Enumerable<T> implements Iterable<T> {
   }
 
   static range(start: number, count: number): Enumerable<number> {
+    if (count < 0 || start + count - 1 > 2147483647) throw new ArgumentOutOfRangeException('count');
     return new Enumerable(function* () {
       for (let i = 0; i < count; i++) yield start + i;
     });
   }
 
   static repeat<T>(value: T, count: number): Enumerable<T> {
+    if (count < 0) throw new ArgumentOutOfRangeException('count');
     return new Enumerable(function* () {
       for (let i = 0; i < count; i++) yield value;
     });
@@ -286,27 +309,57 @@ export class Enumerable<T> implements Iterable<T> {
     return s;
   }
 
+  /**
+   * Max: null values are skipped (Nullable<T> / reference types; null when there are only nulls),
+   * NaN counts only when every value is NaN (Max(IEnumerable<double>)), other values are compared
+   * with Comparer<T>.Default (defaultCompare). An empty sequence throws, as for value types; .NET
+   * returns null for an empty sequence of a reference type, which the port cannot tell apart.
+   */
   max<R = T>(selector?: (x: T) => R): R {
     let found = false;
+    let sawNull = false;
     let m: R | undefined;
     for (const x of this) {
       const v = selector ? selector(x) : (x as unknown as R);
-      if (!found || (v as unknown as number) > (m as unknown as number)) m = v;
+      if (v === null || v === undefined) {
+        sawNull = true;
+        continue;
+      }
+      if (!found) m = v;
+      else if (typeof v === 'number' && typeof m === 'number') {
+        if (Number.isNaN(m) || v > m) m = v;
+      } else if (defaultCompare(v, m) > 0) m = v;
       found = true;
     }
-    if (!found) throw new InvalidOperationException('Sequence contains no elements');
+    if (!found) {
+      if (sawNull) return null as R;
+      throw new InvalidOperationException('Sequence contains no elements');
+    }
     return m as R;
   }
 
+  /** Min: like max; a NaN is the minimum and ends the enumeration (Min(IEnumerable<double>)). */
   min<R = T>(selector?: (x: T) => R): R {
     let found = false;
+    let sawNull = false;
     let m: R | undefined;
     for (const x of this) {
       const v = selector ? selector(x) : (x as unknown as R);
-      if (!found || (v as unknown as number) < (m as unknown as number)) m = v;
+      if (v === null || v === undefined) {
+        sawNull = true;
+        continue;
+      }
+      if (typeof v === 'number' && Number.isNaN(v)) return v;
+      if (!found) m = v;
+      else if (typeof v === 'number' && typeof m === 'number') {
+        if (v < m) m = v;
+      } else if (defaultCompare(v, m) < 0) m = v;
       found = true;
     }
-    if (!found) throw new InvalidOperationException('Sequence contains no elements');
+    if (!found) {
+      if (sawNull) return null as R;
+      throw new InvalidOperationException('Sequence contains no elements');
+    }
     return m as R;
   }
 
@@ -479,6 +532,7 @@ export class Enumerable<T> implements Iterable<T> {
     const m = new Map<K, V>();
     for (const x of this) {
       const k = keySelector(x);
+      if (k === null || k === undefined) throw new ArgumentNullException('key');
       if (m.has(k)) throw new ArgumentException('An item with the same key has already been added. Key: ' + String(k));
       m.set(k, valueSelector ? valueSelector(x) : (x as unknown as V));
     }
@@ -558,7 +612,13 @@ export function defaultCompare(a: unknown, b: unknown): number {
   if (typeof a === 'object' && typeof (a as { compareTo?: unknown }).compareTo === 'function') {
     return (a as { compareTo(o: unknown): number }).compareTo(b);
   }
-  return (a as number) < (b as number) ? -1 : (a as number) > (b as number) ? 1 : 0;
+  const x = a as number;
+  const y = b as number;
+  if (x < y) return -1;
+  if (x > y) return 1;
+  if (x === y) return 0;
+  // double.CompareTo: NaN is smaller than every other value and equal to NaN.
+  return Number.isNaN(x) ? (Number.isNaN(y) ? 0 : -1) : 1;
 }
 
 const invariantCollator = new Intl.Collator('und', { sensitivity: 'variant' });

@@ -98,6 +98,10 @@ export abstract class PasswordProtected {
         throw new CryptographicException('IV is missing or invalid.');
       }
       const array2 = data.subarray(0, 16);
+      // CryptoStream: no cipher text after the IV decrypts to no bytes (TransformFinalBlock of an empty block).
+      if (data.length === 16) {
+        return '';
+      }
       const decipher = nodeCrypto().createDecipheriv('aes-256-cbc', array, array2);
       const plain = concat(decipher.update(data.subarray(16)), decipher.final());
       return utf8Decoder.decode(plain);
@@ -134,6 +138,9 @@ export abstract class PasswordProtected {
       const data = Convert.fromBase64String(value);
       if (data.length < 16) {
         throw new CryptographicException('IV is missing or invalid.');
+      }
+      if (data.length === 16) {
+        return '';
       }
       const plain = new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-CBC', iv: data.slice(0, 16) }, key, data.slice(16)));
       return utf8Decoder.decode(plain);

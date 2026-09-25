@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="x.aml" SchemaVersion="2.15">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <ExternalReference Path="AML_Test_Lib_AMLEd1_2.0.0.aml" Alias="New"><Version>NewVersion</Version></ExternalReference>
+  <ExternalReference Path="AML_Test_Lib_AMLEd1_0.5.0.aml" Alias="Old"><Version>OldVersion</Version></ExternalReference>
+  <InstanceHierarchy Name="IH"><InternalElement Name="IE" ID="ie1"><ExternalInterface Name="E" ID="e1" /></InternalElement></InstanceHierarchy>
+  <RoleClassLib Name="RCL"><Version>1.0.0</Version><Revision RevisionDate="2020-01-01T00:00:00" NewVersion="New@RCL" AuthorName="a" /><RoleClass Name="R" /></RoleClassLib>
+</CAEXFile>

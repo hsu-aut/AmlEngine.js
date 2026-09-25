@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="iface30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="A" ID="33330000-0000-0000-0000-000000000001">
+      <ExternalInterface Name="out" ID="33330000-0000-0000-0000-000000000011" RefBaseClassPath="ICL/Port">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>Out</Value>
+          <Constraint Name="AllowedDirections">
+            <NominalScaledType>
+              <RequiredValue>Out</RequiredValue>
+              <RequiredValue>InOut</RequiredValue>
+            </NominalScaledType>
+          </Constraint>
+          <Constraint Name="Range">
+            <OrdinalScaledType>
+              <RequiredMaxValue>2</RequiredMaxValue>
+            </OrdinalScaledType>
+          </Constraint>
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category">
+          <Value>water</Value>
+        </Attribute>
+        <Attribute Name="Category2" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category">
+          <Value>steam</Value>
+        </Attribute>
+        <Attribute Name="MaxConnections" AttributeDataType="xs:unsignedInt" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt">
+            <Value>1</Value>
+          </Attribute>
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt">
+            <Value>1</Value>
+          </Attribute>
+        </Attribute>
+        <Attribute Name="Uri" AttributeDataType="xs:anyURI">
+          <Value>http://x</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="plain" ID="33330000-0000-0000-0000-000000000012" RefBaseClassPath="ICL/Port" />
+      <RoleRequirements RefBaseRoleClassPath="RCL/R1" />
+      <SupportedRoleClass RefRoleClassPath="RCL/R1" />
+      <SupportedRoleClass RefRoleClassPath="RCL/R2" />
+      <SupportedRoleClass RefRoleClassPath="RCL/Other" />
+    </InternalElement>
+    <InternalElement Name="B" ID="33330000-0000-0000-0000-000000000002">
+      <ExternalInterface Name="in" ID="33330000-0000-0000-0000-000000000021" RefBaseClassPath="ICL/Port">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>In</Value>
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category">
+          <Value>water</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="out2" ID="33330000-0000-0000-0000-000000000022" RefBaseClassPath="ICL/Port">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>Out</Value>
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category">
+          <Value>air</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="io" ID="33330000-0000-0000-0000-000000000023" RefBaseClassPath="ICL/Other">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>InOut</Value>
+        </Attribute>
+      </ExternalInterface>
+      <RoleRequirements RefBaseRoleClassPath="RCL/R2" />
+    </InternalElement>
+    <InternalLink Name="L1" RefPartnerSideA="33330000-0000-0000-0000-000000000011" RefPartnerSideB="33330000-0000-0000-0000-000000000021" />
+    <InternalLink Name="L2" RefPartnerSideA="33330000-0000-0000-0000-000000000011" RefPartnerSideB="33330000-0000-0000-0000-000000000022" />
+    <InternalLink Name="L3" RefPartnerSideA="33330000-0000-0000-0000-000000000023" RefPartnerSideB="33330000-0000-0000-0000-000000000011" />
+    <InternalLink Name="L4" RefPartnerSideA="33330000-0000-0000-0000-000000000011" RefPartnerSideB="33330000-0000-0000-0000-000000000011" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="Port">
+      <InterfaceClass Name="SubPort" RefBaseClassPath="ICL/Port" />
+    </InterfaceClass>
+    <InterfaceClass Name="Other" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="R1" />
+    <RoleClass Name="R2" RefBaseClassPath="RCL/R1" />
+    <RoleClass Name="Other" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="S1">
+      <ExternalInterface Name="sp" ID="33330000-0000-0000-0000-000000000031" RefBaseClassPath="ICL/Port">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>In</Value>
+        </Attribute>
+      </ExternalInterface>
+      <InternalElement Name="k" ID="33330000-0000-0000-0000-000000000041" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib">
+    <AttributeType Name="Direction" AttributeDataType="xs:string" />
+    <AttributeType Name="Category" AttributeDataType="xs:string" />
+    <AttributeType Name="Cardinality" AttributeDataType="xs:unsignedInt" />
+  </AttributeTypeLib>
+</CAEXFile>

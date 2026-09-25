@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="AML_Test_RoleClassLib_AMLEd2_1.2.0.aml" xmlns="http://www.dke.de/CAEX">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen" OriginID="gen" OriginVersion="1" LastWritingDateTime="2020-01-01T00:00:00" />
+  <ExternalReference Path="AML_Test_RoleClassLib_AMLEd2_1.1.0.aml" Alias="Old"><Version>OldVersion</Version></ExternalReference>
+  <ExternalReference Path="AML_Test_RoleClassLib_AMLEd2_2.0.0.aml" Alias="New"><Version>NewVersion</Version></ExternalReference>
+  <ExternalReference Path="AML_Test_RoleClassLib_AMLEd2_1.2.0-beta.aml" Alias="Beta"><Description>VersionRef</Description></ExternalReference>
+  <ExternalReference Path="AML_Test_RoleClassLib_AMLEd2_1.2.0-rc.aml" Alias="Rc"><Description>Version Reference</Description></ExternalReference>
+  <ExternalReference Path="Lib.aml" Alias="Plain"></ExternalReference>
+  <ExternalReference Path="Other.aml" Alias="Ext"><Version>Extension</Version></ExternalReference>
+  <ExternalReference Path="AML_Test_RoleClassLib_AMLEd2_x.y.aml" Alias="Bad"><Version>NewVersion</Version></ExternalReference>
+  <ExternalReference Path="AML_Test_RoleClassLib_Ext_AMLEd2_1.3.0.aml" Alias="Ext6"><Version>NewVersion</Version></ExternalReference>
+  <ExternalReference Path="AML_Test_RoleClassLib_AMLEd2_1.2.0.aml" Alias="Same"><Version>OldVersion</Version></ExternalReference>
+  <ExternalReference Path="AML_Test_RoleClassLib_AMLEd2_1.5.0%20x.aml" Alias="Esc"><Version>NewVersion</Version></ExternalReference>
+  <InstanceHierarchy Name="IH"><InternalElement Name="IE" ID="ie1" /></InstanceHierarchy>
+  <RoleClassLib Name="RCL"><Version>1.2.0</Version><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><NewVersion>New@RCL</NewVersion><AuthorName>a</AuthorName></Revision><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><OldVersion>Old@RCL</OldVersion><AuthorName>a</AuthorName></Revision><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><OldVersion>Beta@RCL</OldVersion><AuthorName>a</AuthorName></Revision><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><Comment>none</Comment><AuthorName>a</AuthorName></Revision><RoleClass Name="R1" /><RoleClass Name="R2" /></RoleClassLib>
+  <SystemUnitClassLib Name="SUCL"><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><NewVersion>Rc@SUCL</NewVersion><AuthorName>a</AuthorName></Revision><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><NewVersion>Unknown@SUCL</NewVersion><AuthorName>a</AuthorName></Revision><SystemUnitClass Name="S" /></SystemUnitClassLib>
+  <InterfaceClassLib Name="ICL"><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><OldVersion>Ext6@ICL</OldVersion><AuthorName>a</AuthorName></Revision><InterfaceClass Name="I" /></InterfaceClassLib>
+  <AttributeTypeLib Name="ATL"><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><NewVersion>Same@ATL</NewVersion><AuthorName>a</AuthorName></Revision><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><NewVersion>Esc@ATL</NewVersion><AuthorName>a</AuthorName></Revision><Revision><RevisionDate>2020-01-01T00:00:00</RevisionDate><NewVersion>Bad@ATL</NewVersion><AuthorName>a</AuthorName></Revision><AttributeType Name="A" /></AttributeTypeLib>
+</CAEXFile>

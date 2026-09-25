@@ -1,8 +1,12 @@
 // Dictionary<string, TValue> with StringComparer.InvariantCultureIgnoreCase, as used by the MIME
 // type mapping table (helper for MappingList and MimeTypeMap, no C# counterpart of its own).
 // Enumeration follows the insertion order (the table never removes entries, so this is the order
-// of the .NET Dictionary). Keys are compared by their invariant upper-case form, which equals the
-// invariant culture comparison for the ASCII keys of the table.
+// of the .NET Dictionary). Keys are folded to approximate the ICU collation behind
+// InvariantCultureIgnoreCase, as observed with the oracle (test/engine/gapsservices.oracle.test.ts):
+// completely ignorable characters (controls, soft hyphen, zero width space) are dropped, case and
+// compatibility variants are equal ("ﬀ"/"FF", "é"/"é", "ǅ"/"ǆ", "²"/"2"), while "ß"/"SS",
+// "ı"/"I", full/half width forms and the kana types stay distinct. Only ASCII extensions occur in
+// the MIME table, for which this is plain case insensitivity.
 
 import { ArgumentException, ArgumentNullException } from '../../../system/exceptions.js';
 
@@ -12,7 +16,12 @@ export class InvariantIgnoreCaseDictionary<TValue> implements Iterable<{ key: st
 
   private static fold(key: string | null): string {
     if (key == null) throw new ArgumentNullException('key');
-    return key.toUpperCase();
+    let folded = '';
+    for (const ch of key.normalize('NFD')) {
+      if (/[\p{Cc}\p{Default_Ignorable_Code_Point}]/u.test(ch)) continue;
+      folded += /[぀-ヿ＀-￯]/.test(ch) ? ch : ch.normalize('NFKD').toLowerCase();
+    }
+    return folded;
   }
 
   /** Number of entries. */

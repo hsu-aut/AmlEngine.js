@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="noalias.aml" xmlns="http://www.dke.de/CAEX">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen" OriginID="gen" OriginVersion="1" LastWritingDateTime="2020-01-01T00:00:00" />
+  <ExternalReference Path="AML_Test_RoleClassLib_AMLEd2_2.0.0.aml"><Version>NewVersion</Version></ExternalReference>
+</CAEXFile>

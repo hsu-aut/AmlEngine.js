@@ -8,6 +8,7 @@ import { T } from '../../registry.js';
 import { implementsInterface } from '../../interfaces.js';
 import { ArgumentNullException, InvalidOperationException } from '../../../system/exceptions.js';
 import { isNullOrEmpty } from '../../../system/strings.js';
+import { cultureStartsWith } from '../../../system/CompareInfo.js';
 import { HashSet, from } from '../../../system/linq.js';
 import type { XElement } from '../../../xml/index.js';
 import { ServiceLocator } from '../../services/ServiceLocator.js';
@@ -372,13 +373,4 @@ function indexOfOrdinal(s: string, value: string | null): number {
 /** string.Equals(string) on a possibly null receiver (NullReferenceException in C#). */
 function equalsString(a: string | null, b: string | null): boolean {
   return (a as string).valueOf() === b;
-}
-
-/**
- * string.StartsWith(string) is culture sensitive in .NET; the port compares ordinally (identical
- * except for ignorable code points and canonically equivalent sequences).
- */
-function cultureStartsWith(s: string, value: string | null): boolean {
-  if (value === null || value === undefined) throw new ArgumentNullException('value');
-  return s.startsWith(value);
 }

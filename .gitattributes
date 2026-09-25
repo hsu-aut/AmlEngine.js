@@ -12,3 +12,6 @@ test/values/** binary
 test/mutations/** binary
 test/amlobjects/** binary
 test/reads/** binary
+test/gapsservices/** binary
+test/gapsinfra/** binary
+test/gapscaex/** binary
