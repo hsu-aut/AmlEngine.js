@@ -15,7 +15,7 @@ System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.Culture
 var json = new JsonSerializerOptions { WriteIndented = true };
 
 // Directories stand for all files in them (keeps command lines short).
-if (args.FirstOrDefault() is not ("xops" or "sys" or "engineops" or "values" or "amlobjects" or "mutations" or "reads"))
+if (args.FirstOrDefault() is not ("xops" or "sys" or "engineops" or "values" or "amlobjects" or "mutations" or "reads" or "gapscaex" or "gapsservices" or "gapsinfra"))
 args = args.Take(2).Concat(args.Skip(2).SelectMany<string, string>(a => Directory.Exists(a)
     ? Directory.GetFiles(a).OrderBy(f => f, StringComparer.Ordinal)
     : new[] { a })).ToArray();
@@ -88,6 +88,15 @@ switch (args.FirstOrDefault())
         break;
     case "mutations":
         MutationsOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "gapscaex":
+        GapsCaexOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "gapsservices":
+        GapsServicesOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "gapsinfra":
+        GapsInfraOracle.Run(args.Skip(1).ToArray());
         break;
     case "reads":
         ReadsOracle.Run(args.Skip(1).ToArray());
