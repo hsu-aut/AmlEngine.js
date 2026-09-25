@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="random-3.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <ExternalReference Path="test/reads/ext-lib.aml" Alias="ExtLib" />
+  <ExternalReference Path="test/reads/does-not-exist.aml" Alias="Missing" />
+  <InstanceHierarchy Name=" ]/ /">
+    <InternalElement Name="Arm3" ID="id-670" RefBaseSystemUnitPath="Tank2/Line1/[]]/[]_]">
+      <ExternalInterface Name="Port" ID="77badc81-957b-4960-abaa-6af194b3bb4d" />
+      <ExternalInterface Name=" @]:." ID="d704e4ac-318c-4a37-ac41-0c17bd3c4265" RefBaseClassPath="Line0/Arm" />
+      <Attribute Name="Pump1" AttributeDataType="xs:string">
+        <Value>v6</Value>
+      </Attribute>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="]-.X">
+    <InternalElement Name="Port0" ID="07edf09c-bc71-4d8e-a7cb-6edadd4e363b">
+      <ExternalInterface Name="Tank" ID="0781e148-e3b8-439b-ad6e-e3180c557682" RefBaseClassPath="ExtLib@ExtRCL/ExtRole" />
+      <RoleRequirements RefBaseRoleClassPath="Valve2/Tank1/Motor" />
+      <SupportedRoleClass />
+      <InternalElement Name="Tank" ID="ac2de98c-a308-4760-aeaf-86d55dd74363" RefBaseSystemUnitPath="ac2de98c-a308-4760-aeaf-86d55dd74363">
+        <ExternalInterface Name="Sensor" ID="6104563e-5af5-47ae-ae27-441e62195db1" RefBaseClassPath="0781e148-e3b8-439b-ad6e-e3180c557682" />
+        <ExternalInterface Name="Sensor" ID="id-670" RefBaseClassPath="Line0/[a[: a]" />
+        <SupportedRoleClass RefRoleClassPath="Valve2/Tank1/Motor" />
+        <InternalElement Name=" [a" ID="id-506" RefBaseSystemUnitPath="85c0501e-a023-4067-af4d-354cffd84318">
+          <Attribute Name="Arm0" AttributeDataType="xs:string">
+            <Value>v3</Value>
+          </Attribute>
+          <SupportedRoleClass RefRoleClassPath="Valve2/Tank0/Arm3/Tank" />
+          <InternalElement Name="Sensor1" ID="{e33e37fa-3318-47a3-a480-98d5c62fbe79}" RefBaseSystemUnitPath="ExtLib@ExtSUCL/ExtClass">
+            <ExternalInterface Name="Sensor" ID="id-461" RefBaseClassPath="Line0/[a[: a]" />
+            <ExternalInterface Name="Line" ID="47754c4d-744e-48e3-a3ea-e6209c31684c" RefBaseClassPath="ExtLib@ExtATL/ExtType" />
+          </InternalElement>
+          <InternalElement Name="Motor" ID="9f735611-aaf2-4bdd-a833-7eaab6281a5b" RefBaseSystemUnitPath="Tank2/Pump3/Tank">
+            <ExternalInterface Name="X" ID="b832b9b3-0db0-444f-a677-f81095fd8490" RefBaseClassPath="id-461" />
+            <ExternalInterface Name="Motor" ID="id-77" RefBaseClassPath="Line0/__" />
+            <Attribute Name="Arm3" AttributeDataType="xs:string">
+              <Value>v1</Value>
+            </Attribute>
+            <RoleRequirements RefBaseRoleClassPath="Valve2/Tank0/Arm3" />
+            <SupportedRoleClass RefRoleClassPath="Lib/Missing2" />
+          </InternalElement>
+          <InternalElement Name="Pump2" ID="85c0501e-a023-4067-af4d-354cffd84318" RefBaseSystemUnitPath="Tank2/Line1/[]]">
+            <ExternalInterface Name="Pump" ID="26c6f34c-e66c-4ede-a3af-d10094bb2724" RefBaseClassPath="Line0/__" />
+            <Attribute Name="Port" AttributeDataType="xs:string">
+              <Value>v7</Value>
+            </Attribute>
+            <SupportedRoleClass RefRoleClassPath="Valve2/Tank1/Motor" />
+          </InternalElement>
+        </InternalElement>
+        <InternalElement Name="Port" ID="{08a5310f-728b-41cc-a614-4dc8bf29e4f6}" RefBaseSystemUnitPath="Tank2/Line1/[]]/Tank0">
+          <Attribute Name="Port3" AttributeDataType="xs:string">
+            <Value>v8</Value>
+          </Attribute>
+          <InternalElement Name="Line1" ID="ac2e4a46-7b8e-46e9-a52d-cd0ad37abc26" RefBaseSystemUnitPath="Tank2/Line1">
+            <ExternalInterface Name="Pump" ID="id-260" />
+            <ExternalInterface Name="Valve2" ID="24909fa7-b86a-45e9-a9f2-575b1ac103c7" RefBaseClassPath="id-670" />
+          </InternalElement>
+          <InternalElement Name="Valve2" ID="f9b22ec2-864d-4bee-af39-a79e9865246e" RefBaseSystemUnitPath="ac2de98c-a308-4760-aeaf-86d55dd74363">
+            <Attribute Name="Sensor" AttributeDataType="xs:string">
+              <Value>v4</Value>
+            </Attribute>
+            <RoleRequirements RefBaseRoleClassPath="Valve2/Tank0/Arm3" />
+            <InternalLink Name=".b//b" RefPartnerSideA="ac2de98c-a308-4760-aeaf-86d55dd74363:Sensor" RefPartnerSideB="ac2de98c-a308-4760-aeaf-86d55dd74363:Sensor" />
+          </InternalElement>
+        </InternalElement>
+        <InternalElement Name="Port3" ID="2555ec3f-9429-4f93-a802-9ac6c71e68ab" RefBaseSystemUnitPath="Tank2/Line1/[]]">
+          <Attribute Name="_" AttributeDataType="xs:string">
+            <Value>v4</Value>
+          </Attribute>
+          <RoleRequirements />
+        </InternalElement>
+        <InternalElement Name="Valve" ID="88b75927-3497-4301-a046-31fa54266d4e" RefBaseSystemUnitPath="Tank2/Line1">
+          <ExternalInterface Name="Motor3" ID="id-233" RefBaseClassPath="Line0/[a[: a]" />
+          <InternalElement Name="[a]-" ID="8cb67a2a-0f4c-4495-a556-c3fc2a857a21" RefBaseSystemUnitPath="2555ec3f-9429-4f93-a802-9ac6c71e68ab">
+            <ExternalInterface Name="Pump" ID="id-374" RefBaseClassPath="Line0/Arm" />
+            <ExternalInterface Name="Sensor2" ID="2555ec3f-9429-4f93-a802-9ac6c71e68ab" RefBaseClassPath="Line0/__" />
+            <InternalLink Name="1X1b" RefPartnerSideA="{e33e37fa-3318-47a3-a480-98d5c62fbe79}:Line" RefPartnerSideB="{e33e37fa-3318-47a3-a480-98d5c62fbe79}:Sensor" />
+          </InternalElement>
+        </InternalElement>
+      </InternalElement>
+      <InternalElement Name="[1-" ID="47a15e77-926e-48c3-a169-266facb141d9" RefBaseSystemUnitPath="ExtLib@ExtRCL/ExtRole">
+        <Attribute Name="Pump1" AttributeDataType="xs:string">
+          <Value>v6</Value>
+        </Attribute>
+        <RoleRequirements RefBaseRoleClassPath="Valve2/Tank0/Sensor" />
+        <SupportedRoleClass RefRoleClassPath="Valve2/Tank1/Motor/Tank1" />
+        <InternalLink Name=" : @b" RefPartnerSideA="ac2de98c-a308-4760-aeaf-86d55dd74363:Sensor" RefPartnerSideB="8cb67a2a-0f4c-4495-a556-c3fc2a857a21:Sensor2" />
+      </InternalElement>
+      <InternalElement Name="Valve" ID="84f74b15-ae4a-43c8-a67e-163271f5ee32" RefBaseSystemUnitPath="Lib/Missing7" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="Line0">
+    <InterfaceClass Name="Arm">
+      <Attribute Name="Motor" AttributeDataType="xs:boolean">
+        <Value>93</Value>
+      </Attribute>
+    </InterfaceClass>
+    <InterfaceClass Name="a[: a" RefBaseClassPath="Line0/Arm" />
+    <InterfaceClass Name="__">
+      <Attribute Name="Port" AttributeDataType="xs:int">
+        <Value>26</Value>
+      </Attribute>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="Valve2">
+    <RoleClass Name="Tank0" RefBaseClassPath="">
+      <Attribute Name="Motor1" AttributeDataType="xs:boolean">
+        <Value>94</Value>
+      </Attribute>
+      <RoleClass Name="Arm3">
+        <Attribute Name="Arm" AttributeDataType="xs:int" />
+        <RoleClass Name="Tank" RefBaseClassPath="Valve2/Tank0/Arm3">
+          <Attribute Name="Sensor" AttributeDataType="xs:int" />
+        </RoleClass>
+        <RoleClass Name="Port">
+          <Attribute Name="Pump3" AttributeDataType="xs:double">
+            <Value>44</Value>
+          </Attribute>
+          <ExternalInterface Name="_" ID="0781e148-e3b8-439b-ad6e-e3180c557682" RefBaseClassPath="Line0/__" />
+        </RoleClass>
+        <RoleClass Name="Pump0" RefBaseClassPath="Lib/Missing0">
+          <Attribute Name=":]@" AttributeDataType="xs:int">
+            <Value>44</Value>
+          </Attribute>
+          <ExternalInterface Name="Sensor2" ID="07edf09c-bc71-4d8e-a7cb-6edadd4e363b" RefBaseClassPath="Line0/Arm" />
+        </RoleClass>
+      </RoleClass>
+      <RoleClass Name="Sensor" RefBaseClassPath="Valve2/Tank0/Arm3/Pump0">
+        <ExternalInterface Name="b:[X]" ID="7b7f726a-d943-4baa-ab0c-ae7a54149a3c" />
+      </RoleClass>
+    </RoleClass>
+    <RoleClass Name="X_" RefBaseClassPath="" />
+    <RoleClass Name="Tank1">
+      <Attribute Name="a/a.." AttributeDataType="xs:int" />
+      <RoleClass Name="Motor" RefBaseClassPath="Valve2/Tank0/Arm3">
+        <Attribute Name="Valve" AttributeDataType="xs:boolean">
+          <Value>43</Value>
+        </Attribute>
+      </RoleClass>
+      <RoleClass Name="Motor" RefBaseClassPath="Valve2/Tank1/Motor">
+        <Attribute Name="Motor0" AttributeDataType="xs:int" />
+        <RoleClass Name="Arm" RefBaseClassPath="Valve2/Tank0">
+          <Attribute Name="Pump1" AttributeDataType="xs:boolean">
+            <Value>40</Value>
+          </Attribute>
+        </RoleClass>
+        <RoleClass Name="Tank1" RefBaseClassPath="">
+          <Attribute Name="Motor0" AttributeDataType="xs:int">
+            <Value>32</Value>
+          </Attribute>
+        </RoleClass>
+      </RoleClass>
+      <RoleClass Name="Pump" RefBaseClassPath="Valve2/Tank0">
+        <Attribute Name="Arm" AttributeDataType="xs:double">
+          <Value>67</Value>
+        </Attribute>
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="Tank2">
+    <SystemUnitClass Name="Line1" RefBaseClassPath="Lib/Missing6">
+      <SupportedRoleClass RefRoleClassPath="Valve2/Tank1/Motor/Arm" />
+      <SystemUnitClass Name="Line" RefBaseClassPath="Lib/Missing2">
+        <ExternalInterface Name="Valve" ID="{ce92ca5b-33b4-4e5d-a792-847a7391110d}" />
+        <SupportedRoleClass RefRoleClassPath="Valve2/Tank0/Arm3" />
+      </SystemUnitClass>
+      <SystemUnitClass Name="]">
+        <ExternalInterface Name="Motor0" ID="id-13" RefBaseClassPath="Line0/__" />
+        <SupportedRoleClass />
+        <SystemUnitClass Name="]_" RefBaseClassPath="ExtLib@ExtSUCL/ExtClass">
+          <Attribute Name="Sensor3" AttributeDataType="xs:int" />
+        </SystemUnitClass>
+        <SystemUnitClass Name="Tank0" RefBaseClassPath="Tank2/Line1">
+          <ExternalInterface Name="Motor1" ID="145708bd-6a8c-47a2-a441-27ba91cce873" />
+          <InternalElement Name="Tank0" ID="b7228f67-a098-4df9-a9dd-c60aa2e88349" />
+        </SystemUnitClass>
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Pump3">
+      <ExternalInterface Name="Pump" ID="24909fa7-b86a-45e9-a9f2-575b1ac103c7" RefBaseClassPath="Line0/__" />
+      <SupportedRoleClass RefRoleClassPath="Lib/Missing4" />
+      <SystemUnitClass Name="Tank">
+        <Attribute Name=" ][" AttributeDataType="xs:string">
+          <Value>32</Value>
+        </Attribute>
+        <ExternalInterface Name="Valve" ID="id-516" RefBaseClassPath="ExtLib@ExtICL/ExtInterface" />
+      </SystemUnitClass>
+      <SystemUnitClass Name="Valve">
+        <Attribute Name="Motor0" AttributeDataType="xs:boolean" />
+        <InternalElement Name="Tank2" ID="id-16" />
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Motor" RefBaseClassPath="Tank2/Pump3/Valve">
+      <Attribute Name="Motor" AttributeDataType="xs:double">
+        <Value>63</Value>
+      </Attribute>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

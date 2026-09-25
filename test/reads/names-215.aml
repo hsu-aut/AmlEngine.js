@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="names-215.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InstanceHierarchy Name="I/H">
+    <InternalElement Name="a/b" ID="ie-ab" RefBaseSystemUnitPath="SUCL/[a/b]">
+      <ExternalInterface Name="x:y" ID="ei-xy" RefBaseClassPath="ICL/[a/b]" />
+      <RoleRequirements RefBaseRoleClassPath="RCL/[[odd]]" />
+      <InternalElement Name="c.d" ID="ie-cd" RefBaseSystemUnitPath="SUCL/[a/b]/[c.d]">
+        <ExternalInterface Name="e[f]" ID="ei-ef" RefBaseClassPath="ICL/[x.y:z]" />
+      </InternalElement>
+    </InternalElement>
+    <InternalElement Name="[bracket]" ID="ie-br" RefBaseSystemUnitPath="SUCL/[[br]]" />
+    <InternalElement Name="plain" ID="ie-plain" RefBaseSystemUnitPath="SUCL/e:f">
+      <Attribute Name="at/tr" AttributeDataType="xs:string">
+        <Attribute Name="sub.attr" AttributeDataType="xs:string" />
+      </Attribute>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="I">
+    <InternalElement Name="H" ID="ie-h" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <Version>1.0.0</Version>
+    <InterfaceClass Name="Base">
+      <Attribute Name="Direction" AttributeDataType="xs:string">
+        <Value>InOut</Value>
+      </Attribute>
+      <InterfaceClass Name="Port" RefBaseClassPath="ICL/Base" />
+      <InterfaceClass Name="Signal" RefBaseClassPath="ICL/Base/Port" />
+    </InterfaceClass>
+    <InterfaceClass Name="Broken" RefBaseClassPath="ICL/Missing" />
+    <InterfaceClass Name="External" RefBaseClassPath="ExtLib@ExtICL/ExtInterface" />
+    <InterfaceClass Name="a/b" RefBaseClassPath="ICL/Base" />
+    <InterfaceClass Name="x.y:z" RefBaseClassPath="ICL/[a/b]" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="Resource">
+      <Attribute Name="Speed" AttributeDataType="xs:double" Unit="m/s">
+        <DefaultValue>1.5</DefaultValue>
+      </Attribute>
+      <ExternalInterface Name="In" RefBaseClassPath="ICL/Base/Port" ID="rc-ei-in" />
+      <RoleClass Name="Robot" RefBaseClassPath="RCL/Resource">
+        <RoleClass Name="Arm" RefBaseClassPath="RCL/Resource/Robot" />
+      </RoleClass>
+    </RoleClass>
+    <RoleClass Name="Product" />
+    <RoleClass Name="Orphan" RefBaseClassPath="RCL/Nope" />
+    <RoleClass Name="Ext" RefBaseClassPath="ExtLib@ExtRCL/ExtRole" />
+    <RoleClass Name="[odd]" RefBaseClassPath="RCL/Resource" />
+    <RoleClass Name="dot.ted" RefBaseClassPath="RCL/[[odd]]" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="Machine">
+      <Attribute Name="Power" AttributeDataType="xs:double" Unit="kW">
+        <Value>11</Value>
+        <Attribute Name="Max" AttributeDataType="xs:double">
+          <Value>15</Value>
+        </Attribute>
+      </Attribute>
+      <ExternalInterface Name="Plug" RefBaseClassPath="ICL/Base/Port" ID="suc-machine-plug" />
+      <InternalElement Name="Motor" ID="suc-machine-motor" RefBaseSystemUnitPath="SUCL/Motor">
+        <ExternalInterface Name="Shaft" RefBaseClassPath="ICL/Base/Port" ID="suc-motor-shaft" />
+      </InternalElement>
+      <InternalElement Name="Drive" ID="suc-machine-drive">
+        <ExternalInterface Name="Out" RefBaseClassPath="ICL/Base/Signal" ID="suc-drive-out" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="RCL/Resource" />
+      <InternalLink Name="L1" RefPartnerSideA="suc-machine-motor:Shaft" RefPartnerSideB="suc-machine-drive:Out" />
+      <SystemUnitClass Name="Press" RefBaseClassPath="SUCL/Machine">
+        <Attribute Name="Power" AttributeDataType="xs:double">
+          <Value>22</Value>
+        </Attribute>
+        <SupportedRoleClass RefRoleClassPath="RCL/Resource/Robot" />
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Motor">
+      <Attribute Name="Rpm" AttributeDataType="xs:int">
+        <Value>1500</Value>
+      </Attribute>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Derived" RefBaseClassPath="SUCL/Machine/Press">
+      <SupportedRoleClass RefRoleClassPath="RCL/Missing" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="Broken" RefBaseClassPath="SUCL/Nope" />
+    <SystemUnitClass Name="External" RefBaseClassPath="ExtLib@ExtSUCL/ExtClass">
+      <SupportedRoleClass RefRoleClassPath="ExtLib@ExtRCL/ExtRole" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="a/b">
+      <SystemUnitClass Name="c.d" RefBaseClassPath="SUCL/[a/b]" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="e:f" RefBaseClassPath="SUCL/[a/b]/[c.d]" />
+    <SystemUnitClass Name="[br]" />
+  </SystemUnitClassLib>
+</CAEXFile>

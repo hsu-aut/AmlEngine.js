@@ -17,3 +17,11 @@ node scripts/gen-sys-cases.mjs test/system/cases.json >/dev/null
 $ORACLE sys test/system/cases.json test/oracle-out/sys.json
 node scripts/gen-invalid-caex.mjs test/validation/cases 10 3682 >/dev/null
 $ORACLE validate test/oracle-out/validate test/corpus/*.aml test/validation/cases
+node scripts/gen-values.mjs test/values/cases.json 3682 >/dev/null
+$ORACLE values test/values/cases.json test/corpus test/oracle-out/values.json
+node scripts/gen-mutations.mjs test/mutations/scripts.json 400 40 3682 >/dev/null
+$ORACLE mutations test/mutations/scripts.json test/corpus test/oracle-out/mutations.json
+node scripts/gen-amlobjects.mjs test/amlobjects/ops.json >/dev/null
+$ORACLE amlobjects test/amlobjects test/corpus test/oracle-out/amlobjects-work test/oracle-out/amlobjects
+node scripts/gen-reads.mjs test/reads 6 4711 >/dev/null
+$ORACLE reads test/oracle-out/reads test/corpus test/reads

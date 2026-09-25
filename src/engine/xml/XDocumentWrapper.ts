@@ -32,6 +32,14 @@ export class XDocumentWrapper implements IDocument {
    */
   private static readonly LiveDocuments = new Set<WeakRef<XDocumentWrapper>>();
 
+  /** The weak reference of each registered wrapper, to forget it without scanning the set. */
+  private static readonly Refs = new WeakMap<XDocumentWrapper, WeakRef<XDocumentWrapper>>();
+
+  /** Removes the weak reference of a collected wrapper, so the set never accumulates dead entries. */
+  private static readonly Collected = new FinalizationRegistry<WeakRef<XDocumentWrapper>>((ref) => {
+    XDocumentWrapper.LiveDocuments.delete(ref);
+  });
+
   private _disposedValue = false;
 
   private _xDocument: XDocument | null = null;
@@ -68,20 +76,22 @@ export class XDocumentWrapper implements IDocument {
 
   /** @internal `Document(XNode)`. */
   static documentOfNode(node: XNode | null): IDocument | null {
-    XDocumentWrapper.checkReferences();
     const document = node?.document ?? null;
     if (document !== null) {
       return XDocumentWrapper.DocumentTable.get(document) ?? null;
     }
-    const list: XDocumentWrapper[] = [];
+    // The only live document, if there is exactly one (the table scan of CheckReferences in C#).
+    let found: XDocumentWrapper | null = null;
     for (const d of XDocumentWrapper.LiveDocuments) {
       const target = d.deref();
-      if (target !== undefined) list.push(target);
+      if (target === undefined) {
+        XDocumentWrapper.LiveDocuments.delete(d);
+        continue;
+      }
+      if (found !== null) return null;
+      found = target;
     }
-    if (list.length !== 1) {
-      return null;
-    }
-    return list[0];
+    return found;
   }
 
   /** @internal `Document(IXMLWrapper)`. */
@@ -170,22 +180,18 @@ export class XDocumentWrapper implements IDocument {
       XDocumentWrapper.forgetWrapper(previous);
     }
     XDocumentWrapper.DocumentTable.set(xDocument, document);
-    XDocumentWrapper.LiveDocuments.add(new WeakRef(document));
-    XDocumentWrapper.checkReferences();
-  }
-
-  /** Drops the weak references of dead wrappers (their table entries are gone with them). */
-  private static checkReferences(): void {
-    for (const ref of [...XDocumentWrapper.LiveDocuments]) {
-      if (ref.deref() === undefined) XDocumentWrapper.LiveDocuments.delete(ref);
-    }
+    const ref = new WeakRef(document);
+    XDocumentWrapper.LiveDocuments.add(ref);
+    XDocumentWrapper.Refs.set(document, ref);
+    XDocumentWrapper.Collected.register(document, ref, ref);
   }
 
   private static forgetWrapper(wrapper: XDocumentWrapper): void {
-    for (const ref of [...XDocumentWrapper.LiveDocuments]) {
-      const target = ref.deref();
-      if (target === undefined || target === wrapper) XDocumentWrapper.LiveDocuments.delete(ref);
-    }
+    const ref = XDocumentWrapper.Refs.get(wrapper);
+    if (ref === undefined) return;
+    XDocumentWrapper.Refs.delete(wrapper);
+    XDocumentWrapper.LiveDocuments.delete(ref);
+    XDocumentWrapper.Collected.unregister(ref);
   }
 
   private static removeDocument(xDocument: XDocument | null, checkReferences = true): void {
@@ -203,9 +209,8 @@ export class XDocumentWrapper implements IDocument {
         (item as unknown as IXMLDocumentRegistry).removeDocument(new XDocumentWrapper(xDocument, false));
       }
     }
-    if (checkReferences) {
-      XDocumentWrapper.checkReferences();
-    }
+    // CheckReferences of the original: dead entries are removed by the FinalizationRegistry.
+    void checkReferences;
   }
 }
 

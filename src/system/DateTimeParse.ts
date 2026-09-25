@@ -462,6 +462,8 @@ class DateTimeResult {
   timeZoneOffset = 0n;
   parsedDate: DateTime | null = null;
   failure: ParseFailureKind = ParseFailureKind.None;
+  /** failureMessageFormatArgument (the index of an unknown word). */
+  failureArgument: number | null = null;
 
   SetDate(year: number, month: number, day: number): void {
     this.Year = year;
@@ -473,8 +475,9 @@ class DateTimeResult {
     this.failure = ParseFailureKind.Format_BadDateTime;
   }
 
-  SetFailure(failure: ParseFailureKind): void {
+  SetFailure(failure: ParseFailureKind, failureMessageFormatArgument: number | null = null): void {
     this.failure = failure;
+    this.failureArgument = failureMessageFormatArgument;
   }
 }
 
@@ -703,17 +706,87 @@ class TokenHashValue {
 const TOKEN_HASH_SIZE = 199;
 const SECOND_PRIME = 197;
 
-/** The parts of DateTimeFormatInfo.InvariantInfo that DateTime.Parse uses. */
+/** The culture data of a DateTimeFormatInfo that DateTime.Parse uses (Gregorian calendar only). */
+interface CultureDateData {
+  DateSeparator: string;
+  TimeSeparator: string;
+  AMDesignator: string;
+  PMDesignator: string;
+  ShortDatePattern: string;
+  MonthDayPattern: string;
+  YearMonthPattern: string;
+  MonthNames: string[];
+  AbbrevMonthNames: string[];
+  /** Genitive month names, inserted when FormatFlags has UseGenitiveMonth; null otherwise. */
+  GenitiveMonthNames: string[] | null;
+  DayNames: string[];
+  AbbrevDayNames: string[];
+  EraNames: string[];
+  AbbrevEraNames: string[];
+}
+
+const InvariantData: CultureDateData = {
+  DateSeparator: '/',
+  TimeSeparator: ':',
+  AMDesignator: 'AM',
+  PMDesignator: 'PM',
+  ShortDatePattern: 'MM/dd/yyyy',
+  MonthDayPattern: 'MMMM dd',
+  YearMonthPattern: 'yyyy MMMM',
+  MonthNames: InvariantMonthNames,
+  AbbrevMonthNames: InvariantAbbrevMonthNames,
+  GenitiveMonthNames: null,
+  DayNames: InvariantDayNames,
+  AbbrevDayNames: InvariantAbbrevDayNames,
+  EraNames: InvariantEraNames,
+  AbbrevEraNames: InvariantAbbrevEraNames,
+};
+
+/**
+ * de-DE as .NET 8 on Windows reports it (CultureInfo.CreateSpecificCulture("de-DE"), dumped by
+ * "oracle values --dtfi de-DE"): no date words, FormatFlags UseGenitiveMonth, TwoDigitYearMax 2049.
+ */
+const GermanData: CultureDateData = {
+  DateSeparator: '.',
+  TimeSeparator: ':',
+  AMDesignator: '',
+  PMDesignator: '',
+  ShortDatePattern: 'dd.MM.yyyy',
+  MonthDayPattern: 'd. MMMM',
+  YearMonthPattern: 'MMMM yyyy',
+  MonthNames: ['Januar', 'Februar', 'M\u00e4rz', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember', ''],
+  AbbrevMonthNames: ['Jan', 'Feb', 'M\u00e4r', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez', ''],
+  GenitiveMonthNames: ['Januar', 'Februar', 'M\u00e4rz', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember', ''],
+  DayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+  AbbrevDayNames: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+  EraNames: ['n. Chr.'],
+  AbbrevEraNames: ['n. Chr.'],
+};
+
+/**
+ * The parts of a DateTimeFormatInfo that DateTime.Parse uses: the invariant culture by default,
+ * or the culture data given (the invariant tokens are added for every culture, as in .NET).
+ */
 class InvariantDateTimeFormatInfo {
-  readonly DateSeparator = '/';
-  readonly TimeSeparator = ':';
-  readonly AMDesignator = 'AM';
-  readonly PMDesignator = 'PM';
-  readonly ShortDatePattern = 'MM/dd/yyyy';
-  readonly MonthDayPattern = 'MMMM dd';
-  readonly YearMonthPattern = 'yyyy MMMM';
+  readonly DateSeparator: string;
+  readonly TimeSeparator: string;
+  readonly AMDesignator: string;
+  readonly PMDesignator: string;
+  readonly ShortDatePattern: string;
+  readonly MonthDayPattern: string;
+  readonly YearMonthPattern: string;
 
   private _dtfiTokenHash: (TokenHashValue | null)[] | null = null;
+
+  constructor(private readonly data: CultureDateData = InvariantData) {
+    this.DateSeparator = data.DateSeparator;
+    this.TimeSeparator = data.TimeSeparator;
+    this.AMDesignator = data.AMDesignator;
+    this.PMDesignator = data.PMDesignator;
+    this.ShortDatePattern = data.ShortDatePattern;
+    this.MonthDayPattern = data.MonthDayPattern;
+    this.YearMonthPattern = data.YearMonthPattern;
+  }
 
   CreateTokenHashTable(): (TokenHashValue | null)[] {
     let temp = this._dtfiTokenHash;
@@ -745,25 +818,31 @@ class InvariantDateTimeFormatInfo {
       // no date words for the invariant culture
       this.InsertHash(temp, this.DateSeparator, TokenType.SEP_Date, 0);
       // AddMonthNames
+      const d = this.data;
       for (let i = 1; i <= 13; i++) {
-        const str = InvariantMonthNames[i - 1];
+        const str = d.MonthNames[i - 1];
         if (str.length > 0) this.InsertHash(temp, str, TokenType.MonthToken, i);
-        this.InsertHash(temp, InvariantAbbrevMonthNames[i - 1], TokenType.MonthToken, i);
+        this.InsertHash(temp, d.AbbrevMonthNames[i - 1], TokenType.MonthToken, i);
       }
       for (let i = 1; i <= 13; i++) {
-        this.InsertHash(temp, InvariantAbbrevMonthNames[i - 1], TokenType.MonthToken, i);
+        this.InsertHash(temp, d.AbbrevMonthNames[i - 1], TokenType.MonthToken, i);
+      }
+      if (d.GenitiveMonthNames !== null) {
+        for (let i = 1; i <= 13; i++) {
+          this.InsertHash(temp, d.GenitiveMonthNames[i - 1], TokenType.MonthToken, i);
+        }
       }
       for (let i = 0; i < 7; i++) {
-        this.InsertHash(temp, InvariantDayNames[i], TokenType.DayOfWeekToken, i);
-        this.InsertHash(temp, InvariantAbbrevDayNames[i], TokenType.DayOfWeekToken, i);
+        this.InsertHash(temp, d.DayNames[i], TokenType.DayOfWeekToken, i);
+        this.InsertHash(temp, d.AbbrevDayNames[i], TokenType.DayOfWeekToken, i);
       }
-      for (let i = 1; i <= 1; i++) {
-        this.InsertHash(temp, InvariantEraNames[i - 1], TokenType.EraToken, i);
-        this.InsertHash(temp, InvariantAbbrevEraNames[i - 1], TokenType.EraToken, i);
+      for (let i = 1; i <= d.EraNames.length; i++) {
+        this.InsertHash(temp, d.EraNames[i - 1], TokenType.EraToken, i);
+        this.InsertHash(temp, d.AbbrevEraNames[i - 1], TokenType.EraToken, i);
       }
 
-      this.InsertHash(temp, this.AMDesignator, TokenType.SEP_Am | TokenType.Am, 0);
-      this.InsertHash(temp, this.PMDesignator, TokenType.SEP_Pm | TokenType.Pm, 1);
+      this.InsertHash(temp, InvariantData.AMDesignator, TokenType.SEP_Am | TokenType.Am, 0);
+      this.InsertHash(temp, InvariantData.PMDesignator, TokenType.SEP_Pm | TokenType.Pm, 1);
       for (let i = 1; i <= 12; i++) {
         this.InsertHash(temp, InvariantMonthNames[i - 1], TokenType.MonthToken, i);
         this.InsertHash(temp, InvariantAbbrevMonthNames[i - 1], TokenType.MonthToken, i);
@@ -930,9 +1009,14 @@ function trimWhiteSpace(s: string): string {
 }
 
 let s_invariantInfo: InvariantDateTimeFormatInfo | null = null;
+let s_germanInfo: InvariantDateTimeFormatInfo | null = null;
 
 function invariantInfo(): InvariantDateTimeFormatInfo {
   return (s_invariantInfo ??= new InvariantDateTimeFormatInfo());
+}
+
+function germanInfo(): InvariantDateTimeFormatInfo {
+  return (s_germanInfo ??= new InvariantDateTimeFormatInfo(GermanData));
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -1341,7 +1425,7 @@ function Lex(dps: DS, str: __DTString, dtok: DateTimeToken, raw: DateTimeRawInfo
       break;
     case TokenType.UnknownToken:
       if (isLetter(str.m_current)) {
-        result.SetFailure(ParseFailureKind.Format_UnknownDateTimeWord);
+        result.SetFailure(ParseFailureKind.Format_UnknownDateTimeWord, str.Index);
         return false;
       }
 
@@ -2672,6 +2756,22 @@ export function dateTimeTryParse(s: string | null, styles: DateTimeStyles): Date
   return null;
 }
 
+/**
+ * DateTime.TryParse(s, CultureInfo.CreateSpecificCulture("de-DE"), styles) (the fallback culture
+ * of AttributeTypeType.GetDateTime). Null when parsing fails.
+ */
+export function dateTimeTryParseGerman(s: string | null, styles: DateTimeStyles = DateTimeStyles.None): DateTime | null {
+  ValidateStyles(styles);
+  if (s === null) {
+    return null;
+  }
+  const result = new DateTimeResult();
+  if (TryParse(s, germanInfo(), styles, result)) {
+    return result.parsedDate;
+  }
+  return null;
+}
+
 /** DateTime.Parse(s, CultureInfo.InvariantCulture, styles): FormatException on failure. */
 export function dateTimeParse(s: string | null, styles: DateTimeStyles): DateTime {
   ValidateStyles(styles);
@@ -2682,10 +2782,10 @@ export function dateTimeParse(s: string | null, styles: DateTimeStyles): DateTim
   if (TryParse(s, invariantInfo(), styles, result)) {
     return result.parsedDate!;
   }
-  throw GetDateTimeParseException(result);
+  throw GetDateTimeParseException(result, s);
 }
 
-function GetDateTimeParseException(result: DateTimeResult): Error {
+function GetDateTimeParseException(result: DateTimeResult, s: string): Error {
   switch (result.failure) {
     case ParseFailureKind.ArgumentNull_String:
       return new ArgumentNullException('s');
@@ -2698,8 +2798,8 @@ function GetDateTimeParseException(result: DateTimeResult): Error {
     case ParseFailureKind.Format_OffsetOutOfRange:
       return new FormatException('The time zone offset must be within plus or minus 14 hours.');
     case ParseFailureKind.Format_UnknownDateTimeWord:
-      return new FormatException('The string was not recognized as a valid DateTime. There is an unknown word.');
+      return new FormatException(`The string '${s}' was not recognized as a valid DateTime. There is an unknown word starting at index '${result.failureArgument}'.`);
     default:
-      return new FormatException('String was not recognized as a valid DateTime.');
+      return new FormatException(`String '${s}' was not recognized as a valid DateTime.`);
   }
 }

@@ -3,7 +3,7 @@
 import { T } from '../registry.js';
 import { from } from '../../system/linq.js';
 import { DateTime, XmlConvert, XmlDateTimeSerializationMode } from '../../system/index.js';
-import { ArgumentException, ArgumentNullException, ArgumentOutOfRangeException, FormatException } from '../../system/exceptions.js';
+import { ArgumentException, ArgumentNullException, ArgumentOutOfRangeException } from '../../system/exceptions.js';
 import { isNullOrEmpty } from '../../system/strings.js';
 import { XAttribute, XElement, XName } from '../../xml/index.js';
 import { CAEXFileType } from '../caex/CAEXFileType.js';
@@ -525,12 +525,9 @@ export class AMLFile extends CAEXFileType {
   }
 
   /** DateTime.Parse (current culture; see src/system DateTime.tryParse). */
+  /** DateTime.Parse(s) (current culture = invariant culture). */
   private static parseDateTime(s: string): DateTime {
-    const result = DateTime.tryParse(s);
-    if (result == null) {
-      throw new FormatException(`String '${s}' was not recognized as a valid DateTime.`);
-    }
-    return result;
+    return DateTime.parse(s);
   }
 
   private static convertFromDocumentVersion(arg: XElement): DocumentVersionInformation | null {

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="random-1.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <ExternalReference Path="test/reads/ext-lib.aml" Alias="ExtLib" />
+  <ExternalReference Path="test/reads/does-not-exist.aml" Alias="Missing" />
+  <InstanceHierarchy Name="Arm">
+    <InternalElement Name="Tank0" ID="35aaec59-7956-46e1-a780-c674e765eb77">
+      <ExternalInterface Name="Motor" ID="034aa7c9-cf5d-43b1-a622-6b6c3fdce558" RefBaseClassPath="ExtLib@ExtICL/ExtInterface" />
+    </InternalElement>
+    <InternalElement Name="Sensor2" ID="e27f84ab-4ba1-46c2-a0ed-0019035c037f" RefBaseSystemUnitPath="Line1/Line0">
+      <Attribute Name="/_/" AttributeDataType="xs:string">
+        <Value>v5</Value>
+      </Attribute>
+      <RoleRequirements RefBaseRoleClassPath="Sensor/Sensor" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="Port">
+    <InterfaceClass Name="a][]" RefBaseClassPath="ExtLib@ExtICL/ExtInterface" />
+    <InterfaceClass Name="Sensor" RefBaseClassPath="Port/[a][]]">
+      <Attribute Name="Sensor" AttributeDataType="xs:string">
+        <Value>22</Value>
+      </Attribute>
+    </InterfaceClass>
+    <InterfaceClass Name="Arm3" RefBaseClassPath="Port/Sensor">
+      <InterfaceClass Name="Line" RefBaseClassPath="Port/Arm3">
+        <Attribute Name="@- " AttributeDataType="xs:double" />
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="Sensor">
+    <RoleClass Name="Sensor" RefBaseClassPath="ExtLib@ExtRCL/ExtRole">
+      <Attribute Name="Tank3" AttributeDataType="xs:boolean">
+        <Value>78</Value>
+      </Attribute>
+      <ExternalInterface Name="Tank" ID="id-318" />
+    </RoleClass>
+    <RoleClass Name="Motor1">
+      <ExternalInterface Name="Motor2" ID="ee24e45b-d410-43eb-ab6f-3fc9f5efa97a" RefBaseClassPath="Port/Sensor" />
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="Line1">
+    <SystemUnitClass Name=":-a.-">
+      <Attribute Name="Pump0" AttributeDataType="xs:double">
+        <Value>77</Value>
+      </Attribute>
+      <ExternalInterface Name="Line" ID="{c792da25-cada-467f-a8a3-9fd320b360d2}" RefBaseClassPath="Port/[a][]]" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="Line0">
+      <ExternalInterface Name="Motor" ID="id-276" RefBaseClassPath="ExtLib@ExtSUCL/ExtClass" />
+      <SupportedRoleClass RefRoleClassPath="Sensor/Motor1" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="Pump" RefBaseClassPath="Line1/Line0">
+      <InternalElement Name="Valve" ID="69f88c44-9c85-4cc8-ac9f-5803ef012095" RefBaseSystemUnitPath="Line1/[:-a.-]" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

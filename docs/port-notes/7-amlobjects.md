@@ -210,8 +210,6 @@ Differences (documented, not reproduced):
   twice); `IsXmlText` / `GetMimeType` return these lists.
 - `ListAttribute.AddListItem`: when items exist, the `itemType` argument is replaced by the data
   type of the last item.
-- `DocumentVersions.GetDocumentVersionInformation` throws ArgumentNullException ('source') when the
-  file has no document versions header (LINQ over `null`).
 - `AMLFile.DeleteMetaInformation` returns true for CAEX 3.0 even if nothing was deleted.
 - `AMLGroup.Insert` checks `(object)caexObject != null` (reference), `Import` uses the wrapper
   operator (a wrapper without node counts as null).

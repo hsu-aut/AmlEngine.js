@@ -8,3 +8,7 @@ test/xml-ops/** binary
 test/engine-ops/** binary
 test/system/cases.json binary
 test/validation/cases/** binary
+test/values/** binary
+test/mutations/** binary
+test/amlobjects/** binary
+test/reads/** binary

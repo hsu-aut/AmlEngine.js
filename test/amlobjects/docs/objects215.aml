@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="objects215.aml" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Tool A</WriterName>
+      <WriterID>ToolA</WriterID>
+      <WriterVendor>Vendor</WriterVendor>
+      <WriterVendorURL>www.vendor.example</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0.1</WriterRelease>
+      <LastWritingDateTime>2021-03-04T05:06:07+01:00</LastWritingDateTime>
+      <WriterProjectTitle>Project</WriterProjectTitle>
+      <WriterProjectID>P1</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterID>ToolB</WriterID>
+      <Unknown>x</Unknown>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation DocumentVersions="Recommendations">
+    <Document DocumentIdentifier="AR_001E" Version="1.0.0" />
+  </AdditionalInformation>
+  <AdditionalInformation DocumentVersions="Recommendations">
+    <Document DocumentIdentifier="BPR_005E" Version="1.2.0" />
+  </AdditionalInformation>
+  <AdditionalInformation DocumentVersions="Recommendations">
+    <Document DocumentIdentifier="AR_002E" />
+  </AdditionalInformation>
+  <AdditionalInformation>generic text</AdditionalInformation>
+  <ExternalReference Path="Libs/AutomationMLBaseRoleClassLib.aml" Alias="BaseRoleClassLib" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Robot" ID="{22220000-0000-0000-0000-000000000001}" RefBaseSystemUnitPath="Lib/RobotClass">
+      <Attribute Name="Frame">
+        <Attribute Name="x" AttributeDataType="xs:double" Unit="m"><Value>1.5</Value></Attribute>
+        <Attribute Name="y" AttributeDataType="xs:double"><Value>-2</Value></Attribute>
+        <Attribute Name="z" AttributeDataType="xs:double" Unit="m"><Value>0.001</Value></Attribute>
+        <Attribute Name="rx" AttributeDataType="xs:double" Unit="deg"><Value>90</Value></Attribute>
+        <Attribute Name="ry" AttributeDataType="xs:double" Unit="deg"><Value>0</Value></Attribute>
+        <Attribute Name="rz" AttributeDataType="xs:double" Unit="deg"><Value>45.25</Value></Attribute>
+      </Attribute>
+      <Attribute Name="Weight" AttributeDataType="xs:double" Unit="kg"><Value>12.5</Value></Attribute>
+      <Attribute Name="refURI" AttributeDataType="xs:anyURI"><Value>geo/robot.dae#node1</Value></Attribute>
+      <Attribute Name="refType"><Value>implicit</Value></Attribute>
+      <Attribute Name="Docs">
+        <RefSemantic CorrespondingAttributePath="ListType" />
+        <Attribute Name="item1" AttributeDataType="xs:string"><Value>a</Value></Attribute>
+      </Attribute>
+      <Attribute Name="Steps">
+        <RefSemantic CorrespondingAttributePath="OrderedListType" />
+        <Attribute Name="1" AttributeDataType="xs:string"><Value>first</Value></Attribute>
+      </Attribute>
+      <ExternalInterface Name="Power" ID="{22220000-0000-0000-0000-000000000011}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <ExternalInterface Name="Signal" ID="{22220000-0000-0000-0000-000000000012}" RefBaseClassPath="MyInterfaces/MySignal" />
+      <InternalElement Name="OpData" ID="{22220000-0000-0000-0000-000000000002}">
+        <Attribute Name="Weight" AttributeDataType="xs:double" />
+        <ExternalInterface Name="Power" ID="{22220000-0000-0000-0000-000000000021}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+        <RoleRequirements RefBaseRoleClassPath="BaseRoleClassLib@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+      </InternalElement>
+      <InternalElement Name="Group1" ID="{22220000-0000-0000-0000-000000000004}">
+        <Attribute Name="AssociatedFacet"><Value>OpData</Value></Attribute>
+        <InternalElement Name="MirrorOfArm" ID="{22220000-0000-0000-0000-000000000005}" RefBaseSystemUnitPath="{22220000-0000-0000-0000-000000000006}" />
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group" />
+      </InternalElement>
+      <InternalElement Name="Arm" ID="{22220000-0000-0000-0000-000000000006}">
+        <InternalElement Name="ArmFacet" ID="{22220000-0000-0000-0000-000000000007}">
+          <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+        </InternalElement>
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+      </InternalElement>
+      <InternalElement Name="Port1" ID="{22220000-0000-0000-0000-000000000008}">
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Port" />
+      </InternalElement>
+      <InternalElement Name="Manual" ID="{22220000-0000-0000-0000-000000000009}">
+        <Attribute Name="aml-DocLang" AttributeDataType="xs:language"><Value>en</Value></Attribute>
+        <SupportedRoleClass RefRoleClassPath="AutomationMLBPRRoleClassLib/ExternalData" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="MyInterfaces">
+    <InterfaceClass Name="MySignal" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Communication/SignalInterface" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="MyRoles">
+    <RoleClass Name="MyFacet" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="Lib">
+    <SystemUnitClass Name="RobotClass">
+      <Attribute Name="Weight" AttributeDataType="xs:double" Unit="kg" />
+      <InternalElement Name="ClassFacet" ID="{22220000-0000-0000-0000-000000000212}">
+        <Attribute Name="Weight" />
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

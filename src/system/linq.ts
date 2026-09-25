@@ -572,9 +572,14 @@ export function ordinalCompare(a: string | null, b: string | null): number {
   if (a === b) return 0;
   if (a === null) return -1;
   if (b === null) return 1;
+  // .NET compares the first characters, then two characters at a time over the shorter length,
+  // reading the zero terminator of an odd-length string: "2" vs "2024" gives '\0' - '0' = -48.
+  const at = (s: string, i: number): number => (i < s.length ? s.charCodeAt(i) : 0);
+  if (at(a, 0) !== at(b, 0)) return at(a, 0) - at(b, 0);
   const n = Math.min(a.length, b.length);
-  for (let i = 0; i < n; i++) {
-    const d = a.charCodeAt(i) - b.charCodeAt(i);
+  const end = n + (n % 2);
+  for (let i = 0; i < end; i++) {
+    const d = at(a, i) - at(b, i);
     if (d !== 0) return d;
   }
   return a.length - b.length;

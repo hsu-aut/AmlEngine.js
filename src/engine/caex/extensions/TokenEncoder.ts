@@ -7,7 +7,7 @@ import { isNullOrEmpty } from '../../../system/strings.js';
 import { XmlConvert } from '../../../system/index.js';
 
 /** Characters removed by String.Trim() in .NET (char.IsWhiteSpace). */
-const WHITESPACE = '\t\n\v\f\r\x85\p{Z}';
+const WHITESPACE = String.raw`\t\n\v\f\r\x85\p{Z}`;
 const TRIM = new RegExp(`^[${WHITESPACE}]+|[${WHITESPACE}]+$`, 'gu');
 
 /** String.Trim() with the .NET white space definition. */

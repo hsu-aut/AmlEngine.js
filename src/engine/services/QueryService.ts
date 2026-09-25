@@ -235,6 +235,7 @@ export class QueryService implements IQuery, ILookUpTable {
         seq(() => node.descendants(name))
           .select((n) => n.parent!)
           .distinct(),
+        T.SystemUnitClassType,
       ),
     );
   }

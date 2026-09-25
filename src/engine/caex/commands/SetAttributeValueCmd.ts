@@ -71,10 +71,15 @@ export class SetAttributeValueCmd extends CaexCommand {
     this._changeModes = this.changeModes(T.CAEXDocument.document(element));
   }
 
-  /** `NewValue != OldValue` with C# object reference semantics (see the fallback flags). */
+  /**
+   * `NewValue != OldValue` with C# object reference semantics (see the fallback flags). An empty
+   * string is the interned `string.Empty` in .NET in practice (literals, parsed attribute values,
+   * JSON strings), so two empty strings are the same reference.
+   */
   private valuesDiffer(): boolean {
     if (this._newValue === null && this._oldValue === null) return false;
     if (this._newIsFallback && this._oldIsFallback) return false;
+    if (this._newValue === '' && this._oldValue === '') return false;
     return true;
   }
 

@@ -181,7 +181,10 @@ export class AttributeType extends AttributeTypeType {
     const name = this.name;
     const attributeType2 = attributeType.createClassInstance(cAEXDocument);
     const flag = ServiceLocator.undoRedoService?.beginTransaction(cAEXDocument, 'Recreate attribute instance') ?? false;
-    T.SetElementContentCmd.setValue(this.node!, [attributeType2.node!.attributes(), attributeType2.node!.nodes()]);
+    // C# passes the lazy IEnumerables Attributes() and Nodes(), which a redo enumerates again;
+    // a JS generator is exhausted after the first use, so re-iterable wrappers are passed.
+    const instanceNode = attributeType2.node!;
+    T.SetElementContentCmd.setValue(this.node!, [{ [Symbol.iterator]: () => instanceNode.attributes() }, { [Symbol.iterator]: () => instanceNode.nodes() }]);
     this.name = name;
     this.attributeTypeReference = attributeType;
     if (flag) {

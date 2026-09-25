@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="cyclic-215.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Cyc" ID="ie-cyc" RefBaseSystemUnitPath="SUCL/CycA">
+      <ExternalInterface Name="E" ID="ei-cyc" RefBaseClassPath="ICL/CycA" />
+      <RoleRequirements RefBaseRoleClassPath="RCL/CycA" />
+    </InternalElement>
+    <InternalElement Name="Self" ID="ie-self" RefBaseSystemUnitPath="SUCL/Self">
+      <ExternalInterface Name="S" ID="ei-self" RefBaseClassPath="ICL/Self" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <Version>1.0.0</Version>
+    <InterfaceClass Name="Base">
+      <Attribute Name="Direction" AttributeDataType="xs:string">
+        <Value>InOut</Value>
+      </Attribute>
+      <InterfaceClass Name="Port" RefBaseClassPath="ICL/Base" />
+      <InterfaceClass Name="Signal" RefBaseClassPath="ICL/Base/Port" />
+    </InterfaceClass>
+    <InterfaceClass Name="Broken" RefBaseClassPath="ICL/Missing" />
+    <InterfaceClass Name="External" RefBaseClassPath="ExtLib@ExtICL/ExtInterface" />
+    <InterfaceClass Name="Self" RefBaseClassPath="ICL/Self" />
+    <InterfaceClass Name="CycA" RefBaseClassPath="ICL/CycB" />
+    <InterfaceClass Name="CycB" RefBaseClassPath="ICL/CycA" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="Resource">
+      <Attribute Name="Speed" AttributeDataType="xs:double" Unit="m/s">
+        <DefaultValue>1.5</DefaultValue>
+      </Attribute>
+      <ExternalInterface Name="In" RefBaseClassPath="ICL/Base/Port" ID="rc-ei-in" />
+      <RoleClass Name="Robot" RefBaseClassPath="RCL/Resource">
+        <RoleClass Name="Arm" RefBaseClassPath="RCL/Resource/Robot" />
+      </RoleClass>
+    </RoleClass>
+    <RoleClass Name="Product" />
+    <RoleClass Name="Orphan" RefBaseClassPath="RCL/Nope" />
+    <RoleClass Name="Ext" RefBaseClassPath="ExtLib@ExtRCL/ExtRole" />
+    <RoleClass Name="CycA" RefBaseClassPath="RCL/CycB" />
+    <RoleClass Name="CycB" RefBaseClassPath="RCL/CycA" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="Machine">
+      <Attribute Name="Power" AttributeDataType="xs:double" Unit="kW">
+        <Value>11</Value>
+        <Attribute Name="Max" AttributeDataType="xs:double">
+          <Value>15</Value>
+        </Attribute>
+      </Attribute>
+      <ExternalInterface Name="Plug" RefBaseClassPath="ICL/Base/Port" ID="suc-machine-plug" />
+      <InternalElement Name="Motor" ID="suc-machine-motor" RefBaseSystemUnitPath="SUCL/Motor">
+        <ExternalInterface Name="Shaft" RefBaseClassPath="ICL/Base/Port" ID="suc-motor-shaft" />
+      </InternalElement>
+      <InternalElement Name="Drive" ID="suc-machine-drive">
+        <ExternalInterface Name="Out" RefBaseClassPath="ICL/Base/Signal" ID="suc-drive-out" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="RCL/Resource" />
+      <InternalLink Name="L1" RefPartnerSideA="suc-machine-motor:Shaft" RefPartnerSideB="suc-machine-drive:Out" />
+      <SystemUnitClass Name="Press" RefBaseClassPath="SUCL/Machine">
+        <Attribute Name="Power" AttributeDataType="xs:double">
+          <Value>22</Value>
+        </Attribute>
+        <SupportedRoleClass RefRoleClassPath="RCL/Resource/Robot" />
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Motor">
+      <Attribute Name="Rpm" AttributeDataType="xs:int">
+        <Value>1500</Value>
+      </Attribute>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Derived" RefBaseClassPath="SUCL/Machine/Press">
+      <SupportedRoleClass RefRoleClassPath="RCL/Missing" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="Broken" RefBaseClassPath="SUCL/Nope" />
+    <SystemUnitClass Name="External" RefBaseClassPath="ExtLib@ExtSUCL/ExtClass">
+      <SupportedRoleClass RefRoleClassPath="ExtLib@ExtRCL/ExtRole" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="CycA" RefBaseClassPath="SUCL/CycB">
+      <Attribute Name="A" AttributeDataType="xs:string" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="CycB" RefBaseClassPath="SUCL/CycA">
+      <Attribute Name="B" AttributeDataType="xs:string" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="Self" RefBaseClassPath="SUCL/Self" />
+  </SystemUnitClassLib>
+</CAEXFile>

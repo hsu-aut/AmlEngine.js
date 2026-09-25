@@ -195,8 +195,8 @@ export class AttributeFamilyType extends AttributeTypeType implements Iterable<A
     if (!((type as unknown) === T.AttributeFamilyType || (typeof type === 'function' && T.AttributeFamilyType.prototype instanceof type))) {
       return super.container(type);
     }
-    const attributeType: unknown = this.attributeType;
-    return attributeType instanceof T.CAEXSequence ? (attributeType as CAEXSequence<TItem>) : null;
+    // `AttributeType as CAEXSequence<T>`: generic classes are invariant in C#.
+    return (type as unknown) === T.AttributeFamilyType ? (this.attributeType as unknown as CAEXSequence<TItem>) : null;
   }
 
   private createInstanceAttributes(attributeInstance: AttributeType): void {

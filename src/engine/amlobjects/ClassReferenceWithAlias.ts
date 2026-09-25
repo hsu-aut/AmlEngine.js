@@ -14,7 +14,8 @@ export class ClassReferenceWithAlias {
    */
   static classReference(classReference: string, alias: string | null = null): string {
     if (!isNullOrEmpty(alias)) {
-      return alias + '@' + classReference;
+      // C# string concatenation: null counts as "".
+      return alias + '@' + (classReference ?? '');
     }
     return classReference;
   }

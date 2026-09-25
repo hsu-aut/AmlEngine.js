@@ -411,8 +411,8 @@ export class CAEXSequence<TW extends CAEXWrapper> extends NamedElementSequence_1
           if (ext2.result) {
             const path2 = ext2.path;
             const redefinedAlias2 = this.createExternalReference(alias, path2).redefinedAlias;
-            // C# $"{redefinedAlias2}{64}{item.Key}": the number 64, not '@'.
-            const text3 = `${redefinedAlias2 ?? ''}${64}${item.key ?? ''}`;
+            // Decompiled as $"{redefinedAlias2}{64}{item.Key}": the 64 is the char '@' (checked by the oracle).
+            const text3 = `${redefinedAlias2 ?? ''}@${item.key ?? ''}`;
             for (const item3 of item as Iterable<ICAEXReference>) {
               const element2 = item3 instanceof T.CAEXReference ? item3.element : null;
               if (CAEXWrapper.equals(item3.caexObject, null) && element2 != null) {

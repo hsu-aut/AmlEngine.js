@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="objects30.aml">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation DocumentVersions="Recommendations">
+    <Document DocumentIdentifier="AR_001E" Version="1.0.0" />
+    <Document DocumentIdentifier="BPR_005E" Version="1.2.0" />
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <Something Value="generic" />
+  </AdditionalInformation>
+  <AdditionalInformation AMLSignature="true">
+    <Signature>abc</Signature>
+  </AdditionalInformation>
+  <SuperiorStandardVersion>AutomationML 2.1</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="Tool A" OriginID="ToolA" OriginVersion="1.0" LastWritingDateTime="2021-03-04T05:06:07+01:00" OriginVendor="Vendor" OriginVendorURL="www.vendor.example" OriginRelease="1.0.1" OriginProjectTitle="Project" OriginProjectID="P1" />
+  <SourceDocumentInformation OriginName="Tool B" OriginID="ToolB" OriginVersion="2.0" LastWritingDateTime="2022-12-31T23:59:59Z" />
+  <ExternalReference Path="Libs/AutomationMLBaseRoleClassLib.aml" Alias="BaseRoleClassLib" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Robot" ID="{11110000-0000-0000-0000-000000000001}" RefBaseSystemUnitPath="Lib/RobotClass">
+      <Attribute Name="Frame" RefAttributeType="AutomationMLBaseAttributeTypeLib/Frame">
+        <Attribute Name="x" AttributeDataType="xs:double" Unit="m"><Value>1.5</Value></Attribute>
+        <Attribute Name="y" AttributeDataType="xs:double" Unit="m"><Value>-2</Value></Attribute>
+        <Attribute Name="z" AttributeDataType="xs:double" Unit="m"><Value>0.001</Value></Attribute>
+        <Attribute Name="rx" AttributeDataType="xs:double" Unit="deg"><Value>90</Value></Attribute>
+        <Attribute Name="ry" AttributeDataType="xs:string"><Value>1e3</Value></Attribute>
+        <Attribute Name="rz"><Value>abc</Value></Attribute>
+      </Attribute>
+      <Attribute Name="Weight" AttributeDataType="xs:double" Unit="kg"><Value>12.5</Value></Attribute>
+      <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI"><Value>geo/robot.dae#node1</Value></Attribute>
+      <Attribute Name="refType" AttributeDataType="xs:string"><Value>explicit</Value></Attribute>
+      <Attribute Name="Docs" RefAttributeType="AutomationMLBaseAttributeTypeLib/ListType">
+        <Attribute Name="item1" AttributeDataType="xs:string"><Value>a</Value></Attribute>
+        <Attribute Name="item2" AttributeDataType="xs:int"><Value>2</Value></Attribute>
+        <Attribute Name="nested" RefAttributeType="AutomationMLBaseAttributeTypeLib/ListType" />
+      </Attribute>
+      <Attribute Name="Steps" RefAttributeType="AutomationMLBaseAttributeTypeLib/OrderedListType">
+        <Attribute Name="1" AttributeDataType="xs:string"><Value>first</Value></Attribute>
+        <Attribute Name="2" AttributeDataType="xs:string"><Value>second</Value></Attribute>
+      </Attribute>
+      <Attribute Name="Semantic">
+        <RefSemantic CorrespondingAttributePath="ListType" />
+      </Attribute>
+      <Attribute Name="Derived" RefAttributeType="MyAttributes/MyList" />
+      <Attribute Name="aml-DocLang" AttributeDataType="xs:language"><Value>de-DE</Value></Attribute>
+      <ExternalInterface Name="Power" ID="{11110000-0000-0000-0000-000000000011}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <ExternalInterface Name="Signal" ID="{11110000-0000-0000-0000-000000000012}" RefBaseClassPath="MyInterfaces/MySignal" />
+      <ExternalInterface Name="Doc" ID="{11110000-0000-0000-0000-000000000013}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/ExternalDataReference">
+        <Attribute Name="refURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI"><Value>file:///C:/data/manual.pdf#page=2</Value></Attribute>
+        <Attribute Name="MIMEType" RefAttributeType="AutomationMLBaseAttributeTypeLib/MIMEType"><Value>application/pdf</Value></Attribute>
+      </ExternalInterface>
+      <InternalElement Name="OpData" ID="{11110000-0000-0000-0000-000000000002}">
+        <Attribute Name="Weight" RefAttributeType="{11110000-0000-0000-0000-000000000001}:Weight" />
+        <ExternalInterface Name="Power" ID="{11110000-0000-0000-0000-000000000021}" RefBaseClassPath="{11110000-0000-0000-0000-000000000011}" />
+        <RoleRequirements RefBaseRoleClassPath="BaseRoleClassLib@AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+      </InternalElement>
+      <InternalElement Name="FacetByClass" ID="{11110000-0000-0000-0000-000000000003}">
+        <Attribute Name="Other" />
+        <RoleRequirements RefBaseRoleClassPath="MyRoles/MyFacet" />
+      </InternalElement>
+      <InternalElement Name="Group1" ID="{11110000-0000-0000-0000-000000000004}">
+        <Attribute Name="AssociatedFacet" AttributeDataType="xs:string"><Value>OpData</Value></Attribute>
+        <InternalElement Name="MirrorOfArm" ID="{11110000-0000-0000-0000-000000000005}" RefBaseSystemUnitPath="{11110000-0000-0000-0000-000000000006}" />
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group" />
+      </InternalElement>
+      <InternalElement Name="Arm" ID="{11110000-0000-0000-0000-000000000006}">
+        <InternalElement Name="ArmFacet" ID="{11110000-0000-0000-0000-000000000007}">
+          <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+        </InternalElement>
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+      </InternalElement>
+      <InternalElement Name="Port1" ID="{11110000-0000-0000-0000-000000000008}">
+        <Attribute Name="Direction" AttributeDataType="xs:string"><Value>In</Value></Attribute>
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Port">
+          <ExternalInterface Name="portConnector" ID="{11110000-0000-0000-0000-000000000081}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+        </RoleRequirements>
+      </InternalElement>
+      <InternalElement Name="Manual" ID="{11110000-0000-0000-0000-000000000009}">
+        <Attribute Name="aml-DocLang" RefAttributeType="AutomationMLBaseAttributeTypeLib/ListType">
+          <Attribute Name="language1" AttributeDataType="xs:language"><Value>en</Value></Attribute>
+          <Attribute Name="language2" AttributeDataType="xs:language"><Value>de</Value></Attribute>
+        </Attribute>
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBPRRoleClassLib/ExternalData" />
+      </InternalElement>
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+    <InternalElement Name="Uris" ID="{11110000-0000-0000-0000-000000000100}">
+      <InternalElement Name="U1" ID="{11110000-0000-0000-0000-000000000101}"><Attribute Name="refURI"><Value>file:///C:/data/model.dae</Value></Attribute></InternalElement>
+      <InternalElement Name="U2" ID="{11110000-0000-0000-0000-000000000102}"><Attribute Name="refURI"><Value>file:///C:/data/model.dae#frag</Value></Attribute></InternalElement>
+      <InternalElement Name="U3" ID="{11110000-0000-0000-0000-000000000103}"><Attribute Name="refURI"><Value>http://example.com/a%20b.aml#x</Value></Attribute></InternalElement>
+      <InternalElement Name="U4" ID="{11110000-0000-0000-0000-000000000104}"><Attribute Name="refURI"><Value>../lib/Lib.aml</Value></Attribute></InternalElement>
+      <InternalElement Name="U5" ID="{11110000-0000-0000-0000-000000000105}"><Attribute Name="refURI"><Value>/abs/path.aml</Value></Attribute></InternalElement>
+      <InternalElement Name="U6" ID="{11110000-0000-0000-0000-000000000106}"><Attribute Name="refURI"><Value>my file.dae</Value></Attribute></InternalElement>
+      <InternalElement Name="U7" ID="{11110000-0000-0000-0000-000000000107}"><Attribute Name="refURI"><Value>C:\data\x.dae</Value></Attribute></InternalElement>
+      <InternalElement Name="U8" ID="{11110000-0000-0000-0000-000000000108}"><Attribute Name="refURI"><Value>#onlyFragment</Value></Attribute></InternalElement>
+      <InternalElement Name="U9" ID="{11110000-0000-0000-0000-000000000109}"><Attribute Name="refURI"><Value>urn:x:y</Value></Attribute></InternalElement>
+      <InternalElement Name="U10" ID="{11110000-0000-0000-0000-000000000110}"><Attribute Name="refURI"><Value></Value></Attribute></InternalElement>
+      <InternalElement Name="U11" ID="{11110000-0000-0000-0000-000000000111}"><Attribute Name="refURI"><Value>a#b#c</Value></Attribute></InternalElement>
+      <InternalElement Name="U12" ID="{11110000-0000-0000-0000-000000000112}"><Attribute Name="refURI"><Value>ä/ö.dae</Value></Attribute></InternalElement>
+      <InternalElement Name="U13" ID="{11110000-0000-0000-0000-000000000113}"><Attribute Name="refURI"><Value>\\server\share\f.dae</Value></Attribute></InternalElement>
+      <InternalElement Name="U14" ID="{11110000-0000-0000-0000-000000000114}"><Attribute Name="refURI"><Value>file://server/share/f.dae</Value></Attribute></InternalElement>
+      <InternalElement Name="U15" ID="{11110000-0000-0000-0000-000000000115}"><Attribute Name="refURI"><Value>geo/robot.dae#</Value></Attribute></InternalElement>
+      <InternalElement Name="U16" ID="{11110000-0000-0000-0000-000000000116}"><Attribute Name="refURI"><Value>geo%20x/a%23b.dae#n%20m</Value></Attribute></InternalElement>
+      <InternalElement Name="U17" ID="{11110000-0000-0000-0000-000000000117}"><Attribute Name="refURI"><Value>http://[bad</Value></Attribute></InternalElement>
+      <InternalElement Name="U18" ID="{11110000-0000-0000-0000-000000000118}"><Attribute Name="refURI"><Value>FILE:///D:/Up/Case.AML</Value></Attribute></InternalElement>
+      <InternalElement Name="U19" ID="{11110000-0000-0000-0000-000000000119}"><Attribute Name="refURI"><Value>./rel/./x/../y.aml#frag</Value></Attribute></InternalElement>
+      <InternalElement Name="U20" ID="{11110000-0000-0000-0000-000000000120}"><Attribute Name="refURI"><Value>mailto:a@b.c</Value></Attribute></InternalElement>
+      <InternalElement Name="U21" ID="{11110000-0000-0000-0000-000000000121}"><Attribute Name="refURI"><Value>  spaced.aml  </Value></Attribute></InternalElement>
+      <InternalElement Name="U22" ID="{11110000-0000-0000-0000-000000000122}"><Attribute Name="refURI"><Value>/C:/x/y.aml</Value></Attribute></InternalElement>
+      <InternalElement Name="U23" ID="{11110000-0000-0000-0000-000000000123}"><Attribute Name="refURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI"><Value>lib.aml#{11110000-0000-0000-0000-000000000001}</Value></Attribute></InternalElement>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="MyInterfaces">
+    <InterfaceClass Name="MySignal" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/Communication/SignalInterface" />
+    <InterfaceClass Name="MyDocRef" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/ExternalDataReference" />
+    <InterfaceClass Name="MyVariable" RefBaseClassPath="AutomationMLLogicInterfaceClassLib/VariableInterface" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="MyRoles">
+    <RoleClass Name="MyFacet" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+    <RoleClass Name="MyDocument" RefBaseClassPath="AutomationMLBPRRoleClassLib/ExternalData" />
+    <RoleClass Name="MyGroup" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group">
+      <Attribute Name="refURI"><Value>roles.aml</Value></Attribute>
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="Lib">
+    <SystemUnitClass Name="RobotClass">
+      <Attribute Name="Weight" AttributeDataType="xs:double" Unit="kg" />
+      <Attribute Name="Frame">
+        <Attribute Name="x" /><Attribute Name="y" /><Attribute Name="z" /><Attribute Name="rx" /><Attribute Name="ry" /><Attribute Name="rz" />
+      </Attribute>
+      <ExternalInterface Name="Power" ID="{11110000-0000-0000-0000-000000000211}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <InternalElement Name="ClassFacet" ID="{11110000-0000-0000-0000-000000000212}">
+        <Attribute Name="Weight" />
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+      </InternalElement>
+      <InternalElement Name="ClassGroup" ID="{11110000-0000-0000-0000-000000000213}">
+        <RoleRequirements RefBaseRoleClassPath="MyRoles/MyGroup" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="DerivedRobot" RefBaseClassPath="Lib/RobotClass">
+      <Attribute Name="Extra" />
+      <InternalElement Name="DerivedFacet" ID="{11110000-0000-0000-0000-000000000214}">
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+      </InternalElement>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="MyAttributes">
+    <AttributeType Name="MyList" RefAttributeType="AutomationMLBaseAttributeTypeLib/ListType" />
+    <AttributeType Name="MyFrame" RefAttributeType="AutomationMLBaseAttributeTypeLib/Frame" />
+    <AttributeType Name="MyUri" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+  </AttributeTypeLib>
+</CAEXFile>

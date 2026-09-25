@@ -81,12 +81,22 @@ function applyMode(value: DateTime, mode: XmlDateTimeSerializationMode): DateTim
   }
 }
 
-function invalidNameChar(name: string, index: number): Error {
-  const ch = name[index] ?? '';
-  const msg =
-    index === 0
-      ? `Name cannot begin with the '${ch}' character, hexadecimal value 0x${hex(ch.charCodeAt(0), 2)}.`
-      : `The '${ch}' character, hexadecimal value 0x${hex(ch.charCodeAt(0), 2)}, cannot be included in a name.`;
+function invalidNameChar(name: string, index: number, start = index === 0): Error {
+  // XmlException.BuildCharExceptionArgs: a surrogate pair is shown as one character with its code point.
+  const ch = name.charCodeAt(index);
+  const next = index + 1 < name.length ? name.charCodeAt(index + 1) : 0;
+  let text: string;
+  let code: number;
+  if (ch >= 0xd800 && ch <= 0xdbff && next !== 0) {
+    text = name.substring(index, index + 2);
+    code = (((next - 0xdc00) | ((ch - 0xd800) << 10)) + 0x10000) >>> 0;
+  } else {
+    text = ch === 0 ? '.' : name[index]!;
+    code = ch;
+  }
+  const msg = start
+    ? `Name cannot begin with the '${text}' character, hexadecimal value 0x${hex(code, 2)}.`
+    : `The '${text}' character, hexadecimal value 0x${hex(code, 2)}, cannot be included in a name.`;
   return new XmlException(msg);
 }
 
@@ -263,7 +273,7 @@ export class XmlConvert {
     if (name === null) throw new ArgumentNullException('name');
     if (name.length === 0) throw new XmlException('Invalid NmToken value \'\'.');
     const endPos = parseNmtokenNoNamespaces(name);
-    if (endPos !== name.length) throw invalidNameChar(name, endPos === 0 ? 1 : endPos);
+    if (endPos !== name.length) throw invalidNameChar(name, endPos, false);
     return name;
   }
 

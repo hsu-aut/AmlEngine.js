@@ -9,6 +9,7 @@ import { isNullOrEmpty } from '../../system/strings.js';
 import { from } from '../../system/linq.js';
 import type { Enumerable } from '../../system/linq.js';
 import { DateTime, XmlConvert, XmlDateTimeSerializationMode } from '../../system/index.js';
+import { dateTimeTryParseGerman } from '../../system/DateTimeParse.js';
 import { CaexObjectWithReference } from './CaexObjectWithReference.js';
 import { XmlCAEXAttributes } from '../xmlext/XmlCAEXAttributes.js';
 import { XmlCAEXSchema } from '../xmlext/XmlCAEXSchema.js';
@@ -35,7 +36,7 @@ type AnyCtor<R> = abstract new (...args: any[]) => R;
  * base structures for Attribute- and AttributeType definitions.
  */
 export abstract class AttributeTypeType extends CaexObjectWithReference<AttributeTypeType> {
-  // FallBackCulture (de-DE) is implemented by the parse helpers at the end of this module.
+  // FallBackCulture (de-DE): dateTimeTryParseGerman (src/system) and the number parser at the end of this module.
 
   private static _xsdDataTypes: string[] | null = null;
 
@@ -398,8 +399,8 @@ export abstract class AttributeTypeType extends CaexObjectWithReference<Attribut
     if (!isAssignableFrom(type, T.AttributeType)) {
       return super.container(type);
     }
-    const attribute: unknown = this.attribute;
-    return attribute instanceof T.CAEXSequence ? (attribute as CAEXSequence<TItem>) : null;
+    // `Attribute as CAEXSequence<T>`: generic classes are invariant in C#.
+    return (type as unknown) === T.AttributeType ? (this.attribute as unknown as CAEXSequence<TItem>) : null;
   }
 
   /** Gets the CaexValue for the value attribute with the defined attribute name ('Value' or 'DefaultValue'). */
@@ -570,7 +571,7 @@ export abstract class AttributeTypeType extends CaexObjectWithReference<Attribut
     if (r.result) {
       return r.resultDateTime;
     }
-    let resultDateTime: DateTime | null = parseDateTimeGerman(value);
+    let resultDateTime: DateTime | null = dateTimeTryParseGerman(value);
     if (resultDateTime !== null) {
       return resultDateTime;
     }
@@ -810,44 +811,4 @@ function parseNumberAny(s: string, c: NumberCulture): number | null {
   if (parens || p !== s.length) return null;
   const text = `${negative ? '-' : ''}${intDigits || '0'}.${fracDigits || '0'}${exponent ? 'e' + exponent : ''}`;
   return Number(text);
-}
-
-/**
- * DateTime.TryParse(s, de-DE, DateTimeStyles.None), for the numeric forms: day.month.year (also
- * with '/' or '-'), year-month-day, each with an optional time h:m[:s], and a time h:m[:s] alone
- * (today). Other forms (month names, fractions of seconds, offsets) are left to the invariant
- * parse that follows in the fallback chain.
- */
-function parseDateTimeGerman(s: string): DateTime | null {
-  const m = /^[\s]*(?:(\d{1,2})[./-](\d{1,2})[./-](\d{2}|\d{4})|(\d{4})[./-](\d{1,2})[./-](\d{1,2}))?(?:(?:^|[\s]+)(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?[\s]*$/.exec(s);
-  if (m === null) return null;
-  const hasDate = m[1] !== undefined || m[4] !== undefined;
-  const hasTime = m[7] !== undefined;
-  if (!hasDate && !hasTime) return null;
-  try {
-    let year: number;
-    let month: number;
-    let day: number;
-    if (m[1] !== undefined) {
-      day = Number(m[1]);
-      month = Number(m[2]);
-      year = Number(m[3]);
-      if (m[3]!.length === 2) year += year <= 49 ? 2000 : 1900;
-    } else if (m[4] !== undefined) {
-      year = Number(m[4]);
-      month = Number(m[5]);
-      day = Number(m[6]);
-    } else {
-      const today = DateTime.now;
-      year = today.year;
-      month = today.month;
-      day = today.day;
-    }
-    const hour = hasTime ? Number(m[7]) : 0;
-    const minute = hasTime ? Number(m[8]) : 0;
-    const second = m[9] !== undefined ? Number(m[9]) : 0;
-    return new DateTime(year, month, day, hour, minute, second);
-  } catch {
-    return null;
-  }
 }

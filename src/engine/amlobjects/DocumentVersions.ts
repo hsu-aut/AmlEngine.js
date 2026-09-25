@@ -189,10 +189,10 @@ export class DocumentVersions {
     }
     AmlObjectsExtensions.amlFile(caexFile).convertFromDeprecatedDocumentVersion();
     const header = DocumentVersions.documentVersionsHeader(caexFile);
-    // C#: `from child in header?.Elements("Document") ...` throws ArgumentNullException ("source")
-    // when there is no header.
+    // C#: `header?.Elements("Document").Where(...).Select(...).FirstOrDefault()`: the null-conditional
+    // short-circuits the whole chain, so no header gives null (verified with the oracle).
     if (header == null) {
-      throw new ArgumentNullException('source');
+      return null;
     }
     return from(header.elements('Document'))
       .where((child) => (child.attribute('DocumentIdentifier')?.value ?? null) === documentIdentifier)

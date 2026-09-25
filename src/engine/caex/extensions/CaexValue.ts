@@ -871,6 +871,12 @@ function compareTyped(a: Typed, b: Typed): number {
       return invariantCompare(x as string, y as string);
     case ClrType.Boolean:
       return x === y ? 0 : x ? 1 : -1;
+    case ClrType.SByte:
+    case ClrType.Byte:
+    case ClrType.Int16:
+    case ClrType.UInt16:
+      // CompareTo of the small integer types returns the difference, not -1/0/1.
+      return (x as number) - (y as number);
     case ClrType.Int64:
     case ClrType.UInt64:
       return (x as bigint) < (y as bigint) ? -1 : (x as bigint) > (y as bigint) ? 1 : 0;

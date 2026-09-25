@@ -995,8 +995,9 @@ class PartList {
     }
   }
 
+  /** SortedList.Values: includes the null placeholder of a failed CreatePart, as in .NET. */
   values(): PackagePart[] {
-    return this.keys.map((k) => this._values.get(k.normalizedPartUriString)!).filter((p) => p != null);
+    return this.keys.map((k) => this._values.get(k.normalizedPartUriString)!);
   }
 }
 
@@ -1412,8 +1413,10 @@ export class Package {
     const keys = [...this._partList.keys];
     for (const key of keys) {
       const value = this._partList.tryGetValue(key);
-      if (value === undefined || value === null) continue;
-      if (!operation(value)) break;
+      // TryGetValue is true for the null placeholder a failed CreatePart leaves behind: .NET calls
+      // the operation with null (NullReferenceException), and so does the port.
+      if (value === undefined) continue;
+      if (!operation(value!)) break;
     }
   }
 

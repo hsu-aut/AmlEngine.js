@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="ext-lib.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-reads" OriginID="gen-reads" OriginVersion="1.0.0" LastWritingDateTime="2024-05-06T07:08:09" />
+  <InterfaceClassLib Name="ExtICL">
+    <InterfaceClass Name="ExtInterface">
+      <Attribute Name="ExtAttr" AttributeDataType="xs:string" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="ExtRCL">
+    <RoleClass Name="ExtRole">
+      <Attribute Name="RoleAttr" AttributeDataType="xs:string" />
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="ExtSUCL">
+    <SystemUnitClass Name="ExtClass">
+      <Attribute Name="ClassAttr" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="ExtRCL/ExtRole" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="ExtATL">
+    <AttributeType Name="ExtType" AttributeDataType="xs:string" />
+  </AttributeTypeLib>
+</CAEXFile>
