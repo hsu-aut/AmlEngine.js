@@ -56,6 +56,10 @@ const isNow = (v: unknown): boolean =>
 /** Comparisons of two "now" values depend on the clock resolution; both runners record "now". */
 const nowOr = (bothNow: boolean, f: () => string): string => (bothNow ? 'now' : f());
 
+/** A "now" value against a time of today (time-only input): clock dependent, recorded as "now". */
+const isToday = (v: unknown): boolean => v instanceof DateTime && v.date.ticks === DateTime.today.ticks;
+const clockDependent = (a: unknown, b: unknown): boolean => (isNow(a) && isToday(b)) || (isNow(b) && isToday(a));
+
 // ------------------------------------------------------------------ formatting
 
 const N = (s: string | null | undefined): string => s ?? '~';
@@ -250,7 +254,7 @@ function raw(c: any): string[] {
   r.push(N(cv.valueElement?.value));
   r.push(N(dcv.valueElement?.value));
   const vNow = isNow(cv.value);
-  const both = vNow && isNow(dcv.value);
+  const both = (vNow && isNow(dcv.value)) || clockDependent(cv.value, dcv.value);
   r.push(nowOr(both, () => tryS(() => B(cv.equals(dcv)))));
   r.push(nowOr(both, () => tryS(() => B(dcv.equals(cv)))));
   r.push(nowOr(both, () => tryS(() => String(cv.compareTo(dcv)))));
@@ -338,7 +342,7 @@ function cmp(c: any): string[] {
   }
   const ca = a.getCaexValue('Value');
   const cb = b.getCaexValue('Value');
-  const both = isNow(ca.value) && isNow(cb.value);
+  const both = (isNow(ca.value) && isNow(cb.value)) || clockDependent(ca.value, cb.value);
   return [
     tryS(() => ty(dec(ca))) + '|' + tryS(() => ty(dec(cb))),
     nowOr(both, () => tryM(() => String(ca.compareTo(cb)))),

@@ -88,6 +88,15 @@ public static class ValuesOracle
     /// <summary>Comparisons of two "now" values depend on the clock resolution; both runners record "now".</summary>
     static string NowOr(bool bothNow, Func<string> f) => bothNow ? "now" : f();
 
+    /// <summary>
+    /// A "now" value against a time of today (time-only input): the result depends only on the
+    /// clock at run time, so it is recorded as "now" like two "now" values.
+    /// </summary>
+    static bool ClockDependent(object? a, object? b) =>
+        (IsNow(a) && IsToday(b)) || (IsNow(b) && IsToday(a));
+
+    static bool IsToday(object? v) => v is DateTime d && d.Date == DateTime.Today;
+
     static readonly Regex TimeRx = new(@"(\d{2}):(\d{2}):(\d{2})(\.\d{1,7})?", RegexOptions.CultureInvariant);
 
     /// <summary>Times of day between t0 and t1 (whole seconds, one second of slack) become NOW.</summary>
@@ -293,7 +302,7 @@ public static class ValuesOracle
         r.Add(N(cv.ValueElement?.Value));
         r.Add(N(dcv.ValueElement?.Value));
         var vNow = IsNow(cv.Value);
-        var both = vNow && IsNow(dcv.Value);
+        var both = (vNow && IsNow(dcv.Value)) || ClockDependent(cv.Value, dcv.Value);
         r.Add(NowOr(both, () => Try(() => B(cv.Equals(dcv)))));
         r.Add(NowOr(both, () => Try(() => B(dcv.Equals(cv)))));
         r.Add(NowOr(both, () => Try(() => cv.CompareTo(dcv).ToString(Inv))));
@@ -373,7 +382,7 @@ public static class ValuesOracle
         var ca = a.GetCaexValue("Value");
         var cb = b.GetCaexValue("Value");
         r.Add(Try(() => Ty(a.AttributeValue)) + "|" + Try(() => Ty(b.AttributeValue)));
-        var both = IsNow(ca.Value) && IsNow(cb.Value);
+        var both = (IsNow(ca.Value) && IsNow(cb.Value)) || ClockDependent(ca.Value, cb.Value);
         r.Add(NowOr(both, () => TryM(() => ca.CompareTo(cb).ToString(Inv))));
         r.Add(NowOr(both, () => TryM(() => cb.CompareTo(ca).ToString(Inv))));
         r.Add(NowOr(both, () => Try(() => B(ca.Equals(cb)))));
