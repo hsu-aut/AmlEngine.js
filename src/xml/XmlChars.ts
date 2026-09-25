@@ -13,10 +13,10 @@ export class XmlException extends Error {
   }
 }
 
-// Name characters follow the table .NET 8 uses (XML 1.0 4th edition letters for the BMP, see
-// src/system/XmlCharType.ts, generated from .NET); characters outside the BMP are accepted as
-// in the 5th edition, like .NET's surrogate handling.
-const isSupplementary = (cp: number): boolean => cp >= 0x10000 && cp <= 0xeffff;
+// Name characters follow the table .NET 8 uses (XML 1.0 4th edition, see
+// src/system/XmlCharType.ts, generated from .NET). Characters outside the BMP are never name
+// characters in .NET (verified: test/xml-corpus/edge35 to edge38).
+const isSupplementary = (_cp: number): boolean => false;
 
 export function isNameStartChar(ch: string): boolean {
   const cp = ch.codePointAt(0)!;
