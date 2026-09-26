@@ -84,10 +84,15 @@ describes how to follow it.
 | `test/engine/gaps*` | everything the tests above leave out |
 | `test/engine/noreturn`, `reads` (`cyclic-*`) | calls that do not return in the original: the port throws exactly there |
 | `test/engine/fixes` | the optional corrections: files written with them, read by the original |
+| `test/engine/large` | generated documents of 10 and 50 MB: saving, the read API (10 MB), validation messages |
+| `scripts/tz-check.mjs` | the time dependent packages in UTC, New York and Kolkata (oracle and tests in that zone) |
+| `test/browser` | a scenario and all System cases in Edge, Chromium, Firefox and WebKit, compared with Node |
 
 [docs/coverage.md](docs/coverage.md) lists the functions of the port that no comparison
 executes, with the reasons in `docs/coverage-notes/`. [docs/seed-runs.md](docs/seed-runs.md)
 records runs with other seeds and larger sizes than the committed inputs.
+[docs/performance.md](docs/performance.md) compares time and memory with the original.
+`.github/workflows/ci.yml` runs all of this; the oracle outputs are kept in the Actions cache.
 
 ## Repository
 

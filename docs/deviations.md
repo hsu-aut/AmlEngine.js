@@ -112,7 +112,7 @@ in two known points, which the check counts per reason:
   JavaScriptCore store every NaN as the positive one. The value is NaN either way and formats as
   "NaN"; only the bit dumps of the test cases show it (Firefox and WebKit, 43 cases).
 - Local mean time before 1893: Firefox reports it with seconds (+00:53:28), V8 truncated to whole
-  minutes. Both are within "Local time before 1996" below (Firefox, 63 cases).
+  minutes. Both are within "Local time of old dates" below (Firefox, 63 cases).
 
 ## System layer (src/system)
 
@@ -121,17 +121,38 @@ The .NET value types and conversions are checked case by case against .NET 8 by
 `oracle/SysOracle.cs`). The known deviations are listed there per area (`deviations`,
 `deviationRules` in `test/system/eval/*.ts`); this is the summary.
 
-### Local time before 1996 (time zone history)
+### Local time of old dates (time zone history)
 
 Local time conversions (`ToLocalTime`, `ToUniversalTime`, the offset in "o"/"K"/"z" formats,
 `XmlConvert` with `XmlDateTimeSerializationMode.Local`, parsing of values with a zone) use the
 host time zone through JS `Date`, i.e. the IANA database with its full history. .NET on Windows
-uses the registry rules of the zone, which apply today's rule to every year. For Europe/Berlin
-the two agree from 1996 on and differ before: no DST before 1980 and DST ending in September
-until 1995 in IANA; local mean time (+00:53:28, which V8 in Node, Chromium and Edge reports
-truncated to whole minutes as +00:53, Firefox with seconds) before April 1893. .NET on Linux uses IANA data as well and would agree with the port.
-Affected oracle cases: 128 (datetime 77, dtparse 23, xmlconvert 28); for dates from 1996 on
-every case matches.
+uses the registry rules of the zone, which cover recent years only and apply the oldest rule to
+every year before. The two agree for recent dates and differ for old ones, depending on the zone:
+
+| Zone | Agree from | Differences before | Oracle cases that differ |
+|------|-----------|--------------------|--------------------------|
+| Europe/Berlin (reference) | 1996 | no DST before 1980, DST ending in September until 1995, local mean time +00:53:28 before April 1893 | 128 |
+| America/New_York | 1987 | Windows applies the rule of 1987 to 2006 to every earlier year, IANA has the older US rules and local mean time before 1883 | 73 |
+| Asia/Kolkata | 1946 | local mean time and +06:30 (war time) until October 1945 | 93 |
+| UTC | always | none | 0 |
+
+V8 (Node, Chromium, Edge) reports local mean time truncated to whole minutes (+00:53), Firefox
+with seconds (+00:53:28). `scripts/tz-check.mjs` runs the oracle with another local time zone
+(`ORACLE_TZ`, oracle/LocalTimeZone.cs; the machine keeps its own) and the JS tests with `TZ` set
+to the same zone: every oracle package whose results depend on local time (sys, gapsinfra,
+values, engineops, mutations, gapscaex, amlobjects; 1,291 tests) matches in UTC, New York and
+Kolkata apart from the dates in the table.
+
+### Aml.Engine on Linux
+
+The reference is Aml.Engine under .NET 8 on Windows. Under .NET on Linux (checked with the
+oracle in the Docker image mcr.microsoft.com/dotnet/sdk:8.0, Debian 12) the original behaves
+differently in three points: it writes LF line ends when saving (see "Line ends"), it keeps
+backslashes in the path of `file:` URIs (Windows turns them into slashes; 45 System cases), and
+it takes local time from the IANA database. The port reproduces the Windows behaviour in the first
+two points. In the third, .NET on Linux and the port agree for Europe/Berlin from April 1893 on
+(the DST history in the table above); for the local mean time before, .NET rounds the offset
++00:53:28 to +00:54 and V8 cuts it to +00:53.
 
 ### Case mapping and white space
 

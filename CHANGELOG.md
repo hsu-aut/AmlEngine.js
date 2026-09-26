@@ -12,6 +12,16 @@
 - XML parser and writer without recursion: any nesting depth (tested with 20,000 levels).
 - Browser check also in Chromium, Firefox and WebKit (Playwright), with all System and
   infrastructure oracle cases.
+- `FindByID` without ID table 3.5 times faster (same linear search as the original, without
+  generator and LINQ overhead).
+- Large documents (10 and 50 MB, and 10 MB with 421 schema errors) compared with the original:
+  saving, the read API, validation (`test/engine/large.oracle.test.ts`); time and memory against
+  the original in Node and three browsers (docs/performance.md, `test/perf/run.mjs`).
+- Time zone check: the oracle runs in another local time zone (`ORACLE_TZ`), the tests with `TZ`;
+  UTC, America/New_York and Asia/Kolkata match apart from documented old dates
+  (`scripts/tz-check.mjs`).
+- CI workflow (`.github/workflows/ci.yml`): quick job on Linux, full oracle comparison on Windows
+  with the oracle outputs in the Actions cache.
 
 ## 0.1.0 (2026-09-26)
 
