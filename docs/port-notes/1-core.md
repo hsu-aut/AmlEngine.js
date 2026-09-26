@@ -151,8 +151,6 @@ other batches at that time).
 
 ## (c) Apparent bugs of the original, ported unchanged
 
-- `CAEXSequence.CopyToImport`: `$"{redefinedAlias2}{64}{item.Key}"` inserts the number `64`
-  instead of the character '@' between alias and path.
 - `CAEXTypeDictionary`: the creator for the key of tag `AttributeType` (`AttributeTypeType`)
   creates an `AttributeFamilyType`.
 - `CaexObjectWithReference.reference` setter passes the object itself to `SetXAttributeValue`, so
