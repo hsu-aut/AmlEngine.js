@@ -42,6 +42,20 @@ function expandCharRefs(v: string): string {
   );
 }
 
+/** Content of an element being parsed, with the text collected since the last node. */
+interface ContentFrame {
+  kind: 'content';
+  el: XElement;
+  text: string;
+  textIsWs: boolean;
+}
+
+/** A step of the explicit parse stack (see Parser.parseElement). */
+type Frame =
+  | ContentFrame
+  | { kind: 'end'; el: XElement; qname: string }
+  | { kind: 'restore'; s: string; pos: number; inFragment: boolean };
+
 interface Scope {
   prefixes: Map<string, string>;
   space: 'preserve' | 'default' | null;
@@ -63,6 +77,8 @@ class Parser {
   private inFragment = false;
   private readonly doc = new XDocument();
   private readonly scopes: Scope[] = [];
+  /** The namespace bound to each prefix, innermost last: a lookup does not walk all scopes. */
+  private readonly bindings = new Map<string, string[]>();
 
   constructor(
     input: string,
@@ -234,26 +250,6 @@ class Parser {
     return v;
   }
 
-  /** Parses the replacement text of an entity as content of the current element. */
-  private expandInContent(el: XElement, name: string): void {
-    // XmlReader without a resolver skips references to external entities in content.
-    if (this.entities.get(name) === null) return;
-    const text = this.entityText(name);
-    const saved = { s: this.s, pos: this.pos, inFragment: this.inFragment };
-    this.expanding.push(name);
-    this.s = text;
-    this.pos = 0;
-    this.inFragment = true;
-    try {
-      this.parseContent(el);
-    } finally {
-      this.expanding.pop();
-      this.s = saved.s;
-      this.pos = saved.pos;
-      this.inFragment = saved.inFragment;
-    }
-  }
-
   /** Attribute value normalization applied to the replacement text of an entity. */
   private expandInAttribute(name: string): string {
     const text = this.entityText(name);
@@ -291,7 +287,50 @@ class Parser {
     return v;
   }
 
+  /**
+   * Parses an element with its content. Nested elements and entity expansions are handled with an
+   * explicit stack instead of recursion, so that the nesting depth is not limited by the call stack
+   * (XmlReader has no depth limit either). Each frame stands for what a recursive call did:
+   * 'content' parses the content of an element, 'end' reads its end tag, 'restore' returns from
+   * the replacement text of an entity to the text around it.
+   */
   private parseElement(parent: XContainer): void {
+    const root = this.parseStartTag(parent);
+    if (root.selfClosing) {
+      this.popScope();
+      return;
+    }
+    const stack: Frame[] = [
+      { kind: 'end', el: root.el, qname: root.qname },
+      { kind: 'content', el: root.el, text: '', textIsWs: true },
+    ];
+    while (stack.length > 0) {
+      const frame = stack[stack.length - 1]!;
+      if (frame.kind === 'end') {
+        stack.pop();
+        // '</' already consumed by the content frame
+        const endName = this.readQName();
+        if (endName !== frame.qname) this.fail(`The '${frame.qname}' start tag does not match the end tag of '${endName}'.`);
+        this.skipWs();
+        this.expect('>');
+        if (frame.el._content === null) frame.el._content = '';
+        this.popScope();
+      } else if (frame.kind === 'restore') {
+        stack.pop();
+        this.expanding.pop();
+        this.s = frame.s;
+        this.pos = frame.pos;
+        this.inFragment = frame.inFragment;
+      } else {
+        const next = this.parseContent(frame);
+        if (next === null) stack.pop();
+        else stack.push(...next);
+      }
+    }
+  }
+
+  /** The start tag: creates the element, adds it to the parent and opens its namespace scope. */
+  private parseStartTag(parent: XContainer): { el: XElement; qname: string; selfClosing: boolean } {
     this.pos++; // '<'
     const qname = this.readQName();
     const rawAttrs: Array<[string, string]> = [];
@@ -334,7 +373,7 @@ class Parser {
         scope.space = v;
       }
     }
-    this.scopes.push(scope);
+    this.pushScope(scope);
 
     const el = new XElement(this.resolveName(qname, true));
     const seen = new Set<XName>();
@@ -345,38 +384,32 @@ class Parser {
       el._appendAttributeSkipNotify(new XAttribute(name, v));
     }
     this.addNode(parent, el);
-
-    if (!selfClosing) {
-      this.parseContent(el);
-      // '</' already consumed by parseContent
-      const endName = this.readQName();
-      if (endName !== qname) this.fail(`The '${qname}' start tag does not match the end tag of '${endName}'.`);
-      this.skipWs();
-      this.expect('>');
-      if (el._content === null) el._content = '';
-    }
-    this.scopes.pop();
+    return { el, qname, selfClosing };
   }
 
-  private parseContent(el: XElement): void {
+  /**
+   * Parses content of `frame.el` until it ends (returns null: '</' consumed, or the end of an
+   * entity's replacement text) or until a child element or an entity needs frames of its own
+   * (returns them, to be pushed; this frame continues after them).
+   */
+  private parseContent(frame: ContentFrame): Frame[] | null {
     const s = this.s;
-    let text = '';
-    let textIsWs = true;
+    const el = frame.el;
     const flush = () => {
-      if (text.length === 0) return;
-      if (textIsWs && !this.options.preserveWhitespace && this.currentSpace() !== 'preserve') {
-        text = '';
+      if (frame.text.length === 0) return;
+      if (frame.textIsWs && !this.options.preserveWhitespace && this.currentSpace() !== 'preserve') {
+        frame.text = '';
         return;
       }
-      el._addStringSkipNotify(text);
-      text = '';
-      textIsWs = true;
+      el._addStringSkipNotify(frame.text);
+      frame.text = '';
+      frame.textIsWs = true;
     };
     for (;;) {
       if (this.pos >= s.length) {
         if (this.inFragment) {
           flush();
-          return;
+          return null;
         }
         this.fail('Unexpected end of file has occurred. The following elements are not closed: ' + el.name.localName + '.');
       }
@@ -385,7 +418,7 @@ class Parser {
         if (s[this.pos + 1] === '/') {
           flush();
           this.pos += 2;
-          return;
+          return null;
         }
         if (s.startsWith('<!--', this.pos)) {
           flush();
@@ -405,20 +438,36 @@ class Parser {
           this.fail('Unexpected declaration.');
         } else {
           flush();
-          this.parseElement(el);
+          const child = this.parseStartTag(el);
+          if (child.selfClosing) {
+            this.popScope();
+          } else {
+            return [
+              { kind: 'end', el: child.el, qname: child.qname },
+              { kind: 'content', el: child.el, text: '', textIsWs: true },
+            ];
+          }
         }
       } else if (c === '&') {
         const name = this.generalEntityName();
         if (name !== null) {
           flush();
           this.pos += name.length + 2;
-          this.expandInContent(el, name);
-          continue;
+          // XmlReader without a resolver skips references to external entities in content.
+          if (this.entities.get(name) === null) continue;
+          // The replacement text is parsed as content of the current element.
+          const text = this.entityText(name);
+          const restore: Frame = { kind: 'restore', s: this.s, pos: this.pos, inFragment: this.inFragment };
+          this.expanding.push(name);
+          this.s = text;
+          this.pos = 0;
+          this.inFragment = true;
+          return [restore, { kind: 'content', el, text: '', textIsWs: true }];
         }
         const ch = this.readReference();
-        text += ch;
+        frame.text += ch;
         // Whitespace is judged by value: "&#32;" alone is ignorable whitespace too.
-        if (!isWs(ch)) textIsWs = false;
+        if (!isWs(ch)) frame.textIsWs = false;
       } else {
         const start = this.pos;
         while (this.pos < s.length) {
@@ -429,8 +478,8 @@ class Parser {
         }
         const chunk = s.substring(start, this.pos);
         this.checkChars(chunk);
-        if (textIsWs && !isAllWs(chunk)) textIsWs = false;
-        text += normalizeEol(chunk);
+        if (frame.textIsWs && !isAllWs(chunk)) frame.textIsWs = false;
+        frame.text += normalizeEol(chunk);
       }
     }
   }
@@ -559,11 +608,22 @@ class Parser {
   }
 
   private lookup(prefix: string): string | undefined {
-    for (let i = this.scopes.length - 1; i >= 0; i--) {
-      const v = this.scopes[i].prefixes.get(prefix);
-      if (v !== undefined) return v;
+    const stack = this.bindings.get(prefix);
+    return stack !== undefined && stack.length > 0 ? stack[stack.length - 1] : undefined;
+  }
+
+  private pushScope(scope: Scope): void {
+    this.scopes.push(scope);
+    for (const [prefix, ns] of scope.prefixes) {
+      let stack = this.bindings.get(prefix);
+      if (stack === undefined) this.bindings.set(prefix, (stack = []));
+      stack.push(ns);
     }
-    return undefined;
+  }
+
+  private popScope(): void {
+    const scope = this.scopes.pop()!;
+    for (const prefix of scope.prefixes.keys()) this.bindings.get(prefix)!.pop();
   }
 
   private readQName(): string {

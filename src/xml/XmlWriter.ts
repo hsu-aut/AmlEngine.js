@@ -451,28 +451,35 @@ function invalidChar(cp: number): Error {
 
 /** Port of System.Xml.Linq.NamespaceResolver used by the XLinq ElementWriter. */
 class NamespaceResolver {
-  private scopes: Array<Array<{ prefix: string; ns: string }>> = [];
+  /**
+   * The declarations of all open scopes, outermost first, and their number per scope: a lookup
+   * walks the declarations only, not every open element (like the XLinq original).
+   */
+  private readonly decls: Array<{ prefix: string; ns: string }> = [];
+  private readonly counts: number[] = [];
 
   pushScope(): void {
-    this.scopes.push([]);
+    this.counts.push(0);
   }
 
   popScope(): void {
-    this.scopes.pop();
+    this.decls.length -= this.counts.pop()!;
   }
 
   add(prefix: string, ns: string): void {
-    this.scopes[this.scopes.length - 1].push({ prefix, ns });
+    this.decls.push({ prefix, ns });
+    this.counts[this.counts.length - 1]++;
   }
 
   addFirst(prefix: string, ns: string): void {
-    if (this.scopes.length === 0) this.scopes.push([]);
-    this.scopes[0].unshift({ prefix, ns });
+    if (this.counts.length === 0) this.counts.push(0);
+    this.decls.unshift({ prefix, ns });
+    this.counts[0]++;
   }
 
   /** Most recent declaration of ns whose prefix is not redeclared later. */
   getPrefixOfNamespace(ns: string, allowDefault: boolean): string | null {
-    const all = this.scopes.flat();
+    const all = this.decls;
     for (let i = all.length - 1; i >= 0; i--) {
       const a = all[i];
       if (a.ns !== ns) continue;
@@ -491,27 +498,42 @@ class ElementWriter {
 
   constructor(private readonly w: WellFormedWriter) {}
 
+  /**
+   * Writes the element and its content. Like ElementWriter.WriteElement in .NET a loop, not a
+   * recursion: down to the first child, after the last child up to the parent and on to the next
+   * sibling, so that the nesting depth is not limited by the call stack.
+   */
   writeElement(root: XElement): void {
     this.pushAncestors(root);
-    this.writeTree(root);
-  }
-
-  private writeTree(e: XElement): void {
-    this.writeStartElement(e);
-    const c = e._content;
-    if (c === null) {
-      this.w.writeEndElement(false);
-    } else if (typeof c === 'string') {
-      this.w.writeString(c);
-      this.w.writeEndElement(true);
-    } else {
-      for (const n of childNodes(e)) {
-        if (n instanceof XElement) this.writeTree(n);
-        else writeNode(n, this.w);
+    let n: XNode = root;
+    for (;;) {
+      if (n instanceof XElement) {
+        this.writeStartElement(n);
+        const c = n._content;
+        if (c === null) {
+          this.w.writeEndElement(false);
+          this.resolver.popScope();
+        } else if (typeof c === 'string') {
+          this.w.writeString(c);
+          this.w.writeEndElement(true);
+          this.resolver.popScope();
+        } else {
+          // the content is the last child, whose next node is the first
+          n = c._next!;
+          continue;
+        }
+      } else {
+        writeNode(n, this.w);
       }
-      this.w.writeEndElement(true);
+      // n is complete: close the elements whose last child it is
+      while (n !== root && n === n._parent!._content) {
+        n = n._parent as XElement;
+        this.w.writeEndElement(true);
+        this.resolver.popScope();
+      }
+      if (n === root) break;
+      n = n._next!;
     }
-    this.resolver.popScope();
   }
 
   private pushAncestors(e: XElement): void {
