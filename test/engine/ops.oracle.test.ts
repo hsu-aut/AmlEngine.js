@@ -16,10 +16,11 @@ import { dotNetExceptionName } from '../../src/system/exceptions.js';
 import { Decimal } from '../../src/system/index.js';
 import { formatDouble } from '../../src/system/Number.js';
 import { ClrValue } from '../../src/engine/caex/extensions/ClrValue.js';
+import { oracleOut } from '../setup/oracle-out.js';
 
 const root = join(__dirname, '..');
 const scriptFile = join(root, 'engine-ops', 'ops.json');
-const expectedFile = join(root, 'oracle-out', 'engineops.json');
+const expectedFile = join(oracleOut, 'engineops.json');
 
 class Canonicalizer {
   private readonly map = new Map<string, string>();

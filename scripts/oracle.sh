@@ -33,3 +33,9 @@ $ORACLE gapsinfra test/gapsinfra/cases.json test/oracle-out/gapsinfra.json
 node scripts/gen-gapsservices.mjs test/gapsservices 3682 >/dev/null
 $ORACLE gapsservices test/gapsservices test/corpus test/oracle-out/gapsservices
 $ORACLE gapscaex test/gapscaex test/oracle-out/gapscaex.json
+# Large documents (10 and 50 MB, 10 MB with schema errors). The full read model walk only for
+# 10 MB: it grows with the square of the size (FindByID without ID table), 50 MB takes hours.
+node scripts/gen-large.mjs test/large 10,50,10i 3682 >/dev/null
+$ORACLE save test/oracle-out/large test/large
+$ORACLE dump test/oracle-out/large test/large/large-10mb.aml >/dev/null
+$ORACLE validate test/oracle-out/large-validate test/large

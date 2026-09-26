@@ -1,7 +1,7 @@
 // Evaluators for the "dtparse" cases (scripts/sys-cases/dtparse.mjs); see test/system/sys.oracle.test.ts.
 import { DateTime } from '../../../src/system/DateTime.js';
 import { dateTimeTryParse, type DateTimeStyles } from '../../../src/system/DateTimeParse.js';
-import { type Args, dt, orFail } from '../repr.js';
+import { type Args, HISTORIC_LOCAL_YEAR, dt, orFail } from '../repr.js';
 
 export const evaluators: Record<string, (args: Args) => string> = {
   /** DateTime.TryParse(s) under the invariant current culture */
@@ -43,4 +43,13 @@ const tzCases: [string, unknown[]][] = [
   ['dt.parseStyles', ['1/1/0001 0:30 -01:00', 64]],
 ];
 
-export const deviations: Record<string, string> = Object.fromEntries(tzCases.map(([fn, args]) => [`${fn} ${JSON.stringify(args)}`, tzHistory]));
+// A rule, not a fixed list: these cases may differ only in years in which the rules differ for the
+// zone the tests run in (none in UTC, scripts/tz-check.mjs).
+const tzKeys = new Set(tzCases.map(([fn, args]) => `${fn} ${JSON.stringify(args)}`));
+export const deviationRules = [
+  {
+    reason: tzHistory,
+    test: (fn: string, a: Args): boolean => tzKeys.has(`${fn} ${JSON.stringify(a)}`) && Number(/\d{4}/.exec(a[0] as string)![0]) < HISTORIC_LOCAL_YEAR,
+  },
+];
+export const deviations: Record<string, string> = {};

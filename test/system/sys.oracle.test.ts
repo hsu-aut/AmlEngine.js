@@ -10,9 +10,10 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { deviationRules, deviations, run, type Case, type Result } from './sys-eval.js';
+import { oracleOut } from '../setup/oracle-out.js';
 
 const casesFile = process.env.SYS_CASES ?? join(__dirname, 'cases.json');
-const oracleFile = process.env.SYS_ORACLE ?? join(__dirname, '..', 'oracle-out', 'sys.json');
+const oracleFile = process.env.SYS_ORACLE ?? join(oracleOut, 'sys.json');
 
 describe.skipIf(!existsSync(casesFile) || !existsSync(oracleFile))('System layer parity with .NET', () => {
   const cases: Case[] = JSON.parse(readFileSync(casesFile, 'utf8'));

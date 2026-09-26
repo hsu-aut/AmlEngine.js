@@ -34,10 +34,11 @@ import { Version } from '../../src/engine/amlobjects/internal/Version.js';
 import { ClrValue } from '../../src/engine/caex/extensions/ClrValue.js';
 import { AdditionalInformationExtension } from '../../src/engine/caex/extensions/AdditionalInformationExtension.js';
 import { formatDouble } from '../../src/system/Number.js';
+import { oracleOut } from '../setup/oracle-out.js';
 
 const repo = resolve(__dirname, '..', '..');
 const inDir = join(repo, 'test', 'gapscaex');
-const outFile = join(repo, 'test', 'oracle-out', 'gapscaex.json');
+const outFile = join(oracleOut, 'gapscaex.json');
 
 type Json = null | boolean | number | string | Json[] | { [k: string]: Json };
 

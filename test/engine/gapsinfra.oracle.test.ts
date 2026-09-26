@@ -7,9 +7,10 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { knownDeviation, run, type Case, type Result } from './gapsinfra-eval.js';
+import { oracleOut } from '../setup/oracle-out.js';
 
 const casesFile = join(__dirname, '..', 'gapsinfra', 'cases.json');
-const oracleFile = join(__dirname, '..', 'oracle-out', 'gapsinfra.json');
+const oracleFile = join(oracleOut, 'gapsinfra.json');
 
 describe.skipIf(!existsSync(casesFile) || !existsSync(oracleFile))('gapsinfra: src/xml and src/system against .NET', () => {
   const cases: Case[] = JSON.parse(readFileSync(casesFile, 'utf8'));

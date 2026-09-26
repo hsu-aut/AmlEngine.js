@@ -26,10 +26,11 @@ import { NCNameEncoder } from '../../src/engine/caex/extensions/NCNameEncoder.js
 import { NMTokenEncoder } from '../../src/engine/caex/extensions/NMTokenEncoder.js';
 import { NormalizedStringEncoder } from '../../src/engine/caex/extensions/NormalizedStringEncoder.js';
 import { LocalNameEncoder } from '../../src/engine/caex/extensions/LocalNameEncoder.js';
+import { oracleOut } from '../setup/oracle-out.js';
 
 const root = join(__dirname, '..');
 const casesFile = join(root, 'values', 'cases.json');
-const expectedFile = join(root, 'oracle-out', 'values.json');
+const expectedFile = join(oracleOut, 'values.json');
 const corpusDir = join(root, 'corpus');
 
 // ------------------------------------------------------------------ "now"

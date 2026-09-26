@@ -58,12 +58,13 @@ import { DateTime, DateTimeKind, Uri, UriKind } from '../../src/system/index.js'
 import { dotNetExceptionName } from '../../src/system/exceptions.js';
 import { formatDouble } from '../../src/system/Number.js';
 import { from } from '../../src/system/linq.js';
+import { oracleOut } from '../setup/oracle-out.js';
 
 const testDir = join(__dirname, '..');
 const inputDir = join(testDir, 'amlobjects');
 const corpusDir = join(testDir, 'corpus');
-const outDir = join(testDir, 'oracle-out', 'amlobjects');
-const workDir = resolve(testDir, 'oracle-out', 'amlobjects-work-js');
+const outDir = join(oracleOut, 'amlobjects');
+const workDir = resolve(oracleOut, 'amlobjects-work-js');
 const has = existsSync(join(outDir, 'amlx.json'));
 
 // ---------------------------------------------------------------- recording

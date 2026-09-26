@@ -28,10 +28,11 @@ import { InterfaceFamilyTypeExtensions } from '../../src/engine/caex/extensions/
 import { dotNetExceptionName } from '../../src/system/exceptions.js';
 import { XDocument } from '../../src/xml/index.js';
 import { DateTime, XmlConvert, XmlDateTimeSerializationMode } from '../../src/system/index.js';
+import { oracleOut } from '../setup/oracle-out.js';
 
 const root = join(__dirname, '..');
 const scriptFile = join(root, 'mutations', 'scripts.json');
-const expectedFile = join(root, 'oracle-out', 'mutations.json');
+const expectedFile = join(oracleOut, 'mutations.json');
 
 class Canonicalizer {
   private readonly map = new Map<string, string>();

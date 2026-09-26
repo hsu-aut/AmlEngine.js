@@ -67,10 +67,21 @@ export function bool(v: boolean): string {
   return v ? 'True' : 'False';
 }
 
+/** The time zone the tests run in: TZ, or the zone of the machine (Europe/Berlin for the reference outputs). */
+export const TEST_ZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 /**
- * Local time before 1996: the IANA time zone history used by JS differs from the rules of
- * Windows, which .NET uses on the reference machine (docs/deviations.md).
+ * The year from which the local time rules of .NET on Windows (registry) and the IANA history that
+ * JS uses agree, per zone the oracle ran in (scripts/tz-check.mjs, docs/deviations.md). Before it
+ * local times may differ.
  */
-export const HISTORIC_LOCAL_LIMIT = new DateTime(1996, 1, 1).ticks;
-export const HISTORIC_LOCAL_REASON =
-  'local time before 1996: JS uses the IANA zone history, .NET on Windows applies the current Windows DST rule to every year';
+const RULES_AGREE_FROM: Record<string, number> = {
+  'Europe/Berlin': 1996,
+  UTC: 1,
+  'Etc/UTC': 1,
+  'America/New_York': 1987,
+  'Asia/Kolkata': 1946,
+};
+export const HISTORIC_LOCAL_YEAR = RULES_AGREE_FROM[TEST_ZONE] ?? 1996;
+export const HISTORIC_LOCAL_LIMIT = new DateTime(HISTORIC_LOCAL_YEAR, 1, 1).ticks;
+export const HISTORIC_LOCAL_REASON = `local time before ${HISTORIC_LOCAL_YEAR} in ${TEST_ZONE}: JS uses the IANA zone history, .NET on Windows the rules of the registry`;

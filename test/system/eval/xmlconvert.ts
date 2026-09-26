@@ -3,7 +3,7 @@ import { Decimal } from '../../../src/system/Decimal.js';
 import { Guid } from '../../../src/system/Guid.js';
 import { TimeSpan } from '../../../src/system/TimeSpan.js';
 import { XmlConvert } from '../../../src/system/XmlConvert.js';
-import { type Args, HISTORIC_LOCAL_LIMIT, HISTORIC_LOCAL_REASON, bool, dblArg, dec, dbl, dt, dtArg, sgl, sglArg } from '../repr.js';
+import { type Args, HISTORIC_LOCAL_LIMIT, HISTORIC_LOCAL_REASON, HISTORIC_LOCAL_YEAR, bool, dblArg, dec, dbl, dt, dtArg, sgl, sglArg } from '../repr.js';
 
 const s0 = (a: Args) => a[0] as string;
 const orNull = (v: string | null) => v ?? '#null';
@@ -45,7 +45,7 @@ export const evaluators: Record<string, (args: Args) => string> = {
 
 export const deviations: Record<string, string> = {};
 
-const YEAR_1996 = /^(\d{4})/;
+const YEAR = /^(\d{4})/;
 
 export const deviationRules = [
   {
@@ -53,8 +53,8 @@ export const deviationRules = [
     test: (fn: string, a: Args) => {
       if (fn === 'xc.strDateTime' || (fn === 'xc.strDateTimeFmt' && /[zK]|^o$/.test(a[2] as string))) return BigInt(a[0] as string) < HISTORIC_LOCAL_LIMIT;
       if (fn === 'xc.toDateTime') {
-        const m = YEAR_1996.exec((a[0] as string).trim());
-        return m !== null && Number(m[1]) < 1996;
+        const m = YEAR.exec((a[0] as string).trim());
+        return m !== null && Number(m[1]) < HISTORIC_LOCAL_YEAR;
       }
       return false;
     },

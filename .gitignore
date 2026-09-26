@@ -7,3 +7,6 @@ test/oracle-out/
 test/**/CAEX_ClassModel_V*.xsd
 test/browser/out/
 *.tgz
+test/large/
+test/oracle-out-tz/
+test/perf/out/

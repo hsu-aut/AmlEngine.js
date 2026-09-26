@@ -11,6 +11,8 @@ System.Globalization.CultureInfo.DefaultThreadCurrentCulture = System.Globalizat
 System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
 System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
+// Another local time zone for this process (ORACLE_TZ, see LocalTimeZone.cs).
+LocalTimeZone.ApplyFromEnvironment();
 
 var json = new JsonSerializerOptions { WriteIndented = true };
 
@@ -43,6 +45,14 @@ switch (args.FirstOrDefault())
                 Console.WriteLine($"FAIL {file}: {e.GetType().Name}: {e.Message}");
             }
         }
+        break;
+
+    case "save":
+        // save <outDir> <file.aml>...: <name>.saved.aml (LoadFromString, SaveToStream(true)) only
+        Directory.CreateDirectory(args[1]);
+        foreach (var file in args.Skip(2))
+            Save(CAEXDocument.LoadFromString(File.ReadAllText(file, Encoding.UTF8)),
+                System.IO.Path.Combine(args[1], System.IO.Path.GetFileNameWithoutExtension(file) + ".saved.aml"));
         break;
 
     case "probe":
@@ -111,6 +121,16 @@ switch (args.FirstOrDefault())
     case "fixes":
         // fixes <dir> <out.json>: what the original sees in files written with the port's corrections, see FixesOracle.cs
         FixesOracle.Run(args.Skip(1).ToArray());
+        break;
+
+    case "tz":
+        // tz: the local time zone as the oracle sees it (check of ORACLE_TZ)
+        Console.WriteLine($"{TimeZoneInfo.Local.Id}|{DateTime.Now:o}|{new DateTime(2024, 1, 15, 12, 0, 0, DateTimeKind.Utc).ToLocalTime():o}|{new DateTime(2024, 7, 15, 12, 0, 0, DateTimeKind.Utc).ToLocalTime():o}|{new DateTime(1990, 7, 15, 12, 0, 0, DateTimeKind.Utc).ToLocalTime():o}");
+        break;
+
+    case "bench":
+        // bench <file>...: timings of Aml.Engine, see BenchOracle.cs
+        BenchOracle.Run(args.Skip(1));
         break;
 
     case "validate":

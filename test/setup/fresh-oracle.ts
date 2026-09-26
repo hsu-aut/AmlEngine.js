@@ -23,6 +23,8 @@ function sameDay(a: Date, b: Date): boolean {
 
 export default async function setup(): Promise<void> {
   await warnIfUpstreamIsNewer();
+  // Outputs of another directory (ORACLE_OUT, scripts/tz-check.mjs) are made by their own run.
+  if (process.env.ORACLE_OUT) return;
   const today = new Date();
   const stale = DATE_SENSITIVE.filter((d) => existsSync(d.output) && !sameDay(statSync(d.output).mtime, today));
   if (stale.length === 0) return;
