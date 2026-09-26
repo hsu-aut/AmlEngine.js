@@ -9,7 +9,7 @@ const files = [];
   for (const f of readdirSync(dir).sort()) {
     const p = join(dir, f);
     if (statSync(p).isDirectory()) walk(p);
-    else if (f.endsWith('.ts') && p !== join(root, 'index.ts')) files.push(p);
+    else if (f.endsWith('.ts') && p !== join(root, 'index.ts') && p !== join(root, 'api.ts')) files.push(p);
   }
 })(root);
 const lines = [
