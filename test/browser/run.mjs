@@ -5,7 +5,8 @@
 // same result as in Node for each, unless explainDifference in checks.ts names a known reason (the
 // sign of NaN, a documented deviation from .NET); those are counted per reason.
 //   node test/browser/run.mjs [edge,chromium,firefox,webkit]
-import { execFileSync, spawnSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
+import { buildSync } from 'esbuild';
 import { closeSync, existsSync, mkdirSync, mkdtempSync, openSync, readFileSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, resolve } from 'node:path';
@@ -14,12 +15,13 @@ import { pathToFileURL } from 'node:url';
 
 const out = resolve('test/browser/out');
 mkdirSync(out, { recursive: true });
-const esbuild = (args) => execFileSync(process.execPath, ['node_modules/esbuild/bin/esbuild', 'test/browser/scenario.ts', '--bundle', '--log-level=error', ...args], { stdio: 'inherit' });
-esbuild(['--format=esm', '--platform=node', `--outfile=${join(out, 'scenario.node.mjs')}`]);
-esbuild(['--minify', '--format=iife', '--global-name=AmlScenario', '--platform=browser', `--outfile=${join(out, 'scenario.browser.js')}`]);
-const esbuildChecks = (args) => execFileSync(process.execPath, ['node_modules/esbuild/bin/esbuild', 'test/browser/checks.ts', '--bundle', '--log-level=error', ...args], { stdio: 'inherit' });
-esbuildChecks(['--format=esm', '--platform=node', `--outfile=${join(out, 'checks.node.mjs')}`]);
-esbuildChecks(['--minify', '--format=iife', '--global-name=AmlChecks', '--platform=browser', `--outfile=${join(out, 'checks.browser.js')}`]);
+// Two bundles of each entry: ESM for Node, an IIFE with a global name for the browser page.
+const bundle = (entry, name, globalName) => {
+  buildSync({ entryPoints: [entry], bundle: true, logLevel: 'error', format: 'esm', platform: 'node', outfile: join(out, `${name}.node.mjs`) });
+  buildSync({ entryPoints: [entry], bundle: true, logLevel: 'error', minify: true, format: 'iife', globalName, platform: 'browser', outfile: join(out, `${name}.browser.js`) });
+};
+bundle('test/browser/scenario.ts', 'scenario', 'AmlScenario');
+bundle('test/browser/checks.ts', 'checks', 'AmlChecks');
 writeFileSync(join(out, 'sys-cases.json'), readFileSync('test/system/cases.json'));
 writeFileSync(join(out, 'gaps-cases.json'), readFileSync('test/gapsinfra/cases.json'));
 

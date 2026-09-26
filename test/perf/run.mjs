@@ -4,6 +4,7 @@
 //   node test/perf/run.mjs [dotnet,node,chromium,firefox,webkit] [file...]
 // Default files: test/corpus/MPS500_Integrated.aml (warm-up), then test/large/*.aml.
 import { execFileSync } from 'node:child_process';
+import { buildSync } from 'esbuild';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { basename, extname, join, resolve } from 'node:path';
@@ -18,9 +19,8 @@ if (files.length === 0) {
 }
 files = files.map((f) => resolve(f));
 
-const esbuild = (args) => execFileSync(process.execPath, ['node_modules/esbuild/bin/esbuild', 'test/perf/bench.ts', '--bundle', '--log-level=error', ...args], { stdio: 'inherit' });
-esbuild(['--format=esm', '--platform=node', `--outfile=${join(out, 'bench.node.mjs')}`]);
-esbuild(['--minify', '--format=iife', '--global-name=AmlBench', '--platform=browser', `--outfile=${join(out, 'bench.browser.js')}`]);
+buildSync({ entryPoints: ['test/perf/bench.ts'], bundle: true, logLevel: 'error', format: 'esm', platform: 'node', outfile: join(out, 'bench.node.mjs') });
+buildSync({ entryPoints: ['test/perf/bench.ts'], bundle: true, logLevel: 'error', minify: true, format: 'iife', globalName: 'AmlBench', platform: 'browser', outfile: join(out, 'bench.browser.js') });
 writeFileSync(join(out, 'page.html'), '<!doctype html><html><head><meta charset="utf-8"><title>AmlEngine.js benchmark</title></head><body></body></html>');
 writeFileSync(
   join(out, 'node-runner.mjs'),
