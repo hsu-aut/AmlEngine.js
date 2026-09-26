@@ -1,0 +1,99 @@
+file	origin	license
+06a587_Opc.Ua.Glass.v2.Types.xsd	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+083c42_AmlFxTest.xml	OPCF-Members/Opc2Aml on GitHub, SystemTest/NodeSetFiles	MIT, Copyright OPC Foundation
+09eedb_5_SUC.xml	AutomationML/AML-UA-XSLT on GitHub, NodeSets produced by its unit tests	MIT, Copyright 2021 AutomationML e.V.
+0f1239_Metadata.xml	AMLOpcUa plugin by the author, plugin metadata	MIT, this repository
+12a720_OpcUaGdsModel.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+1563f4_Opc.Ua.PlasticsRubber.Extrusion.Calender.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+1797cb_0_EmptyFile_generated.xml	AutomationML/AML-UA-XSLT on GitHub, unit tests	MIT, Copyright 2021 AutomationML e.V.
+1e5d96_Metadata.xml	AMLOpcUa plugin by the author, plugin metadata	MIT, this repository
+249a87_opc.ua.fx.ac.nodeset2.xml	OPC Foundation, UAFX NodeSets (OPC 10000-8x)	MIT (SPDX header where present), OPC Foundation
+256715_opc.ua.isa95-jobcontrol.nodeset2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+2921a6_Microsoft.Web.WebView2.Wpf.xml	Microsoft.Web.WebView2 NuGet package, API documentation	BSD-3-Clause, Copyright (C) Microsoft Corporation (see NOTICE)
+2ae1d2_Opc.Ua.PlasticsRubber.Extrusion.Extruder.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+2d0b32_Microsoft.Web.WebView2.WinForms.xml	Microsoft.Web.WebView2 NuGet package, API documentation	BSD-3-Clause, Copyright (C) Microsoft Corporation (see NOTICE)
+365a8a_LaserSystem-Example.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	MIT, Copyright VDMA e.V. (header in the file)
+3ab0b1_Opc.Ua.IRDI.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+3f47be_Machine.NodeSet2.xml	AMLOpcUa by the author, test NodeSets	MIT, this repository
+41be68_CAEX_ClassModel_V.3.0.xsd	CAEX 3.0 schema (IEC 62424) as distributed by AutomationML e.V. with Aml.Engine	MIT, Copyright AutomationML e.V.
+4c6c82_opc.ua.gms.types.xsd	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+4d7e21_Opc.Ua.PlasticsRubber.GeneralTypes.NodeSet2.xsd	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+56373c_Metadata.xml	AMLOpcUa plugin by the author, plugin metadata	MIT, this repository
+64bbb8_Opc.Ua.PlasticsRubber.Extrusion_v2.ExtrusionLine.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+6c969f_Mini.NodeSet2.xml	AMLOpcUa by the author, test NodeSets	MIT, this repository
+6d61f8_MetalForming_Example.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+8a333b_opc.ua.isa95-jobcontrol.types.xsd	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+8b5e20_Opc.Ua.IA.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+8b917c_Opc.Ua.AutoID.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+8f802f_Opc.Ua.Ijt.Tightening.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+8f9e9b_Opc.Ua.Di.NodeSet2.xml	OPC Foundation, DI NodeSet (OPCFoundation/UA-Nodeset)	OPC Foundation MIT License 1.00 (header in the file)
+95b10b_Opc.Ua.LADS.Types.xsd	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+98bd7e_opc.ua.fx.data.nodeset2.xml	OPC Foundation, UAFX NodeSets (OPC 10000-8x)	MIT (SPDX header where present), OPC Foundation
+994763_4_IH.xml	AutomationML/AML-UA-XSLT on GitHub, NodeSets produced by its unit tests	MIT, Copyright 2021 AutomationML e.V.
+9a563d_OCL.NET.Core.xml	OCL.NET by the author (github.com/HamiedNabizada/OCL.NET), API documentation	MIT
+a1c641_Opc.Ua.PlasticsRubber.Extrusion.Corrugator.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+a4e00a_Opc.Ua.PlasticsRubber.Extrusion.ExtrusionLine.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+a7b16f_Opc.Ua.PlasticsRubber.Extrusion_v2.Corrugator.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+aa2857_6_RCL.xml	AutomationML/AML-UA-XSLT on GitHub, NodeSets produced by its unit tests	MIT, Copyright 2021 AutomationML e.V.
+b12d56_2016_OPCF_UA-Nodeset-AML_Topology.xml	OPCFoundation/UA-Nodeset on GitHub, AML/Topology.xml	OPC Foundation MIT License 1.00 (header in the file)
+b554ac_Opc.Ua.IA.Types.xsd	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+be2ab5_0_EmptyFile_V2.1.xml	AutomationML/AML-UA-XSLT on GitHub, NodeSets produced by its unit tests	MIT, Copyright 2021 AutomationML e.V.
+be2db2_Deviations.xslt.xml	AMLOpcUa by the author, test fixture	MIT, this repository
+bffeab_Opc.Ua.CranesHoists.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+c44901_Types.xsd	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+c603d3_1_AMLBaseLibraries.xml	AutomationML/AML-UA-XSLT on GitHub, NodeSets produced by its unit tests	MIT, Copyright 2021 AutomationML e.V.
+c7eebe_Opc.Ua.PlasticsRubber.Extrusion.Cutter.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+d5c86d_Opc.Ua.AMLLibraries.NodeSet2.xml	AutomationML e.V. and OPC Foundation, NodeSets of the whitepaper "OPC UA for AutomationML" (2016)	no license stated; rights remain with the authors
+d7e145_Opc.Ua.Ijt.Tightening.Types.xsd	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+d8155d_opc.ua.gms.nodeset2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+d82a63_Types.xsd	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+dcd606_Opc.Ua.Fx.IOPModel.xml	OPCF-Members/Opc2Aml on GitHub, SystemTest/NodeSetFiles	MIT, Copyright OPC Foundation
+deep_3000_levels.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+e3bc92_Opc.Ua.PlasticsRubber.Extrusion.HaulOff.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+e8db88_10_RefSemantic.xml	AutomationML/AML-UA-XSLT on GitHub, NodeSets produced by its unit tests	MIT, Copyright 2021 AutomationML e.V.
+ea79e9_11_Constraints.xml	AutomationML/AML-UA-XSLT on GitHub, NodeSets produced by its unit tests	MIT, Copyright 2021 AutomationML e.V.
+eb500e_Opc.Ua.PlasticsRubber.Extrusion_v2.Die.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+edge01_nows.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge02_ws.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge03_escape.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge04_cdata.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge05_ns.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge06_misc.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge07_eol.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge08_unicode.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge09_bom.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge10_latin1.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge11_wsrefs.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge12_xsi.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge13_comment.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge14_ws2.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge15_doctype.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge16_mixedws.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge17_prefix.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge18_amp.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge19_bad_unclosed.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge20_bad_mismatch.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge21_bad_dupattr.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge22_bad_entity.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge23_bad_prefix.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge24_bad_tworoots.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge25_utf16decl.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge26_entities.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge27_entity_markup.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge28_entity_external.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge29_entity_recursive.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge30_entity_undeclared.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge31_entity_redeclared.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge32_entity_ws.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge33_entity_bomb.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge34_supp_text.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge35_supp_name_start.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge36_supp_name_rest.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge37_supp_attr.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+edge38_supp_plane15.xml	written for these tests (edge cases of the XML parser and writer)	MIT, this repository
+f07a63_Opc.Ua.IA.NodeSet2.examples.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	no license header; the NodeSets of the repository are under the OPC Foundation MIT License
+f91f64_9_ExtInt_IntLink.xml	AutomationML/AML-UA-XSLT on GitHub, NodeSets produced by its unit tests	MIT, Copyright 2021 AutomationML e.V.
+fa1700_Opc.Ua.PlasticsRubber.Extrusion.Filter.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+fc035c_Opc.Ua.PlasticsRubber.Extrusion_v2.Cutter.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)
+fc4298_Topology.xml	AutomationML e.V. and OPC Foundation, NodeSets of the whitepaper "OPC UA for AutomationML" (2016)	no license stated; rights remain with the authors
+fcbcf9_Opc.Ua.Machinery_Result.NodeSet2.xml	OPCFoundation/UA-Nodeset on GitHub (companion specifications)	OPC Foundation MIT License 1.00 (header in the file)

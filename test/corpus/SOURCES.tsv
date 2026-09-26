@@ -1,63 +1,64 @@
-0_EmptyFile_V2.0.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/0_EmptyFile_V2.0.aml
-0_EmptyFile_V2.1.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/0_EmptyFile_V2.1.aml
-10_RefSemantic.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/10_RefSemantic.aml
-11_Constraints.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/11_Constraints.aml
-12_MirrorObject.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/12_MirrorObject.aml
-13_Facet.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/13_Facet.aml
-1_AMLBaseLibraries.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/1_AMLBaseLibraries.aml
-2_IE.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/2_IE.aml
-3_IE_Attribute.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/3_IE_Attribute.aml
-4_IH.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/4_IH.aml
-5_SUC.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/5_SUC.aml
-6_RCL.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/6_RCL.aml
-7_ICL.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/7_ICL.aml
-8_AMLAttributeLibrary.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/8_AMLAttributeLibrary.aml
-9_ExtInt_IntLink.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/aml-ua-xslt/AML/9_ExtInt_IntLink.aml
-Deviations.aml	./AML/AMLOpcUa/dotnet/OpcUaAml.Tests/Fixtures/export/Deviations.aml
-AutomationML_ObjectReferences_AttributeTypeLib_AMLEd2_1.1.1-beta.aml	./AML/AMLOpcUa/libraries/AutomationML_ObjectReferences_AttributeTypeLib_AMLEd2_1.1.1-beta.aml
-MPS500_QualityCheck.aml	./AML/AMLPetriNet/dotnet/PtMapper.Web/wwwroot/examples/MPS500_QualityCheck.aml
-Bridging.aml	./AML/AMLPetriNet/examples/editor-test/Bridging.aml
-QualityGate.aml	./AML/AMLPetriNet/examples/editor-test/QualityGate.aml
-BridgingExample_MPS500.aml	./AML/AMLPetriNet/examples/paper/BridgingExample_MPS500.aml
-MPS500_PT_export.aml	./AML/AMLPetriNet/examples/paper/MPS500_PT_export.aml
-quality-gate.aml	./AML/AMLPetriNet/examples/quality-gate.aml
-ISO_PT_DomainLibrary_v0.3.aml	./AML/AMLPetriNet/libraries/ISO_PT_DomainLibrary_v0.3.aml
-OMG_DD_AttributeTypeLib_v0.1.aml	./AML/AMLPetriNet/libraries/OMG_DD_AttributeTypeLib_v0.1.aml
-AssetAdministrationShellLib_Full.aml	./AML/OPCUA/_Sources/Examples/AR_AAS_Representation/AssetAdministrationShellLib  - Full.aml
-AssetAdministrationShellLib.aml	./AML/OPCUA/_Sources/Examples/AR_AAS_Representation/AssetAdministrationShellLib.aml
-UnifiedAASExampleVWSiD2.0.aml	./AML/OPCUA/_Sources/Examples/AR_AAS_Representation/UnifiedAASExampleVWSiD2.0.aml
-AutomationML_ARAPC_Libraries_AMLEd1_1.4.0.aml	./AML/OPCUA/_Sources/Examples/AR_APC/AutomationML_ARAPC_Libraries_AMLEd1_1.4.0.aml
-2017-02-20_DataVariable.aml	./AML/OPCUA/_Sources/Examples/AutomationMLeV/2017-02-20_DataVariable.aml
-CommunicationInterfaceClassLib_V1.0.0.aml	./AML/OPCUA/_Sources/Examples/AutomationMLeV/CommunicationInterfaceClassLib_V1.0.0.aml
-CommunicationRoleClassLib_V1.0.1.aml	./AML/OPCUA/_Sources/Examples/AutomationMLeV/CommunicationRoleClassLib_V1.0.1.aml
-I40_UA-AML-Example.aml	./AML/OPCUA/_Sources/Examples/AutomationMLeV/I40_UA-AML-Example.aml
-Manifest.aml	./AML/OPCUA/_Sources/Examples/BucketMTP/Manifest.aml
-MTPPy_example_minimal_manifest.aml	./AML/OPCUA/_Sources/Examples/MTPPy_example_minimal_manifest.aml
-MTPPy_mtp_example.aml	./AML/OPCUA/_Sources/Examples/MTPPy_mtp_example.aml
-Manifest_2.aml	./AML/OPCUA/_Sources/Examples/ZVEI/Manifest.aml
-Topology.aml	./AML/OPCUA/_Sources/NodeSets/2016_AutomationMLeV_Whitepaper-bundle/Topology.aml
-2016_OPCF_UA-Nodeset-AML_Topology.aml	./AML/OPCUA/_Sources/NodeSets/2016_OPCF_UA-Nodeset-AML_Topology.aml
-VDI3682_Lib_v0.1.aml	./AML/VDI3682_Lib_v0.1.aml
-DemoLib.aml	./AML/automationml-mcp/examples/DemoLib.aml
-legacy-caex215.aml	./AML/automationml-mcp/examples/legacy-caex215.aml
-plant.aml	./AML/automationml-mcp/examples/plant.aml
-Showcase-A-WaermetauscherMitRegelung.aml	./AML/fpb-aml-editor-plugin/examples/Showcase-A-WaermetauscherMitRegelung.aml
-Showcase-B-PharmaChargeUndReinigung.aml	./AML/fpb-aml-editor-plugin/examples/Showcase-B-PharmaChargeUndReinigung.aml
-Showcase-C-CncRobotikMontage.aml	./AML/fpb-aml-editor-plugin/examples/Showcase-C-CncRobotikMontage.aml
-VDI_FPD_DomainLibrary_v0.7.aml	./AML/fpb-aml-mapper/public/VDI_FPD_DomainLibrary_v0.7.aml
-ObjectReferences_AttributeTypeLib.aml	./AML/objectreferences-aml-editor-plugin/Aml.Editor.Plugin.ObjectReferences/Resources/ObjectReferences_AttributeTypeLib.aml
-MPS500_QualityCheck_2.aml	./AML/petrinet-aml-editor-plugin/dotnet/PtMapper.Web/wwwroot/examples/MPS500_QualityCheck.aml
-Bridging_2.aml	./AML/petrinet-aml-editor-plugin/examples/editor-test/Bridging.aml
-QualityGate_2.aml	./AML/petrinet-aml-editor-plugin/examples/editor-test/QualityGate.aml
-quality-gate_2.aml	./AML/petrinet-aml-editor-plugin/examples/quality-gate.aml
-ISO_PT_DomainLibrary_v0.3_2.aml	./AML/petrinet-aml-editor-plugin/libraries/ISO_PT_DomainLibrary_v0.3.aml
-AutomationML_Base_Libraries_AMLEd2_2.11.0.aml	./MPS500/AML/AutomationML_Base_Libraries_AMLEd2_2.11.0.aml
-MPS500_FPD.aml	./MPS500/AML/MPS500_FPD.aml
-MPS500_Integrated.aml	./MPS500/AML/MPS500_Integrated.aml
-MPS500_PlantStructure.aml	./MPS500/AML/MPS500_PlantStructure.aml
-Bohrmodul_FPD.aml	./MPS500/Schnitt/Bohrmodul_FPD.aml
-Bohrmodul_Schnitt.aml	./MPS500/Schnitt/Bohrmodul_Schnitt.aml
-test.aml	./OclNet/tests/OCL.NET.Caex.Tests/TestData/test.aml
-EFL_DomainLibrary_v0.1.0.aml	./graphical-editor-playbook/starter/examples/EFL_DomainLibrary_v0.1.0.aml
-bottling-line.elements.aml	./graphical-editor-playbook/starter/examples/bottling-line.elements.aml
-bottling-line.links.aml	./graphical-editor-playbook/starter/examples/bottling-line.links.aml
+file	origin	license
+0_EmptyFile_V2.0.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+0_EmptyFile_V2.1.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+10_RefSemantic.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+11_Constraints.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+12_MirrorObject.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+13_Facet.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+1_AMLBaseLibraries.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+2_IE.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+3_IE_Attribute.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+4_IH.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+5_SUC.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+6_RCL.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+7_ICL.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+8_AMLAttributeLibrary.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+9_ExtInt_IntLink.aml	AutomationML/AML-UA-XSLT on GitHub, unit test inputs (commit a144dcc)	MIT, Copyright 2021 AutomationML e.V.
+Deviations.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+AutomationML_ObjectReferences_AttributeTypeLib_AMLEd2_1.1.1-beta.aml	AutomationML e.V., object references library (beta)	no license stated; rights remain with AutomationML e.V.
+MPS500_QualityCheck.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+Bridging.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+QualityGate.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+BridgingExample_MPS500.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+MPS500_PT_export.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+quality-gate.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+ISO_PT_DomainLibrary_v0.3.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+OMG_DD_AttributeTypeLib_v0.1.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+AssetAdministrationShellLib_Full.aml	AutomationML e.V., examples of AR 004E "Asset Administration Shell Representation"	no license stated; rights remain with AutomationML e.V.
+AssetAdministrationShellLib.aml	AutomationML e.V., examples of AR 004E "Asset Administration Shell Representation"	no license stated; rights remain with AutomationML e.V.
+UnifiedAASExampleVWSiD2.0.aml	AutomationML e.V., examples of AR 004E "Asset Administration Shell Representation"	no license stated; rights remain with AutomationML e.V.
+AutomationML_ARAPC_Libraries_AMLEd1_1.4.0.aml	AutomationML e.V., library of the AR "Automation Project Configuration" V1.4.0	no license stated; rights remain with AutomationML e.V.
+2017-02-20_DataVariable.aml	AutomationML e.V., examples of BPR 007E "DataVariable" and the whitepapers "Communication" and "OPC UA for AutomationML"	no license stated; rights remain with AutomationML e.V.
+CommunicationInterfaceClassLib_V1.0.0.aml	AutomationML e.V., examples of BPR 007E "DataVariable" and the whitepapers "Communication" and "OPC UA for AutomationML"	no license stated; rights remain with AutomationML e.V.
+CommunicationRoleClassLib_V1.0.1.aml	AutomationML e.V., examples of BPR 007E "DataVariable" and the whitepapers "Communication" and "OPC UA for AutomationML"	no license stated; rights remain with AutomationML e.V.
+I40_UA-AML-Example.aml	AutomationML e.V., examples of BPR 007E "DataVariable" and the whitepapers "Communication" and "OPC UA for AutomationML"	no license stated; rights remain with AutomationML e.V.
+Manifest.aml	P2O-Lab, Helmut Schmidt University Hamburg, MTP example BucketMTP v1.0.0 (Copyright P2O-Lab 2019)	no license stated; rights remain with P2O-Lab
+MTPPy_example_minimal_manifest.aml	p2o-lab/MTPPy on GitHub, manifest_files	MIT, Copyright (c) 2022 Valentin Khaydarov, Tobias Kock, Xinyu Wang
+MTPPy_mtp_example.aml	p2o-lab/MTPPy on GitHub, manifest_files	MIT, Copyright (c) 2022 Valentin Khaydarov, Tobias Kock, Xinyu Wang
+Manifest_2.aml	ZVEI, MTP example "Ruehrreaktor" v4	no license stated; rights remain with ZVEI
+Topology.aml	AutomationML e.V. and OPC Foundation, example of the whitepaper "OPC UA for AutomationML" (2016)	no license stated; rights remain with the authors
+2016_OPCF_UA-Nodeset-AML_Topology.aml	OPCFoundation/UA-Nodeset on GitHub, AML/Topology.aml	no license stated; rights remain with the OPC Foundation
+VDI3682_Lib_v0.1.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+DemoLib.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+legacy-caex215.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+plant.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+Showcase-A-WaermetauscherMitRegelung.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+Showcase-B-PharmaChargeUndReinigung.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+Showcase-C-CncRobotikMontage.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+VDI_FPD_DomainLibrary_v0.7.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+ObjectReferences_AttributeTypeLib.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+MPS500_QualityCheck_2.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+Bridging_2.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+QualityGate_2.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+quality-gate_2.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+ISO_PT_DomainLibrary_v0.3_2.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+AutomationML_Base_Libraries_AMLEd2_2.11.0.aml	AutomationML e.V., standard libraries as shipped with AutomationML Editor 2 (the libraries of Aml.Engine.Resources)	MIT, Copyright AutomationML e.V.
+MPS500_FPD.aml	own work of the author: models of the Festo Didactic MPS 500-FMS lab plant (Helmut Schmidt University Hamburg)	MIT, this repository
+MPS500_Integrated.aml	own work of the author: models of the Festo Didactic MPS 500-FMS lab plant (Helmut Schmidt University Hamburg)	MIT, this repository
+MPS500_PlantStructure.aml	own work of the author: models of the Festo Didactic MPS 500-FMS lab plant (Helmut Schmidt University Hamburg)	MIT, this repository
+Bohrmodul_FPD.aml	own work of the author: models of the Festo Didactic MPS 500-FMS lab plant (Helmut Schmidt University Hamburg)	MIT, this repository
+Bohrmodul_Schnitt.aml	own work of the author: models of the Festo Didactic MPS 500-FMS lab plant (Helmut Schmidt University Hamburg)	MIT, this repository
+test.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+EFL_DomainLibrary_v0.1.0.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+bottling-line.elements.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository
+bottling-line.links.aml	own work of the author (Helmut Schmidt University Hamburg)	MIT, this repository

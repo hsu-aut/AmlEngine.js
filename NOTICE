@@ -27,3 +27,50 @@ under the license above.
 
 AMLX containers are read and written with fflate (https://github.com/101arrowz/fflate),
 MIT License, Copyright (c) 2023 Arjun Barrett.
+
+Test inputs. test/corpus/SOURCES.tsv names origin and license of every CAEX file in test/corpus
+(test/validation/cases holds modified copies of them), test/xml-corpus.sources.tsv of every file
+in test/xml-corpus. Most are the author's own work (MIT, this repository). Of the others:
+- the unit test inputs and outputs of AutomationML/AML-UA-XSLT
+  (https://github.com/AutomationML/AML-UA-XSLT), MIT License, Copyright 2021 AutomationML e.V.,
+  and the AutomationML standard libraries and the CAEX 3.0 schema, MIT License, Copyright
+  AutomationML e.V., both under the license text above;
+- NodeSets of the OPC Foundation (https://github.com/OPCFoundation/UA-Nodeset) and of
+  OPCF-Members/Opc2Aml, under the OPC Foundation MIT License stated in the files;
+- two manifests of p2o-lab/MTPPy (https://github.com/p2o-lab/MTPPy): MIT License, Copyright (c)
+  2022 Valentin Khaydarov, Tobias Kock, Xinyu Wang;
+- published examples of AutomationML e.V., the P2O-Lab of Helmut Schmidt University Hamburg,
+  ZVEI and the OPC Foundation without a stated license. They are included unchanged, only as
+  test inputs, with their origin named; all rights remain with their owners. Owners who do not
+  want a file here can ask for its removal.
+
+Two API documentation files of the NuGet package Microsoft.Web.WebView2 in test/xml-corpus are
+distributed under the following license:
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+   * Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following disclaimer
+in the documentation and/or other materials provided with the
+distribution.
+   * The name of Microsoft Corporation, or the names of its contributors
+may not be used to endorse or promote products derived from this
+software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

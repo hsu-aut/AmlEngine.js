@@ -110,7 +110,10 @@ records runs with other seeds and larger sizes than the committed inputs.
 
 Aml.Engine and the AutomationML standard libraries in `src/engine/resources/libraries/`
 (Aml.Engine.Resources) are MIT licensed by AutomationML e.V.; AMLX containers use
-[fflate](https://github.com/101arrowz/fflate) (MIT). See [NOTICE](NOTICE).
+[fflate](https://github.com/101arrowz/fflate) (MIT). The test corpus contains, besides the
+author's own files, published examples of AutomationML e.V., P2O-Lab, ZVEI and the OPC
+Foundation, used unchanged as test inputs; origin and license of each file are in
+`test/corpus/SOURCES.tsv` and `test/xml-corpus.sources.tsv`. See [NOTICE](NOTICE).
 
 ## License
 
