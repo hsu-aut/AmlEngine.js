@@ -1,5 +1,6 @@
 // Port of Aml.Engine.Schema.AMLSchemaManager3_0.
 
+import { Fixes } from '../fixes.js';
 import { XElement, XNamespace, type XName } from '../../xml/index.js';
 import { from } from '../../system/linq.js';
 import { T } from '../registry.js';
@@ -89,7 +90,13 @@ export class AMLSchemaManager3_0 extends AMLSchemaManager {
     caexFileNode.name = AMLSchemaManager3_0.caexNamespace.getName(caexFileNode.name.localName);
     this.makeAml(caexFileNode);
     this.insertNew(caexFileNode, this.name('SourceDocumentInformation'));
-    from(caexFileNode.elements('AdditionalInformation')).firstOrDefault((a) => a.attribute('AutomationMLVersion') !== null)?.remove();
+    // After a conversion the children are already in the CAEX namespace, so the original finds
+    // nothing and the CAEX 2.15 version information stays. Fix conversionAutomationMLVersion: the
+    // element is found in either namespace.
+    const elements = Fixes.enabled('conversionAutomationMLVersion', caexFileNode)
+      ? from(caexFileNode.elements()).where((e) => e.name.localName === 'AdditionalInformation')
+      : from(caexFileNode.elements('AdditionalInformation'));
+    elements.firstOrDefault((a) => a.attribute('AutomationMLVersion') !== null)?.remove();
   }
 
   /**

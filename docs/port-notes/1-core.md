@@ -154,13 +154,14 @@ other batches at that time).
 - `CAEXTypeDictionary`: the creator for the key of tag `AttributeType` (`AttributeTypeType`)
   creates an `AttributeFamilyType`.
 - `CaexObjectWithReference.reference` setter passes the object itself to `SetXAttributeValue`, so
-  the attribute gets `ToString()` of the object (its Name), not its path.
+  the attribute gets `ToString()` of the object (its Name), not its path. Correctable: fix `referenceSetter` (docs/fixes.md).
 - `CAEXSequence.At(index)` throws ArgumentOutOfRangeException although documented to return null;
   `First`/`Last` of an empty sequence return a wrapper without node (the create function is called
   with null), except for InternalElementSequence which returns null.
 - `CAEXSequence.InsertAt` computes an import copy (and may transform/extend external references)
   before falling back to `Insert`, which copies again.
 - `CAEXWrapper<TDataType>` for bool writes "True"/"False" (bool.ToString()) into the element.
+  The engine never uses a bool wrapper, so this cannot be reached through its API.
 - `ElementValueConverter<object>.ConvertFrom` has an unreachable `ReadInnerXml` branch.
 - The name path indexer `item('A', 'B')` of an InstanceHierarchy or InternalElement sequence
   returns null: `SystemUnitClassType.Container<InternalElementType>()` falls back to the base

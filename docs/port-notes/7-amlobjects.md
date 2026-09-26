@@ -192,7 +192,7 @@ Differences (documented, not reproduced):
   `doc.CAEXFile.InterfaceClassLib["AutomationMLLogicInterfaceClassLib"]` (null for the PLCopen
   library) and `IsLoaded` checks the Logic library name.
 - `AMLFile.AutomationMLVersion` setter (CAEX 3.0): if a SuperiorStandardVersion
-  "AutomationML ..." exists, only the field `ElementValue.Value` is assigned; the XML is unchanged.
+  "AutomationML ..." exists, only the field `ElementValue.Value` is assigned; the XML is unchanged. Correctable: fix `automationMLVersionSetter` (docs/fixes.md).
   The getter throws ArgumentOutOfRangeException for a SuperiorStandardVersion "AutomationML".
 - Facet sequences: the parameterless `Append()`/`Prepend()` always return null (and append nothing
   for a facet owner); `Append(name)`/`Prepend(name)` on a non-facet owner append an element and
@@ -204,7 +204,7 @@ Differences (documented, not reproduced):
 - `AutomationMLContainer.RelinkPart(Uri, Uri)` (obsolete) looks for relationships of the part to
   itself (`part.GetRelationships()` with target = the part), so relationships of other parts
   still target the old URI (verified with the oracle); without package relationship the new
-  relationship type name is null.
+  relationship type name is null. Correctable: fix `relinkPartRelationships` (docs/fixes.md).
 - `MimeTypeMap.BuildMappings` also adds the reverse of the MIME type entries of the table, which
   duplicates values ('.mov' -> [video/quicktime, video/quicktime], 'text/xml' contains '.xml'
   twice); `IsXmlText` / `GetMimeType` return these lists.

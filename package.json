@@ -26,7 +26,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:browser": "node test/browser/run.mjs",
-    "oracle": "bash scripts/oracle.sh"
+    "oracle": "bash scripts/oracle.sh",
+    "check-upstream": "node scripts/check-upstream.mjs"
   },
   "keywords": [
     "automationml",

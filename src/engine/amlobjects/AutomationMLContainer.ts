@@ -6,6 +6,8 @@
 // with `fullName`. File system access (paths, Extract) needs Node (node:fs); in a browser only
 // the stream based members work.
 
+import { Fixes } from '../fixes.js';
+import { fixSet, type Fix, type FixSelection } from '../fixes.js';
 import { T } from '../registry.js';
 import { registerInterfaces } from '../interfaces.js';
 import { from, invariantCompare, type Enumerable } from '../../system/linq.js';
@@ -25,6 +27,7 @@ import {
   TargetMode,
   uriEquals,
   type PackagePartCollection,
+  type PackageRelationship,
   type PackageRelationshipCollection,
 } from './packaging/Package.js';
 
@@ -135,6 +138,20 @@ export class AutomationMLContainer_RelationshipType {
  * COLLADA, PLCopen XML, schemas, any content) and can be retrieved and extracted.
  */
 export class AutomationMLContainer {
+  private _fixes: ReadonlySet<Fix> | null = null;
+
+  /**
+   * Not in Aml.Engine: the data errors of the original corrected for this container (docs/fixes.md).
+   * Null, the initial value, uses Fixes.default. Set a list of names, 'all' or 'none'.
+   */
+  get fixes(): ReadonlySet<Fix> | null {
+    return this._fixes;
+  }
+
+  set fixes(selection: FixSelection | null) {
+    this._fixes = selection === null ? null : fixSet(selection);
+  }
+
   /** Nested class AutomationMLContainer.RelationshipType. */
   static readonly RelationshipType = AutomationMLContainer_RelationshipType;
 
@@ -472,6 +489,9 @@ export class AutomationMLContainer {
     if (part == null) {
       return false;
     }
+    if (Fixes.enabled('relinkPartRelationships', this)) {
+      return this.relinkPartKeepingRelationships(part, oldPartUri, newPartUri);
+    }
     const stream = part.getStream();
     const memoryStream = new MemoryStream();
     try {
@@ -495,6 +515,55 @@ export class AutomationMLContainer {
       const relationShipType = new AutomationMLContainer_RelationshipType(list2.length > 0 ? list2[0]!.relationshipType : null, part.contentType);
       part.package.deletePart(oldPartUri);
       this.addPackagePart(memoryStream, newPartUri, relationShipType, list2.length > 0, list3.length > 0 ? list3[0]! : null);
+      return true;
+    } finally {
+      memoryStream.dispose();
+      stream.dispose();
+    }
+  }
+
+  /**
+   * Fix relinkPartRelationships: the original looks for the relationships of the part to itself
+   * instead of those of the other parts to the part, so they keep the old URI, and it drops the
+   * relationships of the part to other parts. Here every relationship to the part moves to the new
+   * URI with its type and mode, and the part keeps its own relationships.
+   */
+  private relinkPartKeepingRelationships(part: PackagePart, oldPartUri: Uri, newPartUri: Uri): boolean {
+    const stream = part.getStream();
+    const memoryStream = new MemoryStream();
+    try {
+      stream.copyTo(memoryStream);
+      stream.close();
+      const incoming: [PackagePart, PackageRelationship][] = [];
+      for (const source of from<PackagePart>(this._package!.getParts()).toList()) {
+        if (source === part || source.isRelationshipPart) continue;
+        for (const r of from<PackageRelationship>(source.getRelationships()).toList()) {
+          if (uriEquals(r.targetUri, oldPartUri)) incoming.push([source, r]);
+        }
+      }
+      const outgoing = from<PackageRelationship>(part.getRelationships()).toList();
+      const packageRelationships = from<PackageRelationship>(part.package.getRelationships())
+        .where((r) => uriEquals(r.targetUri, oldPartUri))
+        .toList();
+      for (const r of packageRelationships) {
+        part.package.deleteRelationship(r.id);
+      }
+      for (const [source, r] of incoming) {
+        source.deleteRelationship(r.id);
+      }
+      const relationShipType = new AutomationMLContainer_RelationshipType(
+        packageRelationships[0]?.relationshipType ?? incoming[0]?.[1].relationshipType ?? AutomationMLContainer_RelationshipType.AnyContent.name,
+        part.contentType,
+      );
+      part.package.deletePart(oldPartUri);
+      const newPart = this.addPackagePart(memoryStream, newPartUri, relationShipType, packageRelationships.length > 0);
+      for (const [source, r] of incoming) {
+        source.createRelationship(newPartUri, r.targetMode, r.relationshipType);
+      }
+      for (const r of outgoing) {
+        newPart.createRelationship(uriEquals(r.targetUri, oldPartUri) ? newPartUri : r.targetUri, r.targetMode, r.relationshipType);
+      }
+      this._package!.flush();
       return true;
     } finally {
       memoryStream.dispose();

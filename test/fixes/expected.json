@@ -1,0 +1,44 @@
+{
+ "values": {
+  "b64text": "hällo",
+  "b64ascii": "plain text",
+  "b64bytes": "hi!",
+  "boolOne": true,
+  "boolZero": false,
+  "boolTextOne": true,
+  "boolTextZero": false,
+  "boolDouble": true,
+  "boolLong": true
+ },
+ "references": {
+  "Lib/A": "Lib/B",
+  "Lib/B/Inner": "Lib/A",
+  "RCL/R1": "RCL/R2",
+  "ICL/I1": "ICL/I2"
+ },
+ "automationMLVersion": "2.1",
+ "internalLink": {
+  "name": "Pipe",
+  "a": "A:Out",
+  "b": "B:In"
+ },
+ "conversion": {
+  "schema": "3.0",
+  "automationMLVersionAttributes": 0
+ },
+ "streaming": [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E"
+ ],
+ "relink": {
+  "/plant.aml": [
+   "/lib/b.aml"
+  ],
+  "/lib/b.aml": [
+   "/plant.aml"
+  ]
+ }
+}

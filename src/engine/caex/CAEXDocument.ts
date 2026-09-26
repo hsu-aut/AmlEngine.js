@@ -1,5 +1,6 @@
 // Port of Aml.Engine.CAEX.CAEXDocument (with the nested CAEXSchema enum and Commanding class).
 
+import { fixSet, type Fix, type FixSelection } from '../fixes.js';
 import {
   XDocument,
   XElement,
@@ -207,6 +208,20 @@ export class CAEXDocument extends XDocumentWrapper implements IAMLFile {
   private _schema: CAEXDocument_CAEXSchema = CAEXDocument_CAEXSchema.Unknown;
 
   private _isTransformationActive = false;
+
+  private _fixes: ReadonlySet<Fix> | null = null;
+
+  /**
+   * Not in Aml.Engine: the data errors of the original corrected for this document (docs/fixes.md).
+   * Null, the initial value, uses Fixes.default. Set a list of names, 'all' or 'none'.
+   */
+  get fixes(): ReadonlySet<Fix> | null {
+    return this._fixes;
+  }
+
+  set fixes(selection: FixSelection | null) {
+    this._fixes = selection === null ? null : fixSet(selection);
+  }
 
   private static readonly Utf8NoBom = new TextEncoder();
 
@@ -660,6 +675,8 @@ export class CAEXDocument extends XDocumentWrapper implements IAMLFile {
       return this;
     }
     const cAEXDocument = CAEXDocument.loadFromStream(this.saveToStream(true));
+    // not in Aml.Engine: the transformed document keeps the corrections of this one
+    cAEXDocument._fixes = this._fixes;
     ServiceLocator.undoRedoService?.pause(cAEXDocument);
     switch (targetSchema) {
       case CAEXDocument_CAEXSchema.CAEX2_15:

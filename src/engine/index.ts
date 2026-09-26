@@ -189,6 +189,7 @@ import './caex/extensions/SystemUnitFamilyTypeExtensions.js';
 import './caex/extensions/TokenEncoder.js';
 import './caex/linq/CAEXSequenceExtension.js';
 import './cycles.js';
+import './fixes.js';
 import './fluent.js';
 import './interfaces.js';
 import './registry.js';

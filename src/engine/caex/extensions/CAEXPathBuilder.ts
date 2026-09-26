@@ -4,6 +4,7 @@
 // Replace, Split and Trim, exceptions of String.Remove/Substring and of array and list indexers.
 // The path scanners work on UTF-16 code units like the C# char loops.
 
+import { Fixes } from '../../fixes.js';
 import { XElement, XName } from '../../../xml/index.js';
 import { ArgumentException, ArgumentNullException, ArgumentOutOfRangeException, IndexOutOfRangeException } from '../../../system/exceptions.js';
 import { isNullOrEmpty, isNullOrWhiteSpace } from '../../../system/strings.js';
@@ -601,7 +602,10 @@ export class CAEXPathBuilder {
     }
     let text: string | null = element.attribute('ID')?.value ?? null;
     if (isNullOrEmpty(text)) {
-      element.setAttributeValue('ID', ServiceLocator.idService!.generateNewID());
+      const id = ServiceLocator.idService!.generateNewID();
+      element.setAttributeValue('ID', id);
+      // Fix internalLinkPartnerId: the original returns the old, empty ID.
+      if (Fixes.enabled('internalLinkPartnerId', element)) text = id;
     } else if (text[0] === '{') {
       element.setAttributeValue('ID', (text = trimChars(text, ['{', '}'])));
     }

@@ -151,13 +151,14 @@ Behaviour confirmed with Aml.Engine 4.5.2 where marked (probe run under the inva
 - gDay/gMonth/gYear: encoding writes `---05`/`--05--`/`2024`, decoding expects a plain number,
   so the encoded day/month reads back as the string `---05` (confirmed). A day 40 makes the
   encoder throw inside the try, the value becomes null and the element empty (confirmed).
+  Reading back is correctable: fix `datePartValues` (docs/fixes.md).
 - xs:base64Binary is not a "string value", so encoding writes `value.ToString()` unencoded,
-  while decoding base64-decodes: `hällo` reads back as `''` (confirmed).
+  while decoding base64-decodes: `hällo` reads back as `''` (confirmed). Correctable: fix `base64Binary` (docs/fixes.md).
 - `IsValidStringValue` for xs:hexBinary throws ArgumentOutOfRangeException on an odd length
   (confirmed) and a TypeError (NullReferenceException) for null.
 - xs:QName validation (LocalNameEncoder) rejects names without a prefix (confirmed:
   `ab` -> "not a valid QName").
-- xs:boolean with an int 1 encodes as `false` (bool.TryParse("1") fails, fallback, confirmed).
+- xs:boolean with an int 1 encodes as `false` (bool.TryParse("1") fails, fallback, confirmed). Correctable: fix `booleanFromNumber` (docs/fixes.md).
 - `AttributeValueRequirementType.Insert(CAEXWrapper, ...)` returns `NominalScaledType != null`,
   which is always true; `Insert(int, ...)` falls back to the base for unknown types while the
   other overload throws NotImplementedException.

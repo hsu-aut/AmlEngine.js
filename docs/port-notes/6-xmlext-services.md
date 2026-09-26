@@ -155,7 +155,9 @@ streaming reader, XMLSignature, profile JSON and password encryption.
 - XmlCAEXMapping: `XPathSelectElements("./RoleRequirements | ./SupportedRoleClass")` matches only
   children in no namespace, so for CAEX 3.0 documents RoleReferenceToMapping /
   MappingPathToRoleReference never find role references below an InternalElement (implemented as
-  local name AND empty namespace, document order).
+  local name AND empty namespace, document order). Not reachable: RoleFromMapping calls
+  RoleReferenceToMapping for CAEX 2.15 only (no namespace), and MappingPathToRoleReference has no
+  caller.
 - `IsInterfaceAttributeReferenceWithID` evaluates RoleAttributeName twice (the second lookup was
   probably meant for SystemUnitAttributeName).
 - `XmlOperation.MasterAttribute` reads `refAttribute.Value` before its null check;
@@ -165,7 +167,7 @@ streaming reader, XMLSignature, profile JSON and password encryption.
 - DocumentStreaming: after `XNode.ReadFrom` the loop's `Read()` skips the next node, so in the
   byte variant an element directly following a matched element (no whitespace between) is not
   seen (neither matched nor tested with canClose); the same happens to adjacent Revision
-  elements in DocumentVersions.
+  elements in DocumentVersions. Correctable: fix `streamingAdjacentElements` (docs/fixes.md).
 - `XMLSignature.LoadXml` always creates a KeyInfo (even without a KeyInfo element); `GetXml`
   afterwards throws because its KeyValue is null.
 - `AMLLibraryServerProfile.CanTryLogin` is `_invalidTries <= 3` (MaxTries unused), `Block` sets

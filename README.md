@@ -54,12 +54,23 @@ classes, or attributes that mirror each other) some members of Aml.Engine recurs
 without end. The port throws `CyclicReferenceException` there instead of freezing the page
 ([docs/deviations.md](docs/deviations.md), "Calls that do not return").
 
+By default the port also reproduces the errors of Aml.Engine, so that documents behave in the
+AutomationML Editor and other .NET tools exactly as those written with the original. Ten of these
+errors lose or corrupt data (for example base64 values that do not read back, or references
+written as names instead of paths). Each can be corrected per document or for all documents:
+`doc.fixes = 'all'` or `Fixes.default = ['base64Binary', ...]`. The list, and how each
+correction is checked against the original, is in [docs/fixes.md](docs/fixes.md).
+
 ## Verification
 
 `oracle/` is a .NET 8 console program that runs the real Aml.Engine 4.5.2. The tests run the
 same operations with both engines and compare the results exactly; only random GUIDs and
 timestamps of "now" are masked. The oracle outputs are generated with `npm run oracle`
 (.NET 8 SDK, Windows, time zone Europe/Berlin) and are not in the repository.
+
+The port follows Aml.Engine 4.5.2. `npm test` warns when NuGet has a newer release
+(`npm run check-upstream` checks alone); [docs/upgrading-aml-engine.md](docs/upgrading-aml-engine.md)
+describes how to follow it.
 
 | Test | What is compared |
 |---|---|
@@ -71,6 +82,8 @@ timestamps of "now" are masked. The oracle outputs are generated with `npm run o
 | `test/engine/values` | typed attribute values of every data type |
 | `test/engine/amlobjects` | AutomationML objects, standard libraries, AMLX containers |
 | `test/engine/gaps*` | everything the tests above leave out |
+| `test/engine/noreturn`, `reads` (`cyclic-*`) | calls that do not return in the original: the port throws exactly there |
+| `test/engine/fixes` | the optional corrections: files written with them, read by the original |
 
 [docs/coverage.md](docs/coverage.md) lists the functions of the port that no comparison
 executes, with the reasons in `docs/coverage-notes/`.

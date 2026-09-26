@@ -13,6 +13,7 @@
 // asynchronous variants (…Async) use fetch for http(s) URLs and the GitHub service, and
 // node:fs for local files.
 
+import { Fixes } from '../fixes.js';
 import { T } from '../registry.js';
 import { ArgumentException, ArgumentNullException, NotSupportedException } from '../../system/exceptions.js';
 import { isNullOrEmpty, isNullOrWhiteSpace } from '../../system/strings.js';
@@ -546,7 +547,9 @@ export class DocumentStreaming {
           if (!isDone()) {
             const xmlReader2 = xmlReader.subtree();
             while (xmlReader2.readToFollowing('Revision')) {
-              const element = xmlReader2.readFrom();
+              // Fix streamingAdjacentElements: ReadFrom moves past the element and the next
+              // ReadToFollowing skips one more node, so an adjacent Revision is not seen.
+              const element = Fixes.enabled('streamingAdjacentElements') ? xmlReader2.loadSubtree() : xmlReader2.readFrom();
               const revisionType = create('Revision', element) as unknown as RevisionType;
               if (!isNullOrEmpty(revisionType.newVersion)) {
                 const key = CAEXPathBuilder.aliasFromReference(revisionType.newVersion);
@@ -593,7 +596,9 @@ export class DocumentStreaming {
     while (reader.read() && !close) {
       if (reader.isElement) {
         if (reader.name === elementName) {
-          const element = reader.readFrom();
+          // Fix streamingAdjacentElements: ReadFrom moves past the element and the next Read()
+          // skips one more node, so an element directly after a matched one is not seen.
+          const element = Fixes.enabled('streamingAdjacentElements') ? reader.loadSubtree() : reader.readFrom();
           yield creatorFunc !== null ? creatorFunc(element) : null;
         } else if (canClose !== null && canClose(reader.name)) {
           close = true;

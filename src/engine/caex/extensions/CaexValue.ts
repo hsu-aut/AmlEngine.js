@@ -28,7 +28,8 @@ import {
 import { XmlCAEXAttributes } from '../../xmlext/XmlCAEXAttributes.js';
 import { XmlCAEXSchema } from '../../xmlext/XmlCAEXSchema.js';
 import { XmlTypeCodeExtensions } from '../../schema/XmlTypeCodeExtensions.js';
-import { ClrType, clrBigInt, clrNumber, clrToString, singleToString } from './ClrValue.js';
+import { ClrType, ClrValue, clrBigInt, clrNumber, clrToString, singleToString } from './ClrValue.js';
+import { Fixes } from '../../fixes.js';
 import type { LocalNameEncoder } from './LocalNameEncoder.js';
 import type { NameEncoder } from './NameEncoder.js';
 import type { NCNameEncoder } from './NCNameEncoder.js';
@@ -415,6 +416,7 @@ export class CaexValue {
         return typed(null, null);
       }
       let result8: number | null;
+      const datePartValues = (): boolean => Fixes.enabled('datePartValues', this.valueOwner ?? this.typeOwner);
       switch (typeCodeOfAttribute) {
         case XmlTypeCode.AnyUri: {
           const result9 = Uri.tryCreate(attributeValue, UriKind.RelativeOrAbsolute);
@@ -458,7 +460,7 @@ export class CaexValue {
           return typed(XmlConvert.toDecimal(attributeValue), ClrType.Decimal);
         }
         case XmlTypeCode.GMonth:
-          if ((result8 = Parse.tryParseUInt16(attributeValue)) === null) {
+          if ((result8 = Parse.tryParseUInt16(attributeValue) ?? (datePartValues() ? datePart(attributeValue, GMONTH) : null)) === null) {
             return typed(attributeValue, ClrType.String);
           }
           if (parseOnly) {
@@ -466,7 +468,7 @@ export class CaexValue {
           }
           return typed(new DateTime(1, result8, 1).month, ClrType.UInt16);
         case XmlTypeCode.GDay:
-          if ((result8 = Parse.tryParseUInt16(attributeValue)) === null) {
+          if ((result8 = Parse.tryParseUInt16(attributeValue) ?? (datePartValues() ? datePart(attributeValue, GDAY) : null)) === null) {
             return typed(attributeValue, ClrType.String);
           }
           if (parseOnly) {
@@ -599,9 +601,13 @@ export class CaexValue {
       } else if (this.isStringValue()) {
         result = CaexValue.encodeString(value, typeCodeOfAttribute);
       } else if (this.isNumericOrBooleanValue()) {
-        result = CaexValue.encodeNumericOrBooleanValue(value, typeCodeOfAttribute, text);
+        result = CaexValue.encodeNumericOrBooleanValue(value, typeCodeOfAttribute, text, Fixes.enabled('booleanFromNumber', this.valueOwner ?? this.typeOwner));
       } else if (this.isBinaryValue()) {
-        result = clrToString(value);
+        // Fix base64Binary: the original writes the value unencoded, but decodes it on reading.
+        result =
+          typeCodeOfAttribute === XmlTypeCode.Base64Binary && Fixes.enabled('base64Binary', this.valueOwner ?? this.typeOwner)
+            ? Convert.toBase64String(value instanceof Uint8Array ? value : UTF8_ENCODER.encode(clrToString(value)))
+            : clrToString(value);
       }
       return result;
     } catch {
@@ -682,7 +688,7 @@ export class CaexValue {
     return result !== null ? format(result) : fallbackValue;
   }
 
-  private static encodeNumericOrBooleanValue(value: unknown, typeCode: XmlTypeCode, fallbackValue: string): string {
+  private static encodeNumericOrBooleanValue(value: unknown, typeCode: XmlTypeCode, fallbackValue: string, booleanFromNumber = false): string {
     const type = ClrType.of(value);
     switch (typeCode) {
       case XmlTypeCode.Decimal:
@@ -746,7 +752,9 @@ export class CaexValue {
         return XmlConvert.toString(result5);
       }
       case XmlTypeCode.Boolean: {
-        const result = typeof value === 'boolean' ? value : Parse.tryParseBoolean(clrToString(value));
+        // Fix booleanFromNumber: the original parses the text with bool.TryParse, which fails for
+        // numbers and for the xs:boolean forms "1" and "0", and then writes the default "false".
+        const result = typeof value === 'boolean' ? value : ((booleanFromNumber ? booleanOfNumber(value) : null) ?? Parse.tryParseBoolean(clrToString(value)));
         if (result === null) break;
         return XmlConvert.toString(result);
       }
@@ -790,6 +798,43 @@ T.CaexValue = CaexValue;
 // Encoding.UTF8: invalid sequences become U+FFFD, a BOM is kept (GetString does not strip it).
 const UTF8_DECODER = new TextDecoder('utf-8', { ignoreBOM: true });
 const UTF8_ENCODER = new TextEncoder();
+
+// Fix datePartValues: the original writes xs:gDay as "---dd" and xs:gMonth as "--MM--", but reads
+// only a plain number back. With the fix these lexical forms (and "--MM", with an optional time
+// zone) read back as the number, if it is a valid day (1 to 31) or month (1 to 12); anything else
+// stays text, as in the original.
+const GDAY = { form: /^---(\d{2})(Z|[+-]\d{2}:\d{2})?$/, max: 31 };
+const GMONTH = { form: /^--(\d{2})(--)?(Z|[+-]\d{2}:\d{2})?$/, max: 12 };
+
+function datePart(text: string, part: { form: RegExp; max: number }): number | null {
+  const m = part.form.exec(text.trim());
+  const n = m === null ? 0 : Number(m[1]);
+  return n >= 1 && n <= part.max ? n : null;
+}
+
+/** Fix booleanFromNumber: a number is true unless it is zero; the texts "1" and "0" are true and false. */
+function booleanOfNumber(value: unknown): boolean | null {
+  if (value instanceof Decimal) return !value.equals(Decimal.Zero);
+  const type = ClrType.of(value);
+  if (NUMERIC_TYPES.has(type)) {
+    return typeof value === 'bigint' || (value instanceof ClrValue && typeof value.value === 'bigint') ? clrBigInt(value) !== 0n : clrNumber(value) !== 0;
+  }
+  const text = typeof value === 'string' ? value.trim() : null;
+  return text === '1' ? true : text === '0' ? false : null;
+}
+
+const NUMERIC_TYPES = new Set([
+  ClrType.SByte,
+  ClrType.Byte,
+  ClrType.Int16,
+  ClrType.UInt16,
+  ClrType.Int32,
+  ClrType.UInt32,
+  ClrType.Int64,
+  ClrType.UInt64,
+  ClrType.Single,
+  ClrType.Double,
+]);
 
 // int.TryParse(s, NumberStyles.HexNumber, ...): optional .NET white space around hex digits.
 const HEX_NUMBER = /^[\t\n\v\f\r ]*[0-9A-Fa-f]+[\t\n\v\f\r ]*$/;

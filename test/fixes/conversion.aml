@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="">
+  <SuperiorStandardVersion>AutomationML 2.1</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="" OriginID="" OriginVersion="" LastWritingDateTime="2024-05-06T07:08:09" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="A" ID="a" />
+  </InstanceHierarchy>
+</CAEXFile>

@@ -33,6 +33,14 @@ was observed to return a document with `CAEXFile == null` for such an entity bom
 port does not reproduce that silent half-loaded state. `LoadFromStream`, `LoadFromBinary` and
 `LoadFromFile` reject any DTD, as in .NET.
 
+### Optional corrections of data errors
+
+Off by default. Ten data errors of the original can be corrected per document, per container or
+for all documents (`doc.fixes`, `Fixes.default`); see docs/fixes.md. With the corrections off the
+port behaves like the original; with a correction on it deviates at exactly that place, and the
+oracle checks that the original reads what the corrected port writes. `CAEXDocument.fixes` and
+`AutomationMLContainer.fixes` are members the original does not have.
+
 ### Calls that do not return: the port throws
 
 Aml.Engine follows references without checking for cycles, and a few loops can run forever. On

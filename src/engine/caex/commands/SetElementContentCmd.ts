@@ -1,5 +1,6 @@
 // Port of Aml.Engine.CAEX.Commands.SetElementContentCmd (internal).
 
+import { Fixes } from '../../fixes.js';
 import type { XAttribute, XElement, XNode } from '../../../xml/index.js';
 import { T } from '../../registry.js';
 import { ServiceLocator } from '../../services/ServiceLocator.js';
@@ -31,7 +32,8 @@ export class SetElementContentCmd extends CaexCommand {
   constructor(element: XElement, newContent: unknown) {
     super();
     this._newValue = newContent ?? null;
-    this._oldValue = [[...element.attributes()], [...element.descendantNodes()]];
+    // Fix undoElementContent: the child nodes only; undo re-adds the descendants a second time.
+    this._oldValue = [[...element.attributes()], Fixes.enabled('undoElementContent', element) ? [...element.nodes()] : [...element.descendantNodes()]];
     this._element = element;
   }
 

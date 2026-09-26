@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="f.aml" xmlns="http://www.dke.de/CAEX">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Values" ID="00000000-0000-4000-a000-000000000001">
+      <Attribute Name="b64text" AttributeDataType="xs:base64Binary">
+        <Value>aMOkbGxv</Value>
+      </Attribute>
+      <Attribute Name="b64ascii" AttributeDataType="xs:base64Binary">
+        <Value>cGxhaW4gdGV4dA==</Value>
+      </Attribute>
+      <Attribute Name="b64bytes" AttributeDataType="xs:base64Binary">
+        <Value>aGkh</Value>
+      </Attribute>
+      <Attribute Name="boolOne" AttributeDataType="xs:boolean">
+        <Value>true</Value>
+      </Attribute>
+      <Attribute Name="boolZero" AttributeDataType="xs:boolean">
+        <Value>false</Value>
+      </Attribute>
+      <Attribute Name="boolTextOne" AttributeDataType="xs:boolean">
+        <Value>true</Value>
+      </Attribute>
+      <Attribute Name="boolTextZero" AttributeDataType="xs:boolean">
+        <Value>false</Value>
+      </Attribute>
+      <Attribute Name="boolDouble" AttributeDataType="xs:boolean">
+        <Value>true</Value>
+      </Attribute>
+      <Attribute Name="boolLong" AttributeDataType="xs:boolean">
+        <Value>true</Value>
+      </Attribute>
+    </InternalElement>
+  </InstanceHierarchy>
+</CAEXFile>

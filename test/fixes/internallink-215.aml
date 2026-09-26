@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="2.15" FileName="f.aml">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Plant" ID="plant">
+      <InternalElement Name="A" ID="00000000-0000-4000-b000-000000000001">
+        <ExternalInterface Name="Out" />
+      </InternalElement>
+      <InternalElement Name="B" ID="00000000-0000-4000-b000-000000000002">
+        <ExternalInterface Name="In" />
+      </InternalElement>
+      <InternalLink Name="Pipe" RefPartnerSideA="00000000-0000-4000-b000-000000000001:Out" RefPartnerSideB="00000000-0000-4000-b000-000000000002:In" />
+    </InternalElement>
+  </InstanceHierarchy>
+</CAEXFile>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="f.aml" xmlns="http://www.dke.de/CAEX">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="A" ID="00000000-0000-4000-a000-000000000010" />
+    <InternalElement Name="B" ID="00000000-0000-4000-a000-000000000011" />
+    <InternalElement Name="C" ID="00000000-0000-4000-a000-000000000012" />
+    <InternalElement Name="D" ID="00000000-0000-4000-a000-000000000013" />
+    <InternalElement Name="E" ID="00000000-0000-4000-a000-000000000014" />
+  </InstanceHierarchy>
+</CAEXFile>

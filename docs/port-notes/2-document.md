@@ -178,9 +178,9 @@ document is saved next to a file that already exists (`FilePath` setter, `SetSch
   (an element, never a choice), so the choice check never prevents insertion there; only the
   public `canAddNew(parent, childName)` checks the parent particle.
 - `AMLSchemaManager3_0.adjustCAEXFileToSchema` looks for `AdditionalInformation` children without
-  namespace after moving the CAEXFile into the CAEX namespace.
+  namespace after moving the CAEXFile into the CAEX namespace. Correctable: fix `conversionAutomationMLVersion` (docs/fixes.md).
 - `SetElementContentCmd` stores all *descendant* nodes (not only the child nodes) for undo, so
-  undo re-adds nested nodes a second time (as copies).
+  undo re-adds nested nodes a second time (as copies). Correctable: fix `undoElementContent` (docs/fixes.md).
 - `CaexCommand.DisplayName` and `XDocument` are never assigned (always null).
 - `CAEXDocument.loadFromStringAsync` rewrites the root start tag of strings containing
   `SchemaVersion="3.0"` without `xmlns` in the first tag, cutting at `indexOf('CAEXFile') + 9`

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="f.aml" xmlns="http://www.dke.de/CAEX">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SystemUnitClassLib Name="Lib">
+    <SystemUnitClass Name="A" RefBaseClassPath="Lib/B" />
+    <SystemUnitClass Name="B">
+      <SystemUnitClass Name="Inner" RefBaseClassPath="Lib/A" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="R1" RefBaseClassPath="RCL/R2" />
+    <RoleClass Name="R2" />
+  </RoleClassLib>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="I1" RefBaseClassPath="ICL/I2" />
+    <InterfaceClass Name="I2" />
+  </InterfaceClassLib>
+</CAEXFile>

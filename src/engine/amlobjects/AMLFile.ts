@@ -1,5 +1,6 @@
 // Port of Aml.Engine.AmlObjects.AMLFile (Aml.Engine 4.5.2).
 
+import { Fixes } from '../fixes.js';
 import { T } from '../registry.js';
 import { from } from '../../system/linq.js';
 import { DateTime, XmlConvert, XmlDateTimeSerializationMode } from '../../system/index.js';
@@ -82,6 +83,10 @@ export class AMLFile extends CAEXFileType {
     } else {
       // C# assigns the public field ElementValue.Value only; the XML is not changed.
       elementValue.value = 'AutomationML ' + result.toString();
+      // Fix automationMLVersionSetter: write the new version into the element.
+      if (Fixes.enabled('automationMLVersionSetter', this)) {
+        this.superiorStandardVersion.valueConverter.setElementValue(elementValue.node, elementValue.value);
+      }
     }
   }
 

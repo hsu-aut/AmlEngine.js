@@ -1,7 +1,9 @@
-// Global test setup: some oracle outputs depend on the date of the oracle run (results relative
-// to "today", DateTime.Now defaults). They are compared with the JS results of the same day only,
-// so outputs from an earlier day are regenerated before the tests run. Needs the .NET 8 SDK;
-// without it the outputs are left as they are.
+// Global test setup.
+// - Warns when NuGet has a newer Aml.Engine than the oracle runs (scripts/check-upstream.mjs).
+// - Some oracle outputs depend on the date of the oracle run (results relative to "today",
+//   DateTime.Now defaults). They are compared with the JS results of the same day only, so
+//   outputs from an earlier day are regenerated before the tests run. Needs the .NET 8 SDK;
+//   without it the outputs are left as they are.
 
 import { execFileSync } from 'node:child_process';
 import { existsSync, statSync } from 'node:fs';
@@ -19,7 +21,8 @@ function sameDay(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 }
 
-export default function setup(): void {
+export default async function setup(): Promise<void> {
+  await warnIfUpstreamIsNewer();
   const today = new Date();
   const stale = DATE_SENSITIVE.filter((d) => existsSync(d.output) && !sameDay(statSync(d.output).mtime, today));
   if (stale.length === 0) return;
@@ -31,5 +34,18 @@ export default function setup(): void {
     console.log(`regenerated date dependent oracle outputs: ${stale.map((d) => d.output).join(', ')}`);
   } catch (e) {
     console.warn(`could not regenerate date dependent oracle outputs (${(e as Error).message}); their tests may fail`);
+  }
+}
+
+/** Warns when NuGet has a newer Aml.Engine than the oracle runs (docs/upgrading-aml-engine.md). */
+async function warnIfUpstreamIsNewer(): Promise<void> {
+  // @ts-expect-error plain JS module without type declarations
+  const { newerVersions } = await import('../../scripts/check-upstream.mjs');
+  const r = await newerVersions(3000);
+  if (r !== null && r.newer.length > 0) {
+    console.warn(
+      `*** Aml.Engine ${r.newer.join(', ')} on NuGet is newer than ${r.current} in the oracle: ` +
+        'the port may no longer match the original. See docs/upgrading-aml-engine.md. ***',
+    );
   }
 }

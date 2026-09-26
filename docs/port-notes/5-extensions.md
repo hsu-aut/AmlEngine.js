@@ -125,9 +125,11 @@ Additional file outside the type map: `src/engine/resources/files/SemanticVersio
 
 ## (c) Apparent bugs of the original, ported unchanged
 
-- `CAEXBasicObjectExtensions.HasOldVersion` tests `IsNewVersion` of the revisions.
+- Not an error, although it looks like one: `CAEXBasicObjectExtensions.HasOldVersion` tests
+  `IsNewVersion` of the revisions. `IsNewVersion` means that the revision names an OldVersion,
+  so the result is right.
 - `CAEXPathBuilder.PathPart(element, useId: true)` creates a new ID for an element without one
-  but returns the old (null/empty) value; `InternalLinkReferencePath` then builds ":Name".
+  but returns the old (null/empty) value; `InternalLinkReferencePath` then builds ":Name". Correctable: fix `internalLinkPartnerId` (docs/fixes.md).
 - `CAEXPathBuilder.CAEXPath(string[] names, schema)`: after an empty name the index no longer
   advances, so all following parts repeat the empty name (the '/' separators are still added).
 - `CAEXPathBuilder.CAEXPath(IEnumerable<CAEXObject>)` skips empty path parts in PathParts but not

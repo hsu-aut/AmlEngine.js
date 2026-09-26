@@ -1,5 +1,6 @@
 // Port of Aml.Engine.CAEX.CaexObjectWithReference<T> (Aml.Engine 4.5.2).
 
+import { Fixes } from '../fixes.js';
 import { T } from '../registry.js';
 import { registerInterfaces, implementsInterface } from '../interfaces.js';
 import { ArgumentNullException } from '../../system/exceptions.js';
@@ -40,7 +41,11 @@ export abstract class CaexObjectWithReference<TRef extends CAEXObject> extends C
   set reference(value: TRef | null) {
     if (this.canAddReference(value)) {
       // C# passes the object itself; SetAttributeValue converts it with ToString() (the Name).
-      this.setXAttributeValue(this.referenceAttributeName, value);
+      // Fix referenceSetter: the reference path, as AddReference writes it.
+      this.setXAttributeValue(
+        this.referenceAttributeName,
+        value != null && Fixes.enabled('referenceSetter', this) ? (value as unknown as CAEXObject).getReferencePath(this as unknown as CAEXObject) : value,
+      );
     }
   }
 
