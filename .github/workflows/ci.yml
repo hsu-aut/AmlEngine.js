@@ -1,0 +1,80 @@
+# Two jobs:
+# - quick (Linux): typecheck, build, the tests that need no oracle outputs, browser check in
+#   Chromium, Firefox and WebKit.
+# - oracle (Windows, time zone W. Europe like the reference machine): the outputs of the original
+#   Aml.Engine (scripts/oracle.sh, about two hours) are kept in the Actions cache under a key made
+#   of the oracle, the generators and the test inputs, so they are only rebuilt when one of these
+#   changes. Then all tests against them, the time zone check (scripts/tz-check.mjs) and the
+#   browser check including Edge.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 1'
+
+jobs:
+  quick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TZ: Europe/Berlin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm test
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: node test/browser/run.mjs chromium,firefox,webkit
+
+  oracle:
+    runs-on: windows-latest
+    timeout-minutes: 360
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Time zone of the reference machine
+        shell: pwsh
+        run: tzutil /s "W. Europe Standard Time"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: npm ci
+      - name: Oracle outputs from the cache
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: test/oracle-out
+          key: oracle-out-${{ hashFiles('oracle/**/*.cs', 'oracle/*.csproj', 'scripts/**', 'test/corpus/**', 'test/xml-corpus/**', 'test/xml-fuzz/**', 'test/xml-ops/**', 'test/engine-ops/**', 'test/validation/cases/**', 'test/values/**', 'test/mutations/**', 'test/amlobjects/**', 'test/reads/**', 'test/fixes/**', 'test/noreturn/**', 'test/gapsinfra/**', 'test/gapsservices/**', 'test/gapscaex/**', 'test/system/cases.json', 'docs/CAEX_ClassModel_V.3.0.xsd') }}
+      - name: Run the oracle (Aml.Engine 4.5.2)
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm run oracle
+      - name: Keep the oracle outputs
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: test/oracle-out
+          key: ${{ steps.cache.outputs.cache-primary-key }}
+      - name: Large documents (not in the repository)
+        run: node scripts/gen-large.mjs test/large 10,50,10i 3682
+      - run: npm run build
+      - run: npm test
+      - name: Other time zones
+        run: node scripts/tz-check.mjs UTC,America/New_York,Asia/Kolkata
+      - run: npx playwright install chromium firefox webkit
+      - name: Browser check (Edge, Chromium, Firefox, WebKit)
+        run: node test/browser/run.mjs
