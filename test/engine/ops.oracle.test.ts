@@ -282,7 +282,8 @@ function apply(doc: any, op: any): string {
 
 describe.skipIf(!existsSync(expectedFile))('engine operations parity with Aml.Engine', () => {
   const scripts = JSON.parse(readFileSync(scriptFile, 'utf8')) as Array<{ start: string; ops: any[] }>;
-  const expected = JSON.parse(readFileSync(expectedFile, 'utf8')) as Array<{ steps: Array<[string, string]>; final: string }>;
+  // The suite body runs even when skipped (vitest collects the tests): read only what exists.
+  const expected = (existsSync(expectedFile) ? JSON.parse(readFileSync(expectedFile, 'utf8')) : []) as Array<{ steps: Array<[string, string]>; final: string }>;
   scripts.forEach((script, i) => {
     it(`script ${i} (${script.start})`, () => {
       const canon = new Canonicalizer();

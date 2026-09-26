@@ -1090,7 +1090,8 @@ function apply(op: any): string {
 
 describe.skipIf(!existsSync(expectedFile))('mutations parity with Aml.Engine', () => {
   const scripts = JSON.parse(readFileSync(scriptFile, 'utf8')) as Array<{ start: string; other: string | null; undo?: boolean; resolver?: boolean; ops: any[] }>;
-  const expected = JSON.parse(readFileSync(expectedFile, 'utf8')) as Array<{ steps: Array<[string, string, string, string]>; final: string }>;
+  // The suite body runs even when skipped (vitest collects the tests): read only what exists.
+  const expected = (existsSync(expectedFile) ? JSON.parse(readFileSync(expectedFile, 'utf8')) : []) as Array<{ steps: Array<[string, string, string, string]>; final: string }>;
 
   beforeAll(() => {
     CaexCommand.caexElementChangingEvent.subscribe(staticChanging);

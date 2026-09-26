@@ -17,7 +17,8 @@ const oracleFile = process.env.SYS_ORACLE ?? join(oracleOut, 'sys.json');
 
 describe.skipIf(!existsSync(casesFile) || !existsSync(oracleFile))('System layer parity with .NET', () => {
   const cases: Case[] = JSON.parse(readFileSync(casesFile, 'utf8'));
-  const expected: Result[] = JSON.parse(readFileSync(oracleFile, 'utf8'));
+  // The suite body runs even when skipped (vitest collects the tests): read only what exists.
+  const expected: Result[] = existsSync(oracleFile) ? JSON.parse(readFileSync(oracleFile, 'utf8')) : [];
 
   it('oracle output belongs to the cases', () => {
     expect(expected.length).toBe(cases.length);

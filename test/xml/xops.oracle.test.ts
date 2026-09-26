@@ -120,7 +120,8 @@ function apply(doc: XDocument, op: Op): string {
 
 describe.skipIf(!existsSync(expectedFile))('XLinq operations parity', () => {
   const scripts = JSON.parse(readFileSync(scriptFile, 'utf8')) as Array<{ xml: string; preserve: boolean; ops: Op[] }>;
-  const expected = JSON.parse(readFileSync(expectedFile, 'utf8')) as Array<Array<[string, string]>>;
+  // The suite body runs even when skipped (vitest collects the tests): read only what exists.
+  const expected = (existsSync(expectedFile) ? JSON.parse(readFileSync(expectedFile, 'utf8')) : []) as Array<Array<[string, string]>>;
   scripts.forEach((script, i) => {
     it(`script ${i}`, () => {
       const doc = parseXDocument(script.xml, { preserveWhitespace: script.preserve });
