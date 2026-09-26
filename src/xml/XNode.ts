@@ -1092,6 +1092,28 @@ function* getDescendants(root: XContainer, name: XName | null, self: boolean): G
   }
 }
 
+/**
+ * The first element of root.Descendants() (document order) for which `match` is true, or null: the
+ * walk of getDescendants without a generator, for hot linear searches (QueryService.FindByID
+ * without ID table). `match` must not change the tree.
+ */
+export function firstDescendant(root: XContainer, match: (e: XElement) => boolean): XElement | null {
+  let n: XNode = root;
+  let c: XContainer | null = root;
+  for (;;) {
+    if (c !== null && c._content instanceof XNode) n = c._content._next!;
+    else {
+      while (n !== root && n === n._parent!._content) n = n._parent!;
+      if (n === root) return null;
+      n = n._next!;
+    }
+    if (n instanceof XElement) {
+      if (match(n)) return n;
+      c = n;
+    } else c = null;
+  }
+}
+
 function getContentSnapshot(content: unknown[]): unknown[] {
   const out: unknown[] = [];
   const walk = (c: unknown) => {

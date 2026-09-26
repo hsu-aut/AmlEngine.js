@@ -74,5 +74,13 @@ export class XName {
 export type XNameLike = XName | string;
 
 export function toXName(name: XNameLike): XName {
-  return typeof name === 'string' ? XName.get(name) : name;
+  if (typeof name !== 'string') return name;
+  // Names are interned: remember the last conversion (loops look up the same name per element).
+  if (name !== lastString) {
+    lastName = XName.get(name);
+    lastString = name;
+  }
+  return lastName!;
 }
+let lastString: string | null = null;
+let lastName: XName | null = null;

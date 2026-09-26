@@ -5,7 +5,7 @@ import { implementsInterface, registerInterfaces } from '../interfaces.js';
 import { ArgumentNullException } from '../../system/exceptions.js';
 import { isNullOrEmpty } from '../../system/strings.js';
 import { Enumerable, from } from '../../system/linq.js';
-import type { XElement } from '../../xml/index.js';
+import { XName, firstDescendant, type XElement } from '../../xml/index.js';
 import { CAEXBasicObjectExtensions } from '../caex/extensions/CAEXBasicObjectExtensions.js';
 import { CAEXDocumentExtensions } from '../caex/extensions/CAEXDocumentExtensions.js';
 import { CAEXPathBuilder } from '../caex/extensions/CAEXPathBuilder.js';
@@ -57,6 +57,8 @@ function wrapperEquals(a: unknown, b: unknown): boolean {
 }
 
 /** The default query service, with optional ID and path lookup tables per document. */
+const ID = XName.get('ID');
+
 export class QueryService implements IQuery, ILookUpTable {
   private _IDLookup: Map<CAEXDocument, ILookup<string, ICAEXReference>> | null = null;
 
@@ -460,7 +462,7 @@ export class QueryService implements IQuery, ILookUpTable {
       const iDLookup = this._IDLookup;
       const value = iDLookup !== null && iDLookup.size > 0 ? tryGet(iDLookup, caexDocument) : undefined;
       if (value === undefined) {
-        const found = from(caexDocument.xDocument!.descendants()).firstOrDefault((x) => id === (x.attribute('ID')?.value ?? null));
+        const found = firstDescendant(caexDocument.xDocument!, (x) => id === (x.attribute(ID)?.value ?? null));
         const w = found !== null ? XmlOperation.createCAEXWrapper(found) : null;
         return w instanceof T.CAEXObject ? (w as CAEXObject) : null;
       }
