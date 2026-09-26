@@ -86,7 +86,8 @@ describes how to follow it.
 | `test/engine/fixes` | the optional corrections: files written with them, read by the original |
 
 [docs/coverage.md](docs/coverage.md) lists the functions of the port that no comparison
-executes, with the reasons in `docs/coverage-notes/`.
+executes, with the reasons in `docs/coverage-notes/`. [docs/seed-runs.md](docs/seed-runs.md)
+records runs with other seeds and larger sizes than the committed inputs.
 
 ## Repository
 
