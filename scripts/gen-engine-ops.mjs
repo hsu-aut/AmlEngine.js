@@ -20,7 +20,7 @@ const chance = (p) => rnd() < p;
 const STARTS = ['new30', 'new30', 'new30', 'new215', 'new215', '12_MirrorObject.aml', '5_SUC.aml', '6_RCL.aml', '7_ICL.aml', '9_ExtInt_IntLink.aml', '13_Facet.aml', 'plant.aml', 'legacy-caex215.aml', '11_Constraints.aml', '3_IE_Attribute.aml'];
 const NAMES = ['A', 'B', 'Pump', 'Tank', 'Motor', 'x', 'Name with space', 'a/b', 'a.b', 'a:b', 'Ä', '[x]', 'dup', 'dup'];
 const DATA_TYPES = [null, 'xs:string', 'xs:double', 'xs:int', 'xs:boolean', 'xs:dateTime', 'xs:decimal', 'xs:float', 'xs:unsignedShort', 'xs:anyURI', 'xs:unknown'];
-const VALUES = [null, '', '1', '1.5', '-0', '1e3', 'true', 'False', 'abc', '2026-09-24T12:00:00', '65536', ' 7 ', 'NaN'];
+const VALUES = [null, '', '1', '1.5', '-0', '1e3', 'true', 'False', 'abc', '2021-03-14T12:00:00', '65536', ' 7 ', 'NaN'];
 
 const OPS = [
   [4, () => ({ op: 'newIH', name: pick(NAMES) })],
