@@ -37,6 +37,8 @@ import {
 } from '../../../xml/index.js';
 import { UTF8, encodeWithPreamble } from '../../../xml/encoding.js';
 import * as NetPath from '../internal/NetPath.js';
+import { trimWhiteSpace } from '../../../system/Char.js';
+import { toUpperInvariant } from '../../../system/strings.js';
 import { ContentType } from './ContentType.js';
 import { MemoryStream } from './MemoryStream.js';
 import { PackUriHelper, ValidatedPartUri, containerRelationshipPartName, packageRootUri } from './PackUriHelper.js';
@@ -180,7 +182,7 @@ class IgnoredItemHelper {
     const normalized = partUri.normalizedPartUriString;
     if (!this._ignoredItemDictionary.has(normalized)) this._ignoredItemDictionary.set(normalized, []);
     this._ignoredItemDictionary.get(normalized)!.push(zipFileName);
-    const ext = partUri.partUriExtension.toUpperCase();
+    const ext = toUpperInvariant(partUri.partUriExtension);
     if (!this._extensionDictionary.has(ext)) this._extensionDictionary.set(ext, []);
     this._extensionDictionary.get(ext)!.push(normalized);
   }
@@ -190,10 +192,10 @@ class IgnoredItemHelper {
   }
 
   deleteItemsWithSimilarExtension(extension: string): void {
-    const list = this._extensionDictionary.get(extension.toUpperCase());
+    const list = this._extensionDictionary.get(toUpperInvariant(extension));
     if (list === undefined) return;
     for (const item of list) this.deleteCore(item);
-    this._extensionDictionary.delete(extension.toUpperCase());
+    this._extensionDictionary.delete(toUpperInvariant(extension));
   }
 
   private deleteCore(normalizedPartName: string): void {
@@ -229,7 +231,7 @@ class ContentTypeHelper {
     }
     let flag = false;
     const partUriExtension = partUri.partUriExtension;
-    const value = this._defaultDictionary.get(partUriExtension.toUpperCase());
+    const value = this._defaultDictionary.get(toUpperInvariant(partUriExtension));
     if (partUriExtension.length === 0 || (value !== undefined && !(flag = value.contentType.areTypeAndSubTypeEqual(contentType)))) {
       this.addOverrideElement(partUri, contentType);
     } else if (!flag) {
@@ -241,7 +243,7 @@ class ContentTypeHelper {
   getContentType(partUri: ValidatedPartUri): ContentType | null {
     const o = this._overrideDictionary?.get(partUri.partUriString);
     if (o !== undefined) return o.contentType;
-    return this._defaultDictionary.get(partUri.partUriExtension.toUpperCase())?.contentType ?? null;
+    return this._defaultDictionary.get(toUpperInvariant(partUri.partUriExtension))?.contentType ?? null;
   }
 
   deleteContentType(partUri: ValidatedPartUri): void {
@@ -281,7 +283,7 @@ class ContentTypeHelper {
 
   private parseContentTypesFile(): void {
     for (const e of this._zipArchive.entries) {
-      if (e.fullName.toUpperCase().startsWith('[CONTENT_TYPES].XML') && e.fullName.length === CONTENT_TYPES_FILE.length) {
+      if (toUpperInvariant(e.fullName).startsWith('[CONTENT_TYPES].XML') && e.fullName.length === CONTENT_TYPES_FILE.length) {
         this._contentTypeZipArchiveEntry = e;
       }
     }
@@ -319,7 +321,7 @@ class ContentTypeHelper {
     const contentType = element.attribute('ContentType')?.value ?? null;
     throwIfXmlAttributeMissing('ContentType', contentType, 'Default');
     const validated = PackUriHelper.validatePartUri(new Uri('/tempfiles/sample.' + extension, UriKind.Relative));
-    const key = validated.partUriExtension.toUpperCase();
+    const key = toUpperInvariant(validated.partUriExtension);
     if (this._defaultDictionary.has(key)) {
       throw new ArgumentException(`An item with the same key has already been added. Key: ${validated.partUriExtension}`);
     }
@@ -351,7 +353,7 @@ class ContentTypeHelper {
   }
 
   private addDefaultElement(extension: string, contentType: ContentType): void {
-    const key = extension.toUpperCase();
+    const key = toUpperInvariant(extension);
     if (this._defaultDictionary.has(key)) throw new ArgumentException(`An item with the same key has already been added. Key: ${extension}`);
     this._defaultDictionary.set(key, { extension, contentType });
     this._dirty = true;
@@ -569,7 +571,7 @@ class InternalRelationshipCollection implements Iterable<PackageRelationship> {
   }
 
   static throwIfInvalidRelationshipType(relationshipType: string): void {
-    if (relationshipType.trim().length === 0) {
+    if (trimWhiteSpace(relationshipType).length === 0) {
       throw new ArgumentException('Relationship Type cannot contain only spaces or be empty.');
     }
   }
@@ -620,7 +622,7 @@ class InternalRelationshipCollection implements Iterable<PackageRelationship> {
     const attribute = element.attribute('TargetMode')?.value ?? null;
     let targetMode = TargetMode.Internal;
     if (attribute != null) {
-      const t = attribute.trim();
+      const t = trimWhiteSpace(attribute);
       if (t === 'Internal') targetMode = TargetMode.Internal;
       else if (t === 'External') targetMode = TargetMode.External;
       else if (/^[+-]?[0-9]+$/.test(t)) targetMode = Number(t) as TargetMode;
@@ -1348,7 +1350,7 @@ export class Package {
     const list: PackagePart[] = [];
     for (const entry of [...this._zipArchive.entries]) {
       const name = entry.fullName;
-      if (name.toUpperCase().startsWith(CONTENT_TYPES_FILE.toUpperCase()) || name.startsWith('/') || name.endsWith('/')) continue;
+      if (toUpperInvariant(name).startsWith(toUpperInvariant(CONTENT_TYPES_FILE)) || name.startsWith('/') || name.endsWith('/')) continue;
       if (/\/\[(0|[1-9][0-9]*)\](\.last)?\.piece$/i.test('/' + name)) continue;
       const uri = Uri.tryCreate('/' + name, UriKind.Relative);
       const validated = uri == null ? null : PackUriHelper.tryValidatePartUri(uri);

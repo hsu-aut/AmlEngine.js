@@ -12,6 +12,7 @@
 
 import { ArgumentException, ArgumentNullException } from '../../../system/exceptions.js';
 import { Uri, UriKind } from '../../../system/index.js';
+import { toUpperInvariant } from '../../../system/strings.js';
 
 const UNRESERVED = /^[A-Za-z0-9\-._~]$/;
 const RESERVED_OR_UNRESERVED = /^[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=]$/;
@@ -47,7 +48,7 @@ export class ValidatedPartUri extends Uri {
 
   /** The part name in upper case (the key for comparisons). */
   get normalizedPartUriString(): string {
-    return (this._normalizedPartUriString ??= this._partUriString.toUpperCase());
+    return (this._normalizedPartUriString ??= toUpperInvariant(this._partUriString));
   }
 
   /** Whether the part is a relationship part. */
@@ -171,7 +172,7 @@ function partUriStringOrError(partUri: Uri): { error: Error | null; partUriStrin
   if (s.includes('#')) {
     return { error: new ArgumentException('Part URI cannot contain a Fragment component.'), partUriString: '' };
   }
-  if (original.toUpperCase() !== httpPath(s).toUpperCase()) {
+  if (toUpperInvariant(original) !== toUpperInvariant(httpPath(s))) {
     return { error: new ArgumentException('Part URI is not valid per rules defined in the Open Packaging Conventions specification.'), partUriString: '' };
   }
   if (PIECE.test(s)) {

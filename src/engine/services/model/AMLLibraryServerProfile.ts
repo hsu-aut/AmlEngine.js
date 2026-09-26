@@ -10,7 +10,7 @@ import { T } from '../../registry.js';
 import { registerInterfaces } from '../../interfaces.js';
 import { ArgumentNullException, FileNotFoundException, FormatException, NotSupportedException } from '../../../system/exceptions.js';
 import * as NetPath from '../../amlobjects/internal/NetPath.js';
-import { isNullOrEmpty, isNullOrWhiteSpace } from '../../../system/strings.js';
+import { isNullOrEmpty, isNullOrWhiteSpace, toUpperOrdinal } from '../../../system/strings.js';
 import { from } from '../../../system/linq.js';
 import { Uri, UriKind } from '../../../system/index.js';
 import { AmlObjectsExtensions } from '../../amlobjects/extensions/AmlObjectsExtensions.js';
@@ -732,7 +732,7 @@ export class AMLLibraryServerProfile extends PasswordProtected implements ICrede
   /** The URI of the data folder or of a file in it (GitHub web URLs for github.com servers). */
   getUri(dataProfile: AMLLibraryServerDataProfile, fileName: string | null = null, isDownloadUri = false): Uri | null {
     const serverURL = this.serverURL;
-    if (serverURL !== null && serverURL.toLowerCase().indexOf('github.com') >= 0) {
+    if (serverURL !== null && toUpperOrdinal(serverURL).indexOf('GITHUB.COM') >= 0) {
       const userName = this.userName;
       const baseAddress = this.baseAddress;
       const value = isNullOrWhiteSpace(dataProfile.branchOrTag) ? 'main' : dataProfile.branchOrTag;

@@ -7,7 +7,7 @@
 // RegexOptions.IgnoreCase uses Unicode case equivalences (JS flags `iu`).
 
 import { ArgumentNullException } from '../../../system/exceptions.js';
-import { isNullOrEmpty } from '../../../system/strings.js';
+import { compareOrdinalIgnoreCase, equalsOrdinalIgnoreCase, isNullOrEmpty } from '../../../system/strings.js';
 import { Version } from '../../amlobjects/internal/Version.js';
 
 const WS = '[\\f\\n\\r\\t\\v\\x85\\p{Z}]';
@@ -28,18 +28,6 @@ function trimWhiteSpace(s: string): string {
   while (start < end && WHITE_SPACE.has(s.charCodeAt(start))) start++;
   while (end > start && WHITE_SPACE.has(s.charCodeAt(end - 1))) end--;
   return s.substring(start, end);
-}
-
-/** StringComparer.OrdinalIgnoreCase.Compare. */
-function compareOrdinalIgnoreCase(a: string, b: string): number {
-  const x = a.toUpperCase();
-  const y = b.toUpperCase();
-  const n = Math.min(x.length, y.length);
-  for (let i = 0; i < n; i++) {
-    const d = x.charCodeAt(i) - y.charCodeAt(i);
-    if (d !== 0) return d;
-  }
-  return x.length - y.length;
 }
 
 /** A semantic version (major.minor.build[.revision][-special]). */
@@ -275,7 +263,7 @@ export class SemanticVersion {
   /** Equal versions and special versions (ignoring case). */
   equals(other: unknown): boolean {
     if (other instanceof SemanticVersion && this._version.equals(other._version)) {
-      return this._specialVersion.toUpperCase() === other._specialVersion.toUpperCase() && this._specialVersion.length === other._specialVersion.length;
+      return equalsOrdinalIgnoreCase(this._specialVersion, other._specialVersion);
     }
     return false;
   }

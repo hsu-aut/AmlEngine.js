@@ -3,7 +3,7 @@
 import { T } from '../../registry.js';
 import { ArgumentNullException } from '../../../system/exceptions.js';
 import { from, type Enumerable } from '../../../system/linq.js';
-import { isNullOrWhiteSpace } from '../../../system/strings.js';
+import { equalsOrdinalIgnoreCase, isNullOrWhiteSpace, toLowerInvariant } from '../../../system/strings.js';
 import type { InvariantIgnoreCaseDictionary } from './InvariantIgnoreCaseDictionary.js';
 
 /** Mapping of file extensions to MIME types and back. */
@@ -38,7 +38,7 @@ export class MimeTypeMap {
   static getKnownExtensions(mimeType: string | null): Enumerable<string> {
     if (!isNullOrWhiteSpace(mimeType)) {
       return from(MimeTypeMap.mappings)
-        .where((s) => s.value.includes(mimeType!.toLowerCase()))
+        .where((s) => s.value.includes(toLowerInvariant(mimeType!)))
         .select((s) => s.key);
     }
     throw new ArgumentNullException('mimeType', 'mimeType argument is null or empty.');
@@ -70,7 +70,7 @@ export class MimeTypeMap {
     if (!extension.startsWith('.')) {
       extension = '.' + extension;
     }
-    if (extension.toLowerCase() === '.xml' && extension.length === 4) {
+    if (equalsOrdinalIgnoreCase(extension, '.xml')) {
       return true;
     }
     const hashSet = new Set(MimeTypeMap.getMimeType('.xml'));

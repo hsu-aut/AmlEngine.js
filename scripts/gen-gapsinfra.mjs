@@ -400,6 +400,23 @@ for (const a of OIC) for (const b of OIC) add('system', 'str.eqOic', a, b);
 for (const t of ['1.2:3:.4', '2:3:.4', '1.2:3:.45', '-1.2:3:.4', '1.24:3:.4', '1.2:3.4', '1.2:3.45', '1.02:03.4567890', '-1.2:3.4', '1.2:3:4.5', '2:3.4', '1:2:3.4', '1.2:3.', '1.2:3.4.5', '10.23:59.9999999', '1.24:3.4', '1.2:60.4']) add('system', 'ts.parse', t);
 add('system', 'str.upperTable');
 add('system', 'str.oicTable');
+add('system', 'str.lowerTable');
+for (const kind of ['upper', 'lower', 'oic']) add('system', 'str.suppTable', kind);
+// Lone surrogates are left out: the oracle cannot read them from JSON (System.Text.Json rejects them).
+const CASING = ['', 'abc', 'ABC', '\u0130', '\u0131', '\u00df', '\u1e9e', '\u017f', '\u0391\u03a3', '\u0391\u03a3 \u0392', '\u03c3\u03c2', '\u03a3', '\u01c5', '\ufb00', '\ufb05', '\u0149', '\u1fb3',
+  '\u212a', '\u212b', '\ud801\udc00\ud801\udc28', '\ud83a\udd00\ud83a\udd22', '\ua7cd\ua7cc', '\ua7db\ua7da', '\u019b', '\u0264', '\ua7cf\ua7ce', '\u10a0\u2d00', '\u01f0'];
+for (const s of CASING) {
+  add('system', 'str.upperInv', s);
+  add('system', 'str.lowerInv', s);
+}
+const CMP = ['', 'a', 'A', 'b', 'B', '@', '`', '[', '_', '{', 'ab', 'aB', 'abc', '\u00df', '\u1e9e', '\u0131', 'I', '\u0130', '\u017f', 'S', '\u00e9', '\u00c9', '\u01c6', '\u01c4',
+  '\ud801\udc28', '\ud801\udc00', '\ud801\udc29', '\ud83a\udd22', '\ud801\udc28a', 'a\ud801\udc28', '\ud7ff', '\ue000', '\uffff', '\u0131nfinity', 'Infinity'];
+for (const a of CMP) for (const b of CMP) add('system', 'str.cmpOic', a, b);
+const TRIM = ['', ' a ', '\u0085a\u0085', '\ufeffa\ufeff', '\u180ea\u180e', '\u200ba\u200b', '\u00a0a\u3000', '\u2028a\u2029', '\t\n\v\f\ra\r', '\u1680\u2000\u200a\u202f\u205fa', '\u001ca\u001f'];
+for (const s of TRIM) add('system', 'str.trim', s);
+const CHANGE_MODES = ['state', 'STATE', '\u017ftate', '\ufb05ate', ' create ', '\u0085create\u0085', '\ufeffcreate', 'create,delete', 'State, Create', '1', ' 2 ', '+3', '-1', '99', '', ' ', 'x',
+  'chanGe', 'DELETE', 'create,', ',create', 'st\u0131te'];
+for (const s of CHANGE_MODES) add('system', 'cm.parse', s);
 for (const t of ['InvalidCastException', 'DivideByZeroException']) add('system', 'exc.msg', t);
 add('system', 'ev', [['sub', 'a'], ['sub', 'b'], ['raise'], ['clear'], ['raise'], ['count'], ['sub', 'a'], ['raise'], ['count']]);
 add('system', 'ev.pc', 'Name');

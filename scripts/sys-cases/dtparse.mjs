@@ -232,6 +232,8 @@ export default function (rng) {
     '2020-01-05T10:00:00.00000005Z', '2020-01-05T10:00:00.00000015', '9999-12-31 23:59:59.99999999', '12/31/9999 11:59:59.99999999 PM',
     '10:00 AM AM', '10 AM PM', '2020 AM', '2020 PM 10', 'AM', 'PM 2020-01-05', '5 PM 2020-01-05', '2020-01-05 5 PM',
     '2020-01-05 12 AM', '2020-01-05 0 AM', '2020-01-05 13 AM', '2020-01-05 24 PM', '1 2 3 4', '1:2:3:4', '1/2 3/4',
+    // case mapping of non-ASCII letters (dotted and dotless i, long s, Kelvin sign)
+    'FR\u0130DAY 2020-01-03', 'Fr\u0131day 2020-01-03', 'FRIDAY 2020-01-03', '\u017Feptember 5 2020', 'Augu\u017Ft 5 2020', 'Dec 5 2020 10:00 \u212Am',
   ];
   for (const s of inputs) add('dt.parse', s);
 

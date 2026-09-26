@@ -2,7 +2,7 @@
 
 import { T } from '../registry.js';
 import { registerInterfaces, implementsInterface } from '../interfaces.js';
-import { isNullOrEmpty } from '../../system/strings.js';
+import { isNullOrEmpty, upperFirst } from '../../system/strings.js';
 import { from } from '../../system/linq.js';
 import type { DateTime } from '../../system/index.js';
 import type { XElement } from '../../xml/index.js';
@@ -210,7 +210,7 @@ export class CAEXBasicObject extends CAEXWrapper implements ICAEXContainer, ICAE
     if (isNullOrEmpty(s)) {
       return '';
     }
-    return s[0]!.toUpperCase() + s.substring(1, s.length);
+    return upperFirst(s);
   }
 
   /** @internal */

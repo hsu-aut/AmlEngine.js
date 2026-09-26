@@ -1,4 +1,6 @@
 // Port of Aml.Engine.CAEX.ChangeMode (Aml.Engine 4.5.2).
+import { trimWhiteSpace } from '../../system/Char.js';
+import { equalsOrdinalIgnoreCase } from '../../system/strings.js';
 
 /** Enumeration for the CAEX ChangeMode attribute. */
 export enum ChangeMode {
@@ -21,7 +23,7 @@ export enum ChangeMode {
  */
 export function tryParseChangeMode(value: string | null): ChangeMode | null {
   if (value === null) return null;
-  const s = value.trim();
+  const s = trimWhiteSpace(value);
   if (s.length === 0) return null;
   const c = s[0]!;
   if ((c >= '0' && c <= '9') || c === '-' || c === '+') {
@@ -33,10 +35,10 @@ export function tryParseChangeMode(value: string | null): ChangeMode | null {
   }
   let result = 0;
   for (const part of s.split(',')) {
-    const p = part.trim().toLowerCase();
+    const p = trimWhiteSpace(part);
     let found = false;
     for (const key of Object.keys(ChangeMode)) {
-      if (!/^[0-9]/.test(key) && key.toLowerCase() === p) {
+      if (!/^[0-9]/.test(key) && equalsOrdinalIgnoreCase(key, p)) {
         result |= ChangeMode[key as keyof typeof ChangeMode];
         found = true;
         break;

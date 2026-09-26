@@ -19,8 +19,8 @@
 // registration, UriCreationOptions, Unix-only code paths (the port behaves like .NET on Windows),
 // GetHashCode (equalityKey is the Equals key string instead).
 // Unicode data comes from the JS engine (String.prototype.normalize for NFC, \p{L} for
-// char.IsLetter, toLowerCase for invariant lower casing of non-ASCII host characters); the
-// Unicode version may differ from the one .NET 8 uses for characters added recently.
+// char.IsLetter); the Unicode version may differ from the one .NET 8 uses for characters added
+// recently. Case mapping uses the fixed .NET tables of strings.ts.
 
 import {
   ArgumentException,
@@ -29,6 +29,7 @@ import {
   NotSupportedException,
   UriFormatException,
 } from './exceptions.js';
+import { equalsOrdinalIgnoreCase, toLowerInvariant, toUpperOrdinal } from './strings.js';
 
 export enum UriKind {
   RelativeOrAbsolute = 0,
@@ -270,45 +271,6 @@ function decodeHexChars(first: string, second: string): string {
 
 function asciiLower(s: string): string {
   return s.replace(/[A-Z]+/g, (m) => m.toLowerCase());
-}
-
-/** string.ToLowerInvariant / span.ToLowerInvariant: simple (one to one) case mapping per code point. */
-function toLowerInvariant(s: string): string {
-  let r = '';
-  for (let i = 0; i < s.length; i++) {
-    const c = s[i];
-    const x = code(c);
-    if (x < 0x80) {
-      r += c >= 'A' && c <= 'Z' ? String.fromCharCode(x + 32) : c;
-    } else if (isHighSurrogate(c) && i + 1 < s.length && isLowSurrogate(s[i + 1])) {
-      const pair = c + s[i + 1];
-      const l = pair.toLowerCase();
-      r += l.length === 2 ? l : pair;
-      i++;
-    } else {
-      // U+0130 lower cases to two chars in JS and stays unchanged in .NET (verified)
-      const l = c.toLowerCase();
-      r += l.length === 1 ? l : c;
-    }
-  }
-  return r;
-}
-
-/** Upper casing as OrdinalIgnoreCase does it: no mapping from non-ASCII into ASCII (U+0131, U+017F). */
-function toUpperInvariantChar(c: string): string {
-  const x = code(c);
-  if (x < 0x80) return c >= 'a' && c <= 'z' ? String.fromCharCode(x - 32) : c;
-  const u = c.toUpperCase();
-  return u.length === 1 && code(u) >= 0x80 ? u : c;
-}
-
-/** string.Equals(a, b, StringComparison.OrdinalIgnoreCase) */
-function equalsOrdinalIgnoreCase(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i] && toUpperInvariantChar(a[i]) !== toUpperInvariantChar(b[i])) return false;
-  }
-  return true;
 }
 
 function startsWithOrdinalIgnoreCaseAscii(s: string, prefix: string): boolean {
@@ -3229,7 +3191,7 @@ export class Uri {
     let components = C.HttpRequestUrl;
     if (this._syntax.inFact(S.MailToLikeUri)) components |= C.UserInfo;
     const remoteUrl = (info.remoteUrl ??= this.getParts(components, SafeUnescaped));
-    return 'a|' + (this.isUncOrDosPath ? remoteUrl.split('').map(toUpperInvariantChar).join('') : remoteUrl);
+    return 'a|' + (this.isUncOrDosPath ? toUpperOrdinal(remoteUrl) : remoteUrl);
   }
 
   /** Uri.Equals(object): a Uri or a string (parsed with UriKind.RelativeOrAbsolute). */

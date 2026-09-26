@@ -5,7 +5,7 @@ import { T } from '../registry.js';
 import { implementsInterface, registerInterfaces } from '../interfaces.js';
 import type { XElement } from '../../xml/index.js';
 import { ArgumentNullException, FormatException } from '../../system/exceptions.js';
-import { isNullOrEmpty } from '../../system/strings.js';
+import { equalsOrdinalIgnoreCase, isNullOrEmpty } from '../../system/strings.js';
 import { from } from '../../system/linq.js';
 import type { Enumerable } from '../../system/linq.js';
 import { DateTime, XmlConvert, XmlDateTimeSerializationMode } from '../../system/index.js';
@@ -705,7 +705,7 @@ function parseDoubleAny(s: string, c: NumberCulture): number | null {
   while (i < j && isWhite(trimmed[i])) i++;
   while (j > i && isWhite(trimmed[j - 1])) j--;
   trimmed = trimmed.substring(i, j);
-  const eq = (a: string, b: string): boolean => a.toUpperCase() === b.toUpperCase();
+  const eq = equalsOrdinalIgnoreCase;
   if (eq(trimmed, c.positiveInfinity)) return Number.POSITIVE_INFINITY;
   if (eq(trimmed, c.negativeInfinity)) return Number.NEGATIVE_INFINITY;
   if (eq(trimmed, c.nan)) return Number.NaN;

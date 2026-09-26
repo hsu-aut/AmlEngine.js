@@ -29,6 +29,7 @@
 
 import { DateTime, DateTimeKind } from './DateTime.js';
 import { ArgumentException, ArgumentNullException, FormatException } from './exceptions.js';
+import { toLowerInvariantCode } from './strings.js';
 
 /** System.Globalization.DateTimeStyles */
 export enum DateTimeStyles {
@@ -108,11 +109,9 @@ function isAsciiDigit(ch: string): boolean {
   return c >= 0x30 && c <= 0x39;
 }
 
-/** TextInfo.Invariant.ToLower(char) (simple case mapping). */
+/** TextInfo.Invariant.ToLower(char) (simple case mapping; U+0130 stays unchanged in .NET). */
 function toLowerChar(ch: string): string {
-  const l = ch.toLowerCase();
-  if (l.length === 1) return l;
-  return ch === 'İ' ? 'i' : ch;
+  return String.fromCharCode(toLowerInvariantCode(ch.charCodeAt(0)));
 }
 
 /** CompareInfo.Invariant.Compare(a, b, CompareOptions.IgnoreCase) == 0 (approximation, see header). */

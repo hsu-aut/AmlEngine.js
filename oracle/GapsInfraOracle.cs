@@ -240,6 +240,49 @@ public static class GapsInfraOracle
                 }
                 return sb.ToString();
             }
+            case "str.lowerTable":
+            {
+                var sb = new StringBuilder();
+                for (int c = 0; c < 0x10000; c++)
+                {
+                    char l = char.ToLowerInvariant((char)c);
+                    if (l != c) sb.Append($"{c:x}:{(int)l:x},");
+                }
+                return sb.ToString();
+            }
+            case "str.suppTable":
+            {
+                // Supplementary code points: string.ToUpperInvariant / ToLowerInvariant of the pair, or
+                // the upper case form OrdinalIgnoreCase compares (CharUnicodeInfo.ToUpper(uint)).
+                var kind = S(a[0]);
+                var cui = typeof(string).Assembly.GetType("System.Globalization.CharUnicodeInfo")!;
+                var toUpper = cui.GetMethod("ToUpper", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, new[] { typeof(uint) })!;
+                var sb = new StringBuilder();
+                for (int cp = 0x10000; cp <= 0x10FFFF; cp++)
+                {
+                    var s = char.ConvertFromUtf32(cp);
+                    int m = kind switch
+                    {
+                        "upper" => char.ConvertToUtf32(s.ToUpperInvariant(), 0),
+                        "lower" => char.ConvertToUtf32(s.ToLowerInvariant(), 0),
+                        _ => (int)(uint)toUpper.Invoke(null, new object[] { (uint)cp })!,
+                    };
+                    if (m != cp) sb.Append($"{cp:x}:{m:x},");
+                }
+                return sb.ToString();
+            }
+            case "str.upperInv": return S(a[0]).ToUpperInvariant();
+            case "str.lowerInv": return S(a[0]).ToLowerInvariant();
+            case "str.cmpOic": return string.Compare(S(a[0]), S(a[1]), StringComparison.OrdinalIgnoreCase).ToString(CultureInfo.InvariantCulture);
+            case "str.trim": return S(a[0]).Trim();
+            case "cm.parse":
+            {
+                // CAEXBasicObject.ChangeMode: Enum.TryParse(UppercaseFirst(value), ignoreCase: true).
+                var doc = Aml.Engine.CAEX.CAEXDocument.New_CAEXDocument(Aml.Engine.CAEX.CAEXDocument.CAEXSchema.CAEX3_0);
+                var ih = doc.CAEXFile.InstanceHierarchy.Append("ih");
+                ih.Node.SetAttributeValue("ChangeMode", S(a[0]));
+                return ih.ChangeMode.ToString();
+            }
             case "exc.msg":
                 return S(a[0]) switch
                 {

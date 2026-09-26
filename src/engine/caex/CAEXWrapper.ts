@@ -3,6 +3,7 @@
 import { T } from '../registry.js';
 import { registerInterfaces } from '../interfaces.js';
 import { from } from '../../system/linq.js';
+import { toLowerInvariant } from '../../system/strings.js';
 import { ArgumentNullException, SystemException } from '../../system/exceptions.js';
 import { EventSource, XmlConvert, XmlDateTimeSerializationMode, DateTime } from '../../system/index.js';
 import { XElement, XName, toXName, type XDocument, type XNameLike } from '../../xml/index.js';
@@ -46,7 +47,7 @@ export function csToString(d: unknown): string {
 /** Explicit conversion `(bool)XElement`. */
 export function elementToBoolean(e: XElement | null): boolean {
   if (e === null) throw new ArgumentNullException('element');
-  return XmlConvert.toBoolean(e.value.toLowerCase());
+  return XmlConvert.toBoolean(toLowerInvariant(e.value));
 }
 
 /** Explicit conversion `(DateTime)XElement`. */

@@ -2,6 +2,7 @@
 // validation (RFC 2616 tokens) and the canonical string form of a MIME content type.
 
 import { ArgumentException, ArgumentNullException } from '../../../system/exceptions.js';
+import { equalsOrdinalIgnoreCase } from '../../../system/strings.js';
 
 const ALLOWED = "!#$%&'*+-.^_`|~";
 const LWS = [' ', '\n', '\r', '\t'];
@@ -88,8 +89,8 @@ export class ContentType {
         }
       }
       result =
-        this._type.toUpperCase() === contentType.typeComponent.toUpperCase() &&
-        this._subType.toUpperCase() === contentType.subTypeComponent.toUpperCase();
+        equalsOrdinalIgnoreCase(this._type, contentType.typeComponent) &&
+        equalsOrdinalIgnoreCase(this._subType, contentType.subTypeComponent);
     }
     return result;
   }

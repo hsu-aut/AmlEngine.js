@@ -9,58 +9,10 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { dotNetExceptionName } from '../../src/system/exceptions.js';
-import type { Args } from './repr.js';
-import * as datetime from './eval/datetime.js';
-import * as dtparse from './eval/dtparse.js';
-import * as timespan from './eval/timespan.js';
-import * as number from './eval/number.js';
-import * as guid from './eval/guid.js';
-import * as uri from './eval/uri.js';
-import * as xmlconvert from './eval/xmlconvert.js';
-import * as convert from './eval/convert.js';
-
-interface EvalModule {
-  evaluators: Record<string, (args: Args) => string>;
-  /** known deviations from .NET: key `${fn} ${JSON.stringify(args)}` -> reason */
-  deviations: Record<string, string>;
-  /** known deviations that apply to a whole class of cases (not checked for staleness) */
-  deviationRules?: { reason: string; test: (fn: string, args: Args) => boolean }[];
-}
-
-const modules: EvalModule[] = [datetime, dtparse, timespan, number, guid, uri, xmlconvert, convert];
-const evaluators: Record<string, (args: Args) => string> = {};
-const deviations: Record<string, string> = {};
-const deviationRules: NonNullable<EvalModule['deviationRules']> = [];
-for (const m of modules) {
-  deviationRules.push(...(m.deviationRules ?? []));
-  for (const [k, v] of Object.entries(m.evaluators)) {
-    if (k in evaluators) throw new Error(`duplicate evaluator ${k}`);
-    evaluators[k] = v;
-  }
-  Object.assign(deviations, m.deviations);
-}
+import { deviationRules, deviations, run, type Case, type Result } from './sys-eval.js';
 
 const casesFile = process.env.SYS_CASES ?? join(__dirname, 'cases.json');
 const oracleFile = process.env.SYS_ORACLE ?? join(__dirname, '..', 'oracle-out', 'sys.json');
-
-interface Case {
-  area: string;
-  fn: string;
-  args: Args;
-}
-type Result = { ok: string } | { err: string };
-
-function run(c: Case): Result {
-  const f = evaluators[c.fn];
-  if (!f) return { err: `no evaluator for ${c.fn}` };
-  try {
-    // The oracle's JSON writer replaces lone surrogates by U+FFFD; do the same with our output.
-    return { ok: f(c.args).replace(/[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/g, '�') };
-  } catch (e) {
-    return { err: dotNetExceptionName(e) };
-  }
-}
 
 describe.skipIf(!existsSync(casesFile) || !existsSync(oracleFile))('System layer parity with .NET', () => {
   const cases: Case[] = JSON.parse(readFileSync(casesFile, 'utf8'));

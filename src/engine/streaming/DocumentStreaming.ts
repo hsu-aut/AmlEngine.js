@@ -16,7 +16,7 @@
 import { Fixes } from '../fixes.js';
 import { T } from '../registry.js';
 import { ArgumentException, ArgumentNullException, NotSupportedException } from '../../system/exceptions.js';
-import { isNullOrEmpty, isNullOrWhiteSpace } from '../../system/strings.js';
+import { compareOrdinalIgnoreCase, isNullOrEmpty, isNullOrWhiteSpace } from '../../system/strings.js';
 import { from } from '../../system/linq.js';
 import { trimWhiteSpace } from '../../system/Char.js';
 import { Uri, UriKind } from '../../system/index.js';
@@ -275,9 +275,7 @@ function compareSemanticVersion(a: SemanticVersion, b: SemanticVersion | null): 
   if (flag && flag2) return 0;
   if (flag) return 1;
   if (flag2) return -1;
-  const x = a.specialVersion.toUpperCase();
-  const y = b.specialVersion.toUpperCase();
-  return x < y ? -1 : x > y ? 1 : 0;
+  return compareOrdinalIgnoreCase(a.specialVersion, b.specialVersion);
 }
 
 function getFileName(path: string): string {
