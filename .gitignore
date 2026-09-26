@@ -5,3 +5,4 @@ oracle/obj/
 test/oracle-out/
 *.log
 test/**/CAEX_ClassModel_V*.xsd
+test/browser/out/

@@ -25,6 +25,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:browser": "node test/browser/run.mjs",
     "oracle": "bash scripts/oracle.sh"
   },
   "keywords": [

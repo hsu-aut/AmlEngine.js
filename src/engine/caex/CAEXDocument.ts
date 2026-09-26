@@ -172,12 +172,10 @@ async function readUriAsync(uri: string): Promise<Uint8Array> {
     }
     return new Uint8Array(await response.arrayBuffer());
   }
-  let fs: typeof import('node:fs/promises');
-  let nodePath: NodePath;
-  try {
-    fs = await import('node:fs/promises');
-    nodePath = await import('node:path');
-  } catch {
+  // process.getBuiltinModule instead of import(): bundlers for the browser must not resolve node:fs.
+  const fs = syncModule<typeof import('node:fs/promises')>('node:fs/promises');
+  const nodePath = syncModule<NodePath>('node:path');
+  if (fs === null || nodePath === null) {
     throw new NotSupportedException('Loading a CAEX document from a file requires Node.js.');
   }
   try {
@@ -556,10 +554,8 @@ export class CAEXDocument extends XDocumentWrapper implements IAMLFile {
       this.filePath = filename;
       this.caexFile!.fileName = getFileName(this.filePath);
     }
-    let fs: typeof import('node:fs/promises');
-    try {
-      fs = await import('node:fs/promises');
-    } catch {
+    const fs = syncModule<typeof import('node:fs/promises')>('node:fs/promises');
+    if (fs === null) {
       throw new NotSupportedException('Saving to a file requires Node.js.');
     }
     const text = writeXDocument(this.xDocument!, {

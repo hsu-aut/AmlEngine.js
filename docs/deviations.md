@@ -35,6 +35,13 @@ port does not reproduce that silent half-loaded state. `LoadFromStream`, `LoadFr
 
 ## Limitations
 
+### Resolution of "now"
+
+`DateTime.Now` in .NET has a resolution of 100 ns, and values written from it (for example the
+LastWritingDateTime of a new document) carry up to seven fractional digits. The JS clock
+(`Date.now()`) has millisecond resolution, so the port writes at most three. Only values taken
+from the current time are affected; parsed and computed dates keep their full precision.
+
 ### Reference inequality of boxed strings
 
 `SetAttributeValueCmd.Execute` compares old and new value with `object != object`, which is a

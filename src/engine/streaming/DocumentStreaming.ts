@@ -229,7 +229,10 @@ async function loadAsync(inputUrl: string, settings: XmlReaderSettings): Promise
     throw new NotSupportedException(`The URI scheme '${uri.scheme}' is not supported.`);
   }
   const path = uri !== null ? uri.localPath : inputUrl;
-  const fs = await import('node:fs');
+  const fs = (globalThis as { process?: { getBuiltinModule?: (id: string) => unknown } }).process?.getBuiltinModule?.('node:fs') as
+    | { readFileSync(path: string): Uint8Array }
+    | undefined;
+  if (fs === undefined) throw new NotSupportedException('Loading from a file requires Node.js.');
   return loadXDocument(new Uint8Array(fs.readFileSync(path)), { preserveWhitespace: true });
 }
 
