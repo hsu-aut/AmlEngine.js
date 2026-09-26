@@ -21,7 +21,7 @@ npm install
 npm test               # needs the oracle outputs, see "Verification"
 npm run typecheck
 npm run build          # dist/index.js (ESM), dist/index.cjs, dist/index.d.ts
-npm run test:browser   # runs a scenario in Node and in headless Microsoft Edge
+npm run test:browser   # scenario and System cases in Node, Edge, Chromium, Firefox, WebKit
 ```
 
 ## Use

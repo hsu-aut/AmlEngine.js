@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- Case mapping from fixed .NET tables instead of the JS engine, so that Node and every browser
+  give the same result: `char.ToUpperInvariant`, `ToLowerInvariant` and `OrdinalIgnoreCase`,
+  supplementary code points included. Fixes found with it, each checked against the original:
+  `ChangeMode="ﬅate"` was read as `State`, "ınfinity" was read as a double, "FRİDAY 2020-01-03"
+  was parsed as a date, `StringComparer.OrdinalIgnoreCase` returned other values for some
+  non-ASCII letters.
+- `Trim` and `IsNullOrWhiteSpace` treat U+0085 as white space and U+FEFF not, as .NET does.
+- XML parser and writer without recursion: any nesting depth (tested with 20,000 levels).
+- Browser check also in Chromium, Firefox and WebKit (Playwright), with all System and
+  infrastructure oracle cases.
+
 ## 0.1.0 (2026-09-26)
 
 First version for use in other projects (FPB.js). Behaviour of Aml.Engine 4.5.2.
