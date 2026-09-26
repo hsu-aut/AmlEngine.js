@@ -25,6 +25,7 @@ node scripts/gen-amlobjects.mjs test/amlobjects/ops.json >/dev/null
 $ORACLE amlobjects test/amlobjects test/corpus test/oracle-out/amlobjects-work test/oracle-out/amlobjects
 node scripts/gen-reads.mjs test/reads 6 4711 >/dev/null
 $ORACLE reads test/oracle-out/reads test/corpus test/reads
+$ORACLE noreturn test/noreturn/cases.json test/oracle-out/noreturn.json
 node scripts/gen-gapsinfra.mjs test/gapsinfra/cases.json 250 3682 >/dev/null
 $ORACLE gapsinfra test/gapsinfra/cases.json test/oracle-out/gapsinfra.json
 node scripts/gen-gapsservices.mjs test/gapsservices 3682 >/dev/null

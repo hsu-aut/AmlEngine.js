@@ -49,6 +49,11 @@ A JS number is passed as `int` when it is integral and as `double` otherwise; ot
 explicit (`ClrValue.double(5)`, `ClrValue.ushort(5)`, `ClrValue.float(1.5)`). Methods that touch
 the file system work in Node only; in the browser they throw `NotSupportedException`.
 
+On documents with cyclic references (a class that derives from itself, directly or over other
+classes, or attributes that mirror each other) some members of Aml.Engine recurse or loop
+without end. The port throws `CyclicReferenceException` there instead of freezing the page
+([docs/deviations.md](docs/deviations.md), "Calls that do not return").
+
 ## Verification
 
 `oracle/` is a .NET 8 console program that runs the real Aml.Engine 4.5.2. The tests run the

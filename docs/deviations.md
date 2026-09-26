@@ -33,6 +33,33 @@ was observed to return a document with `CAEXFile == null` for such an entity bom
 port does not reproduce that silent half-loaded state. `LoadFromStream`, `LoadFromBinary` and
 `LoadFromFile` reject any DTD, as in .NET.
 
+### Calls that do not return: the port throws
+
+Aml.Engine follows references without checking for cycles, and a few loops can run forever. On
+such input the original never returns: a recursion overflows the stack, which ends the .NET
+process (it cannot be caught), or a loop runs until the process is stopped. In a browser the
+same would freeze the tab, so the port detects these cases and throws instead. It detects them
+exactly: a guard fires only when the state of the loop repeats, or when a recursive member is
+entered again with the same arguments before the first call returned. In both cases the
+original provably never returns; everything else behaves as before.
+
+| Where | Original | Port |
+|---|---|---|
+| Base class references in a cycle (a class deriving from itself, directly, over other classes or over its own child class; for SystemUnitClasses, RoleClasses, InterfaceClasses and AttributeTypes) | stack overflow or endless loop in 48 members of the read API alone (inherited attributes, interfaces and elements, `GetReferenceHierarchy`, `IsInherited`, `IsOverridden`, `OverriddenElement`, `DefaultValue` and `Unit` of attribute types, `ClassIsDerivedFrom`, `IsDerivedFrom...`, `Has...ClassReference`, `IsFacet`/`IsGroup`/`IsPort`, `AllElementsWithNameReference`, ...) | `CyclicReferenceException` |
+| Attribute mirrors that mirror each other (`AttributeTypeReference`) | stack overflow | `CyclicReferenceException` |
+| `CAEXPathBuilder.PathNameListWithSeparator` on a path longer than 65535 characters (the `ushort` loop counter wraps and the path is read again from the start) | endless loop, unless a later pass ends with `IndexOutOfRangeException` | the same exception where the original throws it; `ArgumentException` once a pass would repeat |
+| `XmlCAEXAttributes.GetPartialNodeCAEXPath` with a `root` that is not an ancestor (internal in C#, public in the port) | endless loop | `ArgumentException` |
+| `CopyAttributesFrom` with the target as its own source (each copy is appended to the sequence being walked) | endless loop, the attribute list grows until memory runs out | copies the attributes that were there, as the original does first, then `ArgumentException` |
+
+`CyclicReferenceException` (exported from the package) derives from `InvalidOperationException`;
+its `element` is the XML element at which the cycle was detected, and its message names it. The
+guards are in `src/engine/cycles.ts` and at the places listed there. The oracle checks both
+directions: for the `cyclic-*` documents of the read package it records every single call that
+overflows the stack or does not return within 5 s (`!stackoverflow`, `!hang`), and the port must
+throw `CyclicReferenceException` for exactly these calls and give the original's result for all
+others (`test/engine/reads.oracle.test.ts`); the path, partial path and self copy cases are in
+`test/noreturn/cases.json` (`test/engine/noreturn.oracle.test.ts`).
+
 ## Limitations
 
 ### Resolution of "now"

@@ -1,0 +1,276 @@
+[
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "a/",
+    30000
+   ]
+  ],
+  "schema": "3.0",
+  "alias": false
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "a/",
+    32767
+   ],
+   [
+    "b",
+    1
+   ]
+  ],
+  "schema": "3.0",
+  "alias": false
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "x@",
+    32767
+   ]
+  ],
+  "schema": "3.0",
+  "alias": true
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "/",
+    65536
+   ]
+  ],
+  "schema": "3.0",
+  "alias": false
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "/",
+    70000
+   ]
+  ],
+  "schema": "3.0",
+  "alias": false
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "/",
+    70000
+   ]
+  ],
+  "schema": "2.15",
+  "alias": false
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "a",
+    40000
+   ]
+  ],
+  "schema": "3.0",
+  "alias": false
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "a",
+    30000
+   ],
+   [
+    "/",
+    1
+   ],
+   [
+    "b",
+    5000
+   ],
+   [
+    "/",
+    1
+   ],
+   [
+    "c",
+    31000
+   ]
+  ],
+  "schema": "3.0",
+  "alias": false
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "x",
+    20
+   ],
+   [
+    "/",
+    65600
+   ]
+  ],
+  "schema": "3.0",
+  "alias": false
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "y",
+    10
+   ],
+   [
+    "/",
+    65000
+   ],
+   [
+    "w",
+    1000
+   ]
+  ],
+  "schema": "3.0",
+  "alias": false
+ },
+ {
+  "fn": "split",
+  "parts": [
+   [
+    "[",
+    1
+   ],
+   [
+    "/",
+    65600
+   ]
+  ],
+  "schema": "3.0",
+  "alias": false
+ },
+ {
+  "fn": "partial",
+  "xml": "<CAEXFile SchemaVersion=\"3.0\" xmlns=\"http://www.dke.de/CAEX\"><InstanceHierarchy Name=\"IH\"><InternalElement Name=\"A\" ID=\"a\"><InternalElement Name=\"B\" ID=\"b\"><Attribute Name=\"S\" /></InternalElement></InternalElement></InstanceHierarchy><SystemUnitClassLib Name=\"L\" /></CAEXFile>",
+  "node": [
+   0,
+   0,
+   0
+  ],
+  "root": [
+   0
+  ]
+ },
+ {
+  "fn": "partial",
+  "xml": "<CAEXFile SchemaVersion=\"3.0\" xmlns=\"http://www.dke.de/CAEX\"><InstanceHierarchy Name=\"IH\"><InternalElement Name=\"A\" ID=\"a\"><InternalElement Name=\"B\" ID=\"b\"><Attribute Name=\"S\" /></InternalElement></InternalElement></InstanceHierarchy><SystemUnitClassLib Name=\"L\" /></CAEXFile>",
+  "node": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "root": [
+   0,
+   0
+  ]
+ },
+ {
+  "fn": "partial",
+  "xml": "<CAEXFile SchemaVersion=\"3.0\" xmlns=\"http://www.dke.de/CAEX\"><InstanceHierarchy Name=\"IH\"><InternalElement Name=\"A\" ID=\"a\"><InternalElement Name=\"B\" ID=\"b\"><Attribute Name=\"S\" /></InternalElement></InternalElement></InstanceHierarchy><SystemUnitClassLib Name=\"L\" /></CAEXFile>",
+  "node": [
+   0,
+   0,
+   0
+  ],
+  "root": [
+   1
+  ]
+ },
+ {
+  "fn": "partial",
+  "xml": "<CAEXFile SchemaVersion=\"3.0\" xmlns=\"http://www.dke.de/CAEX\"><InstanceHierarchy Name=\"IH\"><InternalElement Name=\"A\" ID=\"a\"><InternalElement Name=\"B\" ID=\"b\"><Attribute Name=\"S\" /></InternalElement></InternalElement></InstanceHierarchy><SystemUnitClassLib Name=\"L\" /></CAEXFile>",
+  "node": [
+   0,
+   0,
+   0
+  ],
+  "root": [
+   0,
+   0,
+   0
+  ]
+ },
+ {
+  "fn": "copy",
+  "xml": "<?xml version=\"1.0\" encoding=\"utf-8\"?><CAEXFile SchemaVersion=\"3.0\" FileName=\"c.aml\" xmlns=\"http://www.dke.de/CAEX\"><InstanceHierarchy Name=\"IH\"><InternalElement Name=\"A\" ID=\"00000000-0000-4000-a000-000000000001\"><Attribute Name=\"P\" AttributeDataType=\"xs:double\"><Value>1.5</Value></Attribute><Attribute Name=\"Q\" AttributeDataType=\"xs:string\"><Value>q</Value></Attribute></InternalElement><InternalElement Name=\"B\" ID=\"00000000-0000-4000-a000-000000000002\" /></InstanceHierarchy></CAEXFile>",
+  "target": [
+   0,
+   1
+  ],
+  "source": [
+   0,
+   0
+  ],
+  "values": true
+ },
+ {
+  "fn": "copy",
+  "xml": "<?xml version=\"1.0\" encoding=\"utf-8\"?><CAEXFile SchemaVersion=\"3.0\" FileName=\"c.aml\" xmlns=\"http://www.dke.de/CAEX\"><InstanceHierarchy Name=\"IH\"><InternalElement Name=\"A\" ID=\"00000000-0000-4000-a000-000000000001\"><Attribute Name=\"P\" AttributeDataType=\"xs:double\"><Value>1.5</Value></Attribute><Attribute Name=\"Q\" AttributeDataType=\"xs:string\"><Value>q</Value></Attribute></InternalElement><InternalElement Name=\"B\" ID=\"00000000-0000-4000-a000-000000000002\" /></InstanceHierarchy></CAEXFile>",
+  "target": [
+   0,
+   1
+  ],
+  "source": [
+   0,
+   0
+  ],
+  "values": false
+ },
+ {
+  "fn": "copy",
+  "xml": "<?xml version=\"1.0\" encoding=\"utf-8\"?><CAEXFile SchemaVersion=\"3.0\" FileName=\"c.aml\" xmlns=\"http://www.dke.de/CAEX\"><InstanceHierarchy Name=\"IH\"><InternalElement Name=\"A\" ID=\"00000000-0000-4000-a000-000000000001\"><Attribute Name=\"P\" AttributeDataType=\"xs:double\"><Value>1.5</Value></Attribute><Attribute Name=\"Q\" AttributeDataType=\"xs:string\"><Value>q</Value></Attribute></InternalElement><InternalElement Name=\"B\" ID=\"00000000-0000-4000-a000-000000000002\" /></InstanceHierarchy></CAEXFile>",
+  "target": [
+   0,
+   1
+  ],
+  "source": [
+   0,
+   1
+  ],
+  "values": true
+ },
+ {
+  "fn": "copy",
+  "xml": "<?xml version=\"1.0\" encoding=\"utf-8\"?><CAEXFile SchemaVersion=\"3.0\" FileName=\"c.aml\" xmlns=\"http://www.dke.de/CAEX\"><InstanceHierarchy Name=\"IH\"><InternalElement Name=\"A\" ID=\"00000000-0000-4000-a000-000000000001\"><Attribute Name=\"P\" AttributeDataType=\"xs:double\"><Value>1.5</Value></Attribute><Attribute Name=\"Q\" AttributeDataType=\"xs:string\"><Value>q</Value></Attribute></InternalElement><InternalElement Name=\"B\" ID=\"00000000-0000-4000-a000-000000000002\" /></InstanceHierarchy></CAEXFile>",
+  "target": [
+   0,
+   0
+  ],
+  "source": [
+   0,
+   0
+  ],
+  "values": true
+ },
+ {
+  "fn": "copy",
+  "xml": "<?xml version=\"1.0\" encoding=\"utf-8\"?><CAEXFile SchemaVersion=\"3.0\" FileName=\"c.aml\" xmlns=\"http://www.dke.de/CAEX\"><InstanceHierarchy Name=\"IH\"><InternalElement Name=\"A\" ID=\"00000000-0000-4000-a000-000000000001\"><Attribute Name=\"P\" AttributeDataType=\"xs:double\"><Value>1.5</Value></Attribute><Attribute Name=\"Q\" AttributeDataType=\"xs:string\"><Value>q</Value></Attribute></InternalElement><InternalElement Name=\"B\" ID=\"00000000-0000-4000-a000-000000000002\" /></InstanceHierarchy></CAEXFile>",
+  "target": [
+   0,
+   0
+  ],
+  "source": [
+   0,
+   0
+  ],
+  "values": false
+ }
+]

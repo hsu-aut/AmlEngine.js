@@ -259,6 +259,41 @@ for (const v of ['3.0', '2.15']) {
     libs(v),
     el('SystemUnitClassLib', { Name: 'SUCL' }, el('SystemUnitClass', { Name: 'Machine' }), el('SystemUnitClass', { Name: 'Machine' })),
   ]);
+  // more cycles: a tail leading into a cycle of three, a class derived from its own child, and
+  // mirrors of each other (instances, interfaces, attributes)
+  const g = (n) => `00000000-0000-4000-a000-${String(n).padStart(12, '0')}`;
+  const shapes = (tag, lib, extra = () => []) => {
+    const ref = tag === 'AttributeType' ? 'RefAttributeType' : 'RefBaseClassPath';
+    return el(
+      `${tag}Lib`,
+      { Name: lib },
+      el(tag, { Name: 'Tail', [ref]: `${lib}/A` }, extra('Tail')),
+      el(tag, { Name: 'A', [ref]: `${lib}/B` }, extra('A')),
+      el(tag, { Name: 'B', [ref]: `${lib}/C` }, extra('B')),
+      el(tag, { Name: 'C', [ref]: `${lib}/A` }, extra('C')),
+      el(tag, { Name: 'Outer', [ref]: `${lib}/Outer/Inner` }, extra('Outer'), el(tag, { Name: 'Inner', [ref]: 'Outer' }, extra('Inner'))),
+    );
+  };
+  const attr = (n) => el('Attribute', { Name: 'At' + n, AttributeDataType: 'xs:string' });
+  files[`cyclic-shapes-${s}.aml`] = doc(v, `cyclic-shapes-${s}.aml`, [
+    el(
+      'InstanceHierarchy',
+      { Name: 'IH' },
+      ie(v, 'Rho', 'ie-rho', 'SUCL3/Tail', ei(v, 'E', 'ei-rho', 'ICL3/Tail'), rr(v, 'RCL3/Tail'), v === '3.0' && el('Attribute', { Name: 'T', AttributeDataType: 'xs:string', RefAttributeType: 'ATL3/Tail' })),
+      ie(v, 'Nested', 'ie-nested', 'SUCL3/Outer', ei(v, 'E', 'ei-nested', 'ICL3/Outer/Inner'), rr(v, 'RCL3/Outer')),
+      ie(v, 'MirX', g(1), g(2)),
+      ie(v, 'MirY', g(2), g(1)),
+      ie(v, 'MirSelf', g(3), g(3)),
+      v === '3.0' && ie(v, 'Plugs', g(4), null, ei(v, 'P', g(5), g(6)), ei(v, 'Q', g(6), g(5)), ei(v, 'S', g(7), g(7))),
+      v === '3.0' && el('InternalElement', { Name: 'AttA', ID: g(8) }, el('Attribute', { Name: 'S', AttributeDataType: 'xs:string', RefAttributeType: `${g(9)}/S` })),
+      v === '3.0' && el('InternalElement', { Name: 'AttB', ID: g(9) }, el('Attribute', { Name: 'S', AttributeDataType: 'xs:string', RefAttributeType: `${g(8)}/S` })),
+      v === '3.0' && el('InternalElement', { Name: 'AttC', ID: g(10) }, el('Attribute', { Name: 'T', AttributeDataType: 'xs:string', RefAttributeType: `${g(10)}/T` })),
+    ),
+    shapes('InterfaceClass', 'ICL3', (n) => attr(n)),
+    shapes('RoleClass', 'RCL3', (n) => attr(n)),
+    shapes('SystemUnitClass', 'SUCL3', (n) => [attr(n), el('SupportedRoleClass', { RefRoleClassPath: 'RCL3/Tail' })]),
+    v === '3.0' && shapes('AttributeType', 'ATL3', (n) => attr(n)),
+  ]);
 }
 
 // the external library referenced by alias

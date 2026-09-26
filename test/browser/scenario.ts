@@ -111,5 +111,22 @@ export function runScenario(inputs: { big: string; plant: string; lib: string })
     const rootDoc: any = CAEXDocument.loadFromBinary(c2.rootDocumentStream().toArray());
     return `${parts.join(';')}|root=${fp(saved(rootDoc))}`;
   });
+
+  // 4. Cyclic inheritance: where Aml.Engine never returns, the port throws at once instead of
+  // freezing the page.
+  const cyclic: any = CAEXDocument.loadFromString(CYCLIC);
+  const cycA: any = cyclic.findByPath('SUCL/A');
+  log('cyclic.hierarchy', () => [...cycA.getReferenceHierarchy()].length);
+  log('cyclic.derived', () => cycA.classIsDerivedFrom('SUCL/X'));
+  log('cyclic.attributes', () => [...cycA.attributeAndInherited].length);
+  log('cyclic.instance', () => [...cycA.createClassInstance().attribute].length);
   return r;
 }
+
+const CYCLIC = `<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="cyclic.aml" xmlns="http://www.dke.de/CAEX">
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="A" RefBaseClassPath="SUCL/B"><Attribute Name="a" /></SystemUnitClass>
+    <SystemUnitClass Name="B" RefBaseClassPath="SUCL/A"><Attribute Name="b" /></SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>`;

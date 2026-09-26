@@ -5,6 +5,7 @@
 
 export * from './engine/api.js';
 export { ClrType, ClrValue } from './engine/caex/extensions/ClrValue.js';
+export { CyclicReferenceException } from './engine/cycles.js';
 
 // .NET value types used by the API (typed attribute values, dates, exceptions).
 export {

@@ -15,7 +15,7 @@ System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.Culture
 var json = new JsonSerializerOptions { WriteIndented = true };
 
 // Directories stand for all files in them (keeps command lines short).
-if (args.FirstOrDefault() is not ("xops" or "sys" or "engineops" or "values" or "amlobjects" or "mutations" or "reads" or "gapscaex" or "gapsservices" or "gapsinfra"))
+if (args.FirstOrDefault() is not ("xops" or "sys" or "engineops" or "values" or "amlobjects" or "mutations" or "reads" or "gapscaex" or "gapsservices" or "gapsinfra" or "noreturn" or "noreturn-one"))
 args = args.Take(2).Concat(args.Skip(2).SelectMany<string, string>(a => Directory.Exists(a)
     ? Directory.GetFiles(a).OrderBy(f => f, StringComparer.Ordinal)
     : new[] { a })).ToArray();
@@ -100,6 +100,13 @@ switch (args.FirstOrDefault())
         break;
     case "reads":
         ReadsOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "noreturn":
+        // noreturn <cases.json> <out.json>: calls of the original that may not return, see NoReturnOracle.cs
+        NoReturnOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "noreturn-one":
+        NoReturnOracle.RunOne(args.Skip(1).ToArray());
         break;
 
     case "validate":

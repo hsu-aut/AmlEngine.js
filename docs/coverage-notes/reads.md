@@ -8,12 +8,13 @@ document, including the mutations some reads make.
 
 - Oracle: `oracle/ReadsOracle.cs` (command `reads <outDir> <file.aml|dir>...`, one
   `<name>.jsonl` per document)
-- JS runner: `test/engine/reads.oracle.test.ts` (one test per document; all 82 pass)
+- JS runner: `test/engine/reads.oracle.test.ts` (one test per document; all 84 pass)
 - Synthetic inputs: `scripts/gen-reads.mjs` (seeded, seed 4711) -> `test/reads/*.aml`
   (`test/reads/** binary` in `.gitattributes`)
-- Oracle output: `test/oracle-out/reads/` (82 files, about 6 million recorded calls, 550 MB;
-  gitignored); both calls appended to `scripts/oracle.sh`. The oracle needs about 20 minutes, the
-  JS test about the same (`MPS500_Integrated` alone takes 6 minutes).
+- Oracle output: `test/oracle-out/reads/` (84 files, about 6 million recorded calls, 550 MB;
+  gitignored); both calls appended to `scripts/oracle.sh`. The oracle needs about 20 minutes for
+  the documents without cycles and 1.5 hours for the `cyclic-*` ones (see below), the JS test
+  about 40 minutes (`MPS500_Integrated` alone takes 6 minutes).
 - Debugging: `READS_PROFILE=1` prints the time per member and the members that changed the
   document; `READS_TRACE=1` prints every call; `READS_TRACE_IDS=1` (both sides) prints where new
   IDs are generated; `READS_OUT=<dir>` points the JS test at another oracle output;
@@ -98,9 +99,10 @@ useId: true)` and `InternalLinkReferencePath` (assign or unbrace IDs), creating 
    async variants (file) are compared with the same expected result.
 7. **Validate()** after the walk (result and messages).
 
-Documents: the 63 corpus files and 19 synthetic ones (`broken-refs`, `aliases` (with an existing
+Documents: the 63 corpus files and 21 synthetic ones (`broken-refs`, `aliases` (with an existing
 and a missing external file and duplicate aliases), `cyclic` (self and two-class cycles in all four
-class kinds), `names` (`/ . : [ ] @` in names, bracket escaping), `mirrors` (mirror of mirror,
+class kinds), `cyclic-shapes` (a tail leading into a cycle of three, a class derived from its own
+child class, and instances, interfaces and attributes that mirror each other), `names` (`/ . : [ ] @` in names, bracket escaping), `mirrors` (mirror of mirror,
 broken and self mirrors, interface and attribute mirrors), `duplicates` (names and IDs), each for
 CAEX 3.0 and 2.15, the external library `ext-lib.aml` and 6 random documents mixing all of these).
 
@@ -125,14 +127,20 @@ other properties run on every object.
 
 ## Deviations and limits
 
-- **Cyclic inheritance**: in the original, 39 members recurse without end on classes that inherit
-  from themselves (stack overflow, which ends the .NET process) or do not return (endless loops,
-  e.g. `AllElementsWithNameReference`, `HasRoleClassReference`, `DefaultValue` of attribute types
-  in a cycle, `IsFacet`/`IsGroup`/`IsPort`). The oracle runs `cyclic-*` documents in a child
-  process, adds the member that crashed or ran longer than 1.5 s to a skip list and starts again;
-  skipped calls are recorded as `!skip` and not replayed (2842 and 3290 calls). All other members
-  are compared on these documents too. What the port does for the skipped members (JS: stack
-  overflow becomes `RangeError`, reported as `StackOverflowException`) is not compared.
+- **Cyclic references** (`cyclic-*` documents): in the original some calls never return. A
+  recursion along base class or mirror references overflows the stack, which ends the .NET
+  process; a loop over base classes (`ClassIsDerivedFrom`, `IsDerivedFrom...`,
+  `Has...ClassReference`, `IsFacet`/`IsGroup`/`IsPort`, the query service scans over interfaces)
+  runs forever. The oracle runs these documents in child processes and numbers every call; when
+  a child ends early, the call it was making is recorded as `!stackoverflow` (stack overflow exit
+  code) or `!hang` (no return within 3 s), and the next child leaves out exactly that call (the
+  next child is started ahead and waits for its skip list, so a restart costs little). All other
+  calls are recorded with their results. The JS runner makes every call: where the oracle
+  recorded `!stackoverflow` or `!hang` the port must throw `CyclicReferenceException`, and for all
+  other calls it must give the recorded result (docs/deviations.md, "Calls that do not return").
+  On the four `cyclic-*` documents (97,975 recorded calls) 2,520 calls of 48 members do not
+  return in the original (1,711 stack overflows, 809 endless loops); the oracle needs about
+  1.5 hours for them (the four documents run in parallel, one child run per such call).
 - The async streaming variants of the port with a stream (bytes) argument have no C# counterpart
   and are not called; the file variants are compared with the synchronous C# result.
 - `SaveToFile` writes the target file name into the document (`FileName`); both sides use the

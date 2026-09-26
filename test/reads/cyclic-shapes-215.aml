@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="cyclic-shapes-215.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Rho" ID="ie-rho" RefBaseSystemUnitPath="SUCL3/Tail">
+      <ExternalInterface Name="E" ID="ei-rho" RefBaseClassPath="ICL3/Tail" />
+      <RoleRequirements RefBaseRoleClassPath="RCL3/Tail" />
+    </InternalElement>
+    <InternalElement Name="Nested" ID="ie-nested" RefBaseSystemUnitPath="SUCL3/Outer">
+      <ExternalInterface Name="E" ID="ei-nested" RefBaseClassPath="ICL3/Outer/Inner" />
+      <RoleRequirements RefBaseRoleClassPath="RCL3/Outer" />
+    </InternalElement>
+    <InternalElement Name="MirX" ID="00000000-0000-4000-a000-000000000001" RefBaseSystemUnitPath="00000000-0000-4000-a000-000000000002" />
+    <InternalElement Name="MirY" ID="00000000-0000-4000-a000-000000000002" RefBaseSystemUnitPath="00000000-0000-4000-a000-000000000001" />
+    <InternalElement Name="MirSelf" ID="00000000-0000-4000-a000-000000000003" RefBaseSystemUnitPath="00000000-0000-4000-a000-000000000003" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL3">
+    <InterfaceClass Name="Tail" RefBaseClassPath="ICL3/A">
+      <Attribute Name="AtTail" AttributeDataType="xs:string" />
+    </InterfaceClass>
+    <InterfaceClass Name="A" RefBaseClassPath="ICL3/B">
+      <Attribute Name="AtA" AttributeDataType="xs:string" />
+    </InterfaceClass>
+    <InterfaceClass Name="B" RefBaseClassPath="ICL3/C">
+      <Attribute Name="AtB" AttributeDataType="xs:string" />
+    </InterfaceClass>
+    <InterfaceClass Name="C" RefBaseClassPath="ICL3/A">
+      <Attribute Name="AtC" AttributeDataType="xs:string" />
+    </InterfaceClass>
+    <InterfaceClass Name="Outer" RefBaseClassPath="ICL3/Outer/Inner">
+      <Attribute Name="AtOuter" AttributeDataType="xs:string" />
+      <InterfaceClass Name="Inner" RefBaseClassPath="Outer">
+        <Attribute Name="AtInner" AttributeDataType="xs:string" />
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL3">
+    <RoleClass Name="Tail" RefBaseClassPath="RCL3/A">
+      <Attribute Name="AtTail" AttributeDataType="xs:string" />
+    </RoleClass>
+    <RoleClass Name="A" RefBaseClassPath="RCL3/B">
+      <Attribute Name="AtA" AttributeDataType="xs:string" />
+    </RoleClass>
+    <RoleClass Name="B" RefBaseClassPath="RCL3/C">
+      <Attribute Name="AtB" AttributeDataType="xs:string" />
+    </RoleClass>
+    <RoleClass Name="C" RefBaseClassPath="RCL3/A">
+      <Attribute Name="AtC" AttributeDataType="xs:string" />
+    </RoleClass>
+    <RoleClass Name="Outer" RefBaseClassPath="RCL3/Outer/Inner">
+      <Attribute Name="AtOuter" AttributeDataType="xs:string" />
+      <RoleClass Name="Inner" RefBaseClassPath="Outer">
+        <Attribute Name="AtInner" AttributeDataType="xs:string" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL3">
+    <SystemUnitClass Name="Tail" RefBaseClassPath="SUCL3/A">
+      <Attribute Name="AtTail" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="RCL3/Tail" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="A" RefBaseClassPath="SUCL3/B">
+      <Attribute Name="AtA" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="RCL3/Tail" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="B" RefBaseClassPath="SUCL3/C">
+      <Attribute Name="AtB" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="RCL3/Tail" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="C" RefBaseClassPath="SUCL3/A">
+      <Attribute Name="AtC" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="RCL3/Tail" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="Outer" RefBaseClassPath="SUCL3/Outer/Inner">
+      <Attribute Name="AtOuter" AttributeDataType="xs:string" />
+      <SupportedRoleClass RefRoleClassPath="RCL3/Tail" />
+      <SystemUnitClass Name="Inner" RefBaseClassPath="Outer">
+        <Attribute Name="AtInner" AttributeDataType="xs:string" />
+        <SupportedRoleClass RefRoleClassPath="RCL3/Tail" />
+      </SystemUnitClass>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

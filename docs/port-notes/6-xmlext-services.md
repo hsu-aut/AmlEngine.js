@@ -161,7 +161,7 @@ streaming reader, XMLSignature, profile JSON and password encryption.
 - `XmlOperation.MasterAttribute` reads `refAttribute.Value` before its null check;
   `XmlClassOperation.OverriddenElements` dereferences a null ancestor; `RoleFromMapping` calls
   `parent.CAEXSchema()` before the null-conditional; `GetPartialNodeCAEXPath` loops forever when
-  `root` is not an ancestor.
+  `root` is not an ancestor (the port throws ArgumentException there, docs/deviations.md).
 - DocumentStreaming: after `XNode.ReadFrom` the loop's `Read()` skips the next node, so in the
   byte variant an element directly following a matched element (no whitespace between) is not
   seen (neither matched nor tested with canClose); the same happens to adjacent Revision

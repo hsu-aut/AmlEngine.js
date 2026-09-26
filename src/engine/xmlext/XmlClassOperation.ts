@@ -7,6 +7,10 @@ import { CAEXPathBuilder } from '../caex/extensions/CAEXPathBuilder.js';
 import { CollectionExtensions } from '../caex/extensions/CollectionExtensions.js';
 import { XmlCAEXAttributes } from './XmlCAEXAttributes.js';
 import { XmlCAEXSchema } from './XmlCAEXSchema.js';
+import { RecursionGuard } from '../cycles.js';
+
+/** Aml.Engine recurses along the base class references without end on cyclic inheritance (src/engine/cycles.ts). */
+const referenceHierarchyGuard = new RecursionGuard('The base class references');
 
 /** Internal extension methods for CAEX class elements (inheritance by path reference). */
 export class XmlClassOperation {
@@ -40,7 +44,9 @@ export class XmlClassOperation {
   static getReferenceHierarchy(caexClassNode: XElement): Enumerable<XElement> {
     const xElement = XmlClassOperation.baseClass(caexClassNode);
     if (xElement !== null) {
-      return new Enumerable(() => CollectionExtensions.yield(caexClassNode)[Symbol.iterator]()).concat(XmlClassOperation.getReferenceHierarchy(xElement));
+      return referenceHierarchyGuard.run([caexClassNode], caexClassNode, () =>
+        new Enumerable(() => CollectionExtensions.yield(caexClassNode)[Symbol.iterator]()).concat(XmlClassOperation.getReferenceHierarchy(xElement)),
+      );
     }
     return new Enumerable(() => CollectionExtensions.yield(caexClassNode)[Symbol.iterator]());
   }

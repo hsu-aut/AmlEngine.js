@@ -133,8 +133,9 @@ Additional file outside the type map: `src/engine/resources/files/SemanticVersio
 - `CAEXPathBuilder.CAEXPath(IEnumerable<CAEXObject>)` skips empty path parts in PathParts but not
   in the loop: ArgumentOutOfRangeException for objects without a name.
 - `PathNameListWithSeparator` uses a `short` index and an `ushort` loop counter: parts longer than
-  32767 characters throw IndexOutOfRangeException, paths longer than 65535 characters loop
-  forever (reproduced).
+  32767 characters throw IndexOutOfRangeException, paths longer than 65535 characters are read
+  again from the start (reproduced). Where that would go on forever, the port throws
+  ArgumentException instead (docs/deviations.md, "Calls that do not return").
 - `ObjectWithAttributes/ObjectWithExternalInterface.Add*Reference` pass the owner's tag name as
   `elementTagName` to IUniqueName.UniqueCAEXName.
 - `AttributePathInAttributeReference`, `InstanceIDInAttributeReference`, `IsAttributeReference`,

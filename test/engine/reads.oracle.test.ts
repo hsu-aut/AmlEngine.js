@@ -4,11 +4,11 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, join, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { describe, expect, it } from 'vitest';
+import { afterAll, describe, expect, it } from 'vitest';
 import '../../src/engine/index.js';
 import { T } from '../../src/engine/registry.js';
 import { CAEXDocument } from '../../src/engine/caex/CAEXDocument.js';
@@ -50,6 +50,18 @@ const typeCache = new Map<string, any>();
 /** .NET types outside the engine that appear in results. */
 const systemTypes: Record<string, string> = { XmlTypeCode: 'src/system/XmlTypeCode.ts' };
 enumNames.push(...Object.keys(systemTypes));
+
+/**
+ * Whether `name` is a method of the object, found without reading the member: a getter of the
+ * same name (IsInherited) would run, and on cyclic documents it does not return in C#.
+ */
+function isMethod(target: any, name: string): boolean {
+  for (let p = target; p !== null && p !== undefined; p = Object.getPrototypeOf(p)) {
+    const d = Object.getOwnPropertyDescriptor(p, name);
+    if (d !== undefined) return typeof d.value === 'function';
+  }
+  return false;
+}
 
 /** Methods the port renamed because a property of the same name exists. */
 const renamed: Record<string, string> = { isInherited: 'isInheritedIn' };
@@ -128,11 +140,13 @@ function save(doc: any, pretty: boolean): string {
   return decode(doc.saveToStream(pretty));
 }
 
+const tmpDir = join(tmpdir(), `reads-oracle-js-${process.pid}`);
+afterAll(() => rmSync(tmpDir, { recursive: true, force: true }));
+
 /** SaveToFile writes the file name into the document: the same name as in the oracle. */
 function tmpFile(): string {
-  const dir = join(tmpdir(), `reads-oracle-js-${process.pid}`);
-  mkdirSync(dir, { recursive: true });
-  return join(dir, 'reads-save.aml');
+  mkdirSync(tmpDir, { recursive: true });
+  return join(tmpDir, 'reads-save.aml');
 }
 
 function exName(e: unknown): string {
@@ -147,7 +161,8 @@ class Replay {
   readonly canon = new Canonicalizer();
   readonly mismatches: string[] = [];
   count = 0;
-  skipped = 0;
+  /** Calls that do not return in Aml.Engine. */
+  noReturn = 0;
 
   constructor(readonly file: string) {}
 
@@ -291,8 +306,12 @@ class Replay {
     this.count++;
     if (process.env.READS_DUMP) this.dump.push(JSON.stringify([...entry.slice(0, 4), actual]));
     const expected = entry[4] ?? null;
-    const a = JSON.stringify(actual);
-    const e = JSON.stringify(expected);
+    // Calls that do not return in Aml.Engine (cyclic references: the oracle records a stack
+    // overflow or a call that did not return in time) must throw CyclicReferenceException in the
+    // port, and only those (docs/deviations.md, "Cyclic references").
+    const a = JSON.stringify(actual).replaceAll('"!CyclicReferenceException"', '"!noreturn"');
+    const e = JSON.stringify(expected).replace(/"!(stackoverflow|hang)"/g, '"!noreturn"');
+    if (e.includes('"!noreturn"')) this.noReturn++;
     if (a !== e && this.mismatches.length < 40) {
       const cut = (s: string) => (s.length > 600 ? s.substring(0, 600) + '…' : s);
       this.mismatches.push(`line ${line}: ${cut(JSON.stringify(entry.slice(0, 4)))}\n    expected ${cut(e)}\n    actual   ${cut(a)}`);
@@ -325,8 +344,8 @@ class Replay {
       } else if (k === 'm' || k === 'q') {
         const target = this.target(t);
         let name = camel(n);
-        if (typeof target?.[name] !== 'function' && renamed[name] !== undefined) name = renamed[name];
-        if (typeof target?.[name] !== 'function') return '!missing:' + name;
+        if (!isMethod(target, name) && renamed[name] !== undefined) name = renamed[name];
+        if (!isMethod(target, name)) return '!missing:' + name;
         result = target[name](...args);
       } else if (k.startsWith('s:')) {
         const cls = await typeByName(k.substring(2));
@@ -453,11 +472,6 @@ class Replay {
       if (lines[li]!.length === 0) continue;
       const entry = JSON.parse(lines[li]!) as any[];
       const [, k, n] = entry;
-      // members that overflowed the stack or did not return in the oracle (cyclic inheritance)
-      if (entry[4] === '!skip' || entry[4] === '!hang') {
-        this.skipped++;
-        continue;
-      }
       let actual: Json;
       switch (k) {
         case 'load':

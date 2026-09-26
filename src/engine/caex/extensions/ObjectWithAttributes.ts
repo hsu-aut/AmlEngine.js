@@ -1,7 +1,7 @@
 // Port of Aml.Engine.CAEX.Extensions.ObjectWithAttributes (Aml.Engine 4.5.2).
 
 import { T } from '../../registry.js';
-import { ArgumentNullException } from '../../../system/exceptions.js';
+import { ArgumentException, ArgumentNullException } from '../../../system/exceptions.js';
 import { isNullOrEmpty } from '../../../system/strings.js';
 import { from } from '../../../system/linq.js';
 import { XmlConvert } from '../../../system/index.js';
@@ -91,7 +91,15 @@ export class ObjectWithAttributes {
 
   /** Copies the attributes of the source object to the target object (values optionally cleared). */
   static copyAttributesFrom(targetObject: IObjectWithAttributes, sourceObject: IObjectWithAttributes, includingValues: boolean): void {
+    // Target and source the same object: every copy is appended to the sequence being walked, so
+    // the original never ends. The port copies the attributes that were there, as the original
+    // does first, and throws when the walk reaches the first copy (docs/deviations.md).
+    const node = sourceObject?.node ?? null;
+    let original = node !== null && node === (targetObject?.node ?? null) ? from(sourceObject.attribute as Iterable<AttributeType>).count() : -1;
     for (const item of sourceObject.attribute as Iterable<AttributeType>) {
+      if (original-- === 0) {
+        throw new ArgumentException('The target is the source: every copied attribute is copied again; Aml.Engine does not return in this case.', 'sourceObject');
+      }
       const copied = item.copy();
       const attributeType = copied instanceof T.AttributeType ? copied : null;
       if (!includingValues && attributeType != null) {

@@ -6,6 +6,7 @@ import { from, type Enumerable } from '../../system/linq.js';
 import { InvalidCastException } from '../../system/exceptions.js';
 import { isNullOrEmpty } from '../../system/strings.js';
 import { XElement } from '../../xml/index.js';
+import { RecursionGuard } from '../cycles.js';
 import { RoleClassType } from './RoleClassType.js';
 import { CAEXBasicObjectExtensions } from './extensions/CAEXBasicObjectExtensions.js';
 import { CAEXDocumentExtensions } from './extensions/CAEXDocumentExtensions.js';
@@ -28,6 +29,9 @@ import type { RoleRequirementsType } from './RoleRequirementsType.js';
 import type { SupportedRoleClassType } from './SupportedRoleClassType.js';
 
 type Ctor<C = unknown> = abstract new (...args: never[]) => C;
+
+/** Aml.Engine recurses along the base class references without end on cyclic inheritance (src/engine/cycles.ts). */
+const referenceHierarchyGuard = new RecursionGuard('The base class references');
 
 /** `typeof(type).IsAssignableFrom(typeof(c))` for classes. */
 function isAssignableFrom(type: Ctor, c: Ctor): boolean {
@@ -197,7 +201,9 @@ export class RoleFamilyType extends RoleClassType implements Iterable<RoleFamily
       return [this];
     }
     if (!T.CAEXWrapper.equals(this.baseClass, null)) {
-      return from(CollectionExtensions.yield(this) as Iterable<RoleFamilyType>).concat(this.baseClass!.getReferenceHierarchy(includeExternals));
+      return referenceHierarchyGuard.run([this.node, includeExternals], this.node, () =>
+        from(CollectionExtensions.yield(this) as Iterable<RoleFamilyType>).concat(this.baseClass!.getReferenceHierarchy(includeExternals)),
+      );
     }
     return CollectionExtensions.yield(this) as Iterable<RoleFamilyType>;
   }

@@ -529,7 +529,18 @@ export class CAEXPathBuilder {
     let num = -1;
     let flag = false;
     const func = schema === CAEXDocument_CAEXSchema.CAEX2_15 ? isSeparator2_15 : isSeparator3_0;
+    // Paths longer than 65535 characters: the counter wraps and the loop reads the path again
+    // from the start. Each pass depends only on the state at its start; once that state repeats,
+    // the original loops forever. The port throws then.
+    const passes = path.length > 0xffff ? new Set<string>() : null;
     for (let num2 = 0; num2 < path.length; num2 = (num2 + 1) & 0xffff) {
+      if (num2 === 0 && passes !== null) {
+        const state = `${num}|${flag}|${num >= 0 ? array.slice(0, num + 1).join('') : ''}`;
+        if (passes.has(state)) {
+          throw new ArgumentException(`The path has ${path.length} characters; Aml.Engine does not return for paths longer than 65535 characters.`, 'path');
+        }
+        passes.add(state);
+      }
       const c = path[num2];
       const num3 = num;
       if (num3 < 0) {

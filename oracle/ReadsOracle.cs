@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -66,14 +67,12 @@ public static class ReadsOracle
         var files = args.Skip(1).SelectMany<string, string>(a => Directory.Exists(a)
             ? Directory.GetFiles(a).Where(f => f.EndsWith(".aml")).OrderBy(f => f, StringComparer.Ordinal)
             : new[] { a }).ToList();
-        foreach (var file in files)
+        // documents with cyclic references run in child processes, several at a time (RunIsolated)
+        var isolated = Environment.GetEnvironmentVariable("READS_CHILD") == null ? files.Where(IsCyclic).ToList() : new List<string>();
+        var isolatedRuns = Task.Run(() => Parallel.ForEach(isolated, new ParallelOptions { MaxDegreeOfParallelism = Math.Max(2, Environment.ProcessorCount / 2) }, f => RunIsolated(outDir, f)));
+        foreach (var file in files.Except(isolated))
         {
             var name = Path.GetFileNameWithoutExtension(file);
-            if (IsCyclic(file) && Environment.GetEnvironmentVariable("READS_CHILD") == null)
-            {
-                RunIsolated(outDir, file);
-                continue;
-            }
             var sw = System.Diagnostics.Stopwatch.StartNew();
             var lines = new Ctx(file).RunFile();
             File.WriteAllLines(Path.Combine(outDir, name + ".jsonl"), lines);
@@ -88,6 +87,7 @@ public static class ReadsOracle
                 Ctx.Mutators.Clear();
             }
         }
+        isolatedRuns.Wait();
     }
 
     // ------------------------------------------------------------------------------------------
@@ -488,6 +488,8 @@ public static class ReadsOracle
             // arguments come from the loaded state only (reads may assign random IDs later)
             _init = _snap.Select(e => e.Attributes().Select(a => (a.Name.LocalName, a.Value)).ToList()).ToList();
             BuildPools();
+            // everything up to here is the same in every run of a cyclic document (no guarded call yet)
+            if (_guard && Environment.GetEnvironmentVariable("READS_SKIP_STDIN") != null) Skipped = ParseSkip(Console.ReadLine());
             Emit(null, "snap", "count", new JsonArray(), _snap.Count);
             DocumentLevel();
             Checkpoint();
@@ -1418,38 +1420,60 @@ public static class ReadsOracle
 
         JsonNode? TryNode2(Func<JsonNode?> f, string? key, int line)
         {
-            key ??= "line L" + line;
             if (_guard)
             {
-                // a member that did not return once is not called again in this document
-                if (key != null && _hung.Contains(key)) return "!hang";
-                // members that recurse without end on cyclic inheritance: a stack overflow ends the process
-                if (key != null && StackOverflows.Contains(key.Substring(key.IndexOf(' ') + 1))) return "!skip";
-                if (key != null && Probe != null) File.WriteAllText(Probe, key);
-                // documents with cyclic references: calls that do not return are recorded as "!hang"
-                // (the JS runner skips them); the abandoned thread is a background thread.
+                // Documents with cyclic references: some calls do not return, either by recursing
+                // until the stack overflows (which ends the process) or by looping forever. The
+                // document runs in a child process (RunIsolated); every guarded call gets a number,
+                // and a call that ended the child is recorded under its number and not made again.
+                var call = ++_calls;
+                if (Skipped.TryGetValue(call, out var why)) return why;
+                WriteProbe(call);
                 var t = Task.Run(() =>
                 {
                     try { return f(); }
                     catch (Exception e) { return (JsonNode?)("!" + Unwrap(e).GetType().Name); }
                 });
-                if (t.Wait(1500)) return t.Result;
-                // a call that does not return: the parent process skips this member and starts again
-                if (Probe != null) Environment.Exit(3);
-                if (key != null) _hung.Add(key);
-                return "!hang";
+                if (t.Wait(HangMs)) return t.Result;
+                // no return within the limit: the parent records "!hang" for this call
+                Environment.Exit(3);
             }
             try { return f(); }
             catch (Exception e) { return "!" + Unwrap(e).GetType().Name; }
         }
 
         bool _guard;
+        int _calls;
 
-        static readonly HashSet<string> StackOverflows =
-            (Environment.GetEnvironmentVariable("READS_SKIP") ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries).ToHashSet();
+        /// <summary>A call that has not returned after this time is taken to loop forever.</summary>
+        public const int HangMs = 3000;
+
+        static FileStream? _probeStream;
+
+        /// <summary>The number of the call about to be made, for the parent if this call ends the process.</summary>
+        static void WriteProbe(int call)
+        {
+            if (Probe == null) return;
+            // opened once: the written bytes reach the file even when the process is ended
+            _probeStream ??= new FileStream(Probe, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            var bytes = Encoding.ASCII.GetBytes(call.ToString(CultureInfo.InvariantCulture).PadRight(12));
+            _probeStream.Position = 0;
+            _probeStream.Write(bytes);
+            _probeStream.Flush();
+        }
+
+        /// <summary>
+        /// Calls that ended the child before ("n=!stackoverflow" or "n=!hang", comma separated): from
+        /// READS_SKIP, or with READS_SKIP_STDIN from the first line of stdin, read once the child has
+        /// done everything that comes before the first guarded call (RunIsolated starts it ahead).
+        /// </summary>
+        static Dictionary<int, string> Skipped = ParseSkip(Environment.GetEnvironmentVariable("READS_SKIP"));
+
+        static Dictionary<int, string> ParseSkip(string? list) =>
+            (list ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Split('=')).ToDictionary(x => int.Parse(x[0], CultureInfo.InvariantCulture), x => x[1]);
 
         static readonly string? Probe = Environment.GetEnvironmentVariable("READS_PROBE");
-        readonly HashSet<string> _hung = new();
     }
 
     // ------------------------------------------------------------------------------------------
@@ -1523,42 +1547,79 @@ public static class ReadsOracle
     static bool IsCyclic(string file) => Path.GetFileName(file).StartsWith("cyclic");
 
     /// <summary>
-    /// Documents with cyclic inheritance: members that recurse without end overflow the stack, which
-    /// ends the process. The document is run in a child process; after a crash the member that was
-    /// (or did not return within 1.5 s) is added to the skip list (recorded as "!skip") and the child
-    /// is started again.
+    /// Documents with cyclic references: some calls of the original do not return. A stack overflow
+    /// ends the .NET process and cannot be caught, and a call that loops forever cannot be stopped.
+    /// The document is therefore run in a child process that writes the number of each guarded
+    /// call to a probe file before making it. When the child ends early, the call in the probe
+    /// file is recorded ("!stackoverflow" for the stack overflow exit code, "!hang" for a call that
+    /// did not return within Ctx.HangMs) and the child is started again with that call left out.
+    /// All other calls are recorded as usual, so the JS runner compares everything that returns
+    /// and checks that the port throws CyclicReferenceException where the original does not return.
+    /// Most of a run is the start of the child (loading, the load variants, the pools), so the next
+    /// child is always started ahead and waits for its skip list on stdin. The calls found so far
+    /// are kept in &lt;outDir&gt;/&lt;name&gt;.noreturn.txt until the document is done, so an
+    /// interrupted run goes on where it stopped.
     /// </summary>
     static void RunIsolated(string outDir, string file)
     {
-        var skip = new List<string>();
-        var probe = Path.Combine(Path.GetTempPath(), "reads-oracle-probe.txt");
-        for (var attempt = 0; attempt < 200; attempt++)
+        const int StackOverflowExit = unchecked((int)0xC00000FD);
+        // the calls found so far, kept in a file so that an interrupted run can go on
+        var name = Path.GetFileNameWithoutExtension(file);
+        var skipFile = Path.Combine(outDir, name + ".noreturn.txt");
+        var skip = File.Exists(skipFile) ? File.ReadAllLines(skipFile).Where(l => l.Length > 0).ToList() : new List<string>();
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        var started = 0;
+        (System.Diagnostics.Process P, string Probe, Task<string> Out, Task<string> Err) Start()
         {
-            var psi = new System.Diagnostics.ProcessStartInfo("dotnet") { UseShellExecute = false, RedirectStandardError = true, RedirectStandardOutput = true };
+            var probe = Path.Combine(Path.GetTempPath(), $"reads-oracle-probe-{Environment.ProcessId}-{name}-{started++}.txt");
+            if (File.Exists(probe)) File.Delete(probe);
+            var psi = new System.Diagnostics.ProcessStartInfo("dotnet") { UseShellExecute = false, RedirectStandardError = true, RedirectStandardOutput = true, RedirectStandardInput = true };
             psi.ArgumentList.Add(typeof(ReadsOracle).Assembly.Location);
             psi.ArgumentList.Add("reads");
             psi.ArgumentList.Add(outDir);
             psi.ArgumentList.Add(file);
             psi.Environment["READS_CHILD"] = "1";
-            psi.Environment["READS_SKIP"] = string.Join(",", skip);
+            psi.Environment["READS_SKIP_STDIN"] = "1";
             psi.Environment["READS_PROBE"] = probe;
-            using var p = System.Diagnostics.Process.Start(psi)!;
-            var stdout = p.StandardOutput.ReadToEndAsync();
-            var stderr = p.StandardError.ReadToEndAsync();
-            p.WaitForExit();
-            if (p.ExitCode == 0)
-            {
-                Console.Write(stdout.Result);
-                Console.WriteLine($"   skipped (stack overflow or no return): {string.Join(", ", skip)}");
-                return;
-            }
-            var key = File.Exists(probe) ? File.ReadAllText(probe) : "";
-            var member = key.Substring(key.IndexOf(' ') + 1);
-            if (member.Length == 0 || skip.Contains(member)) throw new Exception($"child failed on {file}: {stderr.Result}");
-            skip.Add(member);
-            Console.Error.WriteLine($"   {Path.GetFileName(file)}: exit {p.ExitCode} in {key}, skipping");
+            var p = System.Diagnostics.Process.Start(psi)!;
+            return (p, probe, p.StandardOutput.ReadToEndAsync(), p.StandardError.ReadToEndAsync());
         }
-        throw new Exception("too many crashes: " + file);
+        var next = Start();
+        try
+        {
+            for (var attempt = 0; attempt < 5000; attempt++)
+            {
+                var child = next;
+                child.P.StandardInput.WriteLine(string.Join(",", skip));
+                child.P.StandardInput.Close();
+                next = Start();
+                child.P.WaitForExit();
+                var call = File.Exists(child.Probe) ? File.ReadAllText(child.Probe).Trim() : "";
+                File.Delete(child.Probe);
+                if (child.P.ExitCode == 0)
+                {
+                    File.Delete(skipFile);
+                    Console.Write(child.Out.Result);
+                    Console.WriteLine($"   {skip.Count} calls without return ({skip.Count(x => x.EndsWith("!stackoverflow"))} stack overflows, {skip.Count(x => x.EndsWith("!hang"))} endless), {attempt + 1} runs, {sw.ElapsedMilliseconds / 1000} s");
+                    return;
+                }
+                // a stack overflow can also end with an access violation while the runtime reports it
+                var overflow = child.P.ExitCode == StackOverflowExit || child.Err.Result.StartsWith("Stack overflow.", StringComparison.Ordinal);
+                var why = overflow ? "!stackoverflow" : child.P.ExitCode == 3 ? "!hang" : null;
+                if (call.Length == 0 || why == null || skip.Any(x => x.StartsWith(call + "=")))
+                    throw new Exception($"child failed on {file} (exit {child.P.ExitCode}, call {call}): {child.Err.Result[..Math.Min(2000, child.Err.Result.Length)]}");
+                skip.Add(call + "=" + why);
+                File.AppendAllLines(skipFile, new[] { call + "=" + why });
+                if (skip.Count % 25 == 0) Console.Error.WriteLine($"   {Path.GetFileName(file)}: {skip.Count} calls without return so far (at call {call}, {sw.ElapsedMilliseconds / 1000} s)");
+            }
+            throw new Exception("too many calls without return: " + file);
+        }
+        finally
+        {
+            if (!next.P.HasExited) next.P.Kill(true);
+            next.P.WaitForExit();
+            if (File.Exists(next.Probe)) File.Delete(next.Probe);
+        }
     }
 
     static string? Try2(Func<string?> f)

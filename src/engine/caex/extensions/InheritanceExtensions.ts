@@ -12,6 +12,7 @@ import { cultureStartsWith } from '../../../system/CompareInfo.js';
 import { HashSet, from } from '../../../system/linq.js';
 import type { XElement } from '../../../xml/index.js';
 import { ServiceLocator } from '../../services/ServiceLocator.js';
+import { LoopGuard } from '../../cycles.js';
 import { QueryResult } from '../../services/QueryResult.js';
 import { XmlCAEXAttributes } from '../../xmlext/XmlCAEXAttributes.js';
 import { CAEXBasicObjectExtensions } from './CAEXBasicObjectExtensions.js';
@@ -117,8 +118,10 @@ export class InheritanceExtensions {
   }
 
   private static classIsDerivedFromPath(classWithReference: IClassWithBaseClassReference, baseClassPath: string): boolean | null {
+    const guard = new LoopGuard('The base class references');
     while (true) {
       const document = CAEXBasicObjectExtensions.caexDocument(classWithReference);
+      guard.visit(classWithReference.node, classWithReference.node);
       if (classWithReference.caexPath() === baseClassPath) {
         return true;
       }
@@ -173,6 +176,7 @@ export class InheritanceExtensions {
       return null;
     }
     const family = familyOf(classWithReference);
+    const guard = new LoopGuard('The base class references');
     do {
       if (baseClass == null) {
         return false;
@@ -181,6 +185,7 @@ export class InheritanceExtensions {
       if (cAEXDocument == null) {
         return null;
       }
+      guard.visit(classWithReference.node, classWithReference.node);
       let text: string | null = XmlCAEXAttributes.caexPath(classWithReference.node!);
       const text2 = XmlCAEXAttributes.caexPath(baseClass.node!);
       if (text === text2) {

@@ -3,6 +3,7 @@
 import { T } from '../registry.js';
 import { implementsInterface, registerInterfaces } from '../interfaces.js';
 import { XElement } from '../../xml/index.js';
+import { RecursionGuard } from '../cycles.js';
 import { InvalidCastException } from '../../system/exceptions.js';
 import { isNullOrEmpty } from '../../system/strings.js';
 import { from } from '../../system/linq.js';
@@ -27,6 +28,11 @@ import type { ICAEXWrapper } from './ICAEXWrapper.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyCtor<R> = abstract new (...args: any[]) => R;
+
+/** Aml.Engine recurses along the base class references without end on cyclic inheritance (src/engine/cycles.ts). */
+const referenceHierarchyGuard = new RecursionGuard('The base class references');
+const defaultValueGuard = new RecursionGuard('The base class references');
+const unitGuard = new RecursionGuard('The base class references');
 
 /**
  * This class is a wrapper for the CAEX element 'AttributeType' which defines base structures for
@@ -97,7 +103,7 @@ export class AttributeFamilyType extends AttributeTypeType implements Iterable<A
       if (baseClass === null) {
         return null;
       }
-      defaultValue = baseClass.defaultValue;
+      defaultValue = defaultValueGuard.run([this.node], this.node, () => baseClass.defaultValue);
     }
     return defaultValue;
   }
@@ -156,7 +162,7 @@ export class AttributeFamilyType extends AttributeTypeType implements Iterable<A
       if (baseClass === null) {
         return null;
       }
-      unit = baseClass.unit;
+      unit = unitGuard.run([this.node], this.node, () => baseClass.unit);
     }
     return unit;
   }
@@ -290,7 +296,9 @@ export class AttributeFamilyType extends AttributeTypeType implements Iterable<A
       return [this];
     }
     if (!T.CAEXWrapper.equals(this.baseClass, null)) {
-      return from<AttributeFamilyType>(CollectionExtensions.yield<AttributeFamilyType>(this)).concat(this.baseClass!.getReferenceHierarchy(includeExternals));
+      return referenceHierarchyGuard.run([this.node, includeExternals], this.node, () =>
+        from<AttributeFamilyType>(CollectionExtensions.yield<AttributeFamilyType>(this)).concat(this.baseClass!.getReferenceHierarchy(includeExternals)),
+      );
     }
     return CollectionExtensions.yield<AttributeFamilyType>(this);
   }

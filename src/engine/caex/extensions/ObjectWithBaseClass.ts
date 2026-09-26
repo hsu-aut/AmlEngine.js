@@ -15,6 +15,7 @@ import { XmlCAEXSchema } from '../../xmlext/XmlCAEXSchema.js';
 import { XmlCAEXAttributes } from '../../xmlext/XmlCAEXAttributes.js';
 import { XmlOperation } from '../../xmlext/XmlOperation.js';
 import { CAEXBasicObjectExtensions } from './CAEXBasicObjectExtensions.js';
+import { RecursionGuard } from '../../cycles.js';
 import type { AttributeType } from '../AttributeType.js';
 import type { CAEXBasicObject } from '../CAEXBasicObject.js';
 import type { CAEXObject } from '../CAEXObject.js';
@@ -411,43 +412,62 @@ export class ObjectWithBaseClass {
 
   /** Internal in C#. */
   static isOverriddenInternal(classWithBaseClass: ClassRef, element: CAEXBasicObject): boolean {
-    const baseClass = classWithBaseClass.baseClass;
-    if (!isClassRef(baseClass)) {
-      return false;
-    }
-    const classWithBaseClassReference = baseClass as unknown as ClassRef;
-    switch (element.node?.name.localName) {
-      case 'ExternalInterface':
-      case 'Attribute':
-      case 'InternalElement': {
-        const attsEqual = new T.AttributeValueComparer('Name');
-        if (!from(classWithBaseClassReference.node!.elements(element.node!.name)).any((e) => attsEqual.equals(element.node, e))) {
-          return ObjectWithBaseClass.isOverriddenInternal(classWithBaseClassReference, element);
-        }
-        return true;
-      }
-      default:
-        return ObjectWithBaseClass.isOverriddenInternal(classWithBaseClassReference, element);
-    }
+    // the key must not dereference anything the original does not (null arguments fail as in C#)
+    return isOverriddenGuard.run([classWithBaseClass?.node, element?.node], classWithBaseClass?.node ?? null, () => isOverriddenStep(classWithBaseClass, element));
   }
 
   /** Internal in C#. */
   static overriddenElementInternal(classWithBaseClass: ClassRef, elementName: string | null, elementType: Ctor): XElement | null {
-    const baseClass = classWithBaseClass.baseClass;
-    if (!isClassRef(baseClass)) {
-      return null;
-    }
-    const classWithBaseClassReference = baseClass as unknown as ClassRef;
-    if (elementType !== T.AttributeType && elementType !== T.ExternalInterfaceType) {
-      return ObjectWithBaseClass.overriddenElementInternal(classWithBaseClassReference, elementName, elementType);
-    }
-    return (
-      from(
-        classWithBaseClassReference.node!.elements(XmlCAEXSchema.xName(classWithBaseClass.node!, CAEX_CLASSModel_TagNames.tagName(elementType))),
-      ).firstOrDefault((n: XElement) => XmlCAEXAttributes.caexNameOfElement(n) === elementName) ??
-      ObjectWithBaseClass.overriddenElementInternal(classWithBaseClassReference, elementName, elementType)
+    return overriddenElementGuard.run([classWithBaseClass?.node, elementName, elementType], classWithBaseClass?.node ?? null, () =>
+      overriddenElementStep(classWithBaseClass, elementName, elementType),
     );
   }
+}
+
+// ---- recursion steps (guarded above) ---------------------------------------------------------
+
+/** Aml.Engine recurses along the base class references without end on cyclic inheritance (src/engine/cycles.ts). */
+const isOverriddenGuard = new RecursionGuard('The base class references');
+const overriddenElementGuard = new RecursionGuard('The base class references');
+
+/** IsOverriddenInternal. */
+function isOverriddenStep(classWithBaseClass: ClassRef, element: CAEXBasicObject): boolean {
+  const baseClass = classWithBaseClass.baseClass;
+  if (!isClassRef(baseClass)) {
+    return false;
+  }
+  const classWithBaseClassReference = baseClass as unknown as ClassRef;
+  switch (element.node?.name.localName) {
+    case 'ExternalInterface':
+    case 'Attribute':
+    case 'InternalElement': {
+      const attsEqual = new T.AttributeValueComparer('Name');
+      if (!from(classWithBaseClassReference.node!.elements(element.node!.name)).any((e) => attsEqual.equals(element.node, e))) {
+        return ObjectWithBaseClass.isOverriddenInternal(classWithBaseClassReference, element);
+      }
+      return true;
+    }
+    default:
+      return ObjectWithBaseClass.isOverriddenInternal(classWithBaseClassReference, element);
+  }
+}
+
+/** OverriddenElementInternal. */
+function overriddenElementStep(classWithBaseClass: ClassRef, elementName: string | null, elementType: Ctor): XElement | null {
+  const baseClass = classWithBaseClass.baseClass;
+  if (!isClassRef(baseClass)) {
+    return null;
+  }
+  const classWithBaseClassReference = baseClass as unknown as ClassRef;
+  if (elementType !== T.AttributeType && elementType !== T.ExternalInterfaceType) {
+    return ObjectWithBaseClass.overriddenElementInternal(classWithBaseClassReference, elementName, elementType);
+  }
+  return (
+    from(
+      classWithBaseClassReference.node!.elements(XmlCAEXSchema.xName(classWithBaseClass.node!, CAEX_CLASSModel_TagNames.tagName(elementType))),
+    ).firstOrDefault((n: XElement) => XmlCAEXAttributes.caexNameOfElement(n) === elementName) ??
+    ObjectWithBaseClass.overriddenElementInternal(classWithBaseClassReference, elementName, elementType)
+  );
 }
 
 // ---- private helpers ------------------------------------------------------------------------

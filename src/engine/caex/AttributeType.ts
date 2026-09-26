@@ -13,12 +13,16 @@ import { CAEXPathBuilder } from './extensions/CAEXPathBuilder.js';
 import { CollectionExtensions } from './extensions/CollectionExtensions.js';
 import { InstanceExtensions } from './extensions/InstanceExtensions.js';
 import { ServiceLocator } from '../services/ServiceLocator.js';
+import { RecursionGuard } from '../cycles.js';
 import type { AttributeFamilyType } from './AttributeFamilyType.js';
 import type { CAEXDocument } from './CAEXDocument.js';
 import type { CAEXObject } from './CAEXObject.js';
 import type { CAEXWrapper } from './CAEXWrapper.js';
 import type { ICAEXWrapper } from './ICAEXWrapper.js';
 import type { IObjectWithAttributes } from './IObjectWithAttributes.js';
+
+/** Aml.Engine recurses along the master references without end on cyclic mirrors (src/engine/cycles.ts). */
+const attributeTypeReferenceGuard = new RecursionGuard('The mirror references');
 
 /**
  * This Class is a wrapper for the CAEX element 'Attribute' which defines base structures for
@@ -58,7 +62,7 @@ export class AttributeType extends AttributeTypeType {
     if ((this.master?.refAttributeType ?? null) === null) {
       return null;
     }
-    return this.master!.attributeTypeReference;
+    return attributeTypeReferenceGuard.run([this.node], this.node, () => this.master!.attributeTypeReference);
   }
 
   set attributeTypeReference(value: AttributeFamilyType | null) {

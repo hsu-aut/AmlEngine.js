@@ -8,11 +8,15 @@ import { Enumerable, from, type IEqualityComparer } from '../../system/linq.js';
 import { toXName, XElement, XName, type XAttribute, type XNameLike } from '../../xml/index.js';
 import { CAEXPathBuilder } from '../caex/extensions/CAEXPathBuilder.js';
 import { ServiceLocator } from '../services/ServiceLocator.js';
+import { RecursionGuard } from '../cycles.js';
 import { XmlCAEXAttributes } from './XmlCAEXAttributes.js';
 import { XmlCAEXSchema } from './XmlCAEXSchema.js';
 import type { CAEXObject } from '../caex/CAEXObject.js';
 import type { CAEXWrapper } from '../caex/CAEXWrapper.js';
 import type { IClassWithBaseClassReference_1 } from '../caex/IClassWithBaseClassReference.js';
+
+/** Aml.Engine recurses along the base class references without end on cyclic inheritance (src/engine/cycles.ts). */
+const baseClassElementsGuard = new RecursionGuard('The base class references');
 
 /** `default(decimal) != value` for the decimal returned by XmlSchemaManager.MinOccurence. */
 function decimalIsNotZero(value: unknown): boolean {
@@ -72,10 +76,11 @@ export class XmlOperation {
       return new Enumerable(() => node.elements(name));
     }
     const caexClass2 = baseClass as unknown as IClassWithBaseClassReference_1<CAEXObject>;
-    const enumerable =
+    const enumerable = baseClassElementsGuard.run([caexClass.node, tagName, elementsAreEqual], caexClass.node, () =>
       elementsAreEqual !== null
         ? XmlOperation.allElementsFromBaseClassAndSelf(caexClass2, tagName, elementsAreEqual)
-        : XmlOperation.allElementsFromBaseClassAndSelf(caexClass2, tagName, null);
+        : XmlOperation.allElementsFromBaseClassAndSelf(caexClass2, tagName, null),
+    );
     const node = caexClass.node as XElement;
     const second = [...node.elements(XmlCAEXSchema.xName(node, tagName))];
     return (elementsAreEqual !== null ? enumerable.except(second, elementsAreEqual) : enumerable).concat(second);

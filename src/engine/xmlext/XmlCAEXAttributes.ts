@@ -1,7 +1,7 @@
 // Port of Aml.Engine.Xml.Extensions.XmlCAEXAttributes (Aml.Engine 4.5.2).
 
 import { T } from '../registry.js';
-import { ArgumentNullException, InvalidOperationException } from '../../system/exceptions.js';
+import { ArgumentException, ArgumentNullException, InvalidOperationException } from '../../system/exceptions.js';
 import { isNullOrEmpty, isNullOrWhiteSpace } from '../../system/strings.js';
 import { from } from '../../system/linq.js';
 import { DateTime, DateTimeStyles, XmlConvert, XmlDateTimeSerializationMode } from '../../system/index.js';
@@ -165,6 +165,10 @@ export class XmlCAEXAttributes {
     const schema = XmlCAEXSchema.caexSchema(xmlNode);
     let text2 = CAEXPathBuilder.pathPartName(text, schema);
     while ((xElement?.parent ?? null) !== root) {
+      if (xElement === null) {
+        // root is not an ancestor of xmlNode: the original loops forever from here on
+        throw new ArgumentException('root is not an ancestor of xmlNode; Aml.Engine does not return in this case.', 'root');
+      }
       xElement = xElement?.parent ?? null;
       text = xElement?.attribute('Name')?.value ?? null;
       if (isNullOrWhiteSpace(text)) {
