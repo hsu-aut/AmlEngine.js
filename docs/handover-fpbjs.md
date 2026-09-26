@@ -10,8 +10,8 @@ AmlEngine.js (`AML/AmlEngine.js`).
 
 - Ein TypeScript-Port von Aml.Engine 4.5.2 mit demselben Verhalten, geprüft durch differenzielle
   Tests gegen das Original: gut 5.300 Tests und rund 6 Millionen aufgezeichnete Leseaufrufe.
-  In Microsoft Edge liefert die Engine dieselben Ergebnisse wie in Node. Stand: Version 0.1.0,
-  Tag `v0.1.0`.
+  In Edge, Chromium, Firefox und WebKit liefert die Engine dieselben Ergebnisse wie in Node.
+  Stand: Version 0.2.0, Tag `v0.2.0` (Änderungen seit 0.1.0 in `CHANGELOG.md`).
 - Der Mapper nutzt nur einen kleinen, gut abgedeckten Teil der Engine:
   - Dokument anlegen und Bibliotheken anhängen;
   - Klassen, InternalElements, Attribute, IDs;
@@ -25,10 +25,10 @@ AmlEngine.js (`AML/AmlEngine.js`).
 
 ## Einbinden ohne npm-Veröffentlichung
 
-1. Tarball: `AML/AmlEngine.js/amlengine-js-0.1.0.tgz` (nicht im Git). Neu erzeugen im Ordner
+1. Tarball: `AML/AmlEngine.js/amlengine-js-0.2.0.tgz` (nicht im Git). Neu erzeugen im Ordner
    `AML/AmlEngine.js` mit `npm run build && npm pack`.
-2. In FPB.js nach `vendor/amlengine-js-0.1.0.tgz` kopieren und als devDependency eintragen:
-   `"amlengine-js": "file:vendor/amlengine-js-0.1.0.tgz"`. So funktioniert es lokal und in der
+2. In FPB.js nach `vendor/amlengine-js-0.2.0.tgz` kopieren und als devDependency eintragen:
+   `"amlengine-js": "file:vendor/amlengine-js-0.2.0.tgz"`. So funktioniert es lokal und in der
    GitHub-CI gleich; ein Pfad auf `../AML/AmlEngine.js` würde in der CI scheitern.
 3. FPB.js bündelt alles außer React in `dist/` (siehe `externals` in `webpack.lib.config.js`).
    Die Engine landet also im fpbjs-Paket; wer fpbjs installiert, braucht `amlengine-js` nicht.
