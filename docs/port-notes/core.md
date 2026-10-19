@@ -1,4 +1,4 @@
-# Port notes: batch 1-core
+# Port notes: core types (wrappers, sequences, basic CAEX elements)
 
 Files (all in `src/engine/caex/`): `CAEXWrapper.ts` (`CAEXWrapper`, `CAEXWrapper_1`),
 `CAEXBasicObject.ts`, `CAEXObject.ts`, `CAEXLibrary.ts`, `CaexObjectWithReference.ts`,
@@ -10,12 +10,9 @@ Files (all in `src/engine/caex/`): `CAEXWrapper.ts` (`CAEXWrapper`, `CAEXWrapper
 `CAEXTypeDictionary.ts`, `CAEX_CLASSModel_TagNames.ts`, `ChangeMode.ts`, `BaseElementType.ts`,
 `CopyrightType.ts`, `DescriptionType.ts`, `VersionType.ts`, `RevisionType.ts`,
 `SourceObjectInformationType.ts`, `UnknownTypeType.ts`, `linq/CAEXSequenceExtension.ts`, and the
-interfaces `I*.ts` of the batch (25 files).
+interfaces `I*.ts` of these types (25 files).
 
-`npx tsc --noEmit` shows no errors in these files (checked 2026-09-25 against the state of the
-other batches at that time).
-
-## API decisions other batches rely on
+## API decisions
 
 - Equality: static `CAEXWrapper.equals(a, b)` is C# `operator ==` (undefined counts as null);
   instance `equals(obj)` is the `Equals` override (same XElement when `exists`, else reference);
@@ -23,15 +20,15 @@ other batches at that time).
 - `CAEXWrapper_1<TDataType>` (CAEXWrapper<TDataType>): constructor `(xmlNode, dataType)` with
   `dataType: DataTypeTag = 'boolean' | 'object' | 'string' | 'DateTime' | 'other'` (exported from
   `CAEXWrapper.ts`). Only bool/object/string/DateTime get converters in C#; 'other' leaves them
-  unset. It is only constructed in this batch (SourceObjectInformationType and BaseElementType
-  subclasses pass 'string'). `BaseElementType(xNode, dataType = 'string')`.
+  unset. SourceObjectInformationType and the BaseElementType subclasses construct it with
+  'string': `BaseElementType(xNode, dataType = 'string')`.
 - `ValueSequence<T>`: the C# constructors `(owner, name, getCAEXOwner?)`, `(owner, name,
   condition)`, `(getOwner, name, condition)` plus an optional last argument `dataType:
   DataTypeTag`, default **'object'**. `new ValueSequence_ElementValueConverter<T>(dataType =
-  'object')`. Callers constructing `ValueSequence<string>` should pass 'string' (the 'object'
-  converters give the same results for strings); callers with custom types (MetaInformation,
-  DocumentVersionInformation) should pass 'other' before `setConverters`; with the default
-  'object' the object converters are active until `setConverters` replaces them.
+  'object')`. `ValueSequence<string>` uses the default (the 'object' converters give the same
+  results for strings); sequences of custom types (MetaInformation, DocumentVersionInformation)
+  pass 'other' and then `setConverters`. With the default 'object' the object converters are
+  active until `setConverters` replaces them.
 - Constructor overload dispatch (NamedElementSequence_1, ValueSequence, CAEXSequenceOfCAEXObjects,
   CAEXSequenceOfCAEXObjectsWithReference): with an XElement owner, a function argument without
   parameters (`fn.length === 0`, e.g. `() => this`) is `getCAEXOwner`; a function with a parameter
@@ -86,46 +83,7 @@ other batches at that time).
   `IClassWithBaseClassReference.getReferenceHierarchy` is typed loosely
   (`(...args: never[]) => Iterable<unknown>`) because C# has a generic and a non-generic overload.
 
-## (a) Assumptions about APIs of other batches
-
-- `XmlOperation.createCAEXWrapper(e)` (may return null), `XmlOperation.makeUnique(e)`;
-  `XmlCAEXSchema.caexDocument(node)`, `xName(node, tag)`, `caexSchema(node)`,
-  `isAdditionalInformation(e)`, `isCAEXClass(e)`, `isFacet(e)`, `isBasicAttribute(e)`;
-  `XmlCAEXAttributes.getStringValue/setStringValue/getDateTimeValue/setDateTimeValue(node,
-  xname[, value])`, `caexPath(node)`.
-- `T.CAEXDocument.CAEXSchema.CAEX2_15` (nested enum as static property),
-  `T.CAEXDocument.amlSchemaManager(xelement)` with `attributeNames(parentName, name)`,
-  `childElementNames(parentName, name, includeChoice)`, `createElement(parentName, name)`;
-  `T.CAEXDocument.document(xnode)`; instance `caexFile`, `transformToSchema(xelement)` (bool
-  overload), `finalizeSchemaTransformation(xelement)`.
-- Commands: `T.AddCmd.addSibling`, `T.InsertCmd.insertElement`, `T.InsertNewCmd.insertNewElement`,
-  `T.RemoveCmd.removeElement`, `T.MoveCmd.move(node, target, isAfter)`,
-  `T.AddNewCmd.addNewElement(ownerOrSibling, name, content, isSibling = false)`,
-  `T.SetAttributeValueCmd.setValue(e, XName, value)`, `T.SetElementValueCmd.setValue(e, string)`,
-  `T.SetElementContentCmd.setValue(e, content)`, `T.CaexCommand.isSilent`.
-- `ServiceLocator.idService.generateNewID(obj?)`, `uniqueNameService.uniqueCAEXName(...)` (three
-  C# overloads, dispatched on XElement vs iterable), `isUniqueCAEXName(e)`,
-  `undoRedoService.beginTransaction/endTransaction/pause/resume`,
-  `externalReferenceResolverService.isExternal(doc, e)` → `{ result, alias, path }`,
-  `queryService.allElementsWithCAEXPathReference(obj, elementName?, includeSelf?)` (ILookup of
-  IGrouping with `key` and Enumerable operators), `queryService.findByPath(doc, path)`,
-  `defaultQueryService`, `getService<ISigning>('ISigning')` (C# `GetService<T>()` keyed by
-  `typeof(T).Name`).
-- `CAEXPathBuilder.pathPartObjectNames/pathNameArray/caexPath(names, schema)/aliasFromReference/
-  changeAlias/changePathStart/isAttributeReference`; `ClassReferenceWithAlias.classReference(path,
-  alias)`; `CAEXDocumentExtensions.findByPath(doc, path, resolveAlias = true, ctor = null)`,
-  `externalReferenceFromAlias(doc, alias)`; `QueryResult.elementsWithIDReference(doc, id)`;
-  `CAEXSignatureHeader.deleteSignature(obj)`; `CAEXBasicObjectExtensions.caexDocument(w)`,
-  `caexSchema(w)`, `createCaexWrapper(e, ctor)`, `name_(w)` (C# `Name()`; renamed by batch 5
-  because a static `name` clashes with `Function.name`); `ObjectWithBaseClass.isInherited(cls,
-  element)`, `inheritedElements(cls, includeSelf, ctor)`, `baseClassReference(cls, path)`;
-  `InheritanceExtensions.classIsDerivedFrom(cls, baseClass)`.
-- `CAEXReference` exposes `element`; `ICAEXReference` has `caexObject`, `referenceAttributeName`,
-  `referenceAttributeValue`, `setValue(v)`.
-- System layer: `EventSource` (`raise(sender, args)`), `XmlConvert.toBoolean/toDateTime/toString`,
-  `XmlDateTimeSerializationMode`, `DateTime.minValue`.
-
-## (b) C# behaviour not reproduced exactly
+## C# behaviour not reproduced exactly
 
 - Run time type arguments that C# has and JS lacks:
   - `CAEXSequenceOfCAEXObjects`: `val.Container<T>()` (path indexer) and
@@ -149,7 +107,7 @@ other batches at that time).
   (numbers may format differently from .NET for exotic values).
 - `new Exception(...)` is a SystemException instance whose `name` is 'Exception'.
 
-## (c) Apparent bugs of the original, ported unchanged
+## Errors of the original, ported unchanged
 
 - `CAEXTypeDictionary`: the creator for the key of tag `AttributeType` (`AttributeTypeType`)
   creates an `AttributeFamilyType`.
@@ -165,16 +123,6 @@ other batches at that time).
 - `ElementValueConverter<object>.ConvertFrom` has an unreachable `ReadInnerXml` branch.
 - The name path indexer `item('A', 'B')` of an InstanceHierarchy or InternalElement sequence
   returns null: `SystemUnitClassType.Container<InternalElementType>()` falls back to the base
-  class and returns null (verified in the port by a smoke run; same logic in C#).
+  class and returns null (same logic in C#).
 - `CAEXSequenceOfCAEXObjects.ChangeReferences` throws ArgumentNullException (string.StartsWith)
   when the source object has a name but no path is available.
-
-## (d) Left undone
-
-- Observation for the integration: `package.json` has `"sideEffects": false`. Every class module
-  registers itself in `T` as a side effect; a bundler honouring the flag drops imports such as
-  `import './caex/CAEXWrapper.js'` in `src/engine/index.ts` (esbuild warns "ignored-bare-import"),
-  leaving the registry empty. The flag should be removed or list the engine modules.
-
-- Nothing of the batch is omitted. `IEnumerable`/`IEnumerator` are not registered as interfaces
-  (not engine interfaces). No tests were written (oracle tests are separate work).

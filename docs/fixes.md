@@ -22,8 +22,8 @@ uses `Fixes.default`. A document converted with `TransformToSchema` keeps the se
 source. `Fixes.enabled(name, context)` tells whether a correction applies. Unknown names throw
 `ArgumentException`. The names are in `ALL_FIXES`.
 
-The other apparent errors of the original listed in `docs/port-notes/*.md` (section c) are not
-correctable. Most are invisible (dead code, a return value that is always true). The rest either
+The other apparent errors of the original listed in `docs/port-notes/*.md` (section "Errors of
+the original, ported unchanged") are not correctable. Most are invisible (dead code, a return value that is always true). The rest either
 cannot be reached through the engine, or they end with an exception on unusual input instead of
 giving a wrong result.
 

@@ -1,6 +1,6 @@
-# Port notes: batch 7-amlobjects
+# Port notes: AutomationML objects, standard libraries and AMLX containers
 
-Files of the batch (`src/engine/amlobjects/`): `AMLFacet.ts`, `AMLFile.ts`, `AMLGroup.ts`,
+Files (`src/engine/amlobjects/`): `AMLFacet.ts`, `AMLFile.ts`, `AMLGroup.ts`,
 `AMLGroupInternalElementSequence.ts`, `AMLInternalElementType.ts`, `AMLLibraryType.ts`, `AMLPort.ts`,
 `AMLSystemUnitClass.ts`, `AMLSystemUnitFamilyType.ts`, `AutomationMLBaseAttributeTypeLib.ts`,
 `AutomationMLBaseAttributeTypeLibType.ts`, `AutomationMLBaseRoleClassLib.ts`,
@@ -20,23 +20,22 @@ Helper modules without an entry in `docs/type-map.tsv` (no C# counterpart in Aml
 
 | Module | Content |
 |---|---|
-| `amlobjects/internal/Version.ts` | System.Version (Parse/TryParse with the .NET exceptions, compare, ToString). Also used by batch 5 (`resources/files/SemanticVersion.ts`). |
+| `amlobjects/internal/Version.ts` | System.Version (Parse/TryParse with the .NET exceptions, compare, ToString). Also used by `resources/files/SemanticVersion.ts`. |
 | `amlobjects/internal/NetPath.ts` | System.IO.Path / File / Directory subset; node:fs via `process.getBuiltinModule` (NotSupportedException without it). |
 | `amlobjects/mimetype/InvariantIgnoreCaseDictionary.ts` | `Dictionary<string, T>` with InvariantCultureIgnoreCase (MappingList). |
 | `amlobjects/packaging/*.ts` | System.IO.Packaging port (see "AMLX containers" below): `Package.ts`, `PackUriHelper.ts`, `ContentType.ts`, `ZipArchive.ts`, `MemoryStream.ts`. |
 | `resources/libraries/AMLLibraries.ts`, `LibraryResources.ts`, `EmbeddedLibrary.ts`, `data/*.ts` | Port of `Aml.Engine.Resources.AMLStandard.AMLLibraries`/`LibraryResources` (assembly Aml.Engine.Resources 4.2.1) and the embedded libraries. |
 
-Scripts added: `scripts/extract-aml-libraries.ps1` (extracts the manifest resources of
+Scripts: `scripts/extract-aml-libraries.ps1` (extracts the manifest resources of
 Aml.Engine.Resources.dll byte for byte into `scripts/aml-libraries/`, output committed),
 `scripts/gen-aml-libraries.mjs` (generates `src/engine/resources/libraries/data/*.ts`, verifies
 the byte round trip), `scripts/gen-mime-mappinglist.mjs` (generates `mimetype/MappingList.ts`
 from the decompiled `Aml.Engine.AmlObjects.MimeType/MappingList.cs`, checks for duplicate keys).
-Dependency added: `fflate` 0.8.3 (MIT) for deflate/inflate.
+`gen-mime-mappinglist.mjs` needs the decompiled source of Aml.Engine 4.5.2 (ilspycmd) as input;
+the extraction script needs Windows PowerShell and the NuGet cache. Dependency: `fflate` 0.8.3
+(MIT) for deflate/inflate.
 
-`npx tsc --noEmit` (also with `--noUnusedLocals`) shows no errors in these files; the whole
-project had one unrelated error in `test/engine/ops.oracle.test.ts` at the time of writing.
-
-## Verification done (scratch, against the real engine)
+## Verification
 
 - AML objects scenario, CAEX 3.0 and 2.15 (library loading of all standard libraries, AMLFacet
   with facet attributes and interfaces, AMLGroup, AMLPort, frame attribute, list attributes,
@@ -51,31 +50,19 @@ project had one unrelated error in `test/engine/ops.oracle.test.ts` at the time 
   part URI validation of 20 names, relationship ID errors) and two AMLX files of other tools:
   parts, content types, relationships, zip entry order, compression method, header versions,
   flags and external attributes identical to the files System.IO.Packaging writes (relationship
-  IDs are random in both). Only the deflate streams differ (see (b)).
+  IDs are random in both). Only the deflate streams differ (see "AMLX containers").
+- These scenarios are part of the oracle tests (`test/engine/amlobjects.oracle.test.ts`).
 
-## (a) Assumptions about other batches (all type-checked, exercised by the scenario above)
+## API decisions
 
-- `CAEXElementFactory.create(document, T.X)` for C# `document.Create<X>()` (returns `X | null`).
-- `ServiceLocator.getService<ISchemaTransform>('ISchemaTransform')`; `T.CaexCommand.isSilent`.
-- `InheritanceExtensions.classIsDerivedFrom(doc, classPath, baseClassPath, T.X)` (4-argument form).
-- `CAEXBasicObjectExtensions.descendants(obj, T.X)` for `Descendants<T>(this CAEXWrapper)`.
-- `T.CAEXDocument.loadFromStream(bytes: Uint8Array)`; `doc.schemaVersionString`, `doc.filePath`.
 - `new T.ValueSequence<T>(owner | getOwner, name, predicate, 'other')`: predicates are written with
   one declared parameter so that the arity based dispatch of NamedElementSequence picks the
   condition overload; `elementName` is assigned `XName.get('Document')`.
-- `sourceDocumentInformation.append(['OriginID', originID])` for the C# tuple.
-- The facet sequences override `append`/`prepend` of CAEXSequenceOfCAEXObjects; they rely on its
-  `append(name)`/`prepend(name)` calling the virtual `this.append()`/`this.prepend()` (as in C#).
+- The facet sequences override `append`/`prepend` of CAEXSequenceOfCAEXObjects; its
+  `append(name)`/`prepend(name)` call the virtual `this.append()`/`this.prepend()` (as in C#).
   A `null` name counts as the string overload, as in CAEXSequenceOfCAEXObjects.
 - `static op_Implicit(x)` for `implicit operator ObjectWithAMLAttributes` (AMLFacet overrides the
   one of SystemUnitClassType).
-- `T.XsdDataTypes.stringType/unsignedIntType/doubleType/languageType`,
-  `T.AttributeTypeType.clrToXmlType(String)`.
-- Other batches use from this batch: `AmlObjectsExtensions.*`, `ClassReferenceWithAlias`,
-  `CAEXSignatureHeader`, `AutomationMLInterfaceClassLib.*`, `AutomationMLBaseAttributeTypeLib.*`,
-  `IAMLFile`, `Version`, `new T.ObjectWithAMLAttributes(x)`.
-
-API shapes decided here:
 - `out` parameters: `DocumentVersions.appendDocumentVersionInformation(...)` and
   `replaceDocumentVersionInformation(...)` return `{ result, error }`.
 - Overloads distinguished by `this` type become one method dispatching with `instanceof`:
@@ -99,7 +86,7 @@ API shapes decided here:
 ## Embedded AutomationML libraries
 
 AMLLibraries resolves `Aml.Engine.Resources.Resources.<CAEX folder>.<AML folder>.<Library>.aml`.
-The batch loads (via `GetAutomationMLLibrary` and the obsolete wrappers) the libraries
+The engine loads (via `GetAutomationMLLibrary` and the obsolete wrappers) the libraries
 AutomationMLBaseRoleClassLib, AutomationMLInterfaceClassLib, AutomationMLBaseAttributeTypeLib,
 AutomationMLLogicInterfaceClassLib, AutomationMLLogicRoleClassLib,
 AutomationMLPLCopenXMLInterfaceClassLib, AutomationMLBPRInterfaceClassLib and
@@ -158,9 +145,9 @@ Differences (documented, not reproduced):
 - `new Uri('http://x/y', UriKind.Relative)` throws UriFormatException with the message of the
   system Uri port ("Invalid URI: The format of the URI could not be determined.") where .NET says
   "A relative URI cannot be created because the 'uriString' parameter represents an absolute URI."
-  (system layer, not this batch).
+  (system layer).
 
-## (b) C# behaviour not reproduced exactly
+## C# behaviour not reproduced exactly
 
 - `new` member hiding: AMLFacet.Attribute / ExternalInterface and AMLGroup.InternalElement hide
   the base properties in C# (callers with the static base type get the base sequence). Here they
@@ -179,14 +166,16 @@ Differences (documented, not reproduced):
 - `AMLFile.SetMetaInformation(9 strings)` for CAEX 3.0 uses `DateTime.tryParse` of the system
   layer for `DateTime.Parse` (FormatException "String '...' was not recognized as a valid
   DateTime." on failure); current-culture parsing follows the system layer.
-- MimeTypeMap: `InvariantCultureIgnoreCase` keys and `ToLower` use `toUpperCase`/`toLowerCase`
-  (the table is ASCII).
+- MimeTypeMap: `ToLower` and the `OrdinalIgnoreCase` comparison use the .NET case tables of
+  `src/system/strings.ts`. The keys of the `InvariantCultureIgnoreCase` dictionary are folded
+  (NFKD, lower case, ignorable characters dropped) in `InvariantIgnoreCaseDictionary.ts`, which
+  approximates the ICU collation of .NET; the table itself is ASCII.
 - `AutomationMLContainer.Extract` writes caught exception messages with `console.log`
   (`Console.WriteLine`). File methods need node:fs (NotSupportedException otherwise; in
   RefURIAttributeType.TryCreateUri the exception is swallowed like any other and gives null).
 - NullReferenceExceptions of C# are TypeErrors here (message differs), per PORTING.md.
 
-## (c) Apparent bugs of the original, ported unchanged
+## Errors of the original, ported unchanged
 
 - `AutomationMLPLCopenXMLInterfaceClassLibType.InterfaceClassLib` imports
   `doc.CAEXFile.InterfaceClassLib["AutomationMLLogicInterfaceClassLib"]` (null for the PLCopen
@@ -213,15 +202,3 @@ Differences (documented, not reproduced):
 - `AMLFile.DeleteMetaInformation` returns true for CAEX 3.0 even if nothing was deleted.
 - `AMLGroup.Insert` checks `(object)caexObject != null` (reference), `Import` uses the wrapper
   operator (a wrapper without node counts as null).
-
-## (d) Left undone / for the coordinator
-
-- `NOTICE` should mention Aml.Engine.Resources (MIT, AutomationML e.V. 2017; the embedded
-  libraries) and fflate (MIT, Arjun Barrett); not edited (outside the batch).
-- `src/engine/index.ts` must import the modules of this batch, in particular
-  `amlobjects/mimetype/MappingList.ts` (it registers `T.MappingList`, used lazily by MimeTypeMap).
-  The packaging and resource modules are imported by the modules that use them.
-- No oracle test in `test/`: the scratch comparisons above (AML object scenario, MimeTypeMap and
-  AMLLibraries outputs, AMLX structure comparison with `zipfile`) could become oracle modes.
-- `gen-mime-mappinglist.mjs` needs the decompiled source (ilspycmd of Aml.Engine 4.5.2) as input;
-  the extraction script needs Windows PowerShell and the NuGet cache.

@@ -2,7 +2,7 @@
 //
 // The C# implementation (de)serializes the content with System.Xml.Serialization.XmlSerializer,
 // which has no counterpart in JavaScript. The sequence and its selection condition are ported;
-// reading or writing a value throws NotSupportedException (see docs/port-notes/5-extensions.md).
+// reading or writing a value throws NotSupportedException (see docs/port-notes/extensions.md).
 
 import { T } from '../../registry.js';
 import { NotSupportedException } from '../../../system/exceptions.js';

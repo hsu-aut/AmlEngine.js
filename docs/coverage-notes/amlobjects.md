@@ -117,7 +117,7 @@ are canonicalized; nothing else.
 - XmlException messages come from the XML parser of `src/xml` and differ from XmlReader (seen in
   `GetXMLSignature` of a malformed signature); only the exception type is compared.
 - Package.Open locks the file (FileShare.None) in .NET, the port does not lock (FileShare not
-  ported, see port-notes 7). The test reads a workspace package before opening it.
+  ported, see docs/port-notes/amlobjects.md). The test reads a workspace package before opening it.
 - Deflate output of fflate differs from zlib: compressed sizes and bytes of deflated entries are
   not compared (the decompressed content, CRC and all other header fields are).
 
@@ -130,7 +130,7 @@ are canonicalized; nothing else.
   document path (only the failing and non-file cases are exercised; the result depends on the
   current directory of each process).
 - `AutomationMLContainer` on Unix ("made by" Unix), ZIP64 packages, interleaved parts, core
-  properties: not ported (port-notes 7).
+  properties: not ported (docs/port-notes/amlobjects.md).
 - The `DocumentVersionDeprecated` conversion is covered through `objects215.aml` (three deprecated
   headers) and the corpus; the case of exactly one deprecated header with content is covered only
   through the corpus files that have one.

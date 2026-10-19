@@ -8,7 +8,7 @@
 // has no fragment, contains only unreserved, reserved and percent-encoded characters, does not
 // percent-encode an unreserved character, has no "." or ".." segment and no query, and is no
 // piece name ("/[n].piece", "/[n].last.piece"). The results agree with .NET for all cases listed
-// in docs/port-notes/7-amlobjects.md.
+// in docs/port-notes/amlobjects.md.
 
 import { ArgumentException, ArgumentNullException } from '../../../system/exceptions.js';
 import { Uri, UriKind } from '../../../system/index.js';

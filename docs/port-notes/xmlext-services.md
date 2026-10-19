@@ -1,4 +1,4 @@
-# Port notes: batch 6-xmlext-services
+# Port notes: XML extensions, services and streaming
 
 Files: `src/engine/xmlext/*` (XmlOperation, XmlCAEXSchema, XmlCAEXAttributes, XmlClassOperation,
 XmlCAEXMapping, XmlLinqExtensions), `src/engine/services/*` (ServiceLocator, QueryService,
@@ -8,27 +8,20 @@ UpdateEventArgs), `src/engine/services/model/*`, `src/engine/services/utilities/
 `src/engine/adapter/*`, `src/engine/streaming/DocumentStreaming.ts`,
 `src/engine/resources/catalogue/*`.
 
-`npx tsc --noEmit` shows no error in these files except the missing module
-`amlobjects/AutomationMLContainer.js` (IValidator.ts, type import). A smoke run (a scratch directory,
-not committed) loaded all 279 engine modules and exercised lookups, ServiceLocator, FindByPath /
-FindByID with and without tables on three corpus files, the XPath rule of XmlCAEXMapping, the
-streaming reader, XMLSignature, profile JSON and password encryption.
-
-## Conventions introduced here (other batches may rely on them)
+## API decisions
 
 - **ILookup**: System.Linq has no lookup in `src/system/linq.ts`, so `EmptyLookup.ts` exports
   `ILookup<K, T>` (iterable of `IGrouping` with `key`; `count`; `item(key)` = indexer, empty
   sequence for unknown keys; `contains(key)`), the class `Lookup` and `toLookup(source, keySel,
-  elemSel)` (eager, insertion order). Candidate to move to `src/system/linq.ts`.
-  `EmptyLookup.instance` is one shared empty lookup for all type arguments.
+  elemSel)` (eager, insertion order). `EmptyLookup.instance` is one shared empty lookup for all type arguments.
 - **Tuple results** (C# named tuples) are objects with camelCase fields: `{ name, value }`
   (IDReferencesInInternalLink, IDReferenceInMapping), `{ document, message }`,
   `{ success, description }`, `{ isSuccessful, description }`, `{ publicKey, privateKey }`,
   `{ isValid, message }`. `out` parameters follow the `{ result, <name> }` rule.
 - **XmlCAEXSchema and AMLEngineAdapter are namespace objects** (`export const X = { ... }`), not
   classes, because both have an extension method `Name` and a static class member `name` clashes
-  with `Function.name`. Calls look the same (`XmlCAEXSchema.name(obj)`). Batch 5 solved the same
-  clash in CAEXBasicObjectExtensions with a rename (`name_`).
+  with `Function.name`. Calls look the same (`XmlCAEXSchema.name(obj)`). CAEXBasicObjectExtensions
+  solves the same clash with a rename (`name_`).
 - **ServiceLocator generics**: the type argument is an extra parameter, an interface name
   (`'IQuery'`, checked with `implementsInterface`) or a class (checked with `instanceof`, key =
   constructor name): `getService('ISigning')`, `beginService(register, type)` → `{ service }`,
@@ -61,60 +54,12 @@ streaming reader, XMLSignature, profile JSON and password encryption.
   overload only for a string/null (or XName) argument, so passing them as LINQ callbacks (index
   argument) is safe.
 
-## (a) Assumptions about APIs of other batches
-
-- `T.CAEXDocument.document(node)`, `T.CAEXDocument.CAEXSchema.CAEX2_15/CAEX3_0` (nested enum as
-  static property); instances: `caexFile`, `schema`, `xDocument`, `finalizeSchemaTransformation()`,
-  `transformToSchema(schema)`.
-- `T.AMLSchemaManager2_15.instance`, `T.AMLSchemaManager3_0.instance`, `.caexNamespace`;
-  `minOccurence(parent, child)` (a Decimal or number; compared with 0 via its string value),
-  `isRequiredAttribute(null, childName, attributeName)`.
-- `T.CAEXTypeDictionary.instance.tryGetCreator(name)` → `{ result, creatorFunc }`.
-- `CAEXPathBuilder`: `instanceIDInAttributeReference` → `{ result, isAttributeReference }`,
-  `internalElementIDInInternalLinkReference` → `{ result, isInterfaceReference }`,
-  `externalInterfaceIDInAttributeReference` → `{ result, isIdReference }`,
-  `attributePathInAttributeReference` → `{ result: string[], ... }`,
-  `externalInterfaceNameInInternalLinkReference` → `{ result, ... }`; `caexPath(XElement[])`
-  (root first), `pathNameArray`, `pathNameArrayWithSeparator(path, schema, true)`, `isAlias`,
-  `pathPart`, `pathPartName`, `internalLinkReferencePath(XElement, XElement)`,
-  `aliasFromReference(ref, schema?)`, `removeAlias`, `isAttributeReference(doc, path)`,
-  `isReferenceWithAlias`, `isValidID`, `isValidAttributeReferenceID`.
-- `StringExtensions.normalizedGUID(s)`; `CollectionExtensions.yield(x)` returns an iterable
-  (re-created per enumeration); `CAEXBasicObjectExtensions.caexDocument/caexSchema/
-  amlSchemaManager(obj)`, `ancestors(obj, includeSelf, type)`, `findCaexObjectFromId(obj, id,
-  type)`, `findReferencedClass(obj, path, type)`; `CAEXDocumentExtensions.externalReferenceFromAlias`;
-  `InheritanceExtensions.isDerivedFromInterfaceClass(ei, path)`;
-  `AutomationMLInterfaceClassLib.isExternalDataConnector(ei)`;
-  `AmlObjectsExtensions.automationMLVersion(doc)`, `isAMLFacet/isAMLGroup/isAMLPort(ie)`;
-  `ObjectWithBaseClass.referencedClassName(x)` (dispatches IE / interface class);
-  `CAEXSignatureHeader.getSignatureHeader(obj)`.
-- CAEXWrapper: static `equals(a, b)`, instance `xName(tag)`, `getXAttributeValue`,
-  `setXAttributeValue`, `copy(deep?, assignNewIDs?)`, `caexParent`, `caexDocument` (property),
-  `node`, `document`, `isDeleted`; CAEXObject `caexPath()` (instance), `name`, `id`;
-  CAEXBasicObject `insert(obj, asFirst)`. `new T.CAEXEnumerable(elements)` is iterable.
-- Indexers: `attribute.item(string[])` for C# `this[params string[]]` (the array is passed as one
-  argument), `attribute.item(name)`, `externalInterface.item(name)`.
-- Commands: `T.RemoveCmd.removeElement(e)`, `T.AddNewCmd.addNewElement(owner, xname, content)`,
-  `T.SetElementValueCmd.setValue(e, string)`, `T.SetAttributeValueCmd.setValue(e, XName, value)`.
-- `implementsInterface(x, 'IClassWithBaseClassReference_1')` for `is IClassWithBaseClassReference<T>`.
-- Wrapper members: InternalLinkType `aSystemUnitClass/bSystemUnitClass/aInterface/bInterface`;
-  ExternalInterfaceType `associatedObject`; ExternalReferenceType `isVersionReference,
-  isNewVersionReference, isOldVersionReference, version, alias, path, externalDocument`;
-  RevisionType `newVersion/oldVersion/comment`; Ordinal/NominalScaledTypeType `requiredValue`
-  (setter / `.append`), `requiredMinValue`, `requiredMaxValue`; InternalElementType
-  `roleRequirements.append()`, `addRoleClassReference(path)`, `systemUnitClass`; mapping types
-  `roleClassElement/systemUnitClassElement`; `AMLFacet.isFacet`.
-- System layer: `DateTime.minValue`, `DateTime.tryParse(s, DateTimeStyles.AssumeLocal)`,
-  `XmlConvert.toString(DateTime, XmlDateTimeSerializationMode.Local)`,
-  `Guid.newGuid().toString('D')`, `Uri` (`tryCreate`, `scheme`, `userInfo`, `localPath`,
-  `isFile`, `absoluteUri`, `escapeDataString`, `unescapeDataString`), `Convert`, `EventSource`.
-  `isWhiteSpace`/`trimWhiteSpace` are imported from `src/system/Char.ts` directly (not exported
-  by `src/system/index.ts` at the time of writing).
-
-## (b) C# behaviour not reproduced exactly
+## C# behaviour not reproduced exactly
 
 - Culture-sensitive `StartsWith`/`EndsWith` (XmlCAEXMapping role lookup, QueryService
-  ElementsWithAliasReference, AttributeMirrors, IsMaster(AttributeType)) are ordinal.
+  ElementsWithAliasReference, AttributeMirrors, IsMaster(AttributeType)) are ordinal here; they
+  differ from .NET only for ignorable code points and canonically equivalent sequences in names
+  (the extension methods use the culture sensitive comparison of `src/system/CompareInfo.ts`).
 - `Path.GetFileName`/`GetFileNameWithoutExtension`: reimplemented with the Windows rules ('\\',
   '/', drive root).
 - **DocumentStreaming**: no streaming reader. The document is parsed completely (whitespace kept,
@@ -148,9 +93,8 @@ streaming reader, XMLSignature, profile JSON and password encryption.
 - XMLSignature on XLinq: `LoadFromString` uses XDocument.Parse (whitespace handling of
   XmlDocument.LoadXml differs only in ignored whitespace nodes); `HasAttribute(localName)` is
   mapped to the attribute without namespace.
-- GetUri: `IndexOf("github.com", OrdinalIgnoreCase)` via `toLowerCase()`.
 
-## (c) Apparent bugs of the original, ported unchanged
+## Errors of the original, ported unchanged
 
 - XmlCAEXMapping: `XPathSelectElements("./RoleRequirements | ./SupportedRoleClass")` matches only
   children in no namespace, so for CAEX 3.0 documents RoleReferenceToMapping /
@@ -176,10 +120,3 @@ streaming reader, XMLSignature, profile JSON and password encryption.
 - QueryService.ElementsWithCAEXPathReference: a missing but required reference attribute
   matches when the base class is not found (`null == baseClass?.Name`). Dictionary lookups with a
   null document key throw ArgumentNullException('key') as in C#.
-
-## (d) Left undone
-
-- No cryptography in SignatureServiceBase (the C# base class has none; signing services live in
-  another assembly), so no WebCrypto code was needed there.
-- The Aml.Engine.Resources types used by IAMLLibraryService/IClassRepository are placeholders.
-- No oracle tests were added for this batch (only the smoke run described above).

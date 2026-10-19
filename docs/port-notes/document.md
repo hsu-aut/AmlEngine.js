@@ -1,4 +1,4 @@
-# Port notes: batch 2-document
+# Port notes: document, commands and schema managers
 
 Files (31 C# files, one TS file each, at the paths of `docs/type-map.tsv`):
 
@@ -17,50 +17,17 @@ Aml.Engine embeds as manifest resources, verbatim (valid UTF-8, no BOM, checked 
 round trip). `AMLSchemaManager2_15/3_0.extractSchemaToFile` writes them, as the engine does when a
 document is saved next to a file that already exists (`FilePath` setter, `SetSchemaLocation`).
 
-## (a) Assumptions about APIs of other batches
+## API decisions
 
 - Static `Constructor` members keep the C# name `Constructor` (camel case would be `constructor`,
-  which a JS class cannot have as a static member). The other batches that already exist use the
-  same name (`InternalElementType.Constructor`, `AttributeFamilyType.Constructor`, ...).
+  which a JS class cannot have as a static member), e.g. `InternalElementType.Constructor`.
 - `CAEXBasicObject.insert` dispatches the two overloads `insert(caexObject, asFirst?, asIs?)` and
-  `insert(pos: number, caexObject)`; the overrides in my library classes and `CAEXFileType` use the
-  same two overload signatures and call `super.insert` with the matching form.
-  `import(caexObject, name, withSubclasses)` and `caexSequence(caexObject)` as in C#.
-- `CAEXLibrary<T>`: `createElementSequence` (settable, `(e: XElement | null) => ...`) and
-  `libraryElements`, as batch 1/3 wrote them.
-- `CAEXSequence.append(...tuples)` takes `[name, value]` arrays (the `NameValueTuple` of
-  `ICAEXSequence.ts`); `insert`, `insertAt`, `import` as in C#.
-- `new T.ValueSequence<string>(node, 'SuperiorStandardVersion', () => this)`: no run time type
-  argument is passed (C# `ValueSequence<string>`).
-- `ServiceLocator`: `undoRedoService` (`beginTransaction(doc, name)`, `pushCommand(cmd)`,
-  `endTransaction(doc)`, `pause(doc)`, `resume(doc)`), `idService.generateNewID()`,
-  `queryService`, `defaultQueryService` (`loadIDTable`, `loadPathTable`, `unloadIDTable`,
-  `unloadPathTable`), `externalReferenceResolverService.loadOrGetReferencedDocument(extRef)`
-  returning `{ document, message }` (the C# tuple `(CAEXDocument Document, string Message)`),
-  `servicesDictionary` (a `Map`; its values are checked with
-  `implementsInterface(x, 'IXMLDocumentRegistry')` and get `removeDocument(wrapper)`).
-- `DocumentStreaming.prepareSettingsWithCredential(inputUrl, settings)` returns
-  `{ result, localPath }`; `settings` is a plain object standing in for `XmlReaderSettings`
-  (`{ ignoreComments: false, ignoreWhitespace: true [, async: true] }`), which the JS loader does
-  not use otherwise.
-- Extension methods called as static members: `XmlCAEXSchema.schemaManager(node)`,
-  `.caexSchema(element)`, `.isBasicAttribute`, `.isExternalInterface`, `.isInternalElement`;
-  `XmlOperation.firstElement/lastElement(parent)`;
-  `CAEXPathBuilder.instanceIDInAttributeReference(ref, doc)` returning
-  `{ result, isAttributeReference }`; `CAEXPathBuilder.isValidID(id, doc)`;
-  `XmlTypeCodeExtensions.defaultDecodedValue/defaultEncodedValue(code)`.
-- `src/system/index.ts` exports `EventSource`, `EventArgs` (events.ts), `DateTime` (with
-  `minValue` and `ticks`), `XmlConvert` (`toDateTime(s, mode)`, `toString(dateTime, mode)`) and
-  `XmlDateTimeSerializationMode`. At the time of writing `src/engine/streaming/DocumentStreaming.ts`
-  does not exist yet (the only "Cannot find module" error, in `CAEXDocument`). The remaining type
-  errors in my files come from other batches' types (`CAEXSequence` not yet assignable to
-  `ICAEXSequence` because of its `indexOf` signature, which `CAEXBasicObject` hits too, and
-  `AttributeFamilyType` not yet satisfying `CAEXObject`). The project's own `npx tsc` currently
-  stops at a syntax error in `StringExtensions.ts` (raw U+2028/U+2029 in a regex literal, another
-  batch); I checked on a copy with that line escaped.
-- `SourceDocumentInformationType.lastWritingDateTime` passes a possibly null attribute value to
-  `XmlConvert.toDateTime` (C# throws ArgumentNullException there; the JS behaviour is whatever
-  `XmlConvert.toDateTime(null)` does).
+  `insert(pos: number, caexObject)`; the overrides in the library classes and `CAEXFileType` use
+  the same two signatures and call `super.insert` with the matching form.
+- C# tuples are objects: `externalReferenceResolverService.loadOrGetReferencedDocument(extRef)`
+  returns `{ document, message }`, `DocumentStreaming.prepareSettingsWithCredential(inputUrl,
+  settings)` returns `{ result, localPath }`. `settings` is a plain object standing in for
+  `XmlReaderSettings` (`{ ignoreComments: false, ignoreWhitespace: true [, async: true] }`).
 - Events: C# `event` members with add/remove accessors (`CaexCommand.CAEXElementChangedEvent`,
   `CAEXElementChangingEvent`, `Commanding.CAEXElementChangedEvent/ChangingEvent`) are getters
   returning `{ subscribe(h), unsubscribe(h) }` (`IEvent<T>` in WeakEventSource.ts), with handlers
@@ -94,11 +61,8 @@ document is saved next to a file that already exists (`FilePath` setter, `SetSch
   `loadFromStream(bytes)`, `loadFromBinary(bytes)`.
 - `CancellationToken` parameters are kept in position (typed `unknown`, default `null`) and ignored.
 
-## (b) C# behaviour not reproduced exactly
+## C# behaviour not reproduced exactly
 
-- **XmlSchemaManager.validate** (`Validate(XDocument, out string[])`) and therefore
-  `CAEXDocument.validate()` throw `NotImplementedException`: XSD validation does not exist in JS
-  yet. To be done separately.
 - **Schema construction**: the constructor takes `SchemaData` (from `unpackSchema(...)`) instead of
   an XSD stream. `Elements` is filled from the exported dictionary (same keys, same order, one
   `XmlSchemaElementInfo` per distinct info of the engine); `ParseElement`/`ParseSequence` are
@@ -117,7 +81,7 @@ document is saved next to a file that already exists (`FilePath` setter, `SetSch
   objects). It yields nothing for union and list types (their content is no restriction).
 - `maxOccurence`, `minOccurence`, `maxOccurrence` return `number` (unbounded = `Infinity`, which
   stands for `decimal.MaxValue`), following `SchemaModel.ts`, not the `Decimal` class.
-- **XDocumentWrapper table** (per coordinator correction): instead of a
+- **XDocumentWrapper table** (docs/deviations.md, "Document table"): instead of a
   `Dictionary<XDocument, WeakReference>` the table is a `WeakMap<XDocument, XDocumentWrapper>`
   for the lookup plus a `Set<WeakRef<XDocumentWrapper>>` (pruned of dead references on every
   access) used only for the quirk "a node outside any document resolves to the only live
@@ -172,7 +136,7 @@ document is saved next to a file that already exists (`FilePath` setter, `SetSch
 - `CAEXDocument.getDescription` uses a table of the `[Description]` attributes.
 - `lock` blocks are dropped (single threaded).
 
-## (c) Apparent bugs of the original, ported unchanged
+## Errors of the original, ported unchanged
 
 - `XmlSchemaManager.InsertNew(info, ...)` calls the private `CanAddNew` with `info.SchemaElement`
   (an element, never a choice), so the choice check never prevents insertion there; only the
@@ -187,10 +151,3 @@ document is saved next to a file that already exists (`FilePath` setter, `SetSch
   (throws ArgumentOutOfRangeException if there is no `>`).
 - `CAEXDocument.Validate` / `TransformToSchema` etc. as in C#; `FinalizeSchemaTransformation()`
   on a document without root fails with a null dereference (TypeError).
-
-## (d) Left undone
-
-- XSD validation (`XmlSchemaManager.validate`, `CAEXDocument.validate`).
-- No oracle comparison was run for this batch (other batches are still missing; a smoke run with
-  stubs produced the expected new-document XML for CAEX 3.0 and 2.15 and the expected command
-  events).

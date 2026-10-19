@@ -1,6 +1,6 @@
-# Port notes: batch 4-attributes
+# Port notes: attributes and typed values
 
-Files (all new):
+Files:
 
 - `src/engine/caex/AttributeTypeType.ts`, `AttributeType.ts`, `AttributeFamilyType.ts`,
   `AttributeValueRequirementType.ts`, `AttributeValueComparer.ts`, `NominalScaledTypeType.ts`,
@@ -11,7 +11,7 @@ Files (all new):
 - `src/engine/caex/extensions/ClrValue.ts` (not a C# file, see "CLR values" below)
 - `src/engine/resources/XsdDataTypes.ts`, `src/engine/schema/XmlTypeCodeExtensions.ts`
 
-## CLR values in JS (the central decision of this batch)
+## CLR values in JS
 
 Defined once in `src/engine/caex/extensions/ClrValue.ts` (module comment and TSDoc):
 
@@ -41,8 +41,9 @@ Defined once in `src/engine/caex/extensions/ClrValue.ts` (module comment and TSD
   `XmlTypeToClrType` and `XmlTypeCodeExtensions.AttributeType`) are `ClrType` objects
   (interned, compare with `===`). `ClrType.from` also accepts JS constructors for the natural
   types: String, Boolean, Number (double), BigInt (long), Decimal, DateTime, TimeSpan, Uri,
-  Guid, Uint8Array (byte[]), Array (string[]), Object. So `typeof(string)` in other batches
-  (ListAttribute) can be ported as `T.AttributeTypeType.clrToXmlType(String)`.
+  Guid, Uint8Array (byte[]), Array (string[]), Object. So `typeof(string)` (in ListAttribute) is
+  ported as `T.AttributeTypeType.clrToXmlType(String)`. `ClrType` and `ClrValue` are exported from
+  the package.
 - **Values out of the engine** (decoded values) are always plain JS values, never ClrValue.
   CaexValue tracks the CLR type of each decoded value internally, because C# `Equals`,
   `CompareTo` and `ToString` depend on it (xs:int 5 does not equal xs:double 5; an xs:float
@@ -52,61 +53,7 @@ Defined once in `src/engine/caex/extensions/ClrValue.ts` (module comment and TSD
   (`System.Byte[]`, which is what C# writes for an xs:hexBinary/base64Binary value).
 - `DefaultDecodedValue` returns `DateTime.now` etc. like C#.
 
-## (a) Assumptions about APIs of other batches
-
-System layer (`src/system/index.ts`; at the time of writing it did not yet re-export these):
-
-- `XmlConvert` with `toString(boolean | number | bigint | Decimal | TimeSpan | Guid)`,
-  `toString(DateTime, XmlDateTimeSerializationMode | customFormat)`, `toStringSingle`,
-  `toDouble`, `toSingle`, `toDecimal`, `toInt16/32/64`, `toUInt16/32/64`, `toByte`, `toSByte`,
-  `toBoolean`, `toDateTime(s, mode)`, `toTimeSpan`, `verifyNCName/Name/NMTOKEN/TOKEN`,
-  `encodeName/LocalName/NmToken`, `decodeName`. `toString(number)` formats like .NET double
-  (`R`, `INF`, `-0`) and is used for all integral types too. The verify methods throw an error
-  whose `name` is `XmlException` (checked with `dotNetExceptionName`).
-- `XmlDateTimeSerializationMode`, `Parse` as a namespace object (`Parse.tryParseInt16` ...,
-  as in the brief; today `Parse.ts` exports loose functions), `Convert` (`toBase64String`,
-  `fromBase64String` throwing on invalid input), `Uri`/`UriKind` (`Uri.tryCreate`,
-  `Uri.equals(Uri | string)` like .NET), `Guid`.
-- `new DateTime(year, month, day[, h, m, s])` throws for invalid dates (C# code relies on it:
-  `new DateTime(1, month, 1).Month` inside try/catch, `EncodeDatePart` returning null via the
-  outer catch). `DateTime.minValue`, `DateTime.now`, `DateTime.tryParse(s)` (invariant),
-  `DateTime.toString(format)` with standard formats `y d F m T` (invariant),
-  `TimeSpan.tryParse`, `TimeSpan.toString('c')`, `Decimal.parse` keeping the scale (`0.0`),
-  `Decimal.compareTo`, `Decimal.equals` (scale-insensitive).
-
-Engine:
-
-- Static constructor functions are named `Constructor` (C# `X.Constructor`; `constructor` is
-  not possible as a static member name in JS). Batch 1 uses the same convention.
-- `CAEXSequence.append(...tuples)` with `[name, value]` tuples; `insert`, `insertAt`, `import`,
-  `appendRaw`, `createElement(owner)`; `AttributeSequence.item(string[])` for C#
-  `Attribute[string[]]` (used by `AttributeType.master`).
-- `ValueSequence<string>(owner, name, getOwner)` with `elementAndValues` items having `.node`.
-- `CAEXEnumerable(elements, type)`: the type argument is passed so the enumeration filters like
-  C# `CAEXEnumerable<AttributeType>`.
-- `CAEXPathBuilder.attributePathInAttributeReference` / `instanceIDInAttributeReference`
-  return `{ result, isAttributeReference }`; `caexPath(Iterable<CAEXObject>)`.
-- `CAEXElementFactory.create(doc, T.AttributeType)`; `CAEXDocumentExtensions.findByPath(doc,
-  path, resolveAlias, type)`, `findByID(doc, id)`; `CAEXBasicObjectExtensions.ancestors(obj,
-  false, type)`, `firstAncestor(obj, predicate)`, `caexDocument(obj)`, `caexSchema(obj)`;
-  `CollectionExtensions.yield(x)`.
-- `ObjectWithBaseClass.baseClassReference(cls, string | class)` (one method for both C#
-  overloads), `isOverridden(cls, element)`, `isInherited(cls, element)`,
-  `referencedClassName(cls)`; `InstanceExtensions.updateWithAddedAttributes(instance, ref)`
-  (module not yet present); `XmlOperation.existingElementsFromBaseClassAndSelf(cls, tag,
-  comparer)`, `makeUnique`, `createCAEXWrapper`; `XmlClassOperation.isOverridden(node)`;
-  `XmlCAEXSchema.xName(node, tag)`, `isAttributeOrType(el)`.
-- Commands through the registry: `T.AddCmd.addSibling(node, sibling, isAfter)`,
-  `T.InsertCmd.insertElement(node, child)`, `T.InsertNewCmd.insertNewElement(node, xname)`,
-  `T.SetElementContentCmd.setValue(node, [attributes, nodes])`,
-  `T.SetElementValueCmd.setValue(element, value)`, `T.CaexCommand.isSilent`.
-- `ServiceLocator.queryService.isMaster(attribute)`,
-  `elementsWithCAEXPathReference(caexFile, path)` items with `.caexObject`;
-  `undoRedoService?.pause/resume/beginTransaction/endTransaction`,
-  `uniqueNameService?.suspend/resume`.
-- `new T.ObjectWithAMLAttributes(attributeType)`.
-
-## (b) C# behaviour not reproduced exactly
+## C# behaviour not reproduced exactly
 
 - `AttributeTypeType.IsInherited(IObjectWithAttributes owner)` hides the `IsInherited`
   property of CAEXBasicObject with a method; a TS subclass cannot turn an inherited accessor
@@ -120,7 +67,7 @@ Engine:
   culture, its parent and the invariant culture. The port runs under the invariant culture
   (like the oracle), so the last three are invariant. de-DE number parsing
   (NumberStyles.Any: `,` decimal, `.` group, `€`, `∞`) is reimplemented after .NET's
-  Number.TryParseNumber and agrees with .NET 8 on 30 probe inputs (`1,5` 1.5, `1.000,5` 1000.5,
+  Number.TryParseNumber and agrees with .NET 8 on these inputs (`1,5` 1.5, `1.000,5` 1000.5,
   `1.2.3` 123, `(5)` -5, `5-` -5, ` 1,5 € ` 1.5, `∞`, `$5` fails, ...). de-DE DateTime parsing
   covers only numeric forms (`d.M.yy[yy]`, also with `/` or `-`, `yyyy-M-d`, optional `H:m[:s]`,
   time alone = today); other forms (month names, fractional seconds, offsets) fall through to
@@ -138,9 +85,9 @@ Engine:
 - `NormalizedStringEncoder` uses the .NET `\s` class (`[\f\n\r\t\v\x85\p{Z}]`), `Trim()` the
   .NET white space set (`csTrim` in TokenEncoder.ts).
 
-## (c) Apparent bugs of the original, ported unchanged
+## Errors of the original, ported unchanged
 
-Behaviour confirmed with Aml.Engine 4.5.2 where marked (probe run under the invariant culture).
+Behaviour checked with Aml.Engine 4.5.2 under the invariant culture where marked "confirmed".
 
 - `AttributeFamilyType.AttributeDataType` getter: `base.AttributeDataType` never returns null
   (it returns `""`), so the fallback to the base class and to `xs:string` is dead code.
@@ -168,7 +115,9 @@ Behaviour confirmed with Aml.Engine 4.5.2 where marked (probe run under the inva
   a NullReferenceException (`value.GetType()`), ported as TypeError.
 - `XmlTypeCodeFromSchemaType(null)` throws ArgumentNullException('key') (Dictionary lookup).
 
-Probe results for test writers (C# caller, invariant culture): `AttributeValue = 5` -> xs:int
+## Reference results of Aml.Engine
+
+C# caller, invariant culture: `AttributeValue = 5` -> xs:int
 `5`; `5.0` -> xs:double `5`; `5.5f` -> xs:float; `5L` -> xs:long; `(ushort)5` ->
 xs:unsignedShort; `true` -> xs:boolean `true`; `1.5m` -> xs:decimal; xs:int <- "5.5" -> `0`;
 xs:long <- 1e20 -> `0`; xs:string <- true -> `True`; xs:float <- 0.1 (double) -> `0.1`;
@@ -177,15 +126,3 @@ xs:duration <- "01:30:00" -> `PT1H30M`; xs:date <- DateTime -> `2020-01-02`, fri
 -> `a_x0020_b`; xs:token <- "  a   b  " -> `a b`; xs:Name <- "1a b" -> `_x0031_a_x0020_b`
 (decodes back to `1a b`); xs:double <- +Infinity -> `INF`; `Equals` xs:int 5 / xs:double 5 ->
 false, `CompareTo` -> 1 (type codes differ).
-
-## (d) Left undone
-
-- No oracle tests yet: the system layer (XmlConvert, Parse/Convert/Uri/Guid exports) and
-  several engine modules (InstanceExtensions, ObjectWithAMLAttributes) did not exist, so the
-  code was type checked (against stubs with the assumed signatures) but not executed. The
-  probe results above are the expectations to test against.
-- `ClrType` and `ClrValue` are public API; they should be exported from the public index
-  (`src/index.ts` / `src/engine/index.ts`), which is outside this batch.
-- `npx tsc --noEmit` on the real tree was blocked by a syntax error in another batch
-  (StringExtensions.ts); with that file stubbed and the missing system exports declared, the
-  files of this batch have no errors.

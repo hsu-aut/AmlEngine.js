@@ -25,7 +25,7 @@ part of the engine, so this is a port of the parts of `XmlSchemaValidator` / `Xs
 The schemas are compiled from the embedded XSD text in `src/engine/schema/data/xsd.ts` (identical to
 the engine's manifest resources and to `docs/CAEX_ClassModel_V*.xsd`).
 
-## API (for batch 2, `XmlSchemaManager.validate`)
+## API (`XmlSchemaManager.validate`)
 
 ```ts
 import { validateXDocument } from './validation/index.js';

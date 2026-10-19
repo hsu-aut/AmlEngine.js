@@ -2,8 +2,8 @@
 
 AmlEngine.js reproduces one version of Aml.Engine, the one in `oracle/Oracle.csproj` (now 4.5.2).
 A new release may change behaviour, including fixes of errors the port reproduces
-(`docs/port-notes/*.md`, section c) or corrects optionally (`docs/fixes.md`). The oracle makes
-every such change visible; this is the procedure.
+(`docs/port-notes/*.md`, section "Errors of the original, ported unchanged") or corrects
+optionally (`docs/fixes.md`). The oracle makes every such change visible; this is the procedure.
 
 ## Noticing a release
 
@@ -23,8 +23,8 @@ every such change visible; this is the procedure.
    if the XSDs changed (`oracle schema`, see `src/engine/schema/data`).
 4. **Compare.** `npm test`. Every difference is a change of the original. For each:
    - it matches a change in the decompiled code: port it (following `docs/PORTING.md`);
-   - it fixes an error listed in `docs/port-notes/*.md` section (c): port the fix and remove
-     the entry;
+   - it fixes an error listed in `docs/port-notes/*.md` ("Errors of the original, ported
+     unchanged"): port the fix and remove the entry;
    - it fixes one of the errors in `docs/fixes.md`: the new behaviour becomes the port's
      default. If the original fixed it the same way, the correction of that name stays as a
      no-op; otherwise adapt the correction or remove it. Update `docs/fixes.md` and

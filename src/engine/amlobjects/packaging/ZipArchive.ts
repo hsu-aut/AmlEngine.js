@@ -1,7 +1,7 @@
 // The part of System.IO.Compression.ZipArchive that System.IO.Packaging.ZipPackage uses, on an
 // in-memory archive (helper for AutomationMLContainer, no C# counterpart in Aml.Engine). The
 // entry order, the header fields and the rules for rewriting follow .NET 8 on Windows as observed
-// on archives written by Aml.Engine 4.5.2 (see docs/port-notes/7-amlobjects.md):
+// on archives written by Aml.Engine 4.5.2 (see docs/port-notes/amlobjects.md):
 // - entries keep their order; a deleted entry is removed, a new one is appended;
 // - local and central headers: version 20 (made by 0x0014, FAT), no data descriptor, no extra
 //   fields, flag 0x0800 only for non-ASCII names, DOS time of the entry's LastWriteTime;

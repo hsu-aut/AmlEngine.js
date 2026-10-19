@@ -1,4 +1,4 @@
-# Port notes: batch 5-extensions
+# Port notes: extension methods and CAEX paths
 
 Files (all in `src/engine/caex/extensions/`): AdditionalInformationContent, AdditionalInformationExtension,
 CAEXBasicObjectExtensions, CAEXDocumentExtensions, CAEXElementFactory, CAEXFileTypeExtensions,
@@ -10,12 +10,16 @@ ObjectWithExternalInterface, RoleClassFamilyTypeExtensions, RoleClassLibTypeExte
 StringExtensions, SystemUnitClassLibTypeExtensions, SystemUnitClassTypeExtensions,
 SystemUnitFamilyTypeExtensions.
 
-Additional file outside the type map: `src/engine/resources/files/SemanticVersion.ts` (see (d)).
+Additional file outside the type map: `src/engine/resources/files/SemanticVersion.ts`.
+SemanticVersion lives in the separate assembly Aml.Engine.Resources; it is ported in full
+(decompiled from Aml.Engine.Resources 4.2.1) because `CAEXObjectExtensions.semanticVersion`
+returns it, and builds on `amlobjects/internal/Version.ts` (System.Version).
+`streaming/DocumentStreaming.ts` keeps its own minimal version.
 
-## Verification done
+## Verification
 
-- `probe5` (C# against Aml.Engine 4.5.2, not committed) vs. the JS port on 1568 strings (curated
-  paths with aliases, brackets, escapes, GUIDs in all formats, plus 1500 random strings over
+- Aml.Engine 4.5.2 and the port on 1568 strings (curated paths with aliases, brackets, escapes,
+  GUIDs in all formats, plus 1500 random strings over
   `ab/@.:[]\ -1x{}`), both schemas: PathNameArray (with/without brackets),
   PathNameArrayWithSeparator (with/without onlyAlias), PathPartName, NormalizePath,
   IsReferenceWithAlias, CAEXPath(string[]), IsObjectReferenceWithAlias, AliasFromReference,
@@ -25,10 +29,10 @@ Additional file outside the type map: `src/engine/resources/files/SemanticVersio
   ContainsPathSeparatorChars and the StringExtensions (IsGUID, NormalizedGUID, IsInterfacePath,
   IsInterfacePathWith*, IsClassReference), including exception types. All identical (after
   fixing CanNormalize(null) -> ArgumentNullException).
-- The existing read-model dump (`test/engine/dump.ts`) over the whole corpus, run with all
-  modules present, equals the oracle dump except the random OriginIDs that the real test masks.
-- A corpus walk (`probe5/Walk.cs`, not committed, vs. a JS twin) over the 45 smaller corpus files
-  (5485 objects): Name, Library, Ancestors/Descendants (typed, untyped, null items),
+- The read model dump of the whole corpus (`test/engine/dump.oracle.test.ts`) equals the
+  output of the original.
+- The same walk in C# and in the port over the 45 smaller corpus files (5485 objects): Name,
+  Library, Ancestors/Descendants (typed, untyped, null items),
   FirstAncestor, CAEXPath over objects and nodes, PathPart, PathPartSeparator, ExternalPath,
   SemanticVersion, all ObjectWithBaseClass inheritance queries (attributes, interfaces,
   InternalElements, InheritedElements, IsInherited, IsOverridden, OverriddenElement,
@@ -36,9 +40,10 @@ Additional file outside the type map: `src/engine/resources/files/SemanticVersio
   GetDerivedSupportedRoles, SystemUnitClass Ancestors, HasInterfaceClassReference,
   InterfaceClassReferences, OfInterfaceClass, all ExternalInterfaceTypeExtensions queries,
   InternalLink partner helpers, reference ID analysis, AllLibraryReferences (order included),
-  HasLibraries, IsExtensionDocument, GetAMLInfoFromFilename: no difference.
+  HasLibraries, IsExtensionDocument, GetAMLInfoFromFilename: no difference. The oracle tests
+  cover these members as well (docs/coverage.md).
 
-## (a) Assumptions about APIs of other batches
+## API decisions
 
 - Generic C# methods take the class constructor as extra parameter, where the type matters at
   run time. Where optional C# parameters precede it, the methods accept the constructor and the
@@ -68,12 +73,11 @@ Additional file outside the type map: `src/engine/resources/files/SemanticVersio
   iterable (as `src/system/linq.ts` IGrouping).
 - `new T.CAEXEnumerable(elements, type)` for C# `new CAEXEnumerable<T>(elements)`; axis results
   (`ancestors()`, `descendants()`...) are passed as re-iterable `Enumerable`s, not bare generators.
-- `XmlOperation.existingElementsFromBaseClassAndSelf` must return a re-iterable sequence:
+- `XmlOperation.existingElementsFromBaseClassAndSelf` returns a re-iterable sequence:
   `InheritanceExtensions.isDetailed` enumerates it once per element, like C#.
-- `CAEXSequence.append/prepend` tuple arguments: `append(['Alias', alias], ['Path', path])`.
 - `appendWithReference(name, cls)` returns `{ result, isReferenced }`.
 - `ValueSequence` constructor with a condition: `(owner, elementName, (e) => bool)`; the one
-  parameter function is told apart from a `getCAEXOwner` by batch 1.
+  parameter function is told apart from a `getCAEXOwner` by its parameter count.
 - `ServiceLocator.GetService<IUniqueName>()` in ImportLibrary is ported as
   `ServiceLocator.uniqueNameService` (C# property with the same body).
 - `InstanceExtensions.mapIDReferences` takes the ID map as `Map<string, string>`.
@@ -102,12 +106,13 @@ Additional file outside the type map: `src/engine/resources/files/SemanticVersio
   (`CAEXDocument.Document(node)`), distinct from the property `obj.caexDocument` (which falls
   back to AssociatedCAEXDocument). Both are used exactly where C# uses them.
 
-## (b) C# behaviour not reproduced exactly
+## C# behaviour not reproduced exactly
 
 - Culture sensitive `string.StartsWith/EndsWith(string)` (ClassIsDerivedFrom, IsObjectReferenceWithAlias,
-  IsNewVersion, IsExtendedVersion, HasNewVersion, InternalLinkReferencePath) are ordinal in the
-  port; they differ only for ignorable code points (soft hyphen, zero width characters, most
-  control characters) and canonically equivalent sequences. Null arguments throw
+  IsNewVersion, IsExtendedVersion, HasNewVersion, InternalLinkReferencePath) use
+  `src/system/CompareInfo.ts`, which skips ignorable code points and compares canonical
+  equivalents as ICU does. It matches .NET on the 120 pairs of `test/gapscaex/culture-pairs.json`;
+  other scripts may differ (docs/coverage-notes/gapscaex.md). Null arguments throw
   ArgumentNullException as in .NET.
 - AdditionalInformationExtension.SerializedAdditionalInformation: the sequence and its condition
   (`XElement.Parse(value).Name.LocalName == typeof(T).Name`, T.name in JS) are ported; reading or
@@ -120,10 +125,8 @@ Additional file outside the type map: `src/engine/resources/files/SemanticVersio
   Windows semantics ('\' and '/' separators, "C:" root), the platform of the oracle.
 - `CAEXBasicObjectExtensions.descendants(obj, Type)` and `Descendants<T>()` are one method; the
   non-generic `Descendants(Type)` filters `as CAEXBasicObject` in C#, the port filters by the type.
-- `system/strings.ts isNullOrWhiteSpace` uses JS `\s`, which includes U+FEFF (not white space in
-  .NET). Used by PathPartName, AliasFromReference, NormalizePath, IsReferenceWithAlias.
 
-## (c) Apparent bugs of the original, ported unchanged
+## Errors of the original, ported unchanged
 
 - Not an error, although it looks like one: `CAEXBasicObjectExtensions.HasOldVersion` tests
   `IsNewVersion` of the revisions. `IsNewVersion` means that the revision names an OldVersion,
@@ -147,14 +150,3 @@ Additional file outside the type map: `src/engine/resources/files/SemanticVersio
   interfaces in a list that is only used for its count.
 - `CAEXObjectExtensions.SemanticVersion`: the negative component checks can never trigger
   (SemanticVersion normalizes build/revision to at least 0).
-
-## (d) Left undone / for the coordinator
-
-- `src/engine/resources/files/SemanticVersion.ts` is a new file: SemanticVersion lives in the
-  separate assembly Aml.Engine.Resources (not in the type map, not in any batch). It is a full
-  port (decompiled from Aml.Engine.Resources 4.2.1) because `CAEXObjectExtensions.semanticVersion`
-  returns it. `streaming/DocumentStreaming.ts` has a private minimal version that could use it.
-  It builds on `amlobjects/internal/Version.ts` (System.Version helper of another batch).
-- XmlSerializer based (de)serialization in AdditionalInformationExtension (see (b)).
-- No oracle test for the extension methods was added to `test/` (not my batch); the scratch
-  comparisons are described above and can be turned into an oracle mode.

@@ -1,6 +1,6 @@
 // Port of Aml.Engine.Resources.Files.SemanticVersion (assembly Aml.Engine.Resources 4.2.1, a
 // dependency of Aml.Engine 4.5.2; decompiled with ilspycmd). Needed by
-// CAEXObjectExtensions.semanticVersion (batch 5-extensions). The [TypeConverter] attribute has no
+// CAEXObjectExtensions.semanticVersion. The [TypeConverter] attribute has no
 // counterpart.
 //
 // .NET regex semantics: `\d` matches any Unicode decimal digit, `\s` the .NET white space set,

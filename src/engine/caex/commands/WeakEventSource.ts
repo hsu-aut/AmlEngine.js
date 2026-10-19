@@ -2,7 +2,7 @@
 //
 // JavaScript has no weak delegates (a bound handler keeps its target alive, and a WeakRef to a
 // closure would let it be collected while still subscribed). Handlers are therefore held
-// strongly; a subscribed handler is never dropped automatically. See docs/port-notes/2-document.md.
+// strongly; a subscribed handler is never dropped automatically. See docs/port-notes/document.md.
 
 import { T } from '../../registry.js';
 

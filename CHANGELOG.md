@@ -22,6 +22,11 @@
   (`scripts/tz-check.mjs`).
 - CI workflow (`.github/workflows/ci.yml`): quick job on Linux, full oracle comparison on Windows
   with the oracle outputs in the Actions cache.
+- `engines`: Node 20 or later.
+- Documentation for publication: README with installation, requirements and notes on large
+  documents; origin and license of every test input (`NOTICE`, `test/corpus/SOURCES.tsv`,
+  `test/xml-corpus.sources.tsv`); the port notes in `docs/port-notes/` checked against the
+  current code.
 
 ## 0.1.0 (2026-09-26)
 
