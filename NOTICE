@@ -30,7 +30,10 @@ MIT License, Copyright (c) 2023 Arjun Barrett.
 
 Test inputs. test/corpus/SOURCES.tsv names origin and license of every CAEX file in test/corpus
 (test/validation/cases holds modified copies of them), test/xml-corpus.sources.tsv of every file
-in test/xml-corpus. Most are the author's own work (MIT, this repository). Of the others:
+in test/xml-corpus. The other test inputs are written or generated for these tests (MIT, this
+repository), except test/amlobjects/amlx/Opc.Ua.Di.NodeSet2.xml.amlx, the AML library of the
+OPC UA DI NodeSet published with OPC 10000-83 (UAFX), (c) OPC Foundation, no license stated in
+the package. Most files are the author's own work (MIT, this repository). Of the others:
 - the unit test inputs and outputs of AutomationML/AML-UA-XSLT
   (https://github.com/AutomationML/AML-UA-XSLT), MIT License, Copyright 2021 AutomationML e.V.,
   and the AutomationML standard libraries and the CAEX 3.0 schema, MIT License, Copyright

@@ -7,9 +7,10 @@ libraries (`AMLLibraries` resources, the `AutomationML*Lib` static classes, the 
 
 Files: `oracle/AmlObjectsOracle.cs`, `test/engine/amlobjects.oracle.test.ts`,
 `scripts/gen-amlobjects.mjs`, inputs in `test/amlobjects/` (`ops.json` generated with seed 3682,
-`docs/objects30.aml`, `docs/objects215.aml`, `data/*` part contents, `amlx/*.amlx` copied from the
-workspace: `plant.amlx` from `AML/automationml-mcp/examples`, `Opc.Ua.Di.NodeSet2.xml.amlx` from
-`AML/OPCUA/_Sources/NodeSets/...`; the other five OPC UA packages there have the same structure).
+`docs/objects30.aml`, `docs/objects215.aml`, `data/*` part contents, and two AMLX packages in
+`amlx/`: `plant.amlx` from the examples of AMLMcp, `Opc.Ua.Di.NodeSet2.xml.amlx` from the AML
+libraries published with OPC 10000-83 (UAFX); the other five packages of that set have the same
+structure).
 Oracle call appended to `scripts/oracle.sh`; `test/amlobjects/** binary` in `.gitattributes`.
 
 The test runs in about 100 s: 261 tests, all passing.
