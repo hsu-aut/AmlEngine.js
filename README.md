@@ -2,9 +2,10 @@
 
 AutomationML for JavaScript: CAEX 2.15 and 3.0 documents in the browser and in Node, with the
 behaviour of [Aml.Engine](https://www.nuget.org/packages/Aml.Engine) 4.5.2, the .NET API of
-AutomationML e.V. It is a TypeScript port of that engine, and every part of it is compared with
-the original: the same calls on the same documents give the same results, the same exceptions and
-byte for byte the same saved files.
+AutomationML e.V. It is a TypeScript port of that engine, checked against the original by
+differential tests: the same calls on the same documents give the same results, the same
+exceptions and byte for byte the same saved files. The tests execute 98 % of the functions of the
+port; [docs/coverage.md](docs/coverage.md) lists the rest and the reasons.
 
 What it covers: loading and saving (strings, bytes, files in Node), the CAEX object model with
 libraries, classes, instances, inheritance, role requirements, interfaces, internal links,
@@ -13,16 +14,19 @@ values for all XSD data types, schema validation, change events and undo hooks, 
 objects (facets, groups, ports, frames, external data references, document versions), the
 standard libraries, and AMLX containers.
 
-Status: complete port, not yet published. Deliberate and unavoidable differences to Aml.Engine are
-listed in [docs/deviations.md](docs/deviations.md).
+Deliberate and unavoidable differences to Aml.Engine are listed in
+[docs/deviations.md](docs/deviations.md), changes per version in [CHANGELOG.md](CHANGELOG.md).
+
+## Install
 
 ```bash
-npm install
-npm test               # needs the oracle outputs, see "Verification"
-npm run typecheck
-npm run build          # dist/index.js (ESM), dist/index.cjs, dist/index.d.ts
-npm run test:browser   # scenario and System cases in Node, Edge, Chromium, Firefox, WebKit
+npm install amlengine-js
 ```
+
+It runs in Node 20 or later and in current browsers (checked in Chromium, Edge, Firefox and
+WebKit), as ESM or CommonJS with type declarations. The only dependency is
+[fflate](https://github.com/101arrowz/fflate) for AMLX containers. In the browser the engine is
+about 220 KB with gzip (980 KB minified); load it with `import()` where it is needed.
 
 ## Use
 
@@ -61,6 +65,13 @@ written as names instead of paths). Each can be corrected per document or for al
 `doc.fixes = 'all'` or `Fixes.default = ['base64Binary', ...]`. The list, and how each
 correction is checked against the original, is in [docs/fixes.md](docs/fixes.md).
 
+Large documents take longer than in .NET: a 50 MB document loads in 2.5 to 5 s instead of 1 s and
+saves in 3 to 4 s instead of 0.4 s ([docs/performance.md](docs/performance.md)). As in
+Aml.Engine, `findByID` searches the whole document, and so does everything that resolves an ID
+(internal links, mirrors), unless the document was loaded with indices
+(`CAEXDocument.loadFromString(text, true)`). The indices are not updated when the document
+changes, so they suit documents that are only read.
+
 ## Verification
 
 `oracle/` is a .NET 8 console program that runs the real Aml.Engine 4.5.2. The tests run the
@@ -94,6 +105,17 @@ records runs with other seeds and larger sizes than the committed inputs.
 [docs/performance.md](docs/performance.md) compares time and memory with the original.
 `.github/workflows/ci.yml` runs all of this; the oracle outputs are kept in the Actions cache.
 
+## Development
+
+```bash
+npm install
+npm run typecheck
+npm run build          # dist/index.js (ESM), dist/index.cjs, dist/index.d.ts
+npm run oracle         # the outputs of the original (.NET 8 SDK, Windows, about two hours)
+npm test               # compares with them; without oracle outputs those tests are skipped
+npm run test:browser   # scenario and System cases in Node, Edge, Chromium, Firefox, WebKit
+```
+
 ## Repository
 
 | Path | Content |
@@ -104,7 +126,8 @@ records runs with other seeds and larger sizes than the committed inputs.
 | `oracle/` | the reference program on the real Aml.Engine |
 | `scripts/` | generators for test inputs, the API, the registry |
 | `test/` | tests and their inputs (`test/corpus/`: CAEX files, origins in `SOURCES.tsv`) |
-| `docs/` | porting rules, deviations, coverage |
+| `docs/` | porting rules and notes, deviations, optional corrections, coverage, performance |
+| `.github/workflows/` | CI: quick checks on Linux, the full comparison with the original on Windows |
 
 ## Third-party content
 
