@@ -1,15 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 (2026-11-04)
 
 - `FindByID` without ID table remembers per document the IDs its searches have passed, until an
   element or attribute changes; the result stays that of the search of the original. The full
   read model walk of a 10 MB document takes 10 to 16 s instead of 20 minutes or more (Aml.Engine:
   12 minutes). Checked by `test/engine/findbyid.test.ts` and, with `AMLENGINE_CHECK_ID_TABLE=1`,
-  by comparing every `FindByID` of the test suite with the plain search.
-
-## 0.2.0 (2026-09-27)
-
+  by comparing every `FindByID` of the test suite with the plain search. The plain search (the
+  first after a change) is 3.5 times faster, without generator and LINQ overhead.
 - Case mapping from fixed .NET tables instead of the JS engine, so that Node and every browser
   give the same result: `char.ToUpperInvariant`, `ToLowerInvariant` and `OrdinalIgnoreCase`,
   supplementary code points included. Fixes found with it, each checked against the original:
@@ -20,8 +18,6 @@
 - XML parser and writer without recursion: any nesting depth (tested with 20,000 levels).
 - Browser check also in Chromium, Firefox and WebKit (Playwright), with all System and
   infrastructure oracle cases.
-- `FindByID` without ID table 3.5 times faster (same linear search as the original, without
-  generator and LINQ overhead).
 - Large documents (10 and 50 MB, and 10 MB with 421 schema errors) compared with the original:
   saving, the read API, validation (`test/engine/large.oracle.test.ts`); time and memory against
   the original in Node and three browsers (docs/performance.md, `test/perf/run.mjs`).
