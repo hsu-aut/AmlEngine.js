@@ -5,7 +5,7 @@ import { implementsInterface, registerInterfaces } from '../interfaces.js';
 import { ArgumentNullException } from '../../system/exceptions.js';
 import { isNullOrEmpty } from '../../system/strings.js';
 import { Enumerable, from } from '../../system/linq.js';
-import { XName, firstDescendant, type XElement } from '../../xml/index.js';
+import { XName, firstDescendant, nextDescendant, treeVersion, type XContainer, type XDocument, type XElement } from '../../xml/index.js';
 import { CAEXBasicObjectExtensions } from '../caex/extensions/CAEXBasicObjectExtensions.js';
 import { CAEXDocumentExtensions } from '../caex/extensions/CAEXDocumentExtensions.js';
 import { CAEXPathBuilder } from '../caex/extensions/CAEXPathBuilder.js';
@@ -58,6 +58,53 @@ function wrapperEquals(a: unknown, b: unknown): boolean {
 
 /** The default query service, with optional ID and path lookup tables per document. */
 const ID = XName.get('ID');
+
+/**
+ * What the searches of FindByID without ID table have seen in a document since the last change of
+ * an element or attribute in any tree (treeVersion): the first element per ID in document order,
+ * and the element where the walk stopped (null: at the end).
+ */
+interface IDScan {
+  version: number;
+  table: Map<string, XElement> | null;
+  last: XContainer | null;
+}
+
+const idScans = new WeakMap<XDocument, IDScan>();
+
+/**
+ * The first element in document order whose ID attribute is `id`, as the search of the original.
+ * The original walks the document from the start for every call. Here the first search after a
+ * change is that walk; from the second one on, the walk records every ID it passes and continues
+ * where the previous one stopped, so a read-only use visits every element once.
+ */
+function firstWithID(doc: XDocument, id: string): XElement | null {
+  const version = treeVersion();
+  const s = idScans.get(doc);
+  if (s === undefined || s.version !== version) {
+    idScans.set(doc, { version, table: null, last: doc });
+    return firstDescendant(doc, (x) => id === (x.attribute(ID)?.value ?? null));
+  }
+  const table = (s.table ??= new Map());
+  const known = table.get(id);
+  if (known !== undefined) return known;
+  let from = s.last;
+  while (from !== null) {
+    const e = nextDescendant(doc, from);
+    if (e === null) break;
+    from = e;
+    const value = e.attribute(ID)?.value;
+    if (value !== undefined && !table.has(value)) {
+      table.set(value, e);
+      if (value === id) {
+        s.last = e;
+        return e;
+      }
+    }
+  }
+  s.last = null;
+  return null;
+}
 
 export class QueryService implements IQuery, ILookUpTable {
   private _IDLookup: Map<CAEXDocument, ILookup<string, ICAEXReference>> | null = null;
@@ -462,7 +509,7 @@ export class QueryService implements IQuery, ILookUpTable {
       const iDLookup = this._IDLookup;
       const value = iDLookup !== null && iDLookup.size > 0 ? tryGet(iDLookup, caexDocument) : undefined;
       if (value === undefined) {
-        const found = firstDescendant(caexDocument.xDocument!, (x) => id === (x.attribute(ID)?.value ?? null));
+        const found = firstWithID(caexDocument.xDocument!, id);
         const w = found !== null ? XmlOperation.createCAEXWrapper(found) : null;
         return w instanceof T.CAEXObject ? (w as CAEXObject) : null;
       }

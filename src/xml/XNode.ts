@@ -11,6 +11,18 @@ import { XmlException, isName, isWhitespaceOnly, verifyNCName } from './XmlChars
 import { formatDouble } from '../system/Number.js';
 import { ArgumentException, ArgumentNullException, InvalidOperationException } from '../system/exceptions.js';
 
+/**
+ * Counts the changes of elements and attributes in all trees: an element or attribute added or
+ * removed, an attribute value set. Text, comments and names do not count. QueryService.FindByID
+ * keeps what its searches have seen while the count stays the same.
+ */
+let treeChanges = 0;
+
+/** @internal */
+export function treeVersion(): number {
+  return treeChanges;
+}
+
 export enum XmlNodeType {
   None = 0,
   Element = 1,
@@ -325,6 +337,7 @@ export class XAttribute extends XObject {
   set value(v: string) {
     if (v === null || v === undefined) throw new ArgumentNullException('value');
     validateAttribute(this.name, v);
+    treeChanges++;
     this._value = v;
   }
 
@@ -432,6 +445,7 @@ export abstract class XContainer extends XNode {
   }
 
   removeNodes(): void {
+    treeChanges++;
     const last = this._content;
     if (last instanceof XNode) {
       let n: XNode = last;
@@ -505,6 +519,7 @@ export abstract class XContainer extends XNode {
 
   /** @internal */
   _appendNodeSkipNotify(n: XNode): void {
+    treeChanges++;
     n._parent = this;
     const c = this._content;
     if (c === null || typeof c === 'string') n._next = n;
@@ -529,6 +544,7 @@ export abstract class XContainer extends XNode {
   /** @internal */
   _removeNode(n: XNode): void {
     if (n._parent !== this) throw externalCode();
+    treeChanges++;
     let p = this._content as XNode;
     while (p._next !== n) p = p._next!;
     if (p === n) this._content = null;
@@ -709,6 +725,7 @@ export class XElement extends XContainer {
   }
 
   removeAttributes(): void {
+    treeChanges++;
     const last = this._lastAttr;
     if (last !== null) {
       let a: XAttribute = last;
@@ -812,6 +829,7 @@ export class XElement extends XContainer {
 
   /** @internal */
   _appendAttributeSkipNotify(a: XAttribute): void {
+    treeChanges++;
     a._parent = this;
     if (this._lastAttr === null) a._next = a;
     else {
@@ -824,6 +842,7 @@ export class XElement extends XContainer {
   /** @internal */
   _removeAttribute(a: XAttribute): void {
     if (a._parent !== this) throw externalCode();
+    treeChanges++;
     let p = this._lastAttr!;
     let n: XAttribute;
     while ((n = p._next!) !== a) p = n;
@@ -1031,6 +1050,7 @@ class Inserter {
 
   private insertNode(n: XNode): void {
     if (n._parent !== null) throw externalCode();
+    treeChanges++;
     const parent = this._parent;
     n._parent = parent;
     const c = parent._content;
@@ -1111,6 +1131,25 @@ export function firstDescendant(root: XContainer, match: (e: XElement) => boolea
       if (match(n)) return n;
       c = n;
     } else c = null;
+  }
+}
+
+/**
+ * The element after `from` in the document order of root.Descendants() (the first one for
+ * `from === root`), or null: one step of the walk of firstDescendant.
+ */
+export function nextDescendant(root: XContainer, from: XContainer): XElement | null {
+  let n: XNode = from;
+  let c: XContainer | null = from;
+  for (;;) {
+    if (c !== null && c._content instanceof XNode) n = c._content._next!;
+    else {
+      while (n !== root && n === n._parent!._content) n = n._parent!;
+      if (n === root) return null;
+      n = n._next!;
+    }
+    if (n instanceof XElement) return n;
+    c = null;
   }
 }
 
