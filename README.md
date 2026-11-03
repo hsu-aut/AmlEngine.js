@@ -65,12 +65,15 @@ written as names instead of paths). Each can be corrected per document or for al
 `doc.fixes = 'all'` or `Fixes.default = ['base64Binary', ...]`. The list, and how each
 correction is checked against the original, is in [docs/fixes.md](docs/fixes.md).
 
-Large documents take longer than in .NET: a 50 MB document loads in 2.5 to 5 s instead of 1 s and
-saves in 3 to 4 s instead of 0.4 s ([docs/performance.md](docs/performance.md)). As in
-Aml.Engine, `findByID` searches the whole document, and so does everything that resolves an ID
-(internal links, mirrors), unless the document was loaded with indices
-(`CAEXDocument.loadFromString(text, true)`). The indices are not updated when the document
-changes, so they suit documents that are only read.
+Large documents take longer than in .NET to load and save: a 50 MB document loads in 2 to 4 s
+instead of 1 s and saves in 3 to 5 s instead of 0.3 s ([docs/performance.md](docs/performance.md)).
+Without indices, Aml.Engine searches the whole document for every `findByID` and for everything
+that resolves an ID (internal links, mirrors), so reading a 10 MB document completely through the
+API takes 12 minutes there. The port gives the same results, but remembers the IDs it has passed
+until an element or attribute changes; the same reading takes 10 to 16 s. Documents loaded with
+indices (`CAEXDocument.loadFromString(text, true)`) use ID and path tables in both engines; as in
+Aml.Engine, these are not updated when the document changes, so they suit documents that are
+only read.
 
 ## Verification
 
@@ -113,6 +116,7 @@ npm run typecheck
 npm run build          # dist/index.js (ESM), dist/index.cjs, dist/index.d.ts
 npm run oracle         # the outputs of the original (.NET 8 SDK, Windows, about two hours)
 npm test               # compares with them; without oracle outputs those tests are skipped
+AMLENGINE_CHECK_ID_TABLE=1 npm test   # also compares every findByID with the plain search
 npm run test:browser   # scenario and System cases in Node, Edge, Chromium, Firefox, WebKit
 ```
 

@@ -1,8 +1,9 @@
 # Performance
 
 Time and memory of AmlEngine.js compared with Aml.Engine 4.5.2 on large documents, measured on
-2026-09-26 with `node test/perf/run.mjs` (the steps are the same in `test/perf/bench.ts` and
-`oracle/BenchOracle.cs`; a corpus document is loaded first to warm up the JIT compilers).
+2026-11-03 with `node test/perf/run.mjs` (the steps are the same in `test/perf/bench.ts` and
+`oracle/BenchOracle.cs`; a corpus document is loaded first to warm up the JIT compilers). Times
+vary between runs by up to a factor of 1.5.
 
 Machine: AMD Ryzen 7 PRO 8840HS, 60 GB RAM, Windows 11. .NET 8.0.24, Node 20.19.2, Playwright
 1.63.0 with Chromium 153, Firefox 155 and WebKit 26.6 (headless).
@@ -31,44 +32,71 @@ environments, and all of them report both documents as valid.
 
 | | load | walk | find | save | validate | load idx | find idx | heap |
 |---|---|---|---|---|---|---|---|---|
-| Aml.Engine (.NET 8) | 0.41 s | 0.10 s | 1.0 s | 0.23 s | 0.61 s | 0.27 s | 0.03 s | 42 MB |
-| Node | 0.70 s | 0.16 s | 2.0 s | 0.65 s | 1.4 s | 0.94 s | 0.04 s | 56 MB |
-| Chromium | 0.52 s | 0.09 s | 1.7 s | 0.43 s | 0.98 s | 0.59 s | 0.01 s | 31 MB |
-| Firefox | 1.1 s | 0.16 s | 1.2 s | 0.87 s | 2.2 s | 1.1 s | 0.01 s | |
-| WebKit | 0.55 s | 0.17 s | 1.0 s | 0.65 s | 0.97 s | 0.57 s | 0.01 s | |
+| Aml.Engine (.NET 8) | 0.14 s | 0.08 s | 0.79 s | 0.12 s | 0.38 s | 0.18 s | 0.03 s | 40 MB |
+| Node | 0.77 s | 0.18 s | 0.07 s | 0.72 s | 1.3 s | 0.89 s | 0.03 s | 57 MB |
+| Chromium | 0.66 s | 0.15 s | 0.06 s | 0.62 s | 1.1 s | 0.62 s | 0.01 s | 31 MB |
+| Firefox | 0.81 s | 0.15 s | 0.02 s | 0.63 s | 1.7 s | 0.83 s | 0.01 s | |
+| WebKit | 0.45 s | 0.08 s | 0.03 s | 0.58 s | 1.0 s | 0.47 s | 0.01 s | |
+
+The heap in Chromium is from a second run; the first gave a negative value.
 
 ## 50 MB
 
 | | load | walk | find | save | validate | load idx | find idx | heap |
 |---|---|---|---|---|---|---|---|---|
-| Aml.Engine (.NET 8) | 0.95 s | 0.35 s | 4.3 s | 0.39 s | 1.1 s | 1.0 s | 0.08 s | 207 MB |
-| Node | 3.6 s | 0.75 s | 10.6 s | 3.5 s | 6.9 s | 4.7 s | 0.19 s | 282 MB |
-| Chromium | 2.5 s | 0.53 s | 9.6 s | 2.9 s | 5.5 s | 3.3 s | 0.02 s | 166 MB |
-| Firefox | 4.9 s | 0.68 s | 5.7 s | 3.9 s | 10.7 s | 5.0 s | 0.05 s | |
-| WebKit | 2.5 s | 0.41 s | 5.1 s | 3.1 s | 5.7 s | 2.9 s | 0.05 s | |
+| Aml.Engine (.NET 8) | 0.98 s | 0.24 s | 4.4 s | 0.28 s | 0.90 s | 0.96 s | 0.01 s | 209 MB |
+| Node | 3.5 s | 0.79 s | 0.39 s | 4.5 s | 9.1 s | 5.0 s | 0.20 s | 282 MB |
+| Chromium | 3.3 s | 0.82 s | 0.34 s | 4.8 s | 7.0 s | 3.2 s | 0.03 s | 166 MB |
+| Firefox | 3.9 s | 0.68 s | 0.12 s | 3.4 s | 9.5 s | 4.5 s | 0.03 s | |
+| WebKit | 2.1 s | 0.39 s | 0.16 s | 3.1 s | 5.1 s | 2.5 s | 0.05 s | |
+
+## Read model walk
+
+The walk of `test/engine/dump.ts` (the `dump` mode of the oracle in .NET) reads every object
+through the API: name, path, `FindByPath` and `FindByID` of the object itself, base classes,
+inherited members, mirrors, the partners of internal links, attribute values. It resolves IDs
+about once per object. Documents from `gen-large.mjs` (1, 2 and 4 MB generated with the same
+seed); Node, times without loading; .NET, the whole oracle run (loading takes less than 1 s):
+
+| | 1 MB | 2 MB | 4 MB | 10 MB | 50 MB |
+|---|---|---|---|---|---|
+| Aml.Engine (.NET 8) | 6.6 s | 15 s | 66 s | 12 min | hours |
+| Port 0.2.0 | 5.5 s | 24 s | 144 s | 20 min | |
+| Port | 1.7 s | 3.3 s | 6.1 s | 10 to 16 s | 66 to 93 s |
+
+In the full test suite, where other test files run at the same time, the walk of 10 MB took 71
+minutes with port 0.2.0; with the current port the test takes 24 s.
 
 ## Findings
 
-- The port is slower than the original by a factor of about 2 to 4 for loading and walking,
-  and the gap grows with the size: at 50 MB loading takes 2.5 to 5 s instead of 1 s. Memory is of
-  the same order (Node 1.4 times, Chromium 0.8 times the .NET heap).
-- Saving is the weakest step: 3 to 4 s for 50 MB instead of 0.4 s, and validation contains a
+- Loading takes 2 to 6 times as long as in the original, the walk of the InternalElements 1 to
+  3.5 times; at 50 MB loading takes 2 to 4 s instead of 1 s. Memory is of the same order (Node
+  1.4 times, Chromium 0.8 times the .NET heap).
+- Saving is the weakest step: 3 to 5 s for 50 MB instead of 0.3 s, and validation contains a
   save. The time is spent in the XML writer, about 40 % of it in garbage collection of the many
   small strings. Two simpler buffering schemes were tried and were slower; writing UTF-8 bytes
   directly would be the next step.
-- `FindByID` without ID table walks the whole document, in the original as in the port (5 ms per
-  call at 10 MB, 21 ms at 50 MB in .NET; 10 and 53 ms in Node). Everything that resolves an ID
-  reference (internal links, mirrors, the read model walk) inherits this, which makes such work
-  grow with the square of the document size. Loading with `createIndices: true` builds the ID
-  and path tables of the query service once; then 26,492 lookups take 0.02 to 0.2 s. As in the
-  original, the tables are not updated when the document changes, so this suits read-only use.
-- The linear search of `FindByID` was 3.5 times faster after the change of 2026-09-26 (a loop
-  without generator and LINQ, the XName of "ID" resolved once): the full read model walk of a
-  1 MB document went from 18.1 s to 5.1 s.
+- `FindByID` without ID table: Aml.Engine searches the whole document from the start for every
+  call (4 ms per call at 10 MB, 22 ms at 50 MB). Everything that resolves an ID reference
+  (internal links, mirrors, the read model walk) inherits this, which makes such work grow with
+  the square of the document size. The port gives the same result, but keeps per document the
+  first element per ID that its searches have passed and where the last search stopped, until an
+  element or attribute changes in any tree (docs/port-notes/xmlext-services.md). Reading a
+  document thus looks at every element about once; the first search after a change is the plain
+  search of the original. The 200 searches take 0.02 to 0.4 s instead of 0.8 and 4.4 s.
+- The plain search is a loop without generator and LINQ, with the XName of "ID" resolved once
+  (since 2026-09-26, 3.5 times faster than before). In the port it costs about twice as much per
+  element as in .NET, and the cost per element grows with the document: 80 ns per element of the
+  document at 1 MB, 143 ns at 4 MB (presumably because the tree no longer fits into the processor
+  caches).
+- Loading with `createIndices: true` builds the ID and path tables of the query service once;
+  then 26,492 lookups take 0.01 to 0.2 s. As in the original, these tables are not updated when
+  the document changes, so they suit read-only use.
 
 ## Correctness at this size
 
 `test/engine/large.oracle.test.ts` compares with the original: load and save byte for byte
-(10 MB, 50 MB), the full read model walk and the save after it (10 MB; 50 MB would take hours in
-both engines because of the linear `FindByID`), and the validation result and messages (10 MB,
-50 MB, and a 10 MB document with 421 schema errors, `gen-large.mjs` size `10i`). All match.
+(10 MB, 50 MB), the full read model walk and the save after it (10 MB; at 50 MB the original
+would take hours because of its linear `FindByID`), and the validation result and messages
+(10 MB, 50 MB, and a 10 MB document with 421 schema errors, `gen-large.mjs` size `10i`). All
+match.

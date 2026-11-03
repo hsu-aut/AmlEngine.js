@@ -4,7 +4,8 @@
 //   saved   LoadFromString + SaveToStream(true), byte for byte
 //   dump    the read model walk of dump.ts (every object, path, reference, inherited member) and
 //           SaveToStream(true) afterwards (the walk must not change the document); 10 MB only, as
-//           it grows with the square of the size in both engines (FindByID without ID table)
+//           in the original it grows with the square of the size (FindByID without ID table
+//           searches the whole document; 12 minutes at 10 MB, hours at 50 MB)
 //   validate  CAEXDocument.Validate result and messages
 // The documents and outputs are not in the repository; scripts/oracle.sh creates them.
 // Timings: docs/performance.md.

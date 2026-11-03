@@ -49,6 +49,15 @@ UpdateEventArgs), `src/engine/services/model/*`, `src/engine/services/utilities/
   `AMLLibraryServerProfile.ts`.
 - `XmlOperation.idMap` (C# `IDMap`) is typed `Map<string, string> | null` (it is null outside a
   copy); InterfaceFamilyType/SystemUnitFamilyType pass it where a non-null map is expected.
+- **QueryService.FindByID without ID table** gives the result of the original (the first element in
+  document order whose `ID` attribute matches), but does not search the whole document for every
+  call. Per document it keeps the first element per ID that its searches have passed and where
+  the last search stopped, until an element or attribute changes in any tree (`treeVersion` in
+  `src/xml/XNode.ts`, counted where elements and attributes are added or removed and where an
+  attribute value is set). The first search after a change is the plain search of the original.
+  `test/engine/findbyid.test.ts` checks every kind of change; with `AMLENGINE_CHECK_ID_TABLE=1`
+  every FindByID of the test suite is compared with the plain search
+  (`test/setup/check-id-table.ts`).
 - `XmlCAEXSchema.isElementWithIDReference(e, ID?)`, `isElementWithPathReference(e, path?)`,
   `XmlOperation.firstElement(p, localName?)`, `lastElement(p, name?)` select the second C#
   overload only for a string/null (or XName) argument, so passing them as LINQ callbacks (index

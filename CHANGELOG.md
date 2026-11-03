@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- `FindByID` without ID table remembers per document the IDs its searches have passed, until an
+  element or attribute changes; the result stays that of the search of the original. The full
+  read model walk of a 10 MB document takes 10 to 16 s instead of 20 minutes or more (Aml.Engine:
+  12 minutes). Checked by `test/engine/findbyid.test.ts` and, with `AMLENGINE_CHECK_ID_TABLE=1`,
+  by comparing every `FindByID` of the test suite with the plain search.
+
 ## 0.2.0 (2026-09-27)
 
 - Case mapping from fixed .NET tables instead of the JS engine, so that Node and every browser
