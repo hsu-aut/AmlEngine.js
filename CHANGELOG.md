@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.1 (2026-11-09)
+
+- AMLX containers can be created and changed in memory through the public API, which is the way
+  to use them in the browser: `MemoryStream`, `FileMode` and the other types of
+  `System.IO.Packaging` (`Package`, `PackagePart`, `PackageRelationship`, `TargetMode`,
+  `FileAccess`, `FileShare`, `CompressionOption`, `IOException`, `FileFormatException`) are
+  exported. In 0.2.0 a container could be read from bytes, but its changes could not be taken out
+  again. Example in the README; checked by `test/engine/amlx-memory.test.ts` and by the browser
+  check, which now uses the public exports.
+
 ## 0.2.0 (2026-11-09)
 
 - First version on npm (`amlengine-js`); a tag `v<version>` publishes over Trusted Publishing
