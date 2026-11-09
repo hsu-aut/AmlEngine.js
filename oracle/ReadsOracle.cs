@@ -1511,10 +1511,13 @@ public static class ReadsOracle
         return s.Substring(0, i).ToLowerInvariant() + s.Substring(i);
     }
 
-    /// <summary>SaveToFile writes the file name into the document: always the same name.</summary>
+    /// <summary>
+    /// SaveToFile writes the file name into the document: always the same name, in a directory of
+    /// its own per process (the isolated documents run in parallel child processes).
+    /// </summary>
     static string TmpFile()
     {
-        var dir = Path.Combine(Path.GetTempPath(), "reads-oracle-cs");
+        var dir = Path.Combine(Path.GetTempPath(), "reads-oracle-cs", Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture));
         Directory.CreateDirectory(dir);
         return Path.Combine(dir, "reads-save.aml");
     }
