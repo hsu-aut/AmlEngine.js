@@ -23,5 +23,24 @@ export {
 export { XmlTypeCode } from './system/XmlTypeCode.js';
 export * as system from './system/index.js';
 
+// System.IO.Packaging and the streams of AutomationMLContainer (AMLX): to create and change a
+// container in memory, as in the browser, and to name the types of its parts and relationships.
+export { MemoryStream, SeekOrigin } from './engine/amlobjects/packaging/MemoryStream.js';
+export {
+  CompressionOption,
+  FileAccess,
+  FileFormatException,
+  FileMode,
+  FileShare,
+  IOException,
+  Package,
+  PackagePart,
+  PackagePartCollection,
+  PackageRelationship,
+  PackageRelationshipCollection,
+  TargetMode,
+} from './engine/amlobjects/packaging/Package.js';
+export type { StreamLike } from './engine/amlobjects/AutomationMLContainer.js';
+
 // System.Xml.Linq (the XML tree every wrapper is built on).
 export * as xml from './xml/index.js';

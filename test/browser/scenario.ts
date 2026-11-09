@@ -9,12 +9,12 @@ import {
   ClrValue,
   InternalLinkType,
   AutomationMLContainer,
+  FileMode,
+  MemoryStream,
   Uri,
   UriKind,
   InternalElementType,
 } from '../../src/index.js';
-import { MemoryStream } from '../../src/engine/amlobjects/packaging/MemoryStream.js';
-import { FileMode } from '../../src/engine/amlobjects/packaging/Package.js';
 
 /** FNV-1a over UTF-16 code units: a small synchronous fingerprint for long texts. */
 function fp(text: string): string {
