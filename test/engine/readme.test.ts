@@ -1,6 +1,6 @@
-// The usage example of README.md, run as it is written there.
+// The usage examples of README.md, run as they are written there.
 import { expect, it } from 'vitest';
-import { CAEXDocument, ClrValue } from '../../src/index.js';
+import { AutomationMLContainer, CAEXDocument, ClrValue, FileMode, MemoryStream, Uri, UriKind } from '../../src/index.js';
 
 const xml = `<?xml version="1.0" encoding="utf-8"?>
 <CAEXFile SchemaVersion="3.0" FileName="plant.aml" xmlns="http://www.dke.de/CAEX">
@@ -25,4 +25,20 @@ it('runs the README example', () => {
 
   const bytes: Uint8Array = doc.saveToStream(true);
   expect(new TextDecoder().decode(bytes)).toContain('<Value>1500</Value>');
+});
+
+it('runs the README example for AMLX', () => {
+  const doc: any = CAEXDocument.loadFromString(xml);
+
+  const stream = new MemoryStream();
+  const container = new AutomationMLContainer(stream, FileMode.Create);
+  container.addRoot(doc.saveToStream(true), new Uri('/plant.aml', UriKind.Relative));
+  container.close();
+  const amlx = stream.toArray();
+
+  const opened = new AutomationMLContainer(amlx);
+  const root: any = CAEXDocument.loadFromBinary(opened.rootDocumentStream()!.toArray());
+  opened.dispose();
+
+  expect(root.findByPath('Plant/Pump').name).toBe('Pump');
 });

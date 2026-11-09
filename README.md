@@ -46,6 +46,22 @@ doc.caexFile.instanceHierarchy.item(0).internalElement.insert(pump.createClassIn
 const bytes = doc.saveToStream(true);                    // Uint8Array, as SaveToStream writes it
 ```
 
+AMLX containers also work in memory, which is the way to use them in the browser:
+
+```ts
+import { AutomationMLContainer, FileMode, MemoryStream, Uri, UriKind } from 'amlengine-js';
+
+const stream = new MemoryStream();
+const container = new AutomationMLContainer(stream, FileMode.Create);
+container.addRoot(doc.saveToStream(true), new Uri('/plant.aml', UriKind.Relative));
+container.close();
+const amlx = stream.toArray();                           // the bytes of the .amlx file
+
+const opened = new AutomationMLContainer(amlx);          // read only
+const root = CAEXDocument.loadFromBinary(opened.rootDocumentStream().toArray());
+opened.dispose();                                        // close() would throw here, as in C#
+```
+
 Names follow the C# API in camel case (`CAEXFile` is `caexFile`, `RefBaseSystemUnitPath` is
 `refBaseSystemUnitPath`); the rules are in [docs/PORTING.md](docs/PORTING.md). The C# extension
 methods exist in both forms, `doc.findByPath(path)` and
