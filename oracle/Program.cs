@@ -11,6 +11,14 @@ System.Globalization.CultureInfo.DefaultThreadCurrentCulture = System.Globalizat
 System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
 System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
+// Another current culture for this process (ORACLE_CULTURE, e.g. de-DE), to show where Aml.Engine
+// depends on it (scripts/culture-check.mjs). The UI culture (message texts) stays invariant.
+if (Environment.GetEnvironmentVariable("ORACLE_CULTURE") is { Length: > 0 } cultureName)
+{
+    var culture = System.Globalization.CultureInfo.GetCultureInfo(cultureName);
+    System.Globalization.CultureInfo.DefaultThreadCurrentCulture = culture;
+    System.Globalization.CultureInfo.CurrentCulture = culture;
+}
 // Another local time zone for this process (ORACLE_TZ, see LocalTimeZone.cs).
 LocalTimeZone.ApplyFromEnvironment();
 

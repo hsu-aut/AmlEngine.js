@@ -101,6 +101,36 @@ further); `Validate` saves indented to report line numbers.
 The original has race conditions under parallel writes ("Collection was modified"). JS is
 single threaded; none of that applies.
 
+### Current culture
+
+The port behaves as Aml.Engine under the invariant culture, which the oracle runs with. In a .NET
+program with another current culture (for example on a German Windows) the original differs where
+it converts values without naming a culture. `node scripts/culture-check.mjs de-DE` runs the
+oracle packages with that culture (`ORACLE_CULTURE`, oracle/Program.cs) and compares them with
+the port. With de-DE (2026-11-09):
+
+- Reading and saving documents do not depend on the culture: the read API on the 63 corpus
+  documents, the mutation scripts, the AutomationML objects and the infrastructure cases give the
+  same results.
+- Writing a number or a date as a .NET value (`AttributeValue`, `DefaultAttributeValue`, the
+  indexer `a["Value"]`, `CaexValue.Value`) into an attribute without a numeric or date data type
+  (none, `xs:string` and the other string types, misspelled types such as `xsd:double`) writes the
+  text of that culture: `1,5`, `-∞`, `29.02.2024 13:45:30` instead of `1.5`, `-Infinity`,
+  `02/29/2024 13:45:30`. 13 of the 150 engine operation scripts save another document because of
+  this.
+- Writing a string through the same setters into an attribute with a numeric or date data type
+  converts it with that culture: `"1.5"` becomes `15` in `xs:double`, `xs:float`, `xs:decimal` and
+  the integer types (the dot is the group separator), `"31.12.2024"` becomes `31122024`, and
+  `"1.5"` becomes 1 May instead of 5 January in `xs:date` and `xs:dateTime`. Writing a number into
+  an `xs:double` attribute does not depend on the culture.
+- `CaexValue.FriendlyValueString` formats with that culture (`1,5`, `November 2026` instead of
+  `2026 November`).
+- The System layer: parsing and formatting of numbers, dates and time spans without a culture
+  argument (`double.Parse(s)`, `DateTime.ToString()`), and `ToString` of boxed numbers
+  (`ClrValue`).
+
+Of the typed value cases 1,545 of 18,106 differ; of their writes, 610 of 7,068 give another text.
+
 ### Browsers
 
 `npm run test:browser` runs a scenario and every case of the System and infrastructure oracle
@@ -184,7 +214,8 @@ Results of time-only or year-less inputs are compared relative to today / the cu
 ### Not ported (by design of the System layer)
 
 - Culture data other than the invariant culture: DateTime / number parsing and formatting follow
-  `CultureInfo.InvariantCulture`, which the oracle and the engine use as current culture.
+  `CultureInfo.InvariantCulture`, which the oracle and the engine use as current culture (what
+  differs under another culture: "Current culture" above).
 - `DateTimeParse`: ParseExact, DateTimeOffset, calendars other than Gregorian, culture-specific
   tokens; the ICU case-insensitive comparison of tokens is emulated with a lower-case comparison.
 - `Uri`: base/relative combination, `MakeRelativeUri`, `IsBaseOf`, `IdnHost` / `DnsSafeHost`

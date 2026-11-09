@@ -6,10 +6,11 @@ import { basename, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import '../../src/engine/index.js';
 import { CAEXDocument } from '../../src/engine/caex/CAEXDocument.js';
+import { oracleOut } from '../setup/oracle-out.js';
 import { dumpDocument } from './dump.js';
 
 const root = join(__dirname, '..');
-const out = join(root, 'oracle-out', 'dump');
+const out = join(oracleOut, 'dump');
 const files = readdirSync(join(root, 'corpus')).filter((f) => f.endsWith('.aml'));
 const GUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 

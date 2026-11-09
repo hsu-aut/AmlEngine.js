@@ -9,4 +9,5 @@ test/browser/out/
 *.tgz
 test/large/
 test/oracle-out-tz/
+test/oracle-out-culture/
 test/perf/out/
