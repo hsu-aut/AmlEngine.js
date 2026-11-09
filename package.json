@@ -1,5 +1,5 @@
 {
-  "name": "@hsu-aut/amlengine-js",
+  "name": "amlengine-js",
   "version": "0.2.0",
   "description": "AutomationML engine for JavaScript: CAEX 2.15 and 3.0 documents in Node and the browser, ported from Aml.Engine.",
   "license": "MIT",
@@ -11,9 +11,6 @@
   "homepage": "https://github.com/hsu-aut/AmlEngine.js#readme",
   "bugs": {
     "url": "https://github.com/hsu-aut/AmlEngine.js/issues"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "engines": {
     "node": ">=20"

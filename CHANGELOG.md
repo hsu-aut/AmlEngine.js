@@ -2,9 +2,9 @@
 
 ## 0.2.0 (2026-11-09)
 
-- npm package name `@hsu-aut/amlengine-js`; a tag `v<version>` publishes over Trusted
-  Publishing (`.github/workflows/release.yml`). `package.json` can be imported
-  (`@hsu-aut/amlengine-js/package.json`).
+- First version on npm (`amlengine-js`); a tag `v<version>` publishes over Trusted Publishing
+  (`.github/workflows/release.yml`). `package.json` can be imported
+  (`amlengine-js/package.json`).
 - Where the original depends on the current culture: `scripts/culture-check.mjs` runs the oracle
   in another culture (`ORACLE_CULTURE`); the results for de-DE are in docs/deviations.md
   ("Current culture"). Reading and saving do not depend on it, writing typed values does.

@@ -21,7 +21,7 @@ Deliberate and unavoidable differences to Aml.Engine are listed in
 ## Install
 
 ```bash
-npm install @hsu-aut/amlengine-js
+npm install amlengine-js
 ```
 
 It runs in Node 20 or later and in current browsers (checked in Chromium, Edge, Firefox and
@@ -32,7 +32,7 @@ about 220 KB with gzip (980 KB minified); load it with `import()` where it is ne
 ## Use
 
 ```ts
-import { CAEXDocument, ClrValue } from '@hsu-aut/amlengine-js';
+import { CAEXDocument, ClrValue } from 'amlengine-js';
 
 const doc = CAEXDocument.loadFromString(xml);            // null if the text is not XML, as in C#
 const ie = doc.findByPath('Plant/Pump');                 // extension methods are instance methods
