@@ -5,7 +5,8 @@ behaviour of [Aml.Engine](https://www.nuget.org/packages/Aml.Engine) 4.5.2, the 
 AutomationML e.V. It is a TypeScript port of that engine, checked against the original by
 differential tests: the same calls on the same documents give the same results, the same
 exceptions and byte for byte the same saved files. The tests execute 98 % of the functions of the
-port; [docs/coverage.md](docs/coverage.md) lists the rest and the reasons.
+port; [docs/coverage.md](docs/coverage.md) lists the rest and the reasons. AmlEngine.js is an
+independent port, not a product of AutomationML e.V.
 
 What it covers: loading and saving (strings, bytes, files in Node), the CAEX object model with
 libraries, classes, instances, inheritance, role requirements, interfaces, internal links,
@@ -20,7 +21,7 @@ Deliberate and unavoidable differences to Aml.Engine are listed in
 ## Install
 
 ```bash
-npm install amlengine-js
+npm install @hsu-aut/amlengine-js
 ```
 
 It runs in Node 20 or later and in current browsers (checked in Chromium, Edge, Firefox and
@@ -31,7 +32,7 @@ about 220 KB with gzip (980 KB minified); load it with `import()` where it is ne
 ## Use
 
 ```ts
-import { CAEXDocument, ClrValue } from 'amlengine-js';
+import { CAEXDocument, ClrValue } from '@hsu-aut/amlengine-js';
 
 const doc = CAEXDocument.loadFromString(xml);            // null if the text is not XML, as in C#
 const ie = doc.findByPath('Plant/Pump');                 // extension methods are instance methods
@@ -100,6 +101,7 @@ describes how to follow it.
 | `test/engine/fixes` | the optional corrections: files written with them, read by the original |
 | `test/engine/large` | generated documents of 10 and 50 MB: saving, the read API (10 MB), validation messages |
 | `scripts/tz-check.mjs` | the time dependent packages in UTC, New York and Kolkata (oracle and tests in that zone) |
+| `scripts/culture-check.mjs` | where the original depends on the current culture (oracle in de-DE; results in docs/deviations.md) |
 | `test/browser` | a scenario and all System cases in Edge, Chromium, Firefox and WebKit, compared with Node |
 
 [docs/coverage.md](docs/coverage.md) lists the functions of the port that no comparison
@@ -131,7 +133,7 @@ npm run test:browser   # scenario and System cases in Node, Edge, Chromium, Fire
 | `scripts/` | generators for test inputs, the API, the registry |
 | `test/` | tests and their inputs (`test/corpus/`: CAEX files, origins in `SOURCES.tsv`) |
 | `docs/` | porting rules and notes, deviations, optional corrections, coverage, performance |
-| `.github/workflows/` | CI: quick checks on Linux, the full comparison with the original on Windows |
+| `.github/workflows/` | CI: quick checks on Linux, the full comparison with the original on Windows; a tag `v<version>` publishes to npm |
 
 ## Third-party content
 

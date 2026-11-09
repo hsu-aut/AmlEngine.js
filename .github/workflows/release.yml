@@ -1,0 +1,65 @@
+# A tag v<version> releases that version:
+# - check: the tag, package.json and the CHANGELOG section agree;
+# - ci: the whole CI (ci.yml) on the tagged commit;
+# - publish: npm publish over Trusted Publishing (OIDC, no token; npm attaches the provenance),
+#   unless npm already has this version (the first one was published by hand), then a GitHub
+#   release with the package and the CHANGELOG section.
+# Trusted Publishing is set up for the package on npmjs.com: GitHub Actions, owner hsu-aut,
+# repository AmlEngine.js, workflow release.yml.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag, package.json and CHANGELOG agree
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          test "$(node -p "require('./package.json').version")" = "$version" || { echo "package.json is not version $version"; exit 1; }
+          grep -q "^## $version " CHANGELOG.md || { echo "CHANGELOG.md has no section for $version"; exit 1; }
+
+  ci:
+    needs: check
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - name: npm 11.5.1 or later (Trusted Publishing)
+        run: npm install -g npm@latest
+      - run: npm ci
+      - run: npm run build
+      - name: Publish to npm
+        run: |
+          name="$(node -p "require('./package.json').name")"
+          version="${GITHUB_REF_NAME#v}"
+          if npm view "$name@$version" version >/dev/null 2>&1; then
+            echo "$name@$version is already on npm"
+          else
+            npm publish
+          fi
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          package="$(npm pack --silent)"
+          awk -v v="$version" 'index($0, "## " v " ") == 1 { on = 1; next } /^## / { on = 0 } on' CHANGELOG.md > notes.md
+          gh release create "$GITHUB_REF_NAME" "$package" --title "AmlEngine.js $version" --notes-file notes.md

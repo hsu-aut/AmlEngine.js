@@ -1,7 +1,13 @@
 # Changelog
 
-## 0.2.0 (2026-11-04)
+## 0.2.0 (2026-11-09)
 
+- npm package name `@hsu-aut/amlengine-js`; a tag `v<version>` publishes over Trusted
+  Publishing (`.github/workflows/release.yml`). `package.json` can be imported
+  (`@hsu-aut/amlengine-js/package.json`).
+- Where the original depends on the current culture: `scripts/culture-check.mjs` runs the oracle
+  in another culture (`ORACLE_CULTURE`); the results for de-DE are in docs/deviations.md
+  ("Current culture"). Reading and saving do not depend on it, writing typed values does.
 - `FindByID` without ID table remembers per document the IDs its searches have passed, until an
   element or attribute changes; the result stays that of the search of the original. The full
   read model walk of a 10 MB document takes 10 to 16 s instead of 20 minutes or more (Aml.Engine:

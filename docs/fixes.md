@@ -7,7 +7,7 @@ AmlEngine.js should behave there exactly as one written with the original.
 Ten errors of the original lose or corrupt data. Each of them can be corrected on its own:
 
 ```ts
-import { CAEXDocument, Fixes } from 'amlengine-js';
+import { CAEXDocument, Fixes } from '@hsu-aut/amlengine-js';
 
 const doc = CAEXDocument.loadFromString(xml);
 doc.fixes = ['base64Binary', 'referenceSetter']; // this document only
