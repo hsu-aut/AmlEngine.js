@@ -1566,6 +1566,7 @@ public static class ReadsOracle
     static void RunIsolated(string outDir, string file)
     {
         const int StackOverflowExit = unchecked((int)0xC00000FD);
+        const int AccessViolationExit = unchecked((int)0xC0000005);
         // the calls found so far, kept in a file so that an interrupted run can go on
         var name = Path.GetFileNameWithoutExtension(file);
         var skipFile = Path.Combine(outDir, name + ".noreturn.txt");
@@ -1606,8 +1607,12 @@ public static class ReadsOracle
                     Console.WriteLine($"   {skip.Count} calls without return ({skip.Count(x => x.EndsWith("!stackoverflow"))} stack overflows, {skip.Count(x => x.EndsWith("!hang"))} endless), {attempt + 1} runs, {sw.ElapsedMilliseconds / 1000} s");
                     return;
                 }
-                // a stack overflow can also end with an access violation while the runtime reports it
-                var overflow = child.P.ExitCode == StackOverflowExit || child.Err.Result.StartsWith("Stack overflow.", StringComparison.Ordinal);
+                // a stack overflow can also end with an access violation while the runtime reports it,
+                // or before it reports anything (seen on GitHub's Windows runners). The JS test checks
+                // that the port throws CyclicReferenceException at each of these calls.
+                var overflow = child.P.ExitCode == StackOverflowExit
+                    || child.Err.Result.StartsWith("Stack overflow.", StringComparison.Ordinal)
+                    || (child.P.ExitCode == AccessViolationExit && child.Err.Result.Trim().Length == 0);
                 var why = overflow ? "!stackoverflow" : child.P.ExitCode == 3 ? "!hang" : null;
                 if (call.Length == 0 || why == null || skip.Any(x => x.StartsWith(call + "=")))
                     throw new Exception($"child failed on {file} (exit {child.P.ExitCode}, call {call}): {child.Err.Result[..Math.Min(2000, child.Err.Result.Length)]}");
