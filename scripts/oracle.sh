@@ -5,6 +5,8 @@ cd "$(dirname "$0")/.."
 dotnet build oracle -c Release -nologo -v q >/dev/null
 ORACLE="dotnet oracle/bin/Release/net8.0/Oracle.dll"
 rm -rf test/oracle-out
+# xops, engineops and mutations write into this directory without creating it
+mkdir -p test/oracle-out
 node scripts/gen-xml-fuzz.mjs test/xml-fuzz 400 >/dev/null
 node scripts/gen-xops.mjs test/xml-ops/xops.json 300 40 4242 >/dev/null
 $ORACLE xops test/xml-ops/xops.json test/oracle-out/xops.json
