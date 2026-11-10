@@ -18,7 +18,8 @@ import type { XDocumentWrapper } from '../engine/xml/XDocumentWrapper.js';
 /**
  * System.Collections.Generic.Stack<T> as far as the service uses it: `pop` and `peek` throw on an
  * empty stack, enumeration starts at the top and fails on the next step after the stack was
- * changed (like the enumerator of .NET).
+ * changed (like the enumerator of .NET, with the message of System.Collections, which differs
+ * from the one of List<T> in System.Private.CoreLib).
  */
 class Stack<T> implements Iterable<T> {
   private readonly _array: T[] = [];
@@ -59,7 +60,7 @@ class Stack<T> implements Iterable<T> {
     let index = this._array.length - 1;
     for (;;) {
       if (version !== this._version) {
-        throw new InvalidOperationException('Collection was modified; enumeration operation may not execute.');
+        throw new InvalidOperationException('Collection was modified after the enumerator was instantiated.');
       }
       if (index < 0) {
         return;
