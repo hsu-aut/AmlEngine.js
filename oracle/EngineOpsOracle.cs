@@ -51,24 +51,24 @@ public static class EngineOpsOracle
         File.WriteAllText(outFile, results.ToJsonString(new JsonSerializerOptions { WriteIndented = false }));
     }
 
-    static string Save(CAEXDocument doc)
+    internal static string Save(CAEXDocument doc)
     {
         using var s = doc.SaveToStream(true);
         s.Position = 0;
         return new StreamReader(s).ReadToEnd();
     }
 
-    static string Hash(string text) =>
+    internal static string Hash(string text) =>
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(text))).Substring(0, 16);
 
     /// <summary>All CAEX objects of the document in document order.</summary>
-    static List<CAEXObject> Objects(CAEXDocument doc) =>
+    internal static List<CAEXObject> Objects(CAEXDocument doc) =>
         doc.XDocument.Root!.Descendants()
             .Select(e => e.CreateCAEXWrapper())
             .OfType<CAEXObject>()
             .ToList();
 
-    static T? Pick<T>(CAEXDocument doc, JsonObject op, string key, Func<T, bool>? filter = null) where T : class
+    internal static T? Pick<T>(CAEXDocument doc, JsonObject op, string key, Func<T, bool>? filter = null) where T : class
     {
         var all = Objects(doc).OfType<T>().Where(x => filter == null || filter(x)).ToList();
         if (all.Count == 0) return null;
@@ -77,7 +77,7 @@ public static class EngineOpsOracle
 
     static string Str(JsonObject op, string key) => op[key]!.GetValue<string>();
 
-    static string Describe(CAEXObject? o) =>
+    internal static string Describe(CAEXObject? o) =>
         o == null ? "null" : $"{o.Node.Name.LocalName}|{o.Name}|{o.ID}|{Try(() => o.CAEXPath())}";
 
     /// <summary>A role reference (RoleRequirements or SupportedRoleClass) by kind and path.</summary>
@@ -95,7 +95,7 @@ public static class EngineOpsOracle
         catch (Exception e) { return "!" + e.GetType().Name; }
     }
 
-    static string Apply(CAEXDocument doc, JsonObject op)
+    internal static string Apply(CAEXDocument doc, JsonObject op)
     {
         var file = doc.CAEXFile;
         switch (Str(op, "op"))

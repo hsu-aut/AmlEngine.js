@@ -27,7 +27,8 @@ OracleServices.ApplyFromEnvironment();
 var json = new JsonSerializerOptions { WriteIndented = true };
 
 // Directories stand for all files in them (keeps command lines short).
-if (args.FirstOrDefault() is not ("xops" or "sys" or "engineops" or "values" or "amlobjects" or "mutations" or "reads" or "gapscaex" or "gapsservices" or "gapsinfra" or "noreturn" or "noreturn-one" or "fixes"))
+if (args.FirstOrDefault() is not ("xops" or "sys" or "engineops" or "values" or "amlobjects" or "mutations" or "reads" or "gapscaex" or "gapsservices" or "gapsinfra" or "noreturn" or "noreturn-one" or "fixes"
+    or "resources" or "svc-undo" or "svc-lookup" or "svc-validator" or "svc-extref" or "svc-split" or "svc-transform" or "svc-misc"))
 args = args.Take(2).Concat(args.Skip(2).SelectMany<string, string>(a => Directory.Exists(a)
     ? Directory.GetFiles(a).OrderBy(f => f, StringComparer.Ordinal)
     : new[] { a })).ToArray();
@@ -131,6 +132,32 @@ switch (args.FirstOrDefault())
     case "fixes":
         // fixes <dir> <out.json>: what the original sees in files written with the port's corrections, see FixesOracle.cs
         FixesOracle.Run(args.Skip(1).ToArray());
+        break;
+
+    // Aml.Engine.Services and Aml.Engine.Resources: one command per area, see the files.
+    case "resources":
+        ServicesResourcesOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "svc-undo":
+        ServicesUndoOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "svc-lookup":
+        ServicesLookupOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "svc-validator":
+        ServicesValidatorOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "svc-extref":
+        ServicesExtRefOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "svc-split":
+        ServicesSplitOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "svc-transform":
+        ServicesTransformOracle.Run(args.Skip(1).ToArray());
+        break;
+    case "svc-misc":
+        ServicesMiscOracle.Run(args.Skip(1).ToArray());
         break;
 
     case "tz":
