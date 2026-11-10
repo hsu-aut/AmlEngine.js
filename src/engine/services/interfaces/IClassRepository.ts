@@ -2,11 +2,8 @@
 
 import type { CAEXObject } from '../../caex/CAEXObject.js';
 import type { ClassRepositoryEnum } from '../../resources/catalogue/ClassRepositoryEnum.js';
-
-/** Aml.Engine.Resources.Catalogue.StringComparisonAlgorithmEnum (assembly Aml.Engine.Resources, not ported). */
-export type StringComparisonAlgorithmEnum = number;
-/** Aml.Engine.Resources.Catalogue.ClassRepositoryItem (assembly Aml.Engine.Resources, not ported). */
-export type ClassRepositoryItem = unknown;
+import type { ClassRepositoryItem } from '../../resources/catalogue/ClassRepositoryItem.js';
+import type { StringComparisonAlgorithmEnum } from '../../resources/catalogue/StringComparisonAlgorithmEnum.js';
 
 /** A repository of classes, used to search similar classes. */
 export interface IClassRepository {

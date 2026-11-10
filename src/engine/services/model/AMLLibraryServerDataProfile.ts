@@ -6,13 +6,7 @@ import { ArgumentOutOfRangeException, IndexOutOfRangeException } from '../../../
 import { PasswordProtected } from './PasswordProtected.js';
 import { AMLEditionEnum } from './AMLEditionEnum.js';
 import type { ICredentials } from '../interfaces/ICredentials.js';
-
-/**
- * Aml.Engine.Resources.Files.AMLFileContentType (assembly Aml.Engine.Resources, not ported):
- * LibraryFile = 0, LibraryCollectionFile = 1, ExampleFile = 2, LibraryCatalog = 3,
- * ClassRepository = 4, SignatureData = 5, BackupData = 6, None = 7.
- */
-export type AMLFileContentType = number;
+import type { AMLFileContentType } from '../../resources/files/AMLFileContentType.js';
 
 /** Number of values of AMLFileContentType (Enum.GetValues(typeof(AMLFileContentType)).Length). */
 const AMLFileContentTypeCount = 8;

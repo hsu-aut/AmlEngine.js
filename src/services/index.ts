@@ -1,6 +1,4 @@
 // Entry point of amlengine-js/services: the port of Aml.Engine.Services 4.3.1.
 // It shares the engine with amlengine-js (one ServiceLocator), see tsup.config.ts.
 
-import '../engine/index.js';
-
-export {};
+export * from './api.js';
