@@ -18,25 +18,25 @@
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.ts",
+        "types": "./dist/types/index.d.ts",
         "default": "./dist/index.js"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/types-cjs/index.d.ts",
         "default": "./dist/index.cjs"
       }
     },
     "./services": {
       "import": {
-        "types": "./dist/services.d.ts",
+        "types": "./dist/types/services/index.d.ts",
         "default": "./dist/services.js"
       },
       "require": {
-        "types": "./dist/services.d.cts",
+        "types": "./dist/types-cjs/services/index.d.ts",
         "default": "./dist/services.cjs"
       }
     },
@@ -48,7 +48,7 @@
     "NOTICE"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && node scripts/build-types.mjs",
     "prepublishOnly": "npm run build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
