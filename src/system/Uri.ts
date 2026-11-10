@@ -11,13 +11,14 @@
 // host), IPv4/IPv6/DNS/UNC/basic hosts, ports, user info, path compression and slash conversion,
 // and the getters ToString, OriginalString, IsAbsoluteUri, Scheme, LocalPath, Fragment,
 // AbsoluteUri, AbsolutePath, Query, PathAndQuery, Host, Port, IsDefaultPort, IsUnc, IsFile,
-// UserInfo, Authority, plus Equals and EscapeDataString / UnescapeDataString.
+// UserInfo, Authority, GetComponents (absolute URIs), plus Equals and EscapeDataString /
+// UnescapeDataString.
 //
 // Not ported: combining constructors and TryCreate(Uri, string/Uri) (ResolveHelper,
 // CombineUri), MakeRelativeUri, IsBaseOf, IsWellFormedOriginalString, GetComponents with
-// NormalizedHost, IdnHost / DnsSafeHost (need IdnMapping / punycode), custom UriParser
-// registration, UriCreationOptions, Unix-only code paths (the port behaves like .NET on Windows),
-// GetHashCode (equalityKey is the Equals key string instead).
+// NormalizedHost or SerializationInfoString, IdnHost / DnsSafeHost (need IdnMapping / punycode),
+// custom UriParser registration, UriCreationOptions, Unix-only code paths (the port behaves like
+// .NET on Windows), GetHashCode (equalityKey is the Equals key string instead).
 // Unicode data comes from the JS engine (String.prototype.normalize for NFC, \p{L} for
 // char.IsLetter); the Unicode version may differ from the one .NET 8 uses for characters added
 // recently. Case mapping uses the fixed .NET tables of strings.ts.
@@ -25,6 +26,7 @@
 import {
   ArgumentException,
   ArgumentNullException,
+  ArgumentOutOfRangeException,
   InvalidOperationException,
   NotSupportedException,
   UriFormatException,
@@ -35,6 +37,33 @@ export enum UriKind {
   RelativeOrAbsolute = 0,
   Absolute = 1,
   Relative = 2,
+}
+
+/** System.UriComponents (for Uri.getComponents; SerializationInfoString is not ported). */
+export enum UriComponents {
+  Scheme = 0x1,
+  UserInfo = 0x2,
+  Host = 0x4,
+  Port = 0x8,
+  Path = 0x10,
+  Query = 0x20,
+  Fragment = 0x40,
+  StrongPort = 0x80,
+  NormalizedHost = 0x100,
+  KeepDelimiter = 0x40000000,
+  AbsoluteUri = 0x7f,
+  HostAndPort = 0x84,
+  StrongAuthority = 0x86,
+  SchemeAndServer = 0xd,
+  HttpRequestUrl = 0x3d,
+  PathAndQuery = 0x30,
+}
+
+/** System.UriFormat. */
+export enum UriFormat {
+  UriEscaped = 1,
+  Unescaped = 2,
+  SafeUnescaped = 3,
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -3171,6 +3200,16 @@ export class Uri {
   get authority(): string {
     if (this._syntax === null) throw notAbsolute();
     return this.getParts(C.Host | C.Port, UriEscaped);
+  }
+
+  /**
+   * GetComponents(components, format) for an absolute URI. Every syntax of the port is a built-in
+   * (simple) one, for which .NET calls GetComponentsHelper directly.
+   */
+  getComponents(components: UriComponents, format: UriFormat): string {
+    if ((format & ~UriFormat.SafeUnescaped) !== 0) throw new ArgumentOutOfRangeException('format');
+    if (this._syntax === null) throw notAbsolute();
+    return this.getComponentsHelper(components, format);
   }
 
   toString(): string {
