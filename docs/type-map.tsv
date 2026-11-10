@@ -1,264 +1,329 @@
-namespace	file	type	kind	module	export
-Aml.Engine.Adapter	AMLEngineAdapter.cs	AMLEngineAdapter	class static	src/engine/adapter/AMLEngineAdapter.ts	AMLEngineAdapter
-Aml.Engine.Adapter	LinkedObjects.cs	LinkedObjects	class	src/engine/adapter/LinkedObjects.ts	LinkedObjects
-Aml.Engine.AmlObjects	AMLFacet.cs	AMLFacet	class	src/engine/amlobjects/AMLFacet.ts	AMLFacet
-Aml.Engine.AmlObjects	AMLFile.cs	AMLFile	class	src/engine/amlobjects/AMLFile.ts	AMLFile
-Aml.Engine.AmlObjects	AMLGroup.cs	AMLGroup	class	src/engine/amlobjects/AMLGroup.ts	AMLGroup
-Aml.Engine.AmlObjects	AMLGroupInternalElementSequence.cs	AMLGroupInternalElementSequence	class	src/engine/amlobjects/AMLGroupInternalElementSequence.ts	AMLGroupInternalElementSequence
-Aml.Engine.AmlObjects	AMLInternalElementType.cs	AMLInternalElementType	class	src/engine/amlobjects/AMLInternalElementType.ts	AMLInternalElementType
-Aml.Engine.AmlObjects	AMLLibraryType.cs	AMLLibraryType	class	src/engine/amlobjects/AMLLibraryType.ts	AMLLibraryType
-Aml.Engine.AmlObjects	AMLPort.cs	AMLPort	class	src/engine/amlobjects/AMLPort.ts	AMLPort
-Aml.Engine.AmlObjects	AMLSystemUnitClass.cs	AMLSystemUnitClass	class	src/engine/amlobjects/AMLSystemUnitClass.ts	AMLSystemUnitClass
-Aml.Engine.AmlObjects	AMLSystemUnitFamilyType.cs	AMLSystemUnitFamilyType	class	src/engine/amlobjects/AMLSystemUnitFamilyType.ts	AMLSystemUnitFamilyType
-Aml.Engine.AmlObjects	AutomationMLBaseAttributeTypeLib.cs	AutomationMLBaseAttributeTypeLib	class static	src/engine/amlobjects/AutomationMLBaseAttributeTypeLib.ts	AutomationMLBaseAttributeTypeLib
-Aml.Engine.AmlObjects	AutomationMLBaseAttributeTypeLibType.cs	AutomationMLBaseAttributeTypeLibType	class	src/engine/amlobjects/AutomationMLBaseAttributeTypeLibType.ts	AutomationMLBaseAttributeTypeLibType
-Aml.Engine.AmlObjects	AutomationMLBaseRoleClassLib.cs	AutomationMLBaseRoleClassLib	class static	src/engine/amlobjects/AutomationMLBaseRoleClassLib.ts	AutomationMLBaseRoleClassLib
-Aml.Engine.AmlObjects	AutomationMLBaseRoleClassLibType.cs	AutomationMLBaseRoleClassLibType	class	src/engine/amlobjects/AutomationMLBaseRoleClassLibType.ts	AutomationMLBaseRoleClassLibType
-Aml.Engine.AmlObjects	AutomationMLContainer.cs	AutomationMLContainer	class	src/engine/amlobjects/AutomationMLContainer.ts	AutomationMLContainer
-Aml.Engine.AmlObjects	AutomationMLContainer.cs	AutomationMLContainer.RelationshipType	class	src/engine/amlobjects/AutomationMLContainer.ts	AutomationMLContainer_RelationshipType
-Aml.Engine.AmlObjects	AutomationMLInterfaceClassLib.cs	AutomationMLInterfaceClassLib	class static	src/engine/amlobjects/AutomationMLInterfaceClassLib.ts	AutomationMLInterfaceClassLib
-Aml.Engine.AmlObjects	AutomationMLInterfaceClassLibType.cs	AutomationMLInterfaceClassLibType	class	src/engine/amlobjects/AutomationMLInterfaceClassLibType.ts	AutomationMLInterfaceClassLibType
-Aml.Engine.AmlObjects	AutomationMLLogicInterfaceClassLib.cs	AutomationMLLogicInterfaceClassLib	class static	src/engine/amlobjects/AutomationMLLogicInterfaceClassLib.ts	AutomationMLLogicInterfaceClassLib
-Aml.Engine.AmlObjects	AutomationMLLogicInterfaceClassLibType.cs	AutomationMLLogicInterfaceClassLibType	class	src/engine/amlobjects/AutomationMLLogicInterfaceClassLibType.ts	AutomationMLLogicInterfaceClassLibType
-Aml.Engine.AmlObjects	AutomationMLLogicRoleClassLib.cs	AutomationMLLogicRoleClassLib	class static	src/engine/amlobjects/AutomationMLLogicRoleClassLib.ts	AutomationMLLogicRoleClassLib
-Aml.Engine.AmlObjects	AutomationMLLogicRoleClassLibType.cs	AutomationMLLogicRoleClassLibType	class	src/engine/amlobjects/AutomationMLLogicRoleClassLibType.ts	AutomationMLLogicRoleClassLibType
-Aml.Engine.AmlObjects	AutomationMLPLCopenXMLInterfaceClassLib.cs	AutomationMLPLCopenXMLInterfaceClassLib	class static	src/engine/amlobjects/AutomationMLPLCopenXMLInterfaceClassLib.ts	AutomationMLPLCopenXMLInterfaceClassLib
-Aml.Engine.AmlObjects	AutomationMLPLCopenXMLInterfaceClassLibType.cs	AutomationMLPLCopenXMLInterfaceClassLibType	class	src/engine/amlobjects/AutomationMLPLCopenXMLInterfaceClassLibType.ts	AutomationMLPLCopenXMLInterfaceClassLibType
-Aml.Engine.AmlObjects	CAEXSignatureHeader.cs	CAEXSignatureHeader	class static	src/engine/amlobjects/CAEXSignatureHeader.ts	CAEXSignatureHeader
-Aml.Engine.AmlObjects	ClassReferenceWithAlias.cs	ClassReferenceWithAlias	class static	src/engine/amlobjects/ClassReferenceWithAlias.ts	ClassReferenceWithAlias
-Aml.Engine.AmlObjects	DocumentVersionInformation.cs	DocumentVersionInformation	class	src/engine/amlobjects/DocumentVersionInformation.ts	DocumentVersionInformation
-Aml.Engine.AmlObjects	DocumentVersions.cs	DocumentVersions	class static	src/engine/amlobjects/DocumentVersions.ts	DocumentVersions
-Aml.Engine.AmlObjects	ExternalDataReference.cs	ExternalDataReference	class static	src/engine/amlobjects/ExternalDataReference.ts	ExternalDataReference
-Aml.Engine.AmlObjects	FacetAttributeSequence.cs	FacetAttributeSequence	class	src/engine/amlobjects/FacetAttributeSequence.ts	FacetAttributeSequence
-Aml.Engine.AmlObjects	FacetExternalInterfaceSequence.cs	FacetExternalInterfaceSequence	class	src/engine/amlobjects/FacetExternalInterfaceSequence.ts	FacetExternalInterfaceSequence
-Aml.Engine.AmlObjects	FrameAttributeType.cs	FrameAttributeType	class	src/engine/amlobjects/FrameAttributeType.ts	FrameAttributeType
-Aml.Engine.AmlObjects	FrameValues.cs	FrameValues	class	src/engine/amlobjects/FrameValues.ts	FrameValues
-Aml.Engine.AmlObjects	IAMLFile.cs	IAMLFile	interface	src/engine/amlobjects/IAMLFile.ts	IAMLFile
-Aml.Engine.AmlObjects	ListAttribute.cs	ListAttribute	class static	src/engine/amlobjects/ListAttribute.ts	ListAttribute
-Aml.Engine.AmlObjects	MetaInformation.cs	MetaInformation	class	src/engine/amlobjects/MetaInformation.ts	MetaInformation
-Aml.Engine.AmlObjects	ObjectWithAMLAttributes.cs	ObjectWithAMLAttributes	class	src/engine/amlobjects/ObjectWithAMLAttributes.ts	ObjectWithAMLAttributes
-Aml.Engine.AmlObjects	RefTypeAttributeType.cs	RefTypeAttributeType	class	src/engine/amlobjects/RefTypeAttributeType.ts	RefTypeAttributeType
-Aml.Engine.AmlObjects	RefURIAttributeType.cs	RefURIAttributeType	class	src/engine/amlobjects/RefURIAttributeType.ts	RefURIAttributeType
-Aml.Engine.AmlObjects.Extensions	AmlObjectsExtensions.cs	AmlObjectsExtensions	class static	src/engine/amlobjects/extensions/AmlObjectsExtensions.ts	AmlObjectsExtensions
-Aml.Engine.AmlObjects.MimeType	MappingList.cs	MappingList	class	src/engine/amlobjects/mimetype/MappingList.ts	MappingList
-Aml.Engine.AmlObjects.MimeType	MimeTypeMap.cs	MimeTypeMap	class static	src/engine/amlobjects/mimetype/MimeTypeMap.ts	MimeTypeMap
-Aml.Engine.CAEX	AttributeFamilyType.cs	AttributeFamilyType	class	src/engine/caex/AttributeFamilyType.ts	AttributeFamilyType
-Aml.Engine.CAEX	AttributeNameMappingType.cs	AttributeNameMappingType	class	src/engine/caex/AttributeNameMappingType.ts	AttributeNameMappingType
-Aml.Engine.CAEX	AttributeSequence.cs	AttributeSequence	class	src/engine/caex/AttributeSequence.ts	AttributeSequence
-Aml.Engine.CAEX	AttributeType.cs	AttributeType	class	src/engine/caex/AttributeType.ts	AttributeType
-Aml.Engine.CAEX	AttributeTypeLibType.cs	AttributeTypeLibType	class	src/engine/caex/AttributeTypeLibType.ts	AttributeTypeLibType
-Aml.Engine.CAEX	AttributeTypeType.cs	AttributeTypeType	class	src/engine/caex/AttributeTypeType.ts	AttributeTypeType
-Aml.Engine.CAEX	AttributeValueComparer.cs	AttributeValueComparer	class	src/engine/caex/AttributeValueComparer.ts	AttributeValueComparer
-Aml.Engine.CAEX	AttributeValueRequirementType.cs	AttributeValueRequirementType	class	src/engine/caex/AttributeValueRequirementType.ts	AttributeValueRequirementType
-Aml.Engine.CAEX	BaseElementType.cs	BaseElementType	class	src/engine/caex/BaseElementType.ts	BaseElementType
-Aml.Engine.CAEX	CAEXBasicObject.cs	CAEXBasicObject	class	src/engine/caex/CAEXBasicObject.ts	CAEXBasicObject
-Aml.Engine.CAEX	CAEXDocument.cs	CAEXDocument	class	src/engine/caex/CAEXDocument.ts	CAEXDocument
-Aml.Engine.CAEX	CAEXDocument.cs	CAEXDocument.CAEXSchema	enum	src/engine/caex/CAEXDocument.ts	CAEXDocument_CAEXSchema
-Aml.Engine.CAEX	CAEXDocument.cs	CAEXDocument.Commanding	class	src/engine/caex/CAEXDocument.ts	CAEXDocument_Commanding
-Aml.Engine.CAEX	CAEXEnumerable.cs	CAEXEnumerable	class	src/engine/caex/CAEXEnumerable.ts	CAEXEnumerable
-Aml.Engine.CAEX	CAEXFileType.cs	CAEXFileType	class	src/engine/caex/CAEXFileType.ts	CAEXFileType
-Aml.Engine.CAEX	CAEXLibrary.cs	CAEXLibrary	class	src/engine/caex/CAEXLibrary.ts	CAEXLibrary
-Aml.Engine.CAEX	CAEXObject.cs	CAEXObject	class	src/engine/caex/CAEXObject.ts	CAEXObject
-Aml.Engine.CAEX	CAEXSequence.cs	CAEXSequence	class	src/engine/caex/CAEXSequence.ts	CAEXSequence
-Aml.Engine.CAEX	CAEXSequenceEnumerator.cs	CAEXSequenceEnumerator	class	src/engine/caex/CAEXSequenceEnumerator.ts	CAEXSequenceEnumerator
-Aml.Engine.CAEX	CAEXSequenceOfCAEXObjects.cs	CAEXSequenceOfCAEXObjects	class	src/engine/caex/CAEXSequenceOfCAEXObjects.ts	CAEXSequenceOfCAEXObjects
-Aml.Engine.CAEX	CAEXSequenceOfCAEXObjectsWithReference.cs	CAEXSequenceOfCAEXObjectsWithReference	class	src/engine/caex/CAEXSequenceOfCAEXObjectsWithReference.ts	CAEXSequenceOfCAEXObjectsWithReference
-Aml.Engine.CAEX	CAEXTypeDictionary.cs	CAEXTypeDictionary	class	src/engine/caex/CAEXTypeDictionary.ts	CAEXTypeDictionary
-Aml.Engine.CAEX	CAEXWrapper.cs	CAEXWrapper	class	src/engine/caex/CAEXWrapper.ts	CAEXWrapper
-Aml.Engine.CAEX	CAEXWrapper.cs	CAEXWrapper	class	src/engine/caex/CAEXWrapper.ts	CAEXWrapper_1
-Aml.Engine.CAEX	CAEX_CLASSModel_TagNames.cs	CAEX_CLASSModel_TagNames	class static	src/engine/caex/CAEX_CLASSModel_TagNames.ts	CAEX_CLASSModel_TagNames
-Aml.Engine.CAEX	CaexObjectWithReference.cs	CaexObjectWithReference	class	src/engine/caex/CaexObjectWithReference.ts	CaexObjectWithReference
-Aml.Engine.CAEX	ChangeMode.cs	ChangeMode	enum	src/engine/caex/ChangeMode.ts	ChangeMode
-Aml.Engine.CAEX	CopyrightType.cs	CopyrightType	class	src/engine/caex/CopyrightType.ts	CopyrightType
-Aml.Engine.CAEX	DescriptionType.cs	DescriptionType	class	src/engine/caex/DescriptionType.ts	DescriptionType
-Aml.Engine.CAEX	ExternalInterfaceSequence.cs	ExternalInterfaceSequence	class	src/engine/caex/ExternalInterfaceSequence.ts	ExternalInterfaceSequence
-Aml.Engine.CAEX	ExternalInterfaceType.cs	ExternalInterfaceType	class	src/engine/caex/ExternalInterfaceType.ts	ExternalInterfaceType
-Aml.Engine.CAEX	ExternalReferenceType.cs	ExternalReferenceType	class	src/engine/caex/ExternalReferenceType.ts	ExternalReferenceType
-Aml.Engine.CAEX	IAttributeTypeContainer.cs	IAttributeTypeContainer	interface	src/engine/caex/IAttributeTypeContainer.ts	IAttributeTypeContainer
-Aml.Engine.CAEX	IAttributeValueType.cs	IAttributeValueType	interface	src/engine/caex/IAttributeValueType.ts	IAttributeValueType
-Aml.Engine.CAEX	ICAEXBasicObject.cs	ICAEXBasicObject	interface	src/engine/caex/ICAEXBasicObject.ts	ICAEXBasicObject
-Aml.Engine.CAEX	ICAEXContainer.cs	ICAEXContainer	interface	src/engine/caex/ICAEXContainer.ts	ICAEXContainer
-Aml.Engine.CAEX	ICAEXLibrary.cs	ICAEXLibrary	interface	src/engine/caex/ICAEXLibrary.ts	ICAEXLibrary
-Aml.Engine.CAEX	ICAEXObject.cs	ICAEXObject	interface	src/engine/caex/ICAEXObject.ts	ICAEXObject
-Aml.Engine.CAEX	ICAEXSequence.cs	ICAEXSequence	interface	src/engine/caex/ICAEXSequence.ts	ICAEXSequence
-Aml.Engine.CAEX	ICAEXWrapper.cs	ICAEXWrapper	interface	src/engine/caex/ICAEXWrapper.ts	ICAEXWrapper
-Aml.Engine.CAEX	IClassWithBaseClassReference.cs	IClassWithBaseClassReference	interface	src/engine/caex/IClassWithBaseClassReference.ts	IClassWithBaseClassReference
-Aml.Engine.CAEX	IClassWithBaseClassReference.cs	IClassWithBaseClassReference	interface	src/engine/caex/IClassWithBaseClassReference.ts	IClassWithBaseClassReference_1
-Aml.Engine.CAEX	IClassWithExternalInterface.cs	IClassWithExternalInterface	interface	src/engine/caex/IClassWithExternalInterface.ts	IClassWithExternalInterface
-Aml.Engine.CAEX	IDigitalSigned.cs	IDigitalSigned	interface	src/engine/caex/IDigitalSigned.ts	IDigitalSigned
-Aml.Engine.CAEX	IInstance.cs	IInstance	interface	src/engine/caex/IInstance.ts	IInstance
-Aml.Engine.CAEX	IInstance.cs	IInstance	interface	src/engine/caex/IInstance.ts	IInstance_1
-Aml.Engine.CAEX	IInstantiable.cs	IInstantiable	interface	src/engine/caex/IInstantiable.ts	IInstantiable
-Aml.Engine.CAEX	IInstantiable.cs	IInstantiable	interface	src/engine/caex/IInstantiable.ts	IInstantiable_1
-Aml.Engine.CAEX	IInterfaceClassContainer.cs	IInterfaceClassContainer	interface	src/engine/caex/IInterfaceClassContainer.ts	IInterfaceClassContainer
-Aml.Engine.CAEX	IInterfaceMapping.cs	IInterfaceMapping	interface	src/engine/caex/IInterfaceMapping.ts	IInterfaceMapping
-Aml.Engine.CAEX	IInternalElementContainer.cs	IInternalElementContainer	interface	src/engine/caex/IInternalElementContainer.ts	IInternalElementContainer
-Aml.Engine.CAEX	IMapping.cs	IMapping	interface	src/engine/caex/IMapping.ts	IMapping
-Aml.Engine.CAEX	IMappingElementType.cs	IMappingElementType	interface	src/engine/caex/IMappingElementType.ts	IMappingElementType
-Aml.Engine.CAEX	IMirror.cs	IMirror	interface	src/engine/caex/IMirror.ts	IMirror
-Aml.Engine.CAEX	IMirror.cs	IMirror	interface	src/engine/caex/IMirror.ts	IMirror_1
-Aml.Engine.CAEX	IMultipleOccurrences.cs	IMultipleOccurrences	interface	src/engine/caex/IMultipleOccurrences.ts	IMultipleOccurrences
-Aml.Engine.CAEX	IObjectWithAttributes.cs	IObjectWithAttributes	interface	src/engine/caex/IObjectWithAttributes.ts	IObjectWithAttributes
-Aml.Engine.CAEX	IObjectWithExternalInterface.cs	IObjectWithExternalInterface	interface	src/engine/caex/IObjectWithExternalInterface.ts	IObjectWithExternalInterface
-Aml.Engine.CAEX	IObjectWithExternalInterfaceAndInherited.cs	IObjectWithExternalInterfaceAndInherited	interface	src/engine/caex/IObjectWithExternalInterfaceAndInherited.ts	IObjectWithExternalInterfaceAndInherited
-Aml.Engine.CAEX	IObjectWithInheritedAttributes.cs	IObjectWithInheritedAttributes	interface	src/engine/caex/IObjectWithInheritedAttributes.ts	IObjectWithInheritedAttributes
-Aml.Engine.CAEX	IObjectWithRoleReference.cs	IObjectWithRoleReference	interface	src/engine/caex/IObjectWithRoleReference.ts	IObjectWithRoleReference
-Aml.Engine.CAEX	IRoleClassContainer.cs	IRoleClassContainer	interface	src/engine/caex/IRoleClassContainer.ts	IRoleClassContainer
-Aml.Engine.CAEX	ISystemUnitClassContainer.cs	ISystemUnitClassContainer	interface	src/engine/caex/ISystemUnitClassContainer.ts	ISystemUnitClassContainer
-Aml.Engine.CAEX	InstanceHierarchyType.cs	InstanceHierarchyType	class	src/engine/caex/InstanceHierarchyType.ts	InstanceHierarchyType
-Aml.Engine.CAEX	InterfaceClassLibType.cs	InterfaceClassLibType	class	src/engine/caex/InterfaceClassLibType.ts	InterfaceClassLibType
-Aml.Engine.CAEX	InterfaceClassType.cs	InterfaceClassType	class	src/engine/caex/InterfaceClassType.ts	InterfaceClassType
-Aml.Engine.CAEX	InterfaceFamilyType.cs	InterfaceFamilyType	class	src/engine/caex/InterfaceFamilyType.ts	InterfaceFamilyType
-Aml.Engine.CAEX	InterfaceIDMappingType.cs	InterfaceIDMappingType	class	src/engine/caex/InterfaceIDMappingType.ts	InterfaceIDMappingType
-Aml.Engine.CAEX	InterfaceNameMappingType.cs	InterfaceNameMappingType	class	src/engine/caex/InterfaceNameMappingType.ts	InterfaceNameMappingType
-Aml.Engine.CAEX	InternalElementSequence.cs	InternalElementSequence	class	src/engine/caex/InternalElementSequence.ts	InternalElementSequence
-Aml.Engine.CAEX	InternalElementType.cs	InternalElementType	class	src/engine/caex/InternalElementType.ts	InternalElementType
-Aml.Engine.CAEX	InternalLinkComparer.cs	InternalLinkComparer	class	src/engine/caex/InternalLinkComparer.ts	InternalLinkComparer
-Aml.Engine.CAEX	InternalLinkType.cs	InternalLinkType	class	src/engine/caex/InternalLinkType.ts	InternalLinkType
-Aml.Engine.CAEX	InternalLinkType.cs	InternalLinkType.LinkedObjects	class	src/engine/caex/InternalLinkType.ts	InternalLinkType_LinkedObjects
-Aml.Engine.CAEX	MappingElementType.cs	MappingElementType	class	src/engine/caex/MappingElementType.ts	MappingElementType
-Aml.Engine.CAEX	MappingType.cs	MappingType	class	src/engine/caex/MappingType.ts	MappingType
-Aml.Engine.CAEX	NamedElementSequence.cs	NamedElementSequence	class static	src/engine/caex/NamedElementSequence.ts	NamedElementSequence
-Aml.Engine.CAEX	NamedElementSequence.cs	NamedElementSequence	class	src/engine/caex/NamedElementSequence.ts	NamedElementSequence_1
-Aml.Engine.CAEX	NominalScaledTypeType.cs	NominalScaledTypeType	class	src/engine/caex/NominalScaledTypeType.ts	NominalScaledTypeType
-Aml.Engine.CAEX	OrdinalScaledTypeType.cs	OrdinalScaledTypeType	class	src/engine/caex/OrdinalScaledTypeType.ts	OrdinalScaledTypeType
-Aml.Engine.CAEX	RefSemanticType.cs	RefSemanticType	class	src/engine/caex/RefSemanticType.ts	RefSemanticType
-Aml.Engine.CAEX	RevisionType.cs	RevisionType	class	src/engine/caex/RevisionType.ts	RevisionType
-Aml.Engine.CAEX	RoleClassLibType.cs	RoleClassLibType	class	src/engine/caex/RoleClassLibType.ts	RoleClassLibType
-Aml.Engine.CAEX	RoleClassType.cs	RoleClassType	class	src/engine/caex/RoleClassType.ts	RoleClassType
-Aml.Engine.CAEX	RoleFamilyType.cs	RoleFamilyType	class	src/engine/caex/RoleFamilyType.ts	RoleFamilyType
-Aml.Engine.CAEX	RoleRequirementsType.cs	RoleRequirementsType	class	src/engine/caex/RoleRequirementsType.ts	RoleRequirementsType
-Aml.Engine.CAEX	SourceDocumentInformationType.cs	SourceDocumentInformationType	class	src/engine/caex/SourceDocumentInformationType.ts	SourceDocumentInformationType
-Aml.Engine.CAEX	SourceDocumentInformationType.cs	SourceDocumentInformationType.Properties	record	src/engine/caex/SourceDocumentInformationType.ts	SourceDocumentInformationType_Properties
-Aml.Engine.CAEX	SourceObjectInformationType.cs	SourceObjectInformationType	class	src/engine/caex/SourceObjectInformationType.ts	SourceObjectInformationType
-Aml.Engine.CAEX	SupportedRoleClassType.cs	SupportedRoleClassType	class	src/engine/caex/SupportedRoleClassType.ts	SupportedRoleClassType
-Aml.Engine.CAEX	SystemUnitClassLibType.cs	SystemUnitClassLibType	class	src/engine/caex/SystemUnitClassLibType.ts	SystemUnitClassLibType
-Aml.Engine.CAEX	SystemUnitClassType.cs	SystemUnitClassType	class	src/engine/caex/SystemUnitClassType.ts	SystemUnitClassType
-Aml.Engine.CAEX	SystemUnitFamilyType.cs	SystemUnitFamilyType	class	src/engine/caex/SystemUnitFamilyType.ts	SystemUnitFamilyType
-Aml.Engine.CAEX	UnknownTypeType.cs	UnknownTypeType	class	src/engine/caex/UnknownTypeType.ts	UnknownTypeType
-Aml.Engine.CAEX	ValueSequence.cs	ValueSequence	class	src/engine/caex/ValueSequence.ts	ValueSequence
-Aml.Engine.CAEX	ValueSequence.cs	ValueSequence.ElementValue	class	src/engine/caex/ValueSequence.ts	ValueSequence_ElementValue
-Aml.Engine.CAEX	ValueSequence.cs	ValueSequence.ElementValueConverter	class	src/engine/caex/ValueSequence.ts	ValueSequence_ElementValueConverter
-Aml.Engine.CAEX	VersionType.cs	VersionType	class	src/engine/caex/VersionType.ts	VersionType
-Aml.Engine.CAEX.Commands	AddCmd.cs	AddCmd	class	src/engine/caex/commands/AddCmd.ts	AddCmd
-Aml.Engine.CAEX.Commands	AddNewCmd.cs	AddNewCmd	class	src/engine/caex/commands/AddNewCmd.ts	AddNewCmd
-Aml.Engine.CAEX.Commands	CAEXElementChangeEventArgs.cs	CAEXElementChangeEventArgs	class	src/engine/caex/commands/CAEXElementChangeEventArgs.ts	CAEXElementChangeEventArgs
-Aml.Engine.CAEX.Commands	CAEXElementChangeMode.cs	CAEXElementChangeMode	enum	src/engine/caex/commands/CAEXElementChangeMode.ts	CAEXElementChangeMode
-Aml.Engine.CAEX.Commands	CaexCommand.cs	CaexCommand	class	src/engine/caex/commands/CaexCommand.ts	CaexCommand
-Aml.Engine.CAEX.Commands	ICAEXCommand.cs	ICAEXCommand	interface	src/engine/caex/commands/ICAEXCommand.ts	ICAEXCommand
-Aml.Engine.CAEX.Commands	InsertCmd.cs	InsertCmd	class	src/engine/caex/commands/InsertCmd.ts	InsertCmd
-Aml.Engine.CAEX.Commands	InsertNewCmd.cs	InsertNewCmd	class	src/engine/caex/commands/InsertNewCmd.ts	InsertNewCmd
-Aml.Engine.CAEX.Commands	MoveCmd.cs	MoveCmd	class	src/engine/caex/commands/MoveCmd.ts	MoveCmd
-Aml.Engine.CAEX.Commands	RemoveCmd.cs	RemoveCmd	class	src/engine/caex/commands/RemoveCmd.ts	RemoveCmd
-Aml.Engine.CAEX.Commands	SetAttributeValueCmd.cs	SetAttributeValueCmd	class	src/engine/caex/commands/SetAttributeValueCmd.ts	SetAttributeValueCmd
-Aml.Engine.CAEX.Commands	SetElementContentCmd.cs	SetElementContentCmd	class	src/engine/caex/commands/SetElementContentCmd.ts	SetElementContentCmd
-Aml.Engine.CAEX.Commands	SetElementValueCmd.cs	SetElementValueCmd	class	src/engine/caex/commands/SetElementValueCmd.ts	SetElementValueCmd
-Aml.Engine.CAEX.Commands	WeakEventSource.cs	WeakEventSource	class	src/engine/caex/commands/WeakEventSource.ts	WeakEventSource
-Aml.Engine.CAEX.Commands	WeakEventSource.cs	WeakEventSource.WeakDelegate	class	src/engine/caex/commands/WeakEventSource.ts	WeakEventSource_WeakDelegate
-Aml.Engine.CAEX.Extensions	AdditionalInformationContent.cs	AdditionalInformationContent	class	src/engine/caex/extensions/AdditionalInformationContent.ts	AdditionalInformationContent
-Aml.Engine.CAEX.Extensions	AdditionalInformationExtension.cs	AdditionalInformationExtension	class static	src/engine/caex/extensions/AdditionalInformationExtension.ts	AdditionalInformationExtension
-Aml.Engine.CAEX.Extensions	AttributeTypeTypeExtensions.cs	AttributeTypeTypeExtensions	class static	src/engine/caex/extensions/AttributeTypeTypeExtensions.ts	AttributeTypeTypeExtensions
-Aml.Engine.CAEX.Extensions	CAEXBasicObjectExtensions.cs	CAEXBasicObjectExtensions	class static	src/engine/caex/extensions/CAEXBasicObjectExtensions.ts	CAEXBasicObjectExtensions
-Aml.Engine.CAEX.Extensions	CAEXDocumentExtensions.cs	CAEXDocumentExtensions	class static	src/engine/caex/extensions/CAEXDocumentExtensions.ts	CAEXDocumentExtensions
-Aml.Engine.CAEX.Extensions	CAEXElementFactory.cs	CAEXElementFactory	class static	src/engine/caex/extensions/CAEXElementFactory.ts	CAEXElementFactory
-Aml.Engine.CAEX.Extensions	CAEXFileTypeExtensions.cs	CAEXFileTypeExtensions	class static	src/engine/caex/extensions/CAEXFileTypeExtensions.ts	CAEXFileTypeExtensions
-Aml.Engine.CAEX.Extensions	CAEXObjectExtensions.cs	CAEXObjectExtensions	class static	src/engine/caex/extensions/CAEXObjectExtensions.ts	CAEXObjectExtensions
-Aml.Engine.CAEX.Extensions	CAEXPathBuilder.cs	CAEXPathBuilder	class static	src/engine/caex/extensions/CAEXPathBuilder.ts	CAEXPathBuilder
-Aml.Engine.CAEX.Extensions	CAEXPathBuilder.cs	CAEXPathBuilder.IDRefEnum	enum	src/engine/caex/extensions/CAEXPathBuilder.ts	CAEXPathBuilder_IDRefEnum
-Aml.Engine.CAEX.Extensions	CaexValue.cs	CaexValue	class	src/engine/caex/extensions/CaexValue.ts	CaexValue
-Aml.Engine.CAEX.Extensions	CollectionExtensions.cs	CollectionExtensions	class static	src/engine/caex/extensions/CollectionExtensions.ts	CollectionExtensions
-Aml.Engine.CAEX.Extensions	ExternalInterfaceTypeExtensions.cs	ExternalInterfaceTypeExtensions	class static	src/engine/caex/extensions/ExternalInterfaceTypeExtensions.ts	ExternalInterfaceTypeExtensions
-Aml.Engine.CAEX.Extensions	InheritanceExtensions.cs	InheritanceExtensions	class static	src/engine/caex/extensions/InheritanceExtensions.ts	InheritanceExtensions
-Aml.Engine.CAEX.Extensions	InheritanceExtensions.cs	InheritanceExtensions.DerivedClassDictionary	class	src/engine/caex/extensions/InheritanceExtensions.ts	InheritanceExtensions_DerivedClassDictionary
-Aml.Engine.CAEX.Extensions	InstanceExtensions.cs	InstanceExtensions	class static	src/engine/caex/extensions/InstanceExtensions.ts	InstanceExtensions
-Aml.Engine.CAEX.Extensions	InstanceHierarchyTypeExtensions.cs	InstanceHierarchyTypeExtensions	class static	src/engine/caex/extensions/InstanceHierarchyTypeExtensions.ts	InstanceHierarchyTypeExtensions
-Aml.Engine.CAEX.Extensions	InterfaceClassLibTypeExtensions.cs	InterfaceClassLibTypeExtensions	class static	src/engine/caex/extensions/InterfaceClassLibTypeExtensions.ts	InterfaceClassLibTypeExtensions
-Aml.Engine.CAEX.Extensions	InterfaceFamilyTypeExtensions.cs	InterfaceFamilyTypeExtensions	class static	src/engine/caex/extensions/InterfaceFamilyTypeExtensions.ts	InterfaceFamilyTypeExtensions
-Aml.Engine.CAEX.Extensions	InternalElementExtensions.cs	InternalElementExtensions	class static	src/engine/caex/extensions/InternalElementExtensions.ts	InternalElementExtensions
-Aml.Engine.CAEX.Extensions	InternalLinkTypeExtensions.cs	InternalLinkTypeExtensions	class static	src/engine/caex/extensions/InternalLinkTypeExtensions.ts	InternalLinkTypeExtensions
-Aml.Engine.CAEX.Extensions	LocalNameEncoder.cs	LocalNameEncoder	class	src/engine/caex/extensions/LocalNameEncoder.ts	LocalNameEncoder
-Aml.Engine.CAEX.Extensions	MappingTypeExtensions.cs	MappingTypeExtensions	class static	src/engine/caex/extensions/MappingTypeExtensions.ts	MappingTypeExtensions
-Aml.Engine.CAEX.Extensions	NCNameEncoder.cs	NCNameEncoder	class	src/engine/caex/extensions/NCNameEncoder.ts	NCNameEncoder
-Aml.Engine.CAEX.Extensions	NMTokenEncoder.cs	NMTokenEncoder	class	src/engine/caex/extensions/NMTokenEncoder.ts	NMTokenEncoder
-Aml.Engine.CAEX.Extensions	NameEncoder.cs	NameEncoder	class	src/engine/caex/extensions/NameEncoder.ts	NameEncoder
-Aml.Engine.CAEX.Extensions	NormalizedStringEncoder.cs	NormalizedStringEncoder	class	src/engine/caex/extensions/NormalizedStringEncoder.ts	NormalizedStringEncoder
-Aml.Engine.CAEX.Extensions	ObjectWithAttributes.cs	ObjectWithAttributes	class static	src/engine/caex/extensions/ObjectWithAttributes.ts	ObjectWithAttributes
-Aml.Engine.CAEX.Extensions	ObjectWithBaseClass.cs	ObjectWithBaseClass	class static	src/engine/caex/extensions/ObjectWithBaseClass.ts	ObjectWithBaseClass
-Aml.Engine.CAEX.Extensions	ObjectWithExternalInterface.cs	ObjectWithExternalInterface	class static	src/engine/caex/extensions/ObjectWithExternalInterface.ts	ObjectWithExternalInterface
-Aml.Engine.CAEX.Extensions	RoleClassFamilyTypeExtensions.cs	RoleClassFamilyTypeExtensions	class static	src/engine/caex/extensions/RoleClassFamilyTypeExtensions.ts	RoleClassFamilyTypeExtensions
-Aml.Engine.CAEX.Extensions	RoleClassLibTypeExtensions.cs	RoleClassLibTypeExtensions	class static	src/engine/caex/extensions/RoleClassLibTypeExtensions.ts	RoleClassLibTypeExtensions
-Aml.Engine.CAEX.Extensions	StringExtensions.cs	StringExtensions	class static	src/engine/caex/extensions/StringExtensions.ts	StringExtensions
-Aml.Engine.CAEX.Extensions	SystemUnitClassLibTypeExtensions.cs	SystemUnitClassLibTypeExtensions	class static	src/engine/caex/extensions/SystemUnitClassLibTypeExtensions.ts	SystemUnitClassLibTypeExtensions
-Aml.Engine.CAEX.Extensions	SystemUnitClassTypeExtensions.cs	SystemUnitClassTypeExtensions	class static	src/engine/caex/extensions/SystemUnitClassTypeExtensions.ts	SystemUnitClassTypeExtensions
-Aml.Engine.CAEX.Extensions	SystemUnitFamilyTypeExtensions.cs	SystemUnitFamilyTypeExtensions	class static	src/engine/caex/extensions/SystemUnitFamilyTypeExtensions.ts	SystemUnitFamilyTypeExtensions
-Aml.Engine.CAEX.Extensions	TokenEncoder.cs	TokenEncoder	class	src/engine/caex/extensions/TokenEncoder.ts	TokenEncoder
-Aml.Engine.CAEX.Linq	CAEXSequenceExtension.cs	CAEXSequenceExtension	class static	src/engine/caex/linq/CAEXSequenceExtension.ts	CAEXSequenceExtension
-Aml.Engine.Resources	XsdDataTypes.cs	XsdDataTypes	class	src/engine/resources/XsdDataTypes.ts	XsdDataTypes
-Aml.Engine.Resources.Catalogue	ClassRepositoryEnum.cs	ClassRepositoryEnum	enum	src/engine/resources/catalogue/ClassRepositoryEnum.ts	ClassRepositoryEnum
-Aml.Engine.Resources.Catalogue	ClassRepositoryEnumExtension.cs	ClassRepositoryEnumExtension	class static	src/engine/resources/catalogue/ClassRepositoryEnumExtension.ts	ClassRepositoryEnumExtension
-Aml.Engine.Schema	AMLSchemaManager.cs	AMLSchemaManager	class	src/engine/schema/AMLSchemaManager.ts	AMLSchemaManager
-Aml.Engine.Schema	AMLSchemaManager2_15.cs	AMLSchemaManager2_15	class	src/engine/schema/AMLSchemaManager2_15.ts	AMLSchemaManager2_15
-Aml.Engine.Schema	AMLSchemaManager3_0.cs	AMLSchemaManager3_0	class	src/engine/schema/AMLSchemaManager3_0.ts	AMLSchemaManager3_0
-Aml.Engine.Schema	XmlSchemaElementInfo.cs	XmlSchemaElementInfo	class	src/engine/schema/XmlSchemaElementInfo.ts	XmlSchemaElementInfo
-Aml.Engine.Schema	XmlSchemaManager.cs	XmlSchemaManager	class	src/engine/schema/XmlSchemaManager.ts	XmlSchemaManager
-Aml.Engine.Schema	XmlTypeCodeExtensions.cs	XmlTypeCodeExtensions	class static	src/engine/schema/XmlTypeCodeExtensions.ts	XmlTypeCodeExtensions
-Aml.Engine.Services	CAEXReference.cs	CAEXReference	class	src/engine/services/CAEXReference.ts	CAEXReference
-Aml.Engine.Services	CaexIDService.cs	CaexIDService	class	src/engine/services/CaexIDService.ts	CaexIDService
-Aml.Engine.Services	EmptyLookup.cs	EmptyLookup	class static	src/engine/services/EmptyLookup.ts	EmptyLookup
-Aml.Engine.Services	QueryResult.cs	QueryResult	class static	src/engine/services/QueryResult.ts	QueryResult
-Aml.Engine.Services	QueryService.cs	QueryService	class	src/engine/services/QueryService.ts	QueryService
-Aml.Engine.Services	ServiceLocator.cs	ServiceLocator	class static	src/engine/services/ServiceLocator.ts	ServiceLocator
-Aml.Engine.Services	SignatureServiceBase.cs	SignatureServiceBase	class	src/engine/services/SignatureServiceBase.ts	SignatureServiceBase
-Aml.Engine.Services.Interfaces	IAMLEditionTransform.cs	IAMLEditionTransform	interface	src/engine/services/interfaces/IAMLEditionTransform.ts	IAMLEditionTransform
-Aml.Engine.Services.Interfaces	IAMLLibraryService.cs	IAMLLibraryService	interface	src/engine/services/interfaces/IAMLLibraryService.ts	IAMLLibraryService
-Aml.Engine.Services.Interfaces	IAMLService.cs	IAMLService	interface	src/engine/services/interfaces/IAMLService.ts	IAMLService
-Aml.Engine.Services.Interfaces	IAutoUpdate.cs	IAutoUpdate	interface	src/engine/services/interfaces/IAutoUpdate.ts	IAutoUpdate
-Aml.Engine.Services.Interfaces	ICAEXReference.cs	ICAEXReference	interface	src/engine/services/interfaces/ICAEXReference.ts	ICAEXReference
-Aml.Engine.Services.Interfaces	ICaexIDService.cs	ICaexIDService	interface	src/engine/services/interfaces/ICaexIDService.ts	ICaexIDService
-Aml.Engine.Services.Interfaces	IClassRepository.cs	IClassRepository	interface	src/engine/services/interfaces/IClassRepository.ts	IClassRepository
-Aml.Engine.Services.Interfaces	ICredentials.cs	ICredentials	interface	src/engine/services/interfaces/ICredentials.ts	ICredentials
-Aml.Engine.Services.Interfaces	IDatabaseService.cs	IDatabaseService	interface	src/engine/services/interfaces/IDatabaseService.ts	IDatabaseService
-Aml.Engine.Services.Interfaces	IExternalReferenceResolver.cs	IExternalReferenceResolver	interface	src/engine/services/interfaces/IExternalReferenceResolver.ts	IExternalReferenceResolver
-Aml.Engine.Services.Interfaces	IExternalReferenceResolverAsync.cs	IExternalReferenceResolverAsync	interface	src/engine/services/interfaces/IExternalReferenceResolverAsync.ts	IExternalReferenceResolverAsync
-Aml.Engine.Services.Interfaces	IGitHubAccessService.cs	IGitHubAccessService	interface	src/engine/services/interfaces/IGitHubAccessService.ts	IGitHubAccessService
-Aml.Engine.Services.Interfaces	ILookUpTable.cs	ILookUpTable	interface	src/engine/services/interfaces/ILookUpTable.ts	ILookUpTable
-Aml.Engine.Services.Interfaces	IMerge.cs	IMerge	interface	src/engine/services/interfaces/IMerge.ts	IMerge
-Aml.Engine.Services.Interfaces	IQuery.cs	IQuery	interface	src/engine/services/interfaces/IQuery.ts	IQuery
-Aml.Engine.Services.Interfaces	ISchemaTransform.cs	ISchemaTransform	interface	src/engine/services/interfaces/ISchemaTransform.ts	ISchemaTransform
-Aml.Engine.Services.Interfaces	ISigning.cs	ISigning	interface	src/engine/services/interfaces/ISigning.ts	ISigning
-Aml.Engine.Services.Interfaces	ISplit.cs	ISplit	interface	src/engine/services/interfaces/ISplit.ts	ISplit
-Aml.Engine.Services.Interfaces	ISplitPoint.cs	ISplitPoint	interface	src/engine/services/interfaces/ISplitPoint.ts	ISplitPoint
-Aml.Engine.Services.Interfaces	IStatistic.cs	IStatistic	interface	src/engine/services/interfaces/IStatistic.ts	IStatistic
-Aml.Engine.Services.Interfaces	ISuspendable.cs	ISuspendable	interface	src/engine/services/interfaces/ISuspendable.ts	ISuspendable
-Aml.Engine.Services.Interfaces	IUndoRedo.cs	IUndoRedo	interface	src/engine/services/interfaces/IUndoRedo.ts	IUndoRedo
-Aml.Engine.Services.Interfaces	IUniqueName.cs	IUniqueName	interface	src/engine/services/interfaces/IUniqueName.ts	IUniqueName
-Aml.Engine.Services.Interfaces	IValidationResult.cs	IValidationResult	interface	src/engine/services/interfaces/IValidationResult.ts	IValidationResult
-Aml.Engine.Services.Interfaces	IValidator.cs	IValidator	interface	src/engine/services/interfaces/IValidator.ts	IValidator
-Aml.Engine.Services.Interfaces	IValidator.cs	IValidator	interface	src/engine/services/interfaces/IValidator.ts	IValidator_1
-Aml.Engine.Services.Interfaces	IXMLDocumentRegistry.cs	IXMLDocumentRegistry	interface	src/engine/services/interfaces/IXMLDocumentRegistry.ts	IXMLDocumentRegistry
-Aml.Engine.Services.Interfaces	IXMLExternalUnload.cs	IXMLExternalUnload	interface	src/engine/services/interfaces/IXMLExternalUnload.ts	IXMLExternalUnload
-Aml.Engine.Services.Interfaces	SchemaTransformationEventArgs.cs	SchemaTransformationEventArgs	class	src/engine/services/interfaces/SchemaTransformationEventArgs.ts	SchemaTransformationEventArgs
-Aml.Engine.Services.Interfaces	UpdateEventArgs.cs	UpdateEventArgs	class	src/engine/services/interfaces/UpdateEventArgs.ts	UpdateEventArgs
-Aml.Engine.Services.Model	AMLEditionEnum.cs	AMLEditionEnum	enum	src/engine/services/model/AMLEditionEnum.ts	AMLEditionEnum
-Aml.Engine.Services.Model	AMLEditionEnumExtension.cs	AMLEditionEnumExtension	class static	src/engine/services/model/AMLEditionEnumExtension.ts	AMLEditionEnumExtension
-Aml.Engine.Services.Model	AMLLibraryServerDataProfile.cs	AMLLibraryServerDataProfile	class	src/engine/services/model/AMLLibraryServerDataProfile.ts	AMLLibraryServerDataProfile
-Aml.Engine.Services.Model	AMLLibraryServerProfile.cs	AMLLibraryServerProfile	class	src/engine/services/model/AMLLibraryServerProfile.ts	AMLLibraryServerProfile
-Aml.Engine.Services.Model	AccessRightsEnum.cs	AccessRightsEnum	enum	src/engine/services/model/AccessRightsEnum.ts	AccessRightsEnum
-Aml.Engine.Services.Model	KeyInfo.cs	KeyInfo	class	src/engine/services/model/KeyInfo.ts	KeyInfo
-Aml.Engine.Services.Model	KeyValue.cs	KeyValue	class	src/engine/services/model/KeyValue.ts	KeyValue
-Aml.Engine.Services.Model	NetworkProtocolEnum.cs	NetworkProtocolEnum	enum	src/engine/services/model/NetworkProtocolEnum.ts	NetworkProtocolEnum
-Aml.Engine.Services.Model	PasswordProtected.cs	PasswordProtected	class	src/engine/services/model/PasswordProtected.ts	PasswordProtected
-Aml.Engine.Services.Model	SignedInfo.cs	SignedInfo	class	src/engine/services/model/SignedInfo.ts	SignedInfo
-Aml.Engine.Services.Model	XMLSignature.cs	XMLSignature	class	src/engine/services/model/XMLSignature.ts	XMLSignature
-Aml.Engine.Services.Model	XMLSignatureElement.cs	XMLSignatureElement	class	src/engine/services/model/XMLSignatureElement.ts	XMLSignatureElement
-Aml.Engine.Services.Utilities	ByteArrayConverter.cs	ByteArrayConverter	class	src/engine/services/utilities/ByteArrayConverter.ts	ByteArrayConverter
-Aml.Engine.Streaming	DocumentStreaming.cs	DocumentStreaming	class static	src/engine/streaming/DocumentStreaming.ts	DocumentStreaming
-Aml.Engine.XML	IDocument.cs	IDocument	interface	src/engine/xml/IDocument.ts	IDocument
-Aml.Engine.XML	IXMLWrapper.cs	IXMLWrapper	interface	src/engine/xml/IXMLWrapper.ts	IXMLWrapper
-Aml.Engine.XML	XDocumentWrapper.cs	XDocumentWrapper	class	src/engine/xml/XDocumentWrapper.ts	XDocumentWrapper
-Aml.Engine.Xml.Extensions	XmlCAEXAttributes.cs	XmlCAEXAttributes	class static	src/engine/xmlext/XmlCAEXAttributes.ts	XmlCAEXAttributes
-Aml.Engine.Xml.Extensions	XmlCAEXMapping.cs	XmlCAEXMapping	class static	src/engine/xmlext/XmlCAEXMapping.ts	XmlCAEXMapping
-Aml.Engine.Xml.Extensions	XmlCAEXSchema.cs	XmlCAEXSchema	class static	src/engine/xmlext/XmlCAEXSchema.ts	XmlCAEXSchema
-Aml.Engine.Xml.Extensions	XmlClassOperation.cs	XmlClassOperation	class static	src/engine/xmlext/XmlClassOperation.ts	XmlClassOperation
-Aml.Engine.Xml.Extensions	XmlLinqExtensions.cs	XmlLinqExtensions	class static	src/engine/xmlext/XmlLinqExtensions.ts	XmlLinqExtensions
-Aml.Engine.Xml.Extensions	XmlOperation.cs	XmlOperation	class static	src/engine/xmlext/XmlOperation.ts	XmlOperation
+namespace	file	type	kind	module	export	assembly
+Aml.Engine.Adapter	AMLEngineAdapter.cs	AMLEngineAdapter	class static	src/engine/adapter/AMLEngineAdapter.ts	AMLEngineAdapter	Aml.Engine
+Aml.Engine.Adapter	LinkedObjects.cs	LinkedObjects	class	src/engine/adapter/LinkedObjects.ts	LinkedObjects	Aml.Engine
+Aml.Engine.AmlObjects	AMLFacet.cs	AMLFacet	class	src/engine/amlobjects/AMLFacet.ts	AMLFacet	Aml.Engine
+Aml.Engine.AmlObjects	AMLFile.cs	AMLFile	class	src/engine/amlobjects/AMLFile.ts	AMLFile	Aml.Engine
+Aml.Engine.AmlObjects	AMLGroup.cs	AMLGroup	class	src/engine/amlobjects/AMLGroup.ts	AMLGroup	Aml.Engine
+Aml.Engine.AmlObjects	AMLGroupInternalElementSequence.cs	AMLGroupInternalElementSequence	class	src/engine/amlobjects/AMLGroupInternalElementSequence.ts	AMLGroupInternalElementSequence	Aml.Engine
+Aml.Engine.AmlObjects	AMLInternalElementType.cs	AMLInternalElementType	class	src/engine/amlobjects/AMLInternalElementType.ts	AMLInternalElementType	Aml.Engine
+Aml.Engine.AmlObjects	AMLLibraryType.cs	AMLLibraryType	class	src/engine/amlobjects/AMLLibraryType.ts	AMLLibraryType	Aml.Engine
+Aml.Engine.AmlObjects	AMLPort.cs	AMLPort	class	src/engine/amlobjects/AMLPort.ts	AMLPort	Aml.Engine
+Aml.Engine.AmlObjects	AMLSystemUnitClass.cs	AMLSystemUnitClass	class	src/engine/amlobjects/AMLSystemUnitClass.ts	AMLSystemUnitClass	Aml.Engine
+Aml.Engine.AmlObjects	AMLSystemUnitFamilyType.cs	AMLSystemUnitFamilyType	class	src/engine/amlobjects/AMLSystemUnitFamilyType.ts	AMLSystemUnitFamilyType	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLBaseAttributeTypeLib.cs	AutomationMLBaseAttributeTypeLib	class static	src/engine/amlobjects/AutomationMLBaseAttributeTypeLib.ts	AutomationMLBaseAttributeTypeLib	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLBaseAttributeTypeLibType.cs	AutomationMLBaseAttributeTypeLibType	class	src/engine/amlobjects/AutomationMLBaseAttributeTypeLibType.ts	AutomationMLBaseAttributeTypeLibType	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLBaseRoleClassLib.cs	AutomationMLBaseRoleClassLib	class static	src/engine/amlobjects/AutomationMLBaseRoleClassLib.ts	AutomationMLBaseRoleClassLib	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLBaseRoleClassLibType.cs	AutomationMLBaseRoleClassLibType	class	src/engine/amlobjects/AutomationMLBaseRoleClassLibType.ts	AutomationMLBaseRoleClassLibType	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLContainer.cs	AutomationMLContainer	class	src/engine/amlobjects/AutomationMLContainer.ts	AutomationMLContainer	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLContainer.cs	AutomationMLContainer.RelationshipType	class	src/engine/amlobjects/AutomationMLContainer.ts	AutomationMLContainer_RelationshipType	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLInterfaceClassLib.cs	AutomationMLInterfaceClassLib	class static	src/engine/amlobjects/AutomationMLInterfaceClassLib.ts	AutomationMLInterfaceClassLib	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLInterfaceClassLibType.cs	AutomationMLInterfaceClassLibType	class	src/engine/amlobjects/AutomationMLInterfaceClassLibType.ts	AutomationMLInterfaceClassLibType	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLLogicInterfaceClassLib.cs	AutomationMLLogicInterfaceClassLib	class static	src/engine/amlobjects/AutomationMLLogicInterfaceClassLib.ts	AutomationMLLogicInterfaceClassLib	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLLogicInterfaceClassLibType.cs	AutomationMLLogicInterfaceClassLibType	class	src/engine/amlobjects/AutomationMLLogicInterfaceClassLibType.ts	AutomationMLLogicInterfaceClassLibType	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLLogicRoleClassLib.cs	AutomationMLLogicRoleClassLib	class static	src/engine/amlobjects/AutomationMLLogicRoleClassLib.ts	AutomationMLLogicRoleClassLib	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLLogicRoleClassLibType.cs	AutomationMLLogicRoleClassLibType	class	src/engine/amlobjects/AutomationMLLogicRoleClassLibType.ts	AutomationMLLogicRoleClassLibType	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLPLCopenXMLInterfaceClassLib.cs	AutomationMLPLCopenXMLInterfaceClassLib	class static	src/engine/amlobjects/AutomationMLPLCopenXMLInterfaceClassLib.ts	AutomationMLPLCopenXMLInterfaceClassLib	Aml.Engine
+Aml.Engine.AmlObjects	AutomationMLPLCopenXMLInterfaceClassLibType.cs	AutomationMLPLCopenXMLInterfaceClassLibType	class	src/engine/amlobjects/AutomationMLPLCopenXMLInterfaceClassLibType.ts	AutomationMLPLCopenXMLInterfaceClassLibType	Aml.Engine
+Aml.Engine.AmlObjects	CAEXSignatureHeader.cs	CAEXSignatureHeader	class static	src/engine/amlobjects/CAEXSignatureHeader.ts	CAEXSignatureHeader	Aml.Engine
+Aml.Engine.AmlObjects	ClassReferenceWithAlias.cs	ClassReferenceWithAlias	class static	src/engine/amlobjects/ClassReferenceWithAlias.ts	ClassReferenceWithAlias	Aml.Engine
+Aml.Engine.AmlObjects	DocumentVersionInformation.cs	DocumentVersionInformation	class	src/engine/amlobjects/DocumentVersionInformation.ts	DocumentVersionInformation	Aml.Engine
+Aml.Engine.AmlObjects	DocumentVersions.cs	DocumentVersions	class static	src/engine/amlobjects/DocumentVersions.ts	DocumentVersions	Aml.Engine
+Aml.Engine.AmlObjects	ExternalDataReference.cs	ExternalDataReference	class static	src/engine/amlobjects/ExternalDataReference.ts	ExternalDataReference	Aml.Engine
+Aml.Engine.AmlObjects	FacetAttributeSequence.cs	FacetAttributeSequence	class	src/engine/amlobjects/FacetAttributeSequence.ts	FacetAttributeSequence	Aml.Engine
+Aml.Engine.AmlObjects	FacetExternalInterfaceSequence.cs	FacetExternalInterfaceSequence	class	src/engine/amlobjects/FacetExternalInterfaceSequence.ts	FacetExternalInterfaceSequence	Aml.Engine
+Aml.Engine.AmlObjects	FrameAttributeType.cs	FrameAttributeType	class	src/engine/amlobjects/FrameAttributeType.ts	FrameAttributeType	Aml.Engine
+Aml.Engine.AmlObjects	FrameValues.cs	FrameValues	class	src/engine/amlobjects/FrameValues.ts	FrameValues	Aml.Engine
+Aml.Engine.AmlObjects	IAMLFile.cs	IAMLFile	interface	src/engine/amlobjects/IAMLFile.ts	IAMLFile	Aml.Engine
+Aml.Engine.AmlObjects	ListAttribute.cs	ListAttribute	class static	src/engine/amlobjects/ListAttribute.ts	ListAttribute	Aml.Engine
+Aml.Engine.AmlObjects	MetaInformation.cs	MetaInformation	class	src/engine/amlobjects/MetaInformation.ts	MetaInformation	Aml.Engine
+Aml.Engine.AmlObjects	ObjectWithAMLAttributes.cs	ObjectWithAMLAttributes	class	src/engine/amlobjects/ObjectWithAMLAttributes.ts	ObjectWithAMLAttributes	Aml.Engine
+Aml.Engine.AmlObjects	RefTypeAttributeType.cs	RefTypeAttributeType	class	src/engine/amlobjects/RefTypeAttributeType.ts	RefTypeAttributeType	Aml.Engine
+Aml.Engine.AmlObjects	RefURIAttributeType.cs	RefURIAttributeType	class	src/engine/amlobjects/RefURIAttributeType.ts	RefURIAttributeType	Aml.Engine
+Aml.Engine.AmlObjects.Extensions	AmlObjectsExtensions.cs	AmlObjectsExtensions	class static	src/engine/amlobjects/extensions/AmlObjectsExtensions.ts	AmlObjectsExtensions	Aml.Engine
+Aml.Engine.AmlObjects.MimeType	MappingList.cs	MappingList	class	src/engine/amlobjects/mimetype/MappingList.ts	MappingList	Aml.Engine
+Aml.Engine.AmlObjects.MimeType	MimeTypeMap.cs	MimeTypeMap	class static	src/engine/amlobjects/mimetype/MimeTypeMap.ts	MimeTypeMap	Aml.Engine
+Aml.Engine.CAEX	AttributeFamilyType.cs	AttributeFamilyType	class	src/engine/caex/AttributeFamilyType.ts	AttributeFamilyType	Aml.Engine
+Aml.Engine.CAEX	AttributeNameMappingType.cs	AttributeNameMappingType	class	src/engine/caex/AttributeNameMappingType.ts	AttributeNameMappingType	Aml.Engine
+Aml.Engine.CAEX	AttributeSequence.cs	AttributeSequence	class	src/engine/caex/AttributeSequence.ts	AttributeSequence	Aml.Engine
+Aml.Engine.CAEX	AttributeType.cs	AttributeType	class	src/engine/caex/AttributeType.ts	AttributeType	Aml.Engine
+Aml.Engine.CAEX	AttributeTypeLibType.cs	AttributeTypeLibType	class	src/engine/caex/AttributeTypeLibType.ts	AttributeTypeLibType	Aml.Engine
+Aml.Engine.CAEX	AttributeTypeType.cs	AttributeTypeType	class	src/engine/caex/AttributeTypeType.ts	AttributeTypeType	Aml.Engine
+Aml.Engine.CAEX	AttributeValueComparer.cs	AttributeValueComparer	class	src/engine/caex/AttributeValueComparer.ts	AttributeValueComparer	Aml.Engine
+Aml.Engine.CAEX	AttributeValueRequirementType.cs	AttributeValueRequirementType	class	src/engine/caex/AttributeValueRequirementType.ts	AttributeValueRequirementType	Aml.Engine
+Aml.Engine.CAEX	BaseElementType.cs	BaseElementType	class	src/engine/caex/BaseElementType.ts	BaseElementType	Aml.Engine
+Aml.Engine.CAEX	CAEXBasicObject.cs	CAEXBasicObject	class	src/engine/caex/CAEXBasicObject.ts	CAEXBasicObject	Aml.Engine
+Aml.Engine.CAEX	CAEXDocument.cs	CAEXDocument	class	src/engine/caex/CAEXDocument.ts	CAEXDocument	Aml.Engine
+Aml.Engine.CAEX	CAEXDocument.cs	CAEXDocument.CAEXSchema	enum	src/engine/caex/CAEXDocument.ts	CAEXDocument_CAEXSchema	Aml.Engine
+Aml.Engine.CAEX	CAEXDocument.cs	CAEXDocument.Commanding	class	src/engine/caex/CAEXDocument.ts	CAEXDocument_Commanding	Aml.Engine
+Aml.Engine.CAEX	CAEXEnumerable.cs	CAEXEnumerable	class	src/engine/caex/CAEXEnumerable.ts	CAEXEnumerable	Aml.Engine
+Aml.Engine.CAEX	CAEXFileType.cs	CAEXFileType	class	src/engine/caex/CAEXFileType.ts	CAEXFileType	Aml.Engine
+Aml.Engine.CAEX	CAEXLibrary.cs	CAEXLibrary	class	src/engine/caex/CAEXLibrary.ts	CAEXLibrary	Aml.Engine
+Aml.Engine.CAEX	CAEXObject.cs	CAEXObject	class	src/engine/caex/CAEXObject.ts	CAEXObject	Aml.Engine
+Aml.Engine.CAEX	CAEXSequence.cs	CAEXSequence	class	src/engine/caex/CAEXSequence.ts	CAEXSequence	Aml.Engine
+Aml.Engine.CAEX	CAEXSequenceEnumerator.cs	CAEXSequenceEnumerator	class	src/engine/caex/CAEXSequenceEnumerator.ts	CAEXSequenceEnumerator	Aml.Engine
+Aml.Engine.CAEX	CAEXSequenceOfCAEXObjects.cs	CAEXSequenceOfCAEXObjects	class	src/engine/caex/CAEXSequenceOfCAEXObjects.ts	CAEXSequenceOfCAEXObjects	Aml.Engine
+Aml.Engine.CAEX	CAEXSequenceOfCAEXObjectsWithReference.cs	CAEXSequenceOfCAEXObjectsWithReference	class	src/engine/caex/CAEXSequenceOfCAEXObjectsWithReference.ts	CAEXSequenceOfCAEXObjectsWithReference	Aml.Engine
+Aml.Engine.CAEX	CAEXTypeDictionary.cs	CAEXTypeDictionary	class	src/engine/caex/CAEXTypeDictionary.ts	CAEXTypeDictionary	Aml.Engine
+Aml.Engine.CAEX	CAEXWrapper.cs	CAEXWrapper	class	src/engine/caex/CAEXWrapper.ts	CAEXWrapper	Aml.Engine
+Aml.Engine.CAEX	CAEXWrapper.cs	CAEXWrapper	class	src/engine/caex/CAEXWrapper.ts	CAEXWrapper_1	Aml.Engine
+Aml.Engine.CAEX	CAEX_CLASSModel_TagNames.cs	CAEX_CLASSModel_TagNames	class static	src/engine/caex/CAEX_CLASSModel_TagNames.ts	CAEX_CLASSModel_TagNames	Aml.Engine
+Aml.Engine.CAEX	CaexObjectWithReference.cs	CaexObjectWithReference	class	src/engine/caex/CaexObjectWithReference.ts	CaexObjectWithReference	Aml.Engine
+Aml.Engine.CAEX	ChangeMode.cs	ChangeMode	enum	src/engine/caex/ChangeMode.ts	ChangeMode	Aml.Engine
+Aml.Engine.CAEX	CopyrightType.cs	CopyrightType	class	src/engine/caex/CopyrightType.ts	CopyrightType	Aml.Engine
+Aml.Engine.CAEX	DescriptionType.cs	DescriptionType	class	src/engine/caex/DescriptionType.ts	DescriptionType	Aml.Engine
+Aml.Engine.CAEX	ExternalInterfaceSequence.cs	ExternalInterfaceSequence	class	src/engine/caex/ExternalInterfaceSequence.ts	ExternalInterfaceSequence	Aml.Engine
+Aml.Engine.CAEX	ExternalInterfaceType.cs	ExternalInterfaceType	class	src/engine/caex/ExternalInterfaceType.ts	ExternalInterfaceType	Aml.Engine
+Aml.Engine.CAEX	ExternalReferenceType.cs	ExternalReferenceType	class	src/engine/caex/ExternalReferenceType.ts	ExternalReferenceType	Aml.Engine
+Aml.Engine.CAEX	IAttributeTypeContainer.cs	IAttributeTypeContainer	interface	src/engine/caex/IAttributeTypeContainer.ts	IAttributeTypeContainer	Aml.Engine
+Aml.Engine.CAEX	IAttributeValueType.cs	IAttributeValueType	interface	src/engine/caex/IAttributeValueType.ts	IAttributeValueType	Aml.Engine
+Aml.Engine.CAEX	ICAEXBasicObject.cs	ICAEXBasicObject	interface	src/engine/caex/ICAEXBasicObject.ts	ICAEXBasicObject	Aml.Engine
+Aml.Engine.CAEX	ICAEXContainer.cs	ICAEXContainer	interface	src/engine/caex/ICAEXContainer.ts	ICAEXContainer	Aml.Engine
+Aml.Engine.CAEX	ICAEXLibrary.cs	ICAEXLibrary	interface	src/engine/caex/ICAEXLibrary.ts	ICAEXLibrary	Aml.Engine
+Aml.Engine.CAEX	ICAEXObject.cs	ICAEXObject	interface	src/engine/caex/ICAEXObject.ts	ICAEXObject	Aml.Engine
+Aml.Engine.CAEX	ICAEXSequence.cs	ICAEXSequence	interface	src/engine/caex/ICAEXSequence.ts	ICAEXSequence	Aml.Engine
+Aml.Engine.CAEX	ICAEXWrapper.cs	ICAEXWrapper	interface	src/engine/caex/ICAEXWrapper.ts	ICAEXWrapper	Aml.Engine
+Aml.Engine.CAEX	IClassWithBaseClassReference.cs	IClassWithBaseClassReference	interface	src/engine/caex/IClassWithBaseClassReference.ts	IClassWithBaseClassReference	Aml.Engine
+Aml.Engine.CAEX	IClassWithBaseClassReference.cs	IClassWithBaseClassReference	interface	src/engine/caex/IClassWithBaseClassReference.ts	IClassWithBaseClassReference_1	Aml.Engine
+Aml.Engine.CAEX	IClassWithExternalInterface.cs	IClassWithExternalInterface	interface	src/engine/caex/IClassWithExternalInterface.ts	IClassWithExternalInterface	Aml.Engine
+Aml.Engine.CAEX	IDigitalSigned.cs	IDigitalSigned	interface	src/engine/caex/IDigitalSigned.ts	IDigitalSigned	Aml.Engine
+Aml.Engine.CAEX	IInstance.cs	IInstance	interface	src/engine/caex/IInstance.ts	IInstance	Aml.Engine
+Aml.Engine.CAEX	IInstance.cs	IInstance	interface	src/engine/caex/IInstance.ts	IInstance_1	Aml.Engine
+Aml.Engine.CAEX	IInstantiable.cs	IInstantiable	interface	src/engine/caex/IInstantiable.ts	IInstantiable	Aml.Engine
+Aml.Engine.CAEX	IInstantiable.cs	IInstantiable	interface	src/engine/caex/IInstantiable.ts	IInstantiable_1	Aml.Engine
+Aml.Engine.CAEX	IInterfaceClassContainer.cs	IInterfaceClassContainer	interface	src/engine/caex/IInterfaceClassContainer.ts	IInterfaceClassContainer	Aml.Engine
+Aml.Engine.CAEX	IInterfaceMapping.cs	IInterfaceMapping	interface	src/engine/caex/IInterfaceMapping.ts	IInterfaceMapping	Aml.Engine
+Aml.Engine.CAEX	IInternalElementContainer.cs	IInternalElementContainer	interface	src/engine/caex/IInternalElementContainer.ts	IInternalElementContainer	Aml.Engine
+Aml.Engine.CAEX	IMapping.cs	IMapping	interface	src/engine/caex/IMapping.ts	IMapping	Aml.Engine
+Aml.Engine.CAEX	IMappingElementType.cs	IMappingElementType	interface	src/engine/caex/IMappingElementType.ts	IMappingElementType	Aml.Engine
+Aml.Engine.CAEX	IMirror.cs	IMirror	interface	src/engine/caex/IMirror.ts	IMirror	Aml.Engine
+Aml.Engine.CAEX	IMirror.cs	IMirror	interface	src/engine/caex/IMirror.ts	IMirror_1	Aml.Engine
+Aml.Engine.CAEX	IMultipleOccurrences.cs	IMultipleOccurrences	interface	src/engine/caex/IMultipleOccurrences.ts	IMultipleOccurrences	Aml.Engine
+Aml.Engine.CAEX	IObjectWithAttributes.cs	IObjectWithAttributes	interface	src/engine/caex/IObjectWithAttributes.ts	IObjectWithAttributes	Aml.Engine
+Aml.Engine.CAEX	IObjectWithExternalInterface.cs	IObjectWithExternalInterface	interface	src/engine/caex/IObjectWithExternalInterface.ts	IObjectWithExternalInterface	Aml.Engine
+Aml.Engine.CAEX	IObjectWithExternalInterfaceAndInherited.cs	IObjectWithExternalInterfaceAndInherited	interface	src/engine/caex/IObjectWithExternalInterfaceAndInherited.ts	IObjectWithExternalInterfaceAndInherited	Aml.Engine
+Aml.Engine.CAEX	IObjectWithInheritedAttributes.cs	IObjectWithInheritedAttributes	interface	src/engine/caex/IObjectWithInheritedAttributes.ts	IObjectWithInheritedAttributes	Aml.Engine
+Aml.Engine.CAEX	IObjectWithRoleReference.cs	IObjectWithRoleReference	interface	src/engine/caex/IObjectWithRoleReference.ts	IObjectWithRoleReference	Aml.Engine
+Aml.Engine.CAEX	IRoleClassContainer.cs	IRoleClassContainer	interface	src/engine/caex/IRoleClassContainer.ts	IRoleClassContainer	Aml.Engine
+Aml.Engine.CAEX	ISystemUnitClassContainer.cs	ISystemUnitClassContainer	interface	src/engine/caex/ISystemUnitClassContainer.ts	ISystemUnitClassContainer	Aml.Engine
+Aml.Engine.CAEX	InstanceHierarchyType.cs	InstanceHierarchyType	class	src/engine/caex/InstanceHierarchyType.ts	InstanceHierarchyType	Aml.Engine
+Aml.Engine.CAEX	InterfaceClassLibType.cs	InterfaceClassLibType	class	src/engine/caex/InterfaceClassLibType.ts	InterfaceClassLibType	Aml.Engine
+Aml.Engine.CAEX	InterfaceClassType.cs	InterfaceClassType	class	src/engine/caex/InterfaceClassType.ts	InterfaceClassType	Aml.Engine
+Aml.Engine.CAEX	InterfaceFamilyType.cs	InterfaceFamilyType	class	src/engine/caex/InterfaceFamilyType.ts	InterfaceFamilyType	Aml.Engine
+Aml.Engine.CAEX	InterfaceIDMappingType.cs	InterfaceIDMappingType	class	src/engine/caex/InterfaceIDMappingType.ts	InterfaceIDMappingType	Aml.Engine
+Aml.Engine.CAEX	InterfaceNameMappingType.cs	InterfaceNameMappingType	class	src/engine/caex/InterfaceNameMappingType.ts	InterfaceNameMappingType	Aml.Engine
+Aml.Engine.CAEX	InternalElementSequence.cs	InternalElementSequence	class	src/engine/caex/InternalElementSequence.ts	InternalElementSequence	Aml.Engine
+Aml.Engine.CAEX	InternalElementType.cs	InternalElementType	class	src/engine/caex/InternalElementType.ts	InternalElementType	Aml.Engine
+Aml.Engine.CAEX	InternalLinkComparer.cs	InternalLinkComparer	class	src/engine/caex/InternalLinkComparer.ts	InternalLinkComparer	Aml.Engine
+Aml.Engine.CAEX	InternalLinkType.cs	InternalLinkType	class	src/engine/caex/InternalLinkType.ts	InternalLinkType	Aml.Engine
+Aml.Engine.CAEX	InternalLinkType.cs	InternalLinkType.LinkedObjects	class	src/engine/caex/InternalLinkType.ts	InternalLinkType_LinkedObjects	Aml.Engine
+Aml.Engine.CAEX	MappingElementType.cs	MappingElementType	class	src/engine/caex/MappingElementType.ts	MappingElementType	Aml.Engine
+Aml.Engine.CAEX	MappingType.cs	MappingType	class	src/engine/caex/MappingType.ts	MappingType	Aml.Engine
+Aml.Engine.CAEX	NamedElementSequence.cs	NamedElementSequence	class static	src/engine/caex/NamedElementSequence.ts	NamedElementSequence	Aml.Engine
+Aml.Engine.CAEX	NamedElementSequence.cs	NamedElementSequence	class	src/engine/caex/NamedElementSequence.ts	NamedElementSequence_1	Aml.Engine
+Aml.Engine.CAEX	NominalScaledTypeType.cs	NominalScaledTypeType	class	src/engine/caex/NominalScaledTypeType.ts	NominalScaledTypeType	Aml.Engine
+Aml.Engine.CAEX	OrdinalScaledTypeType.cs	OrdinalScaledTypeType	class	src/engine/caex/OrdinalScaledTypeType.ts	OrdinalScaledTypeType	Aml.Engine
+Aml.Engine.CAEX	RefSemanticType.cs	RefSemanticType	class	src/engine/caex/RefSemanticType.ts	RefSemanticType	Aml.Engine
+Aml.Engine.CAEX	RevisionType.cs	RevisionType	class	src/engine/caex/RevisionType.ts	RevisionType	Aml.Engine
+Aml.Engine.CAEX	RoleClassLibType.cs	RoleClassLibType	class	src/engine/caex/RoleClassLibType.ts	RoleClassLibType	Aml.Engine
+Aml.Engine.CAEX	RoleClassType.cs	RoleClassType	class	src/engine/caex/RoleClassType.ts	RoleClassType	Aml.Engine
+Aml.Engine.CAEX	RoleFamilyType.cs	RoleFamilyType	class	src/engine/caex/RoleFamilyType.ts	RoleFamilyType	Aml.Engine
+Aml.Engine.CAEX	RoleRequirementsType.cs	RoleRequirementsType	class	src/engine/caex/RoleRequirementsType.ts	RoleRequirementsType	Aml.Engine
+Aml.Engine.CAEX	SourceDocumentInformationType.cs	SourceDocumentInformationType	class	src/engine/caex/SourceDocumentInformationType.ts	SourceDocumentInformationType	Aml.Engine
+Aml.Engine.CAEX	SourceDocumentInformationType.cs	SourceDocumentInformationType.Properties	record	src/engine/caex/SourceDocumentInformationType.ts	SourceDocumentInformationType_Properties	Aml.Engine
+Aml.Engine.CAEX	SourceObjectInformationType.cs	SourceObjectInformationType	class	src/engine/caex/SourceObjectInformationType.ts	SourceObjectInformationType	Aml.Engine
+Aml.Engine.CAEX	SupportedRoleClassType.cs	SupportedRoleClassType	class	src/engine/caex/SupportedRoleClassType.ts	SupportedRoleClassType	Aml.Engine
+Aml.Engine.CAEX	SystemUnitClassLibType.cs	SystemUnitClassLibType	class	src/engine/caex/SystemUnitClassLibType.ts	SystemUnitClassLibType	Aml.Engine
+Aml.Engine.CAEX	SystemUnitClassType.cs	SystemUnitClassType	class	src/engine/caex/SystemUnitClassType.ts	SystemUnitClassType	Aml.Engine
+Aml.Engine.CAEX	SystemUnitFamilyType.cs	SystemUnitFamilyType	class	src/engine/caex/SystemUnitFamilyType.ts	SystemUnitFamilyType	Aml.Engine
+Aml.Engine.CAEX	UnknownTypeType.cs	UnknownTypeType	class	src/engine/caex/UnknownTypeType.ts	UnknownTypeType	Aml.Engine
+Aml.Engine.CAEX	ValueSequence.cs	ValueSequence	class	src/engine/caex/ValueSequence.ts	ValueSequence	Aml.Engine
+Aml.Engine.CAEX	ValueSequence.cs	ValueSequence.ElementValue	class	src/engine/caex/ValueSequence.ts	ValueSequence_ElementValue	Aml.Engine
+Aml.Engine.CAEX	ValueSequence.cs	ValueSequence.ElementValueConverter	class	src/engine/caex/ValueSequence.ts	ValueSequence_ElementValueConverter	Aml.Engine
+Aml.Engine.CAEX	VersionType.cs	VersionType	class	src/engine/caex/VersionType.ts	VersionType	Aml.Engine
+Aml.Engine.CAEX.Commands	AddCmd.cs	AddCmd	class	src/engine/caex/commands/AddCmd.ts	AddCmd	Aml.Engine
+Aml.Engine.CAEX.Commands	AddNewCmd.cs	AddNewCmd	class	src/engine/caex/commands/AddNewCmd.ts	AddNewCmd	Aml.Engine
+Aml.Engine.CAEX.Commands	CAEXElementChangeEventArgs.cs	CAEXElementChangeEventArgs	class	src/engine/caex/commands/CAEXElementChangeEventArgs.ts	CAEXElementChangeEventArgs	Aml.Engine
+Aml.Engine.CAEX.Commands	CAEXElementChangeMode.cs	CAEXElementChangeMode	enum	src/engine/caex/commands/CAEXElementChangeMode.ts	CAEXElementChangeMode	Aml.Engine
+Aml.Engine.CAEX.Commands	CaexCommand.cs	CaexCommand	class	src/engine/caex/commands/CaexCommand.ts	CaexCommand	Aml.Engine
+Aml.Engine.CAEX.Commands	ICAEXCommand.cs	ICAEXCommand	interface	src/engine/caex/commands/ICAEXCommand.ts	ICAEXCommand	Aml.Engine
+Aml.Engine.CAEX.Commands	InsertCmd.cs	InsertCmd	class	src/engine/caex/commands/InsertCmd.ts	InsertCmd	Aml.Engine
+Aml.Engine.CAEX.Commands	InsertNewCmd.cs	InsertNewCmd	class	src/engine/caex/commands/InsertNewCmd.ts	InsertNewCmd	Aml.Engine
+Aml.Engine.CAEX.Commands	MoveCmd.cs	MoveCmd	class	src/engine/caex/commands/MoveCmd.ts	MoveCmd	Aml.Engine
+Aml.Engine.CAEX.Commands	RemoveCmd.cs	RemoveCmd	class	src/engine/caex/commands/RemoveCmd.ts	RemoveCmd	Aml.Engine
+Aml.Engine.CAEX.Commands	SetAttributeValueCmd.cs	SetAttributeValueCmd	class	src/engine/caex/commands/SetAttributeValueCmd.ts	SetAttributeValueCmd	Aml.Engine
+Aml.Engine.CAEX.Commands	SetElementContentCmd.cs	SetElementContentCmd	class	src/engine/caex/commands/SetElementContentCmd.ts	SetElementContentCmd	Aml.Engine
+Aml.Engine.CAEX.Commands	SetElementValueCmd.cs	SetElementValueCmd	class	src/engine/caex/commands/SetElementValueCmd.ts	SetElementValueCmd	Aml.Engine
+Aml.Engine.CAEX.Commands	WeakEventSource.cs	WeakEventSource	class	src/engine/caex/commands/WeakEventSource.ts	WeakEventSource	Aml.Engine
+Aml.Engine.CAEX.Commands	WeakEventSource.cs	WeakEventSource.WeakDelegate	class	src/engine/caex/commands/WeakEventSource.ts	WeakEventSource_WeakDelegate	Aml.Engine
+Aml.Engine.CAEX.Extensions	AdditionalInformationContent.cs	AdditionalInformationContent	class	src/engine/caex/extensions/AdditionalInformationContent.ts	AdditionalInformationContent	Aml.Engine
+Aml.Engine.CAEX.Extensions	AdditionalInformationExtension.cs	AdditionalInformationExtension	class static	src/engine/caex/extensions/AdditionalInformationExtension.ts	AdditionalInformationExtension	Aml.Engine
+Aml.Engine.CAEX.Extensions	AttributeTypeTypeExtensions.cs	AttributeTypeTypeExtensions	class static	src/engine/caex/extensions/AttributeTypeTypeExtensions.ts	AttributeTypeTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	CAEXBasicObjectExtensions.cs	CAEXBasicObjectExtensions	class static	src/engine/caex/extensions/CAEXBasicObjectExtensions.ts	CAEXBasicObjectExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	CAEXDocumentExtensions.cs	CAEXDocumentExtensions	class static	src/engine/caex/extensions/CAEXDocumentExtensions.ts	CAEXDocumentExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	CAEXElementFactory.cs	CAEXElementFactory	class static	src/engine/caex/extensions/CAEXElementFactory.ts	CAEXElementFactory	Aml.Engine
+Aml.Engine.CAEX.Extensions	CAEXFileTypeExtensions.cs	CAEXFileTypeExtensions	class static	src/engine/caex/extensions/CAEXFileTypeExtensions.ts	CAEXFileTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	CAEXObjectExtensions.cs	CAEXObjectExtensions	class static	src/engine/caex/extensions/CAEXObjectExtensions.ts	CAEXObjectExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	CAEXPathBuilder.cs	CAEXPathBuilder	class static	src/engine/caex/extensions/CAEXPathBuilder.ts	CAEXPathBuilder	Aml.Engine
+Aml.Engine.CAEX.Extensions	CAEXPathBuilder.cs	CAEXPathBuilder.IDRefEnum	enum	src/engine/caex/extensions/CAEXPathBuilder.ts	CAEXPathBuilder_IDRefEnum	Aml.Engine
+Aml.Engine.CAEX.Extensions	CaexValue.cs	CaexValue	class	src/engine/caex/extensions/CaexValue.ts	CaexValue	Aml.Engine
+Aml.Engine.CAEX.Extensions	CollectionExtensions.cs	CollectionExtensions	class static	src/engine/caex/extensions/CollectionExtensions.ts	CollectionExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	ExternalInterfaceTypeExtensions.cs	ExternalInterfaceTypeExtensions	class static	src/engine/caex/extensions/ExternalInterfaceTypeExtensions.ts	ExternalInterfaceTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	InheritanceExtensions.cs	InheritanceExtensions	class static	src/engine/caex/extensions/InheritanceExtensions.ts	InheritanceExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	InheritanceExtensions.cs	InheritanceExtensions.DerivedClassDictionary	class	src/engine/caex/extensions/InheritanceExtensions.ts	InheritanceExtensions_DerivedClassDictionary	Aml.Engine
+Aml.Engine.CAEX.Extensions	InstanceExtensions.cs	InstanceExtensions	class static	src/engine/caex/extensions/InstanceExtensions.ts	InstanceExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	InstanceHierarchyTypeExtensions.cs	InstanceHierarchyTypeExtensions	class static	src/engine/caex/extensions/InstanceHierarchyTypeExtensions.ts	InstanceHierarchyTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	InterfaceClassLibTypeExtensions.cs	InterfaceClassLibTypeExtensions	class static	src/engine/caex/extensions/InterfaceClassLibTypeExtensions.ts	InterfaceClassLibTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	InterfaceFamilyTypeExtensions.cs	InterfaceFamilyTypeExtensions	class static	src/engine/caex/extensions/InterfaceFamilyTypeExtensions.ts	InterfaceFamilyTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	InternalElementExtensions.cs	InternalElementExtensions	class static	src/engine/caex/extensions/InternalElementExtensions.ts	InternalElementExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	InternalLinkTypeExtensions.cs	InternalLinkTypeExtensions	class static	src/engine/caex/extensions/InternalLinkTypeExtensions.ts	InternalLinkTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	LocalNameEncoder.cs	LocalNameEncoder	class	src/engine/caex/extensions/LocalNameEncoder.ts	LocalNameEncoder	Aml.Engine
+Aml.Engine.CAEX.Extensions	MappingTypeExtensions.cs	MappingTypeExtensions	class static	src/engine/caex/extensions/MappingTypeExtensions.ts	MappingTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	NCNameEncoder.cs	NCNameEncoder	class	src/engine/caex/extensions/NCNameEncoder.ts	NCNameEncoder	Aml.Engine
+Aml.Engine.CAEX.Extensions	NMTokenEncoder.cs	NMTokenEncoder	class	src/engine/caex/extensions/NMTokenEncoder.ts	NMTokenEncoder	Aml.Engine
+Aml.Engine.CAEX.Extensions	NameEncoder.cs	NameEncoder	class	src/engine/caex/extensions/NameEncoder.ts	NameEncoder	Aml.Engine
+Aml.Engine.CAEX.Extensions	NormalizedStringEncoder.cs	NormalizedStringEncoder	class	src/engine/caex/extensions/NormalizedStringEncoder.ts	NormalizedStringEncoder	Aml.Engine
+Aml.Engine.CAEX.Extensions	ObjectWithAttributes.cs	ObjectWithAttributes	class static	src/engine/caex/extensions/ObjectWithAttributes.ts	ObjectWithAttributes	Aml.Engine
+Aml.Engine.CAEX.Extensions	ObjectWithBaseClass.cs	ObjectWithBaseClass	class static	src/engine/caex/extensions/ObjectWithBaseClass.ts	ObjectWithBaseClass	Aml.Engine
+Aml.Engine.CAEX.Extensions	ObjectWithExternalInterface.cs	ObjectWithExternalInterface	class static	src/engine/caex/extensions/ObjectWithExternalInterface.ts	ObjectWithExternalInterface	Aml.Engine
+Aml.Engine.CAEX.Extensions	RoleClassFamilyTypeExtensions.cs	RoleClassFamilyTypeExtensions	class static	src/engine/caex/extensions/RoleClassFamilyTypeExtensions.ts	RoleClassFamilyTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	RoleClassLibTypeExtensions.cs	RoleClassLibTypeExtensions	class static	src/engine/caex/extensions/RoleClassLibTypeExtensions.ts	RoleClassLibTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	StringExtensions.cs	StringExtensions	class static	src/engine/caex/extensions/StringExtensions.ts	StringExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	SystemUnitClassLibTypeExtensions.cs	SystemUnitClassLibTypeExtensions	class static	src/engine/caex/extensions/SystemUnitClassLibTypeExtensions.ts	SystemUnitClassLibTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	SystemUnitClassTypeExtensions.cs	SystemUnitClassTypeExtensions	class static	src/engine/caex/extensions/SystemUnitClassTypeExtensions.ts	SystemUnitClassTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	SystemUnitFamilyTypeExtensions.cs	SystemUnitFamilyTypeExtensions	class static	src/engine/caex/extensions/SystemUnitFamilyTypeExtensions.ts	SystemUnitFamilyTypeExtensions	Aml.Engine
+Aml.Engine.CAEX.Extensions	TokenEncoder.cs	TokenEncoder	class	src/engine/caex/extensions/TokenEncoder.ts	TokenEncoder	Aml.Engine
+Aml.Engine.CAEX.Linq	CAEXSequenceExtension.cs	CAEXSequenceExtension	class static	src/engine/caex/linq/CAEXSequenceExtension.ts	CAEXSequenceExtension	Aml.Engine
+Aml.Engine.Resources	XsdDataTypes.cs	XsdDataTypes	class	src/engine/resources/XsdDataTypes.ts	XsdDataTypes	Aml.Engine
+Aml.Engine.Resources.Catalogue	ClassRepositoryEnum.cs	ClassRepositoryEnum	enum	src/engine/resources/catalogue/ClassRepositoryEnum.ts	ClassRepositoryEnum	Aml.Engine
+Aml.Engine.Resources.Catalogue	ClassRepositoryEnumExtension.cs	ClassRepositoryEnumExtension	class static	src/engine/resources/catalogue/ClassRepositoryEnumExtension.ts	ClassRepositoryEnumExtension	Aml.Engine
+Aml.Engine.Schema	AMLSchemaManager.cs	AMLSchemaManager	class	src/engine/schema/AMLSchemaManager.ts	AMLSchemaManager	Aml.Engine
+Aml.Engine.Schema	AMLSchemaManager2_15.cs	AMLSchemaManager2_15	class	src/engine/schema/AMLSchemaManager2_15.ts	AMLSchemaManager2_15	Aml.Engine
+Aml.Engine.Schema	AMLSchemaManager3_0.cs	AMLSchemaManager3_0	class	src/engine/schema/AMLSchemaManager3_0.ts	AMLSchemaManager3_0	Aml.Engine
+Aml.Engine.Schema	XmlSchemaElementInfo.cs	XmlSchemaElementInfo	class	src/engine/schema/XmlSchemaElementInfo.ts	XmlSchemaElementInfo	Aml.Engine
+Aml.Engine.Schema	XmlSchemaManager.cs	XmlSchemaManager	class	src/engine/schema/XmlSchemaManager.ts	XmlSchemaManager	Aml.Engine
+Aml.Engine.Schema	XmlTypeCodeExtensions.cs	XmlTypeCodeExtensions	class static	src/engine/schema/XmlTypeCodeExtensions.ts	XmlTypeCodeExtensions	Aml.Engine
+Aml.Engine.Services	CAEXReference.cs	CAEXReference	class	src/engine/services/CAEXReference.ts	CAEXReference	Aml.Engine
+Aml.Engine.Services	CaexIDService.cs	CaexIDService	class	src/engine/services/CaexIDService.ts	CaexIDService	Aml.Engine
+Aml.Engine.Services	EmptyLookup.cs	EmptyLookup	class static	src/engine/services/EmptyLookup.ts	EmptyLookup	Aml.Engine
+Aml.Engine.Services	QueryResult.cs	QueryResult	class static	src/engine/services/QueryResult.ts	QueryResult	Aml.Engine
+Aml.Engine.Services	QueryService.cs	QueryService	class	src/engine/services/QueryService.ts	QueryService	Aml.Engine
+Aml.Engine.Services	ServiceLocator.cs	ServiceLocator	class static	src/engine/services/ServiceLocator.ts	ServiceLocator	Aml.Engine
+Aml.Engine.Services	SignatureServiceBase.cs	SignatureServiceBase	class	src/engine/services/SignatureServiceBase.ts	SignatureServiceBase	Aml.Engine
+Aml.Engine.Services.Interfaces	IAMLEditionTransform.cs	IAMLEditionTransform	interface	src/engine/services/interfaces/IAMLEditionTransform.ts	IAMLEditionTransform	Aml.Engine
+Aml.Engine.Services.Interfaces	IAMLLibraryService.cs	IAMLLibraryService	interface	src/engine/services/interfaces/IAMLLibraryService.ts	IAMLLibraryService	Aml.Engine
+Aml.Engine.Services.Interfaces	IAMLService.cs	IAMLService	interface	src/engine/services/interfaces/IAMLService.ts	IAMLService	Aml.Engine
+Aml.Engine.Services.Interfaces	IAutoUpdate.cs	IAutoUpdate	interface	src/engine/services/interfaces/IAutoUpdate.ts	IAutoUpdate	Aml.Engine
+Aml.Engine.Services.Interfaces	ICAEXReference.cs	ICAEXReference	interface	src/engine/services/interfaces/ICAEXReference.ts	ICAEXReference	Aml.Engine
+Aml.Engine.Services.Interfaces	ICaexIDService.cs	ICaexIDService	interface	src/engine/services/interfaces/ICaexIDService.ts	ICaexIDService	Aml.Engine
+Aml.Engine.Services.Interfaces	IClassRepository.cs	IClassRepository	interface	src/engine/services/interfaces/IClassRepository.ts	IClassRepository	Aml.Engine
+Aml.Engine.Services.Interfaces	ICredentials.cs	ICredentials	interface	src/engine/services/interfaces/ICredentials.ts	ICredentials	Aml.Engine
+Aml.Engine.Services.Interfaces	IDatabaseService.cs	IDatabaseService	interface	src/engine/services/interfaces/IDatabaseService.ts	IDatabaseService	Aml.Engine
+Aml.Engine.Services.Interfaces	IExternalReferenceResolver.cs	IExternalReferenceResolver	interface	src/engine/services/interfaces/IExternalReferenceResolver.ts	IExternalReferenceResolver	Aml.Engine
+Aml.Engine.Services.Interfaces	IExternalReferenceResolverAsync.cs	IExternalReferenceResolverAsync	interface	src/engine/services/interfaces/IExternalReferenceResolverAsync.ts	IExternalReferenceResolverAsync	Aml.Engine
+Aml.Engine.Services.Interfaces	IGitHubAccessService.cs	IGitHubAccessService	interface	src/engine/services/interfaces/IGitHubAccessService.ts	IGitHubAccessService	Aml.Engine
+Aml.Engine.Services.Interfaces	ILookUpTable.cs	ILookUpTable	interface	src/engine/services/interfaces/ILookUpTable.ts	ILookUpTable	Aml.Engine
+Aml.Engine.Services.Interfaces	IMerge.cs	IMerge	interface	src/engine/services/interfaces/IMerge.ts	IMerge	Aml.Engine
+Aml.Engine.Services.Interfaces	IQuery.cs	IQuery	interface	src/engine/services/interfaces/IQuery.ts	IQuery	Aml.Engine
+Aml.Engine.Services.Interfaces	ISchemaTransform.cs	ISchemaTransform	interface	src/engine/services/interfaces/ISchemaTransform.ts	ISchemaTransform	Aml.Engine
+Aml.Engine.Services.Interfaces	ISigning.cs	ISigning	interface	src/engine/services/interfaces/ISigning.ts	ISigning	Aml.Engine
+Aml.Engine.Services.Interfaces	ISplit.cs	ISplit	interface	src/engine/services/interfaces/ISplit.ts	ISplit	Aml.Engine
+Aml.Engine.Services.Interfaces	ISplitPoint.cs	ISplitPoint	interface	src/engine/services/interfaces/ISplitPoint.ts	ISplitPoint	Aml.Engine
+Aml.Engine.Services.Interfaces	IStatistic.cs	IStatistic	interface	src/engine/services/interfaces/IStatistic.ts	IStatistic	Aml.Engine
+Aml.Engine.Services.Interfaces	ISuspendable.cs	ISuspendable	interface	src/engine/services/interfaces/ISuspendable.ts	ISuspendable	Aml.Engine
+Aml.Engine.Services.Interfaces	IUndoRedo.cs	IUndoRedo	interface	src/engine/services/interfaces/IUndoRedo.ts	IUndoRedo	Aml.Engine
+Aml.Engine.Services.Interfaces	IUniqueName.cs	IUniqueName	interface	src/engine/services/interfaces/IUniqueName.ts	IUniqueName	Aml.Engine
+Aml.Engine.Services.Interfaces	IValidationResult.cs	IValidationResult	interface	src/engine/services/interfaces/IValidationResult.ts	IValidationResult	Aml.Engine
+Aml.Engine.Services.Interfaces	IValidator.cs	IValidator	interface	src/engine/services/interfaces/IValidator.ts	IValidator	Aml.Engine
+Aml.Engine.Services.Interfaces	IValidator.cs	IValidator	interface	src/engine/services/interfaces/IValidator.ts	IValidator_1	Aml.Engine
+Aml.Engine.Services.Interfaces	IXMLDocumentRegistry.cs	IXMLDocumentRegistry	interface	src/engine/services/interfaces/IXMLDocumentRegistry.ts	IXMLDocumentRegistry	Aml.Engine
+Aml.Engine.Services.Interfaces	IXMLExternalUnload.cs	IXMLExternalUnload	interface	src/engine/services/interfaces/IXMLExternalUnload.ts	IXMLExternalUnload	Aml.Engine
+Aml.Engine.Services.Interfaces	SchemaTransformationEventArgs.cs	SchemaTransformationEventArgs	class	src/engine/services/interfaces/SchemaTransformationEventArgs.ts	SchemaTransformationEventArgs	Aml.Engine
+Aml.Engine.Services.Interfaces	UpdateEventArgs.cs	UpdateEventArgs	class	src/engine/services/interfaces/UpdateEventArgs.ts	UpdateEventArgs	Aml.Engine
+Aml.Engine.Services.Model	AMLEditionEnum.cs	AMLEditionEnum	enum	src/engine/services/model/AMLEditionEnum.ts	AMLEditionEnum	Aml.Engine
+Aml.Engine.Services.Model	AMLEditionEnumExtension.cs	AMLEditionEnumExtension	class static	src/engine/services/model/AMLEditionEnumExtension.ts	AMLEditionEnumExtension	Aml.Engine
+Aml.Engine.Services.Model	AMLLibraryServerDataProfile.cs	AMLLibraryServerDataProfile	class	src/engine/services/model/AMLLibraryServerDataProfile.ts	AMLLibraryServerDataProfile	Aml.Engine
+Aml.Engine.Services.Model	AMLLibraryServerProfile.cs	AMLLibraryServerProfile	class	src/engine/services/model/AMLLibraryServerProfile.ts	AMLLibraryServerProfile	Aml.Engine
+Aml.Engine.Services.Model	AccessRightsEnum.cs	AccessRightsEnum	enum	src/engine/services/model/AccessRightsEnum.ts	AccessRightsEnum	Aml.Engine
+Aml.Engine.Services.Model	KeyInfo.cs	KeyInfo	class	src/engine/services/model/KeyInfo.ts	KeyInfo	Aml.Engine
+Aml.Engine.Services.Model	KeyValue.cs	KeyValue	class	src/engine/services/model/KeyValue.ts	KeyValue	Aml.Engine
+Aml.Engine.Services.Model	NetworkProtocolEnum.cs	NetworkProtocolEnum	enum	src/engine/services/model/NetworkProtocolEnum.ts	NetworkProtocolEnum	Aml.Engine
+Aml.Engine.Services.Model	PasswordProtected.cs	PasswordProtected	class	src/engine/services/model/PasswordProtected.ts	PasswordProtected	Aml.Engine
+Aml.Engine.Services.Model	SignedInfo.cs	SignedInfo	class	src/engine/services/model/SignedInfo.ts	SignedInfo	Aml.Engine
+Aml.Engine.Services.Model	XMLSignature.cs	XMLSignature	class	src/engine/services/model/XMLSignature.ts	XMLSignature	Aml.Engine
+Aml.Engine.Services.Model	XMLSignatureElement.cs	XMLSignatureElement	class	src/engine/services/model/XMLSignatureElement.ts	XMLSignatureElement	Aml.Engine
+Aml.Engine.Services.Utilities	ByteArrayConverter.cs	ByteArrayConverter	class	src/engine/services/utilities/ByteArrayConverter.ts	ByteArrayConverter	Aml.Engine
+Aml.Engine.Streaming	DocumentStreaming.cs	DocumentStreaming	class static	src/engine/streaming/DocumentStreaming.ts	DocumentStreaming	Aml.Engine
+Aml.Engine.XML	IDocument.cs	IDocument	interface	src/engine/xml/IDocument.ts	IDocument	Aml.Engine
+Aml.Engine.XML	IXMLWrapper.cs	IXMLWrapper	interface	src/engine/xml/IXMLWrapper.ts	IXMLWrapper	Aml.Engine
+Aml.Engine.XML	XDocumentWrapper.cs	XDocumentWrapper	class	src/engine/xml/XDocumentWrapper.ts	XDocumentWrapper	Aml.Engine
+Aml.Engine.Xml.Extensions	XmlCAEXAttributes.cs	XmlCAEXAttributes	class static	src/engine/xmlext/XmlCAEXAttributes.ts	XmlCAEXAttributes	Aml.Engine
+Aml.Engine.Xml.Extensions	XmlCAEXMapping.cs	XmlCAEXMapping	class static	src/engine/xmlext/XmlCAEXMapping.ts	XmlCAEXMapping	Aml.Engine
+Aml.Engine.Xml.Extensions	XmlCAEXSchema.cs	XmlCAEXSchema	class static	src/engine/xmlext/XmlCAEXSchema.ts	XmlCAEXSchema	Aml.Engine
+Aml.Engine.Xml.Extensions	XmlClassOperation.cs	XmlClassOperation	class static	src/engine/xmlext/XmlClassOperation.ts	XmlClassOperation	Aml.Engine
+Aml.Engine.Xml.Extensions	XmlLinqExtensions.cs	XmlLinqExtensions	class static	src/engine/xmlext/XmlLinqExtensions.ts	XmlLinqExtensions	Aml.Engine
+Aml.Engine.Xml.Extensions	XmlOperation.cs	XmlOperation	class static	src/engine/xmlext/XmlOperation.ts	XmlOperation	Aml.Engine
+Aml.Engine.Resources	EnumDescriptionTypeConverter.cs	EnumDescriptionTypeConverter	class	src/engine/resources/EnumDescriptionTypeConverter.ts	EnumDescriptionTypeConverter	Aml.Engine.Resources
+Aml.Engine.Resources.AMLStandard	AMLLibraries.cs	AMLLibraries	class static	src/engine/resources/libraries/AMLLibraries.ts	AMLLibraries	Aml.Engine.Resources
+Aml.Engine.Resources.AMLStandard	LibraryResources.cs	LibraryResources	class static	src/engine/resources/libraries/LibraryResources.ts	LibraryResources	Aml.Engine.Resources
+Aml.Engine.Resources.Catalogue	ClassRepositoryItem.cs	ClassRepositoryItem	record	src/engine/resources/catalogue/ClassRepositoryItem.ts	ClassRepositoryItem	Aml.Engine.Resources
+Aml.Engine.Resources.Catalogue	ISignedLibraryVersion.cs	ISignedLibraryVersion	interface	src/engine/resources/catalogue/ISignedLibraryVersion.ts	ISignedLibraryVersion	Aml.Engine.Resources
+Aml.Engine.Resources.Catalogue	PublicLibraryCatalog.cs	PublicLibraryCatalog	class	src/engine/resources/catalogue/PublicLibraryCatalog.ts	PublicLibraryCatalog	Aml.Engine.Resources
+Aml.Engine.Resources.Catalogue	PublicLibraryCatalog.cs	PublicLibraryCatalog.Library	class	src/engine/resources/catalogue/PublicLibraryCatalog.ts	PublicLibraryCatalog_Library	Aml.Engine.Resources
+Aml.Engine.Resources.Catalogue	PublicLibraryCatalog.cs	PublicLibraryCatalog.LibraryRevision	class	src/engine/resources/catalogue/PublicLibraryCatalog.ts	PublicLibraryCatalog_LibraryRevision	Aml.Engine.Resources
+Aml.Engine.Resources.Catalogue	PublicLibraryCatalog.cs	PublicLibraryCatalog.LibraryType	class	src/engine/resources/catalogue/PublicLibraryCatalog.ts	PublicLibraryCatalog_LibraryType	Aml.Engine.Resources
+Aml.Engine.Resources.Catalogue	PublicLibraryCatalog.cs	PublicLibraryCatalog.LibraryVersion	class	src/engine/resources/catalogue/PublicLibraryCatalog.ts	PublicLibraryCatalog_LibraryVersion	Aml.Engine.Resources
+Aml.Engine.Resources.Catalogue	SignedLibraryVersionExtensions.cs	SignedLibraryVersionExtensions	class static	src/engine/resources/catalogue/SignedLibraryVersionExtensions.ts	SignedLibraryVersionExtensions	Aml.Engine.Resources
+Aml.Engine.Resources.Catalogue	StringComparisonAlgorithmEnum.cs	StringComparisonAlgorithmEnum	enum	src/engine/resources/catalogue/StringComparisonAlgorithmEnum.ts	StringComparisonAlgorithmEnum	Aml.Engine.Resources
+Aml.Engine.Resources.Files	AMLDomainEnum.cs	AMLDomainEnum	enum	src/engine/resources/files/AMLDomainEnum.ts	AMLDomainEnum	Aml.Engine.Resources
+Aml.Engine.Resources.Files	AMLDomainEnumMapping.cs	AMLDomainEnumMapping	class static	src/engine/resources/files/AMLDomainEnumMapping.ts	AMLDomainEnumMapping	Aml.Engine.Resources
+Aml.Engine.Resources.Files	AMLFileContentType.cs	AMLFileContentType	enum	src/engine/resources/files/AMLFileContentType.ts	AMLFileContentType	Aml.Engine.Resources
+Aml.Engine.Resources.Files	AMLFileMetaModel.cs	AMLFileMetaModel	class	src/engine/resources/files/AMLFileMetaModel.ts	AMLFileMetaModel	Aml.Engine.Resources
+Aml.Engine.Resources.Files	AMLFileType.cs	AMLFileType	enum	src/engine/resources/files/AMLFileType.ts	AMLFileType	Aml.Engine.Resources
+Aml.Engine.Resources.Files	AMLLibraryModel.cs	AMLLibraryModel	class static	src/engine/resources/files/AMLLibraryModel.ts	AMLLibraryModel	Aml.Engine.Resources
+Aml.Engine.Resources.Files	AMLLibraryTypeEnum.cs	AMLLibraryTypeEnum	enum	src/engine/resources/files/AMLLibraryTypeEnum.ts	AMLLibraryTypeEnum	Aml.Engine.Resources
+Aml.Engine.Resources.Files	AMLResourceStream.cs	AMLResourceStream	class	src/engine/resources/files/AMLResourceStream.ts	AMLResourceStream	Aml.Engine.Resources
+Aml.Engine.Resources.Files	SemanticVersion.cs	SemanticVersion	class	src/engine/resources/files/SemanticVersion.ts	SemanticVersion	Aml.Engine.Resources
+Aml.Engine.Resources.Files	SemanticVersionTypeConverter.cs	SemanticVersionTypeConverter	class	src/engine/resources/files/SemanticVersionTypeConverter.ts	SemanticVersionTypeConverter	Aml.Engine.Resources
+Aml.Engine.Services	CAEXFileStatisticService.cs	CAEXFileStatisticService	class	src/services/CAEXFileStatisticService.ts	CAEXFileStatisticService	Aml.Engine.Services
+Aml.Engine.Services	CAEXSchemaTransformer.cs	CAEXSchemaTransformer	class	src/services/CAEXSchemaTransformer.ts	CAEXSchemaTransformer	Aml.Engine.Services
+Aml.Engine.Services	ExternalReferenceResolver.cs	ExternalReferenceResolver	class	src/services/ExternalReferenceResolver.ts	ExternalReferenceResolver	Aml.Engine.Services
+Aml.Engine.Services	ExternalReferenceResolver.cs	ExternalReferenceResolver.NoSynchronizationContextScope	class static	src/services/ExternalReferenceResolver.ts	ExternalReferenceResolver_NoSynchronizationContextScope	Aml.Engine.Services
+Aml.Engine.Services	ExternalReferenceResolver.cs	ExternalReferenceResolver.NoSynchronizationContextScope.DisposableSynchronizationContext	struct	src/services/ExternalReferenceResolver.ts	ExternalReferenceResolver_NoSynchronizationContextScope_DisposableSynchronizationContext	Aml.Engine.Services
+Aml.Engine.Services	GitHubAccessService.cs	GitHubAccessService	class	src/services/GitHubAccessService.ts	GitHubAccessService	Aml.Engine.Services
+Aml.Engine.Services	GitHubReferenceResolver.cs	GitHubReferenceResolver	class	src/services/GitHubReferenceResolver.ts	GitHubReferenceResolver	Aml.Engine.Services
+Aml.Engine.Services	LookupService.cs	LookupService	class	src/services/LookupService.ts	LookupService	Aml.Engine.Services
+Aml.Engine.Services	MergeService.cs	MergeService	class	src/services/MergeService.ts	MergeService	Aml.Engine.Services
+Aml.Engine.Services	RepairTypeEnum.cs	RepairTypeEnum	enum	src/services/RepairTypeEnum.ts	RepairTypeEnum	Aml.Engine.Services
+Aml.Engine.Services	RepairTypeEnumConverter.cs	RepairTypeEnumConverter	class static	src/services/RepairTypeEnumConverter.ts	RepairTypeEnumConverter	Aml.Engine.Services
+Aml.Engine.Services	SplitService.cs	SplitService	class	src/services/SplitService.ts	SplitService	Aml.Engine.Services
+Aml.Engine.Services	UndoRedoService.cs	UndoRedoService	class	src/services/UndoRedoService.ts	UndoRedoService	Aml.Engine.Services
+Aml.Engine.Services	UniqueNameService.cs	UniqueNameService	class	src/services/UniqueNameService.ts	UniqueNameService	Aml.Engine.Services
+Aml.Engine.Services	ValidationElement.cs	ValidationElement	class	src/services/ValidationElement.ts	ValidationElement	Aml.Engine.Services
+Aml.Engine.Services	ValidationKey.cs	ValidationKey	class	src/services/ValidationKey.ts	ValidationKey	Aml.Engine.Services
+Aml.Engine.Services	ValidationResults.cs	ValidationResults	class static	src/services/ValidationResults.ts	ValidationResults	Aml.Engine.Services
+Aml.Engine.Services	ValidationTypeEnum.cs	ValidationTypeEnum	enum	src/services/ValidationTypeEnum.ts	ValidationTypeEnum	Aml.Engine.Services
+Aml.Engine.Services	ValidatorService.cs	ValidatorService	class	src/services/ValidatorService.ts	ValidatorService	Aml.Engine.Services
+Aml.Engine.Services.AMLTransformer	AMLEditionTransformer.cs	AMLEditionTransformer	class	src/services/amltransformer/AMLEditionTransformer.ts	AMLEditionTransformer	Aml.Engine.Services
+Aml.Engine.Services.Generique	DocumentReference.cs	DocumentReference	class	src/services/generique/DocumentReference.ts	DocumentReference	Aml.Engine.Services
+Aml.Engine.Services.Generique	DocumentReferenceDictionary.cs	DocumentReferenceDictionary	class	src/services/generique/DocumentReferenceDictionary.ts	DocumentReferenceDictionary	Aml.Engine.Services
+Aml.Engine.Services.Generique	ExternalDocument.cs	ExternalDocument	class	src/services/generique/ExternalDocument.ts	ExternalDocument	Aml.Engine.Services
+Aml.Engine.Services.Generique	ExternalDocumentRegistry.cs	ExternalDocumentRegistry	class	src/services/generique/ExternalDocumentRegistry.ts	ExternalDocumentRegistry	Aml.Engine.Services
+Aml.Engine.Services.Lookup	AliasReference.cs	AliasReference	class	src/services/lookup/AliasReference.ts	AliasReference	Aml.Engine.Services
+Aml.Engine.Services.Lookup	AliasTable.cs	AliasTable	class	src/services/lookup/AliasTable.ts	AliasTable	Aml.Engine.Services
+Aml.Engine.Services.Lookup	CAEXNode.cs	CAEXNode	class	src/services/lookup/CAEXNode.ts	CAEXNode	Aml.Engine.Services
+Aml.Engine.Services.Lookup	CAEXNode.cs	CAEXNode.Identifier	enum	src/services/lookup/CAEXNode.ts	CAEXNode_Identifier	Aml.Engine.Services
+Aml.Engine.Services.Lookup	CAEXNodeReference.cs	CAEXNodeReference	class	src/services/lookup/CAEXNodeReference.ts	CAEXNodeReference	Aml.Engine.Services
+Aml.Engine.Services.Lookup	CAEXNodeTable.cs	CAEXNodeTable	class	src/services/lookup/CAEXNodeTable.ts	CAEXNodeTable	Aml.Engine.Services
+Aml.Engine.Services.Lookup	ClassTable.cs	ClassTable	class	src/services/lookup/ClassTable.ts	ClassTable	Aml.Engine.Services
+Aml.Engine.Services.Lookup	ElementWithReference.cs	ElementWithReference	record	src/services/lookup/ElementWithReference.ts	ElementWithReference	Aml.Engine.Services
+Aml.Engine.Services.Lookup	IDReference.cs	IDReference	class	src/services/lookup/IDReference.ts	IDReference	Aml.Engine.Services
+Aml.Engine.Services.Lookup	IDTable.cs	IDTable	class	src/services/lookup/IDTable.ts	IDTable	Aml.Engine.Services
+Aml.Engine.Services.Lookup	LookupTables.cs	LookupTables	class	src/services/lookup/LookupTables.ts	LookupTables	Aml.Engine.Services
+Aml.Engine.Services.Lookup	LookupTables.cs	LookupTables.ReferenceTypeEnum	enum	src/services/lookup/LookupTables.ts	LookupTables_ReferenceTypeEnum	Aml.Engine.Services
+Aml.Engine.Services.Lookup	NameReferenceTable.cs	NameReferenceTable	class	src/services/lookup/NameReferenceTable.ts	NameReferenceTable	Aml.Engine.Services
+Aml.Engine.Services.Lookup	PathReference.cs	PathReference	class	src/services/lookup/PathReference.ts	PathReference	Aml.Engine.Services
+Aml.Engine.Services.Lookup	ReferenceElement.cs	ReferenceElement	class	src/services/lookup/ReferenceElement.ts	ReferenceElement	Aml.Engine.Services
+Aml.Engine.Services.TransformatorService	CAEXSchemaDowngrader.cs	CAEXSchemaDowngrader	class	src/services/transformator/CAEXSchemaDowngrader.ts	CAEXSchemaDowngrader	Aml.Engine.Services
+Aml.Engine.Services.TransformatorService	CAEXSchemaUpgrader.cs	CAEXSchemaUpgrader	class	src/services/transformator/CAEXSchemaUpgrader.ts	CAEXSchemaUpgrader	Aml.Engine.Services
+Aml.Engine.Services.UndoRedo	MultiDocumentTransaction.cs	MultiDocumentTransaction	class	src/services/undoredo/MultiDocumentTransaction.ts	MultiDocumentTransaction	Aml.Engine.Services
+Aml.Engine.Services.UndoRedo	Transaction.cs	Transaction	class	src/services/undoredo/Transaction.ts	Transaction	Aml.Engine.Services

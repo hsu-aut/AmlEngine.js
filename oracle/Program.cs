@@ -21,6 +21,8 @@ if (Environment.GetEnvironmentVariable("ORACLE_CULTURE") is { Length: > 0 } cult
 }
 // Another local time zone for this process (ORACLE_TZ, see LocalTimeZone.cs).
 LocalTimeZone.ApplyFromEnvironment();
+// Services of Aml.Engine.Services registered for the whole run (ORACLE_SERVICES, see OracleServices.cs).
+OracleServices.ApplyFromEnvironment();
 
 var json = new JsonSerializerOptions { WriteIndented = true };
 

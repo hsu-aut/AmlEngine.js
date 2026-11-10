@@ -177,6 +177,57 @@ maps to the same mechanism (`propertyChanged`).
 C# static members stay static (`ServiceLocator`, `CaexCommand.isSilent`, `DocumentTable`).
 The engine is single threaded in JS; `lock` blocks disappear.
 
+## Aml.Engine.Services and Aml.Engine.Resources
+
+Aml.Engine.Services 4.3.1 (a separate NuGet package on top of Aml.Engine) and the types of
+Aml.Engine.Resources 4.2.1 (a dependency of Aml.Engine) are ported by the same rules. The type map
+lists them with their assembly in the last column (`scripts/gen-registry.py <aml-engine-dir>
+--resources <dir> --services <dir>`).
+
+| Assembly, namespace | TS folder |
+|---|---|
+| Aml.Engine.Resources (`.Catalogue`, `.Files`, `.AMLStandard`) | `src/engine/resources/` (`catalogue/`, `files/`, `libraries/`) |
+| Aml.Engine.Services: `Aml.Engine.Services` | `src/services/` |
+| `.Lookup`, `.UndoRedo`, `.Generique`, `.TransformatorService`, `.AMLTransformer` | `src/services/lookup/`, `undoredo/`, `generique/`, `transformator/`, `amltransformer/` |
+
+- Resources types belong to the engine (registry `T`, exported by `amlengine-js`). Services types
+  are not in the registry: they import each other directly (no base class imports a subclass) and
+  use `T` for engine classes. They are exported by `amlengine-js/services`, which shares the engine
+  modules with `amlengine-js` (tsup.config.ts), so a service registered there is the one the
+  engine's `ServiceLocator` finds.
+- `Task<T>` becomes `Promise<T>`; a C# tuple result `(Document, Message)` becomes
+  `{ document, message }` as in the interfaces of `src/engine/services/interfaces/`. An `async`
+  method stays `async`; the synchronous twin that calls `.Result` on it runs the same code
+  without awaiting where the C# code completes synchronously (local files) and fails where it
+  would need the network (below).
+- Network access follows the engine (`src/engine/streaming/DocumentStreaming.ts`): asynchronous
+  methods use `fetch`; synchronous methods read local files in Node (`getFs()` of
+  `src/engine/amlobjects/internal/NetPath.ts`). Where C# would block on an http(s) request in a
+  synchronous method, the port takes the path C# takes when that request throws, with the message
+  of a `NotSupportedException` saying that synchronous network access is not possible. FTP
+  (`FtpWebRequest`) is not supported and takes the same failure path. Document each such place in
+  docs/deviations.md.
+- `HttpClient` becomes `fetch`, `HttpResponseMessage` becomes `Response`. Octokit calls become the
+  REST requests Octokit sends: `GetRawContentByRef(owner, repo, path, ref)` is `GET
+  https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={ref}` with `Accept:
+  application/vnd.github.v3.raw`, `GetAllContentsByRef` the same with `Accept:
+  application/vnd.github.v3+json` (a file gives one object, a folder an array); credentials are
+  sent as `Authorization: token <token>`; a 404 is Octokit's `NotFoundException`.
+- `SemaphoreSlim(1, 1)` becomes `AsyncLock` (`src/system/AsyncLock.ts`): FIFO, `currentCount`,
+  `waitAsync()`, `release()`. JS interleaves at every `await`, so the lock is needed exactly where
+  C# has one.
+- `ConcurrentDictionary`, `ConcurrentBag`, `lock`: plain `Map`, arrays and code; keep the order
+  of enumeration C# gives (ConcurrentBag enumerates the most recently added first).
+- PLINQ (`AsParallel()`) becomes sequential LINQ; where the C# result order is unspecified, take
+  the order of the sequential query and note it in the port notes.
+- `INotifyPropertyChanged.PropertyChanged` becomes an `EventSource<PropertyChangedEventArgs>`
+  property `propertyChanged`.
+- `DateTime.Now.ToLongTimeString()` and other culture formats use the invariant culture, as the
+  oracle does.
+- System.Text.Json (de)serialization uses `src/system/Json.ts` (the emulation of the options and
+  escaping of System.Text.Json the engine already needs).
+- Port notes per package in `docs/port-notes/services-<package>.md` (and `resources.md`).
+
 ## Tests
 
 Every ported behaviour is checked against the oracle, never against expectations written by
