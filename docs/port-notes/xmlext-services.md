@@ -40,9 +40,11 @@ UpdateEventArgs), `src/engine/services/model/*`, `src/engine/services/utilities/
   XmlDocument argument is accepted and ignored), `loadXml(XElement)`,
   `XMLSignature.loadFromDocument(XDocument)`. `CryptographicException` is defined in
   `XMLSignatureElement.ts` (not in `src/system/exceptions.ts`).
-- **Types of the assembly Aml.Engine.Resources** (not in the type map): `AMLFileMetaModel`,
-  `PublicLibraryCatalog`, `ClassRepositoryItem` are `unknown`; `AMLFileContentType` and
-  `StringComparisonAlgorithmEnum` are `number` (values as in the C# enum).
+- **Types of the assembly Aml.Engine.Resources** are ported (docs/port-notes/resources.md).
+  IAMLLibraryService uses the classes `AMLFileMetaModel` and `PublicLibraryCatalog`; the
+  placeholders of IClassRepository (`ClassRepositoryItem` as `unknown`,
+  `StringComparisonAlgorithmEnum` as `number`) and of AMLLibraryServerDataProfile
+  (`AMLFileContentType` as `number`, values as in the C# enum) remain.
 - `DocumentStreaming.prepareSettingsWithCredential(url, settings)` → `{ result, localPath }`;
   `settings` is `XmlReaderSettings` (`xmlResolver?: XmlUrlResolver` with `credentials:
   NetworkCredential | null`, other keys allowed). `NetworkCredential` is exported from
@@ -85,15 +87,19 @@ UpdateEventArgs), `src/engine/services/model/*`, `src/engine/services/utilities/
   has no equivalent).
 - DocumentVersions needs `AMLFileMetaModel`/`SemanticVersion` from Aml.Engine.Resources: the used
   part (library file name analysis Producer_Domain_LibType[_Extension]_Edition_Version, strict
-  semantic version parse and comparison) is reimplemented privately in DocumentStreaming.ts.
+  semantic version parse and comparison) is reimplemented privately in DocumentStreaming.ts. It
+  was written before the Resources port and is not the same computation as the ported
+  AMLFileMetaModel (ASCII digits only, no ArgumentOutOfRangeException for short paths ending in
+  "AMLEd"), so it is kept.
 - PasswordProtected: the synchronous `password` uses node:crypto (AES-256-CBC, PKCS7, random IV,
   SHA-256 key, as Aes.Create()). Without node:crypto the operation fails inside the try block and
   returns null after the console message, like any C# failure. Added `getPasswordAsync`/
   `setPasswordAsync` (WebCrypto, same format). The console text of the exception differs.
-- AMLLibraryServerProfile JSON: System.Text.Json emulated (property order derived class first,
-  enums as numbers, nulls written, default JavaScriptEncoder escaping, 2-space indentation, CRLF =
-  Environment.NewLine on Windows). JsonException messages differ; integral values written as
-  `1.0` are accepted. `loadFromFile` is Node only (File.ReadAllText BOM detection reimplemented).
+- AMLLibraryServerProfile JSON: System.Text.Json emulated in `src/system/Json.ts` (property order
+  derived class first, enums as numbers, nulls written, default JavaScriptEncoder escaping, 2-space
+  indentation, CRLF = Environment.NewLine on Windows; JsonException messages with path and
+  position); the profile module holds the converters of its types. `loadFromFile` is Node only
+  (File.ReadAllText BOM detection reimplemented).
   `IJsonOnDeserialized.OnDeserialized` is the public method `onDeserialized()`.
 - ByteArrayConverter: `read(jsonValue)` / `write(bytes)` on parsed JSON values instead of
   Utf8JsonReader/Writer.

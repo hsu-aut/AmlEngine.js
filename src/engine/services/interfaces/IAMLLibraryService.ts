@@ -8,11 +8,8 @@ import type { AMLLibraryServerDataProfile } from '../model/AMLLibraryServerDataP
 import type { AMLLibraryServerProfile } from '../model/AMLLibraryServerProfile.js';
 import type { IAMLService } from './IAMLService.js';
 import type { IClassRepository } from './IClassRepository.js';
-
-/** Aml.Engine.Resources.Files.AMLFileMetaModel (assembly Aml.Engine.Resources, not ported). */
-export type AMLFileMetaModel = unknown;
-/** Aml.Engine.Resources.Catalogue.PublicLibraryCatalog (assembly Aml.Engine.Resources, not ported). */
-export type PublicLibraryCatalog = unknown;
+import type { AMLFileMetaModel } from '../../resources/files/AMLFileMetaModel.js';
+import type { PublicLibraryCatalog } from '../../resources/catalogue/PublicLibraryCatalog.js';
 
 /** Service giving access to an AutomationML library server. */
 export interface IAMLLibraryService extends IAMLService {

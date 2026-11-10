@@ -6,6 +6,7 @@
 // .NET regex semantics: `\d` matches any Unicode decimal digit, `\s` the .NET white space set,
 // RegexOptions.IgnoreCase uses Unicode case equivalences (JS flags `iu`).
 
+import { T } from '../../registry.js';
 import { ArgumentNullException } from '../../../system/exceptions.js';
 import { compareOrdinalIgnoreCase, equalsOrdinalIgnoreCase, isNullOrEmpty } from '../../../system/strings.js';
 import { Version } from '../../amlobjects/internal/Version.js';
@@ -273,3 +274,5 @@ export class SemanticVersion {
     return this._version.toString() + '-' + this._specialVersion;
   }
 }
+
+T.SemanticVersion = SemanticVersion;

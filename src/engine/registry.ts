@@ -137,6 +137,17 @@ import type { XMLSignature as XMLSignature_ } from './services/model/XMLSignatur
 import type { XMLSignatureElement as XMLSignatureElement_ } from './services/model/XMLSignatureElement.js';
 import type { ByteArrayConverter as ByteArrayConverter_ } from './services/utilities/ByteArrayConverter.js';
 import type { XDocumentWrapper as XDocumentWrapper_ } from './xml/XDocumentWrapper.js';
+import type { EnumDescriptionTypeConverter as EnumDescriptionTypeConverter_ } from './resources/EnumDescriptionTypeConverter.js';
+import type { ClassRepositoryItem as ClassRepositoryItem_ } from './resources/catalogue/ClassRepositoryItem.js';
+import type { PublicLibraryCatalog as PublicLibraryCatalog_ } from './resources/catalogue/PublicLibraryCatalog.js';
+import type { PublicLibraryCatalog_Library as PublicLibraryCatalog_Library_ } from './resources/catalogue/PublicLibraryCatalog.js';
+import type { PublicLibraryCatalog_LibraryRevision as PublicLibraryCatalog_LibraryRevision_ } from './resources/catalogue/PublicLibraryCatalog.js';
+import type { PublicLibraryCatalog_LibraryType as PublicLibraryCatalog_LibraryType_ } from './resources/catalogue/PublicLibraryCatalog.js';
+import type { PublicLibraryCatalog_LibraryVersion as PublicLibraryCatalog_LibraryVersion_ } from './resources/catalogue/PublicLibraryCatalog.js';
+import type { AMLFileMetaModel as AMLFileMetaModel_ } from './resources/files/AMLFileMetaModel.js';
+import type { AMLResourceStream as AMLResourceStream_ } from './resources/files/AMLResourceStream.js';
+import type { SemanticVersion as SemanticVersion_ } from './resources/files/SemanticVersion.js';
+import type { SemanticVersionTypeConverter as SemanticVersionTypeConverter_ } from './resources/files/SemanticVersionTypeConverter.js';
 
 /** All engine classes by export name. Filled by each module at load time. */
 export interface Registry {
@@ -275,6 +286,17 @@ export interface Registry {
   XMLSignatureElement: typeof XMLSignatureElement_;
   ByteArrayConverter: typeof ByteArrayConverter_;
   XDocumentWrapper: typeof XDocumentWrapper_;
+  EnumDescriptionTypeConverter: typeof EnumDescriptionTypeConverter_;
+  ClassRepositoryItem: typeof ClassRepositoryItem_;
+  PublicLibraryCatalog: typeof PublicLibraryCatalog_;
+  PublicLibraryCatalog_Library: typeof PublicLibraryCatalog_Library_;
+  PublicLibraryCatalog_LibraryRevision: typeof PublicLibraryCatalog_LibraryRevision_;
+  PublicLibraryCatalog_LibraryType: typeof PublicLibraryCatalog_LibraryType_;
+  PublicLibraryCatalog_LibraryVersion: typeof PublicLibraryCatalog_LibraryVersion_;
+  AMLFileMetaModel: typeof AMLFileMetaModel_;
+  AMLResourceStream: typeof AMLResourceStream_;
+  SemanticVersion: typeof SemanticVersion_;
+  SemanticVersionTypeConverter: typeof SemanticVersionTypeConverter_;
 }
 
 export const T = {} as Registry;

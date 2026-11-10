@@ -1,5 +1,5 @@
-// An AutomationML library embedded as a resource in Aml.Engine.Resources 4.2.1 (see
-// scripts/gen-aml-libraries.mjs).
+// A resource embedded in Aml.Engine.Resources 4.2.1: an AutomationML library or the library
+// catalog AutomationMLLibs.json (see scripts/gen-aml-libraries.mjs).
 
 /** An embedded resource: its manifest resource name and its content. */
 export interface EmbeddedLibrary {

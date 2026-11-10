@@ -1,12 +1,12 @@
-// Converts the AutomationML standard libraries embedded in Aml.Engine.Resources 4.2.1 (extracted
-// byte for byte by scripts/extract-aml-libraries.ps1 into scripts/aml-libraries) into TS modules
-// with string constants, one module per resource, plus an index keyed by the manifest resource name.
+// Converts the resources embedded in Aml.Engine.Resources 4.2.1 (extracted byte for byte by
+// scripts/extract-aml-libraries.ps1 into scripts/aml-libraries): the AutomationML standard
+// libraries (*.aml) and the library catalog AutomationMLLibs.json, into TS modules with string
+// constants, one module per resource, plus an index keyed by the manifest resource name.
 //   node scripts/gen-aml-libraries.mjs [scripts/aml-libraries] [src/engine/resources/libraries/data]
-// Only the *.aml resources are converted (the engine loads nothing else through AMLLibraries).
 // The text is stored without the UTF-8 preamble; `bom` records whether the resource had one, so
 // the original bytes are reproduced exactly (the script verifies the round trip).
 import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { extname, join } from 'node:path';
 
 const [inDir = 'scripts/aml-libraries', outDir = 'src/engine/resources/libraries/data'] = process.argv.slice(2);
 rmSync(outDir, { recursive: true, force: true });
@@ -19,13 +19,14 @@ const header =
 
 const entries = [];
 for (const file of readdirSync(inDir).sort()) {
-  if (!file.startsWith(PREFIX) || !file.endsWith('.aml')) continue;
+  const ext = extname(file);
+  if (!file.startsWith(PREFIX) || (ext !== '.aml' && ext !== '.json')) continue;
   const bytes = readFileSync(join(inDir, file));
   const bom = bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf;
   const text = new TextDecoder('utf-8', { fatal: true }).decode(bom ? bytes.subarray(3) : bytes);
   const back = Buffer.concat([bom ? Buffer.from([0xef, 0xbb, 0xbf]) : Buffer.alloc(0), Buffer.from(text, 'utf8')]);
   if (!back.equals(bytes)) throw new Error(`round trip failed for ${file}`);
-  const moduleName = file.slice(PREFIX.length, -'.aml'.length).replace(/\./g, '_');
+  const moduleName = file.slice(PREFIX.length, -ext.length).replace(/\./g, '_');
   writeFileSync(
     join(outDir, `${moduleName}.ts`),
     `${header}// Resource: ${file} (${bytes.length} bytes)\n\n` +
@@ -46,4 +47,4 @@ writeFileSync(
     entries.map((e, i) => `  [l${i}.name, l${i}],\n`).join('') +
     `]);\n`,
 );
-console.log(`${entries.length} libraries written to ${outDir}`);
+console.log(`${entries.length} resources written to ${outDir}`);

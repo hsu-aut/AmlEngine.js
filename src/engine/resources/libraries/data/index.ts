@@ -2,19 +2,20 @@
 // Aml.Engine.Resources 4.2.1 (MIT License, Copyright AutomationML e.V. 2017). Do not edit.
 
 import type { EmbeddedLibrary } from '../EmbeddedLibrary.js';
-import l0 from './CAEX2_15_AML2_0_AutomationMLBPRInterfaceClassLib.js';
-import l1 from './CAEX2_15_AML2_0_AutomationMLBPRRoleClassLib.js';
-import l2 from './CAEX2_15_AML2_0_AutomationMLBaseRoleClassLib.js';
-import l3 from './CAEX2_15_AML2_0_AutomationMLInterfaceClassLib.js';
-import l4 from './CAEX2_15_AML2_0_AutomationMLLogicInterfaceClassLib.js';
-import l5 from './CAEX2_15_AML2_0_AutomationMLLogicRoleClassLib.js';
-import l6 from './CAEX2_15_AML2_0_AutomationMLPLCopenXMLInterfaceClassLib.js';
-import l7 from './CAEX3_0_AML2_0_AutomationMLBPRRoleClassLib.js';
-import l8 from './CAEX3_0_AML2_0_AutomationMLBaseRoleClassLib.js';
-import l9 from './CAEX3_0_AML2_0_AutomationMLInterfaceClassLib.js';
-import l10 from './CAEX3_0_AML2_10_AutomationMLBaseAttributeTypeLib.js';
-import l11 from './CAEX3_0_AML2_10_AutomationMLBaseRoleClassLib.js';
-import l12 from './CAEX3_0_AML2_10_AutomationMLInterfaceClassLib.js';
+import l0 from './AutomationMLLibs.js';
+import l1 from './CAEX2_15_AML2_0_AutomationMLBPRInterfaceClassLib.js';
+import l2 from './CAEX2_15_AML2_0_AutomationMLBPRRoleClassLib.js';
+import l3 from './CAEX2_15_AML2_0_AutomationMLBaseRoleClassLib.js';
+import l4 from './CAEX2_15_AML2_0_AutomationMLInterfaceClassLib.js';
+import l5 from './CAEX2_15_AML2_0_AutomationMLLogicInterfaceClassLib.js';
+import l6 from './CAEX2_15_AML2_0_AutomationMLLogicRoleClassLib.js';
+import l7 from './CAEX2_15_AML2_0_AutomationMLPLCopenXMLInterfaceClassLib.js';
+import l8 from './CAEX3_0_AML2_0_AutomationMLBPRRoleClassLib.js';
+import l9 from './CAEX3_0_AML2_0_AutomationMLBaseRoleClassLib.js';
+import l10 from './CAEX3_0_AML2_0_AutomationMLInterfaceClassLib.js';
+import l11 from './CAEX3_0_AML2_10_AutomationMLBaseAttributeTypeLib.js';
+import l12 from './CAEX3_0_AML2_10_AutomationMLBaseRoleClassLib.js';
+import l13 from './CAEX3_0_AML2_10_AutomationMLInterfaceClassLib.js';
 
 /** The embedded resources, keyed by their manifest resource name. */
 export const EMBEDDED_LIBRARIES: ReadonlyMap<string, EmbeddedLibrary> = new Map([
@@ -31,4 +32,5 @@ export const EMBEDDED_LIBRARIES: ReadonlyMap<string, EmbeddedLibrary> = new Map(
   [l10.name, l10],
   [l11.name, l11],
   [l12.name, l12],
+  [l13.name, l13],
 ]);
