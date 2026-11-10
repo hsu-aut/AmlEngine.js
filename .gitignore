@@ -10,4 +10,5 @@ test/browser/out/
 test/large/
 test/oracle-out-tz/
 test/oracle-out-culture/
+test/oracle-out-services/
 test/perf/out/
