@@ -27,6 +27,25 @@ public static class MutationsOracle
     {
         var scripts = JsonNode.Parse(File.ReadAllText(args[0]))!.AsArray();
         var corpus = args[1];
+        // With services of Aml.Engine.Services registered (ORACLE_SERVICES), the original can end
+        // with a stack overflow (LookupService on a moved element): each script then runs in its own
+        // process, see RunIsolated.
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ORACLE_SERVICES"))
+            && Environment.GetEnvironmentVariable("MUT_CHILD") == null)
+        {
+            RunIsolated(args, scripts.Count);
+            return;
+        }
+        if (Environment.GetEnvironmentVariable("MUT_CHILD") is { } child)
+        {
+            // Child of RunIsolated: one script; each step and the final text on stdout as it is done.
+            CaexCommand.CAEXElementChangingEvent += StaticChanging;
+            CaexCommand.CAEXElementChangedEvent += StaticChanged;
+            var one = RunScript(scripts[int.Parse(child)]!.AsObject(), corpus,
+                step => Console.Out.WriteLine("STEP " + step.ToJsonString()));
+            Console.Out.WriteLine("FINAL " + JsonValue.Create(one["final"]!.GetValue<string>()).ToJsonString());
+            return;
+        }
         CaexCommand.CAEXElementChangingEvent += StaticChanging;
         CaexCommand.CAEXElementChangedEvent += StaticChanged;
         var results = new JsonArray();
@@ -65,7 +84,54 @@ public static class MutationsOracle
         _ => CAEXDocument.LoadFromString(File.ReadAllText(Path.Combine(corpus, start), Encoding.UTF8)),
     };
 
-    static JsonObject RunScript(JsonObject script, string corpus)
+    /// <summary>
+    /// Runs every script in a child process (MUT_CHILD=<index>) and collects its steps. When the
+    /// child ends with a stack overflow (exit code 0xC00000FD, or 0xC0000005 or "Stack overflow."
+    /// on stderr, see ReadsOracle), the result has the steps before it and
+    /// <c>"crash": "stackoverflow"</c> at the step that overflowed; the port must throw
+    /// CyclicReferenceException there (docs/deviations.md, "Calls that do not return").
+    /// </summary>
+    static void RunIsolated(string[] args, int count)
+    {
+        const int StackOverflowExit = unchecked((int)0xC00000FD);
+        const int AccessViolationExit = unchecked((int)0xC0000005);
+        var results = new JsonArray();
+        for (int i = 0; i < count; i++)
+        {
+            var psi = new System.Diagnostics.ProcessStartInfo("dotnet") { UseShellExecute = false, RedirectStandardError = true, RedirectStandardOutput = true };
+            psi.ArgumentList.Add(typeof(MutationsOracle).Assembly.Location);
+            psi.ArgumentList.Add("mutations");
+            psi.ArgumentList.Add(args[0]);
+            psi.ArgumentList.Add(args[1]);
+            psi.ArgumentList.Add(args[2]);
+            psi.Environment["MUT_CHILD"] = i.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            using var p = System.Diagnostics.Process.Start(psi)!;
+            var err = p.StandardError.ReadToEndAsync();
+            var outText = p.StandardOutput.ReadToEnd();
+            p.WaitForExit();
+            var steps = new JsonArray();
+            string? final = null;
+            foreach (var line in outText.Split('\n'))
+            {
+                var l = line.TrimEnd('\r');
+                if (l.StartsWith("STEP ", StringComparison.Ordinal)) steps.Add(JsonNode.Parse(l.Substring(5)));
+                else if (l.StartsWith("FINAL ", StringComparison.Ordinal)) final = JsonNode.Parse(l.Substring(6))!.GetValue<string>();
+            }
+            if (p.ExitCode == 0 && final != null)
+            {
+                results.Add(new JsonObject { ["steps"] = steps, ["final"] = final });
+                continue;
+            }
+            var overflow = p.ExitCode == StackOverflowExit
+                || err.Result.StartsWith("Stack overflow.", StringComparison.Ordinal)
+                || (p.ExitCode == AccessViolationExit && err.Result.Trim().Length == 0);
+            if (!overflow) throw new InvalidOperationException($"mutations script {i}: exit {p.ExitCode}: {err.Result}");
+            results.Add(new JsonObject { ["steps"] = steps, ["crash"] = "stackoverflow", ["final"] = null });
+        }
+        File.WriteAllText(args[2], results.ToJsonString(new JsonSerializerOptions { WriteIndented = false }));
+    }
+
+    static JsonObject RunScript(JsonObject script, string corpus, Action<JsonArray>? onStep = null)
     {
         var canon = new EngineOpsOracle.Canonicalizer();
         var steps = new JsonArray();
@@ -101,7 +167,9 @@ public static class MutationsOracle
                 var ev = canon.Apply(string.Join("\n", Events));
                 var un = canon.Apply(string.Join("\n", Log));
                 if (steps.Count == DumpStep) File.WriteAllText(DumpFile!, text);
-                steps.Add(new JsonArray(res, ev, un, Hash(text)));
+                var step = new JsonArray(res, ev, un, Hash(text));
+                onStep?.Invoke((JsonArray)step.DeepClone());
+                steps.Add(step);
             }
         }
         finally

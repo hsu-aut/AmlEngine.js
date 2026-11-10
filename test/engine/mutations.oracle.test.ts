@@ -1091,7 +1091,14 @@ function apply(op: any): string {
 describe.skipIf(!existsSync(expectedFile))('mutations parity with Aml.Engine', () => {
   const scripts = JSON.parse(readFileSync(scriptFile, 'utf8')) as Array<{ start: string; other: string | null; undo?: boolean; resolver?: boolean; ops: any[] }>;
   // The suite body runs even when skipped (vitest collects the tests): read only what exists.
-  const expected = (existsSync(expectedFile) ? JSON.parse(readFileSync(expectedFile, 'utf8')) : []) as Array<{ steps: Array<[string, string, string, string]>; final: string }>;
+  // `crash`: the original ended with a stack overflow at the step after the recorded ones (only with
+  // services of Aml.Engine.Services registered, scripts/services-check.mjs); the port must throw
+  // CyclicReferenceException there (docs/deviations.md, "Calls that do not return").
+  const expected = (existsSync(expectedFile) ? JSON.parse(readFileSync(expectedFile, 'utf8')) : []) as Array<{
+    steps: Array<[string, string, string, string]>;
+    final: string | null;
+    crash?: 'stackoverflow';
+  }>;
 
   beforeAll(() => {
     CaexCommand.caexElementChangingEvent.subscribe(staticChanging);
@@ -1120,6 +1127,7 @@ describe.skipIf(!existsSync(expectedFile))('mutations parity with Aml.Engine', (
       resolver = script.resolver ? new TestResolver() : null;
       if (resolver) ServiceLocator.register(resolver as any, 'IExternalReferenceResolver');
       let txt = '';
+      const crashAt = expected[i].crash ? expected[i].steps.length : -1;
       try {
         for (let j = 0; j < script.ops.length; j++) {
           const op = script.ops[j];
@@ -1130,6 +1138,10 @@ describe.skipIf(!existsSync(expectedFile))('mutations parity with Aml.Engine', (
             result = apply(op);
           } catch (e) {
             result = '!' + dotNetExceptionName(e);
+          }
+          if (j === crashAt) {
+            expect({ step: j, op, result }).toEqual({ step: j, op, result: '!CyclicReferenceException' });
+            return;
           }
           try {
             txt = save(A);
