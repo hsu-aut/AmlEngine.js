@@ -4,7 +4,7 @@
 // service none of these paths runs. The oracle registers them through ORACLE_SERVICES
 // (oracle/OracleServices.cs) and writes into test/oracle-out-services/<list>; the JS tests register
 // them through AMLENGINE_SERVICES (test/setup/services.ts) and read these outputs (ORACLE_OUT).
-//   node scripts/services-check.mjs [list=lookup,uniquename,undo] [--tests-only]
+//   node scripts/services-check.mjs [list=lookup,uniquename,undo] [--tests-only | --oracle-only]
 // Exit code 1 when a comparison fails.
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
@@ -12,6 +12,7 @@ import { join } from 'node:path';
 
 const args = process.argv.slice(2);
 const testsOnly = args.includes('--tests-only');
+const oracleOnly = args.includes('--oracle-only');
 const list = args.find((a) => !a.startsWith('--')) ?? 'lookup,uniquename,undo';
 const ORACLE = 'oracle/bin/Release/net8.0/Oracle.dll';
 const corpus = readdirSync('test/corpus').filter((f) => f.endsWith('.aml')).sort().map((f) => join('test/corpus', f));
@@ -42,6 +43,7 @@ if (!testsOnly) {
     });
   }
 }
+if (oracleOnly) process.exit(0);
 console.log(`${list}: tests`);
 const results = join(dir, 'results.json');
 spawnSync(process.execPath, ['node_modules/vitest/vitest.mjs', 'run', ...PACKAGES.map((p) => p.at(-1)), '--reporter=json', `--outputFile=${results}`], {
