@@ -6,7 +6,7 @@
 // `equalityKey()` method are hashed by that key (CAEXWrapper returns its XElement, matching its
 // Equals/GetHashCode). Everything else uses SameValueZero, like a JS Map.
 
-import { ArgumentException, ArgumentNullException, ArgumentOutOfRangeException, InvalidOperationException } from './exceptions.js';
+import { ArgumentException, ArgumentNullException, ArgumentOutOfRangeException, InvalidOperationException, KeyNotFoundException } from './exceptions.js';
 
 export interface IEqualityComparer<T> {
   equals(a: T, b: T): boolean;
@@ -121,6 +121,115 @@ export class HashSet<T> implements Iterable<T> {
 
   *[Symbol.iterator](): Iterator<T> {
     for (let i = 0; i < this.slots.length; i++) if (this.used[i]) yield this.slots[i] as T;
+  }
+}
+
+/**
+ * Dictionary<TKey, TValue> with a custom comparer, enumerated in the order of .NET: entries live
+ * in slots, a removed slot goes onto a free list and the next Add reuses the most recently freed
+ * slot (as HashSet above). A JS Map would append the new key at the end instead. Enumeration
+ * yields `[key, value]` pairs (KeyValuePair).
+ */
+export class Dictionary<K, V> implements Iterable<[K, V]> {
+  private readonly buckets = new Map<unknown, number[]>();
+  private keys_: (K | undefined)[] = [];
+  private values_: (V | undefined)[] = [];
+  private used: boolean[] = [];
+  private freeList: number[] = [];
+  private count_ = 0;
+
+  constructor(private readonly comparer: IEqualityComparer<K> = DefaultComparer as IEqualityComparer<K>) {}
+
+  get count(): number {
+    return this.count_;
+  }
+
+  private find(key: K): number {
+    if (key === null || key === undefined) throw new ArgumentNullException('key');
+    const b = this.buckets.get(this.comparer.key(key));
+    if (!b) return -1;
+    for (const i of b) if (this.comparer.equals(this.keys_[i] as K, key)) return i;
+    return -1;
+  }
+
+  private insert(key: K, value: V, add: boolean): void {
+    const i = this.find(key);
+    if (i >= 0) {
+      if (add) throw new ArgumentException(`An item with the same key has already been added. Key: ${String(key)}`);
+      this.values_[i] = value;
+      return;
+    }
+    const k = this.comparer.key(key);
+    const slot = this.freeList.length > 0 ? this.freeList.pop()! : this.keys_.length;
+    this.keys_[slot] = key;
+    this.values_[slot] = value;
+    this.used[slot] = true;
+    let b = this.buckets.get(k);
+    if (!b) this.buckets.set(k, (b = []));
+    b.push(slot);
+    this.count_++;
+  }
+
+  /** Add(key, value): throws ArgumentException for an existing key. */
+  add(key: K, value: V): void {
+    this.insert(key, value, true);
+  }
+
+  /** The indexer getter: throws KeyNotFoundException for a missing key. */
+  item(key: K): V {
+    const i = this.find(key);
+    if (i < 0) throw new KeyNotFoundException(`The given key '${String(key)}' was not present in the dictionary.`);
+    return this.values_[i] as V;
+  }
+
+  /** The indexer setter: adds the key or replaces its value in place. */
+  setItem(key: K, value: V): void {
+    this.insert(key, value, false);
+  }
+
+  tryGetValue(key: K): { result: boolean; value: V | null } {
+    const i = this.find(key);
+    return i < 0 ? { result: false, value: null } : { result: true, value: this.values_[i] as V };
+  }
+
+  containsKey(key: K): boolean {
+    return this.find(key) >= 0;
+  }
+
+  remove(key: K): boolean {
+    const i = this.find(key);
+    if (i < 0) return false;
+    const k = this.comparer.key(key);
+    const b = this.buckets.get(k)!;
+    b.splice(b.indexOf(i), 1);
+    if (b.length === 0) this.buckets.delete(k);
+    this.keys_[i] = undefined;
+    this.values_[i] = undefined;
+    this.used[i] = false;
+    this.freeList.push(i);
+    this.count_--;
+    return true;
+  }
+
+  clear(): void {
+    this.buckets.clear();
+    this.keys_ = [];
+    this.values_ = [];
+    this.used = [];
+    this.freeList = [];
+    this.count_ = 0;
+  }
+
+  *keys(): IterableIterator<K> {
+    for (let i = 0; i < this.keys_.length; i++) if (this.used[i]) yield this.keys_[i] as K;
+  }
+
+  *values(): IterableIterator<V> {
+    for (let i = 0; i < this.keys_.length; i++) if (this.used[i]) yield this.values_[i] as V;
+  }
+
+  *[Symbol.iterator](): Iterator<[K, V]> {
+    for (let i = 0; i < this.keys_.length; i++) if (this.used[i]) yield [this.keys_[i] as K, this.values_[i] as V];
   }
 }
 
