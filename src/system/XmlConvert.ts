@@ -39,6 +39,11 @@ function hex(v: number, digits: number): string {
   return v.toString(16).toUpperCase().padStart(digits, '0');
 }
 
+/** XmlCharType.IsCharData: #x9, #xA, #xD, #x20-#xD7FF, #xE000-#xFFFD (no surrogates). */
+function isCharData(c: number): boolean {
+  return c === 0x9 || c === 0xa || c === 0xd || (c >= 0x20 && c <= 0xd7ff) || (c >= 0xe000 && c <= 0xfffd);
+}
+
 function fromHex(c: string): number {
   const v = parseInt(c, 16);
   return Number.isNaN(v) ? 0xff : v;
@@ -283,6 +288,39 @@ export class XmlConvert {
       throw new XmlException(`line-feed (#xA) or tab (#x9) characters, leading or trailing spaces and sequences of one or more spaces (#x20) are not allowed in 'xs:token'.`);
     }
     return token;
+  }
+
+  /**
+   * XmlConvert.VerifyXmlChars: returns the string if it has only valid XML characters (surrogate
+   * pairs included); otherwise XmlException with the message of .NET (VerifyCharData).
+   */
+  static verifyXmlChars(content: string | null): string {
+    if (content === null || content === undefined) throw new ArgumentNullException('content');
+    const len = content.length;
+    let i = 0;
+    while (true) {
+      while (i < len && isCharData(content.charCodeAt(i))) i++;
+      if (i === len) return content;
+      const ch = content.charCodeAt(i);
+      if (XmlCharType.isHighSurrogate(ch)) {
+        if (i + 1 === len) {
+          throw new XmlException('The surrogate pair is invalid. Missing a low surrogate character.', 0, i + 1);
+        }
+        const low = content.charCodeAt(i + 1);
+        if (XmlCharType.isLowSurrogate(low)) {
+          i += 2;
+          continue;
+        }
+        throw new XmlException(
+          `The surrogate pair (0x${hex(ch, 0)}, 0x${hex(low, 0)}) is invalid. A high surrogate character (0xD800 - 0xDBFF) must always be paired with a low surrogate character (0xDC00 - 0xDFFF).`,
+          0,
+          i + 1,
+        );
+      }
+      // XmlException.BuildCharExceptionArgs(data, i): U+0000 is shown as '.'.
+      const text = ch === 0 ? '.' : content[i]!;
+      throw new XmlException(`'${text}', hexadecimal value 0x${hex(ch, 2)}, is an invalid character.`, 0, i + 1);
+    }
   }
 
   // ------------------------------------------------------------------ to string

@@ -144,6 +144,21 @@ in two known points, which the check counts per reason:
 - Local mean time before 1893: Firefox reports it with seconds (+00:53:28), V8 truncated to whole
   minutes. Both are within "Local time of old dates" below (Firefox, 63 cases).
 
+### ValidatorService: references over the network
+
+`ValidatorService` (Aml.Engine.Services) checks whether the paths of external references and the
+file URIs of external data connectors can be located. For an absolute http or https URL the
+original sends the request synchronously (it blocks on
+`ExternalReferenceResolver.GetResponseFromWebServerAsync(uri).Result`) and treats a failure as
+"not found". JavaScript cannot wait for a request synchronously, so the port always takes that
+failure path: such a reference is reported as "can't resolve path reference …  to an existing
+file", also when the server would answer. With an AutomationML container, an http(s) path that the
+original reaches gives "reference should be a container part: …"; the port gives the "can't
+resolve" message (an issue in both). For an ftp URL the original sends an `FtpWebRequest` without
+a catch block; the port throws `NotSupportedException` there, out of the enumeration of the
+validation results. Without a file system (browser) `File.Exists` is false, so local file
+references are reported as not found.
+
 ## System layer (src/system)
 
 The .NET value types and conversions are checked case by case against .NET 8 by
