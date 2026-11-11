@@ -82,8 +82,8 @@ Places where a synchronous twin would need the network (for docs/deviations.md):
 | Synchronous method | C# awaits | Port |
 |---|---|---|
 | `canResolve` (CanAccessAsync, http/https) | GetResponseFromWebServerAsync | the catch block around that await: message "Error sending the request for {uri}", false |
-| `loadOrGetReferencedDocument` (both overloads; DocumentFromURLAsync, http/https) | GetResponseFromWebServerAsync | the catch block around that await: message "Error sending the request for {uri}\n" + the message of a NotSupportedException ("Synchronous access to '{uri}' needs the network; use the asynchronous methods."), no document; the result is (null, that message) and the address is recorded as unresolved |
-| `resolveExternalDocument` (DocumentFromURLAsync, http/https) | the same | the same catch block; the result is (null, "can not find file for {url}"), and with useCache the URL is recorded as unresolved |
+| `loadOrGetReferencedDocument` (both overloads; DocumentFromURLAsync, http/https) | GetResponseFromWebServerAsync | the catch block around that await: message "Error sending the request for {uri}\n" + the message of a NotSupportedException ("Synchronous access to '{uri}' needs the network; use the asynchronous methods."), no document; the result is (null, that message); the address is not recorded as unresolved |
+| `resolveExternalDocument` (DocumentFromURLAsync, http/https) | the same | the same catch block; the result is (null, "can not find file for {url}"); the URL is not recorded as unresolved |
 | all FTP branches, asynchronous ones included (FtpWebRequest RETR) | (blocking request) | FTP is not supported: the catch block of the FTP request, "Error sending the request for {uri}" (false or no document) |
 
 Strictly, GetResponseFromWebServerAsync never throws in C# (its catch block returns null), so a
@@ -91,10 +91,11 @@ failing request there gives ": no response for {uri}". The synchronous twins tak
 around the await instead, so that the message says why the request did not happen. GitHub
 addresses go through GetResponseFromWebServerAsync as well and take the same path.
 
-Consequence to document: the address of a failed load is recorded in
-`_unresolvedExternalDocumentByURL`, as in C# after a failing request. A synchronous call for an
-http(s) address therefore makes later calls for the same address (also the asynchronous ones)
-return the "can't find file" message without a request, until `unRegister` clears the table.
+Such a failure comes from the platform, not from the address, so the synchronous twins of
+LoadOrGetReferencedDocument and ResolveExternalDocument do not record the address in
+`_unresolvedExternalDocumentByURL` (`_syncNetworkFailure`, port only): a later asynchronous call
+for the same address sends the request and loads the document, which later synchronous calls then
+get from the registry. A request that fails in an asynchronous call is recorded as in C#.
 
 **The lock.** SemaphoreSlim(1, 1) is an `AsyncLock`. RemoveDocument defers removals while the
 lock is held (`currentCount === 0 && !_allowAccess`), and MakePendingRemove processes them in the
@@ -166,15 +167,10 @@ RegisterExternalDocument (NullReferenceException in C#, TypeError here).
 - New `src/system/AsyncLock.ts` (`AsyncLock`, `SemaphoreFullException`); not exported from
   `src/system/index.ts`.
 
-## Open points for the verification against the original
+## Verification against the original
 
-- The synchronous network places (messages, the unresolved table) and the lock behaviour need
-  scripted cases; the oracle can run the C# synchronous methods against an unreachable address.
-- `Uri.getComponents`: add HttpRequestUrl and UserInfo cases to the uri area of the System oracle.
-- The Octokit requests: URL building and escaping (FormatUri with the base address; whether Octokit
-  normalizes the path, for example a trailing '/'), the headers, the JSON handling of
-  GetAllContentsByRef. Only success or failure is observable, since all exceptions are caught.
-- The folding of the redirection keys approximates InvariantCultureIgnoreCase (see
-  InvariantIgnoreCaseDictionary).
-- The message of `LoadFromStreamAsync(null)` in GitHubReferenceResolver (no stream for the URL)
-  comes from the engine port of CAEXDocument.
+Done (docs/coverage-notes/services-extref.md): scripted cases against the original with files and a
+local web server, the synchronous network places, the lock (concurrency test, no oracle), the GitHub
+parsing and, live, the GitHub requests; `Uri.getComponents` for 77 URIs. The key folding now
+keeps the white space controls (TAB, LF, VT, FF, CR, NEL) and folds the case of full width forms, as
+the original does; it stays an approximation of the ICU collation for characters not tested.

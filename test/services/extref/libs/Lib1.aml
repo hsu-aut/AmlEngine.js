@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="Lib1.aml" SchemaVersion="3.0" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-extref" OriginID="extref" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <ExternalReference Path="Lib2.aml" Alias="L2" />
+  <InterfaceClassLib Name="IfLib1">
+    <InterfaceClass Name="If1" ID="id-lib1-if1" RefBaseClassPath="L2@IfLib2/If2" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RoleLib1">
+    <RoleClass Name="Role1" ID="id-lib1-role1" />
+    <RoleClass Name="Role1b" ID="id-lib1-role1b" RefBaseClassPath="RoleLib1/Role1" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCLib1">
+    <SystemUnitClass Name="Base" ID="id-lib1-base">
+      <InternalElement Name="Part" ID="id-lib1-part" RefBaseSystemUnitPath="SUCLib1/Other">
+        <ExternalInterface Name="P1" ID="id-lib1-p1" RefBaseClassPath="L2@IfLib2/If2" />
+      </InternalElement>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Sub" ID="id-lib1-sub" RefBaseClassPath="SUCLib1/Base" />
+    <SystemUnitClass Name="Other" ID="id-lib1-other" />
+  </SystemUnitClassLib>
+</CAEXFile>

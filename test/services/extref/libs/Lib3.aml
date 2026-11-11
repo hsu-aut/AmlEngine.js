@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="Lib3.aml" SchemaVersion="3.0" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-extref" OriginID="extref" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <SystemUnitClassLib Name="SUCLib3">
+    <SystemUnitClass Name="S3" ID="id-lib3-s3" />
+  </SystemUnitClassLib>
+</CAEXFile>

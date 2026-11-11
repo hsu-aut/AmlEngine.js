@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="Main.aml" SchemaVersion="3.0" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-extref" OriginID="extref" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <ExternalReference Path="libs/Lib1.aml" Alias="L1" />
+  <ExternalReference Path="libs/Lib2.aml" Alias="L2" />
+  <ExternalReference Path="libs/Missing.aml" Alias="MISS" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="E1" ID="id-main-e1" RefBaseSystemUnitPath="L1@SUCLib1/Base">
+      <ExternalInterface Name="X1" ID="id-main-x1" RefBaseClassPath="L2@IfLib2/If2" />
+      <SupportedRoleClass RefRoleClassPath="L1@RoleLib1/Role1" />
+    </InternalElement>
+    <InternalElement Name="E2" ID="id-main-e2" RefBaseSystemUnitPath="MISS@Nope/Nope" />
+    <InternalElement Name="E3" ID="id-main-e3" RefBaseSystemUnitPath="NOALIAS@X/Y" />
+    <InternalElement Name="E4" ID="id-main-e4" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="IfMain">
+    <InterfaceClass Name="IfM" ID="id-main-ifm" RefBaseClassPath="L2@IfLib2/If2" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RoleMain">
+    <RoleClass Name="RoleM" ID="id-main-rolem" RefBaseClassPath="L1@RoleLib1/Role1" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCMain">
+    <SystemUnitClass Name="Derived" ID="id-main-derived" RefBaseClassPath="L1@SUCLib1/Base" />
+    <SystemUnitClass Name="Derived2" ID="id-main-derived2" RefBaseClassPath="L1@SUCLib1/Sub" />
+    <SystemUnitClass Name="Local" ID="id-main-local" />
+  </SystemUnitClassLib>
+</CAEXFile>
