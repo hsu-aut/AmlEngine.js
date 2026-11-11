@@ -638,12 +638,16 @@ function value(obj: XObject | null): string | null {
 /**
  * Gets the XName for the provided CAEX tag name, in the namespace of the provided node.
  */
-function xName(node: XElement | null, tagname: string): XName {
+function xName(node: XElement | null, tagname: string): XName;
+function xName(node: XElement | null, tagname: string | null): XName | null;
+function xName(node: XElement | null, tagname: string | null): XName | null {
   const xNamespace = node?.name.namespace ?? XNamespace.None;
   if (!(xNamespace === XNamespace.None)) {
-    return xNamespace.getName(tagname);
+    // `xNamespace + tagname`: ArgumentNullException (localName) for a null tag name.
+    return xNamespace.getName(tagname!);
   }
-  return XName.get(tagname);
+  // The implicit conversion string -> XName gives null for null.
+  return tagname === null ? null : XName.get(tagname);
 }
 
 /** Extension methods related to the interpretation of the schema version of a CAEX file. */

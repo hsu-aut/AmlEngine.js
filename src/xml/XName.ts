@@ -2,7 +2,7 @@
 // name equality, as in .NET.
 
 import { verifyNCName } from './XmlChars.js';
-import { ArgumentException } from '../system/exceptions.js';
+import { ArgumentException, ArgumentNullException } from '../system/exceptions.js';
 
 export class XNamespace {
   private static readonly table = new Map<string, XNamespace>();
@@ -26,6 +26,7 @@ export class XNamespace {
   getName(localName: string): XName {
     let name = this.names.get(localName);
     if (!name) {
+      if (localName === null || localName === undefined) throw new ArgumentNullException('localName');
       // XmlConvert.VerifyNCName: ArgumentException.ThrowIfNullOrEmpty(name) before the name check.
       if (localName === '') throw new ArgumentException('The value cannot be an empty string.', 'name');
       verifyNCName(localName);
@@ -57,6 +58,7 @@ export class XName {
   static get(name: string, namespaceName?: string): XName {
     if (namespaceName !== undefined) return XNamespace.get(namespaceName).getName(name);
     // .NET 8: ArgumentException.ThrowIfNullOrEmpty(expandedName).
+    if (name === null || name === undefined) throw new ArgumentNullException('expandedName');
     if (name.length === 0) throw new ArgumentException('The value cannot be an empty string.', 'expandedName');
     if (name[0] !== '{') return XNamespace.None.getName(name);
     const end = name.lastIndexOf('}');
