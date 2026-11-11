@@ -2748,7 +2748,7 @@ export class Uri {
       case Unescaped:
         return this.getUnescapedParts(uriComponents, uriFormat);
       default:
-        throw new ArgumentException('uriFormat');
+        throw new ArgumentOutOfRangeException('uriFormat');
     }
   }
 
