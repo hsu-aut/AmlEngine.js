@@ -53,16 +53,35 @@ spawnSync(process.execPath, ['node_modules/vitest/vitest.mjs', 'run', ...PACKAGE
 });
 const report = JSON.parse(readFileSync(results, 'utf8'));
 let differ = 0;
+// A file that fails as a whole (import error, failing hook) or a test that is skipped (a missing
+// oracle output) compares nothing: both count as failures, so the check cannot pass silently.
+let broken = 0;
+const short = (name) => name.replace(/\\/g, '/').replace(/^.*\/test\//, 'test/');
+const ran = new Set(report.testResults.map((f) => short(f.name)));
+for (const p of PACKAGES) {
+  if (!ran.has(p.at(-1))) {
+    broken++;
+    console.log(`\n${p.at(-1)}: did not run`);
+  }
+}
 for (const file of report.testResults) {
   const failed = file.assertionResults.filter((a) => a.status === 'failed');
+  const skipped = file.assertionResults.filter((a) => a.status !== 'passed' && a.status !== 'failed');
+  if (skipped.length > 0) {
+    broken++;
+    console.log(`\n${short(file.name)}: ${skipped.length} of ${file.assertionResults.length} not run (${skipped[0].status})`);
+  }
   if (failed.length === 0 && file.status !== 'failed') continue;
-  console.log(`\n${file.name.replace(/\\/g, '/').replace(/^.*\/test\//, 'test/')}: ${failed.length} of ${file.assertionResults.length} differ`);
-  if (failed.length === 0) console.log(`  ${(file.message ?? '').split('\n')[0]}`);
+  console.log(`\n${short(file.name)}: ${failed.length} of ${file.assertionResults.length} differ`);
+  if (failed.length === 0) {
+    broken++;
+    console.log(`  ${(file.message ?? '').split('\n')[0]}`);
+  }
   for (const a of failed) {
     differ++;
     const message = (a.failureMessages[0] ?? '').split('\n').find((l) => l.trim() !== '') ?? '';
     console.log(`  ${a.fullName}\n    ${message.slice(0, 300)}`);
   }
 }
-console.log(`\n${list}: ${differ} of ${report.numTotalTests} comparisons differ from the original`);
-process.exitCode = differ > 0 || report.numTotalTests === 0 ? 1 : 0;
+console.log(`\n${list}: ${differ} of ${report.numTotalTests} comparisons differ from the original${broken > 0 ? `; ${broken} files or groups compared nothing` : ''}`);
+process.exitCode = differ > 0 || broken > 0 || report.numTotalTests === 0 ? 1 : 0;

@@ -45,6 +45,26 @@ interface LocatorState {
 
 let state: LocatorState | null = null;
 
+// A second copy of the engine in one process (the ESM and the CommonJS entries mixed, or two
+// versions of the package) has its own ServiceLocator, registry and document table, so services
+// registered in one copy do not act on the documents of the other. The built package (tsup.config.ts
+// defines __AMLENGINE_BUILD__) marks the copy it loads and warns once when it finds another one.
+declare const __AMLENGINE_BUILD__: string | undefined;
+if (typeof __AMLENGINE_BUILD__ !== 'undefined') {
+  const key = Symbol.for('amlengine-js.engine');
+  const g = globalThis as unknown as Record<symbol, unknown>;
+  if (g[key] === undefined) {
+    g[key] = __AMLENGINE_BUILD__;
+  } else {
+    console.warn(
+      `amlengine-js: another copy of the engine (${String(g[key])}) is already loaded, now ${__AMLENGINE_BUILD__}. ` +
+        'Each copy has its own ServiceLocator and documents: services registered in one copy do not act on ' +
+        'documents of the other. Load amlengine-js and amlengine-js/services through the same module system ' +
+        '(both import or both require) and in one version.',
+    );
+  }
+}
+
 /** The C# static constructor, run on first use of the ServiceLocator. */
 function init(): LocatorState {
   if (state !== null) return state;

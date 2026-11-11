@@ -19,6 +19,16 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "services": [
+        "./dist/types/services/index.d.ts"
+      ],
+      "*": [
+        "./dist/types/index.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "import": {

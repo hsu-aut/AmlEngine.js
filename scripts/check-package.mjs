@@ -2,10 +2,13 @@
 // one engine, so that a service registered through the services entry is the one the engine finds
 // (ServiceLocator), in ESM and in CommonJS; and their type declarations must describe the same
 // classes, so that a document of the main entry can be passed to a service (TypeScript compares
-// classes with private members by declaration).
+// classes with private members by declaration). Mixing the module systems (the ESM main entry with
+// the CommonJS services entry) loads two copies of the engine; the second one must warn. The types
+// must also work with the older module resolution (node10, typesVersions) and without @types/node
+// (with the DOM library, as in a browser project).
 //   node scripts/check-package.mjs [--no-build]
 // Prints "package ok" and exits with 0, or exits with 1.
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
@@ -42,9 +45,29 @@ console.log('ok');
     join(work, 'cjs.cjs'),
     scenario("const { CAEXDocument, ServiceLocator } = require('amlengine-js');\nconst { UndoRedoService } = require('amlengine-js/services');"),
   );
+  const node = (f) => {
+    const r = spawnSync(process.execPath, [f], { cwd: work, encoding: 'utf8' });
+    return { status: r.status, out: r.stdout.trim(), err: r.stderr };
+  };
   for (const f of ['esm.mjs', 'cjs.cjs']) {
-    const out = run(process.execPath, [f], work).trim();
-    if (out !== 'ok') throw new Error(`${f}: ${out}`);
+    const r = node(f);
+    if (r.status !== 0 || r.out !== 'ok') throw new Error(`${f}: ${r.out} ${r.err}`);
+    if (r.err.includes('another copy of the engine')) throw new Error(`${f}: warns about a second engine: ${r.err}`);
+  }
+  // Mixed module systems: two engines; the second one warns, and the service it registers is not
+  // the one of the main entry.
+  writeFileSync(
+    join(work, 'mixed.mjs'),
+    `import { createRequire } from 'node:module';
+import { ServiceLocator } from 'amlengine-js';
+const { UndoRedoService } = createRequire(import.meta.url)('amlengine-js/services');
+const svc = UndoRedoService.register();
+console.log(ServiceLocator.undoRedoService === svc ? 'shared' : 'separate');
+`,
+  );
+  const mixed = node('mixed.mjs');
+  if (mixed.status !== 0 || mixed.out !== 'separate' || !mixed.err.includes('another copy of the engine')) {
+    throw new Error(`mixed.mjs: expected two engines and a warning, got ${mixed.out} ${mixed.err}`);
   }
 
   // Types: one CAEXDocument for both entries, in ESM and CommonJS resolution.
@@ -60,6 +83,16 @@ export const n: number = [...results].length;
   for (const f of ['types.mts', 'types.cts']) {
     run(process.execPath, [tsc, '--noEmit', '--strict', '--module', 'node16', '--moduleResolution', 'node16', '--target', 'es2022', '--types', 'node', '--typeRoots', join(repo, 'node_modules', '@types'), f], work);
   }
+  // node10 resolution (typesVersions) and no @types/node, with the DOM library.
+  writeFileSync(join(work, 'types-node10.ts'), ts);
+  writeFileSync(
+    join(work, 'tsconfig.json'),
+    JSON.stringify({
+      compilerOptions: { strict: true, noEmit: true, module: 'commonjs', moduleResolution: 'node10', target: 'es2022', lib: ['es2022', 'dom'], types: [] },
+      files: ['types-node10.ts'],
+    }),
+  );
+  run(process.execPath, [tsc, '-p', 'tsconfig.json'], work);
   console.log('package ok');
 } catch (e) {
   console.error(e.stdout?.toString() ?? '', e.stderr?.toString() ?? '', e.message);

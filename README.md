@@ -91,8 +91,9 @@ const caex215 = CAEXSchemaTransformer.register().transformTo(doc, CAEXDocument.C
 ```
 
 Both entries share one engine: a service registered through `amlengine-js/services` is the one
-`ServiceLocator` of `amlengine-js` finds (in ESM and in CommonJS; use one of the two module systems
-for both entries). Where a service of the original waits for the network in a synchronous method
+`ServiceLocator` of `amlengine-js` finds, in ESM and in CommonJS. Load both entries through the same
+module system: mixing them (or two versions of the package) loads a second copy of the engine with
+its own services and documents, and that copy warns on the console. Where a service of the original waits for the network in a synchronous method
 (external references over http, the library catalog of the edition transformer), the port cannot:
 use the asynchronous method (`loadOrGetReferencedDocumentAsync`, `transformToEditionAsync`) first
 ([docs/deviations.md](docs/deviations.md)).
