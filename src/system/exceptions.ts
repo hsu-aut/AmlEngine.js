@@ -105,6 +105,16 @@ export class FileNotFoundException extends SystemException {
   override name = 'FileNotFoundException';
 }
 
+/** System.IO.IOException. */
+export class IOException extends SystemException {
+  override name = 'IOException';
+}
+
+/** System.IO.DirectoryNotFoundException. */
+export class DirectoryNotFoundException extends IOException {
+  override name = 'DirectoryNotFoundException';
+}
+
 export class UnauthorizedAccessException extends SystemException {
   override name = 'UnauthorizedAccessException';
 }

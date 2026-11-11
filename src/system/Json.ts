@@ -14,15 +14,46 @@
 // the position of the offending character (or of the end of the data), conversion errors the
 // position after the current token. A type reads itself with a subclass of JsonDeserializer
 // (one method per converter), driven by `deserialize`.
+//
+// JsonSerializerOptions.MaxDepth (default 64) applies in both directions: the reader fails on a
+// container that opens beyond depth 64, the writer on a value it writes at depth 64 or more
+// (JsonConverter.TryWrite; nulls of properties and primitive list items are written without the
+// check). A UTF-8 input is decoded with its invalid bytes kept as the lone surrogates
+// U+DC80..U+DCFF: they count as one byte, print as 0xNN and make a string value fail like the
+// transcoding of System.Text.Json, while property names and skipped values are not transcoded.
+
+import { ArgumentException } from './exceptions.js';
 
 const NEWLINE = '\r\n';
 
-/** A JSON string literal with the escaping of the default JavaScriptEncoder. */
+/** JsonSerializerOptions.MaxDepth of the default options. */
+const MAX_DEPTH = 64;
+
+/**
+ * A symbol property of an object to write that maps JSON property names to member names (the
+ * WriteStack path of the depth error uses member names, e.g. LibraryTypes for
+ * [JsonPropertyName("Libraries")]).
+ */
+export const JSON_MEMBER_NAMES = Symbol('JsonMemberNames');
+
+/**
+ * A JSON string literal with the escaping of the default JavaScriptEncoder (a lone surrogate is
+ * written as the replacement character U+FFFD).
+ */
 export function escapeJsonString(s: string): string {
   let r = '"';
   for (let i = 0; i < s.length; i++) {
     const ch = s[i];
-    const c = s.charCodeAt(i);
+    let c = s.charCodeAt(i);
+    if (c >= 0xd800 && c <= 0xdfff) {
+      const d = s.charCodeAt(i + 1);
+      if (c <= 0xdbff && d >= 0xdc00 && d <= 0xdfff) {
+        r += '\\u' + c.toString(16).toUpperCase() + '\\u' + d.toString(16).toUpperCase();
+        i++;
+        continue;
+      }
+      c = 0xfffd;
+    }
     switch (ch) {
       case '\\':
         r += '\\\\';
@@ -51,28 +82,54 @@ export function escapeJsonString(s: string): string {
 
 /** Writes a value with WriteIndented = true; `indent` is the indentation of the current level. */
 export function writeJson(value: unknown, indent: string): string {
+  return writeValue(value, indent, indent.length / 2, []);
+}
+
+/** ThrowHelper.ThrowJsonException_SerializerCycleDetected with the WriteStack path (member names, no indices). */
+function cycleDetected(path: string[]): never {
+  throw new JsonException(
+    `A possible object cycle was detected. This can either be due to a cycle or if the object depth is larger than the maximum allowed depth of ${MAX_DEPTH}. ` +
+      `Consider using ReferenceHandler.Preserve on JsonSerializerOptions to support cycles. Path: $${path.map(appendPropertyName).join('')}.`,
+  );
+}
+
+/**
+ * Writes a value; `indent` is the indentation of the current level (null: WriteIndented = false,
+ * no white space between tokens). `depth` is Utf8JsonWriter.CurrentDepth (the number of open
+ * containers), `path` the member names.
+ */
+function writeValue(value: unknown, indent: string | null, depth: number, path: string[]): string {
   if (value === null || value === undefined) return 'null';
   if (typeof value === 'string') return escapeJsonString(value);
   if (typeof value === 'number') return String(value);
   if (typeof value === 'boolean') return value ? 'true' : 'false';
-  const inner = indent + '  ';
+  const inner = indent === null ? '' : indent + '  ';
+  const open = indent === null ? '' : NEWLINE + inner;
+  const separator = indent === null ? ',' : ',' + NEWLINE + inner;
+  const close = indent === null ? '' : NEWLINE + indent;
   if (Array.isArray(value)) {
     if (value.length === 0) return '[]';
-    return '[' + NEWLINE + value.map((v) => inner + writeJson(v, inner)).join(',' + NEWLINE) + NEWLINE + indent + ']';
+    const items = value.map((v) => {
+      // Objects and arrays are written by converters with the depth check, primitives directly.
+      if (depth + 1 >= MAX_DEPTH && v !== null && typeof v === 'object') cycleDetected(path);
+      return writeValue(v, indent === null ? null : inner, depth + 1, path);
+    });
+    return '[' + open + items.join(separator) + close + ']';
   }
+  const members = (value as { [JSON_MEMBER_NAMES]?: Record<string, string> })[JSON_MEMBER_NAMES];
   const entries = Object.entries(value as Record<string, unknown>);
   if (entries.length === 0) return '{}';
-  return '{' + NEWLINE + entries.map(([k, v]) => inner + escapeJsonString(k) + ': ' + writeJson(v, inner)).join(',' + NEWLINE) + NEWLINE + indent + '}';
+  const props = entries.map(([k, v]) => {
+    const p = [...path, members?.[k] ?? k];
+    if (depth + 1 >= MAX_DEPTH && v !== null && v !== undefined) cycleDetected(p);
+    return escapeJsonString(k) + (indent === null ? ':' : ': ') + writeValue(v, indent === null ? null : inner, depth + 1, p);
+  });
+  return '{' + open + props.join(separator) + close + '}';
 }
 
 /** Writes a value with WriteIndented = false (no white space between tokens). */
 export function writeJsonCompact(value: unknown): string {
-  if (value === null || value === undefined) return 'null';
-  if (typeof value === 'string') return escapeJsonString(value);
-  if (typeof value === 'number') return String(value);
-  if (typeof value === 'boolean') return value ? 'true' : 'false';
-  if (Array.isArray(value)) return '[' + value.map((v) => writeJsonCompact(v)).join(',') + ']';
-  return '{' + Object.entries(value as Record<string, unknown>).map(([k, v]) => escapeJsonString(k) + ':' + writeJsonCompact(v)).join(',') + '}';
+  return writeValue(value, null, 0, []);
 }
 
 /** JsonSerializer.Serialize(value, options) for a plain object graph. */
@@ -93,15 +150,19 @@ export type JsonTokenType = 'None' | 'StartObject' | 'EndObject' | 'StartArray' 
 function printable(ch: string): string {
   const c = ch.charCodeAt(0);
   if (c >= 0x20 && c < 0x7f) return ch;
+  if (isByteMarker(c)) return '0x' + (c - 0xdc00).toString(16).toUpperCase().padStart(2, '0');
   const b = c < 0x80 ? c : c < 0x800 ? 0xc0 | (c >> 6) : c >= 0xd800 && c <= 0xdbff ? 0xf0 | ((0x10000 + ((c - 0xd800) << 10)) >> 18) : 0xe0 | (c >> 12);
   return '0x' + b.toString(16).toUpperCase().padStart(2, '0');
 }
+
+/** U+DC80..U+DCFF: an invalid byte of a UTF-8 input (see utf8JsonText). */
+const isByteMarker = (c: number) => c >= 0xdc80 && c <= 0xdcff;
 
 function utf8Length(s: string): number {
   let n = 0;
   for (let i = 0; i < s.length; i++) {
     const c = s.charCodeAt(i);
-    if (c < 0x80) n += 1;
+    if (c < 0x80 || isByteMarker(c)) n += 1;
     else if (c < 0x800) n += 2;
     else if (c >= 0xd800 && c <= 0xdbff && i + 1 < s.length && s.charCodeAt(i + 1) >= 0xdc00 && s.charCodeAt(i + 1) <= 0xdfff) {
       n += 4;
@@ -174,7 +235,7 @@ export class JsonReader {
     if (this.i >= s.length) {
       if (this.stack.length === 0 && this.tokenType !== 'None') return false;
       if (this.tokenType === 'None') {
-        this.fail('The input does not contain any JSON tokens. Expected the input to start with a valid JSON token, while isFinalBlock is true.', this.i);
+        this.fail('The input does not contain any JSON tokens. Expected the input to start with a valid JSON token, when isFinalBlock is true.', this.i);
       }
       this.fail('Expected depth to be zero at the end of the JSON payload. There is an open JSON object or array that should be closed.', this.i);
     }
@@ -187,18 +248,24 @@ export class JsonReader {
       this.fail(`'${printable(c)}' is invalid after a single JSON value. Expected end of data.`, this.i);
     }
     const top = this.stack[this.stack.length - 1];
+    // A comment start right after a property name, '{' or '[' gets the message of a comment
+    // after a value (Utf8JsonReader.ConsumeNextTokenOrRollback); at the root and after a comma
+    // the message of an invalid start.
+    const commentAfterToken = () => this.fail("'/' is invalid after a value. Expected either ',', '}', or ']'.", this.i);
     switch (this.tokenType) {
       case 'PropertyName':
+        if (c === '/') commentAfterToken();
         this.consumeValue(c);
         return true;
       case 'StartObject':
         if (c === '}') return this.endContainer('{', c);
         if (c === '"') return this.consumePropertyName();
-        if (c === '/') this.fail("'/' is invalid after a value. Expected either ',', '}', or ']'.", this.i);
+        if (c === '/') commentAfterToken();
         this.fail(`'${printable(c)}' is an invalid start of a property name. Expected a '"'.`, this.i);
         break;
       case 'StartArray':
         if (c === ']') return this.endContainer('[', c);
+        if (c === '/') commentAfterToken();
         this.consumeValue(c);
         return true;
     }
@@ -283,6 +350,9 @@ export class JsonReader {
         return;
       case '{':
       case '[':
+        if (this.stack.length >= MAX_DEPTH) {
+          this.fail(`The maximum configured depth of ${MAX_DEPTH} has been exceeded. Cannot read next JSON ${c === '{' ? 'object' : 'array'}.`, start);
+        }
         this.stack.push(c);
         this.setToken(c === '{' ? 'StartObject' : 'StartArray', start + 1);
         return;
@@ -349,12 +419,28 @@ export class JsonReader {
   }
 }
 
-/** Unescapes a JSON string; null for text that is not valid UTF-16 (a lone surrogate from a \u escape). */
-export function unescapeJson(raw: string): string | null {
+/**
+ * Unescapes the raw text of a JSON string. `escapesValid` is false for \u escapes that are no
+ * valid UTF-16 (JsonReaderHelper.Unescape: a high surrogate must be followed by the \u escape of
+ * a low surrogate, a low surrogate must follow one), `textValid` is false for invalid bytes of a
+ * UTF-8 input (lone surrogates outside escapes, see utf8JsonText).
+ */
+function unescapeJsonParts(raw: string): { value: string; escapesValid: boolean; textValid: boolean } {
   const out: string[] = [];
+  let escapesValid = true;
+  let textValid = true;
+  /** The code unit of a \uXXXX escape at index i, -1 if there is none. */
+  const escapeAt = (i: number) => (raw[i] === '\\' && raw[i + 1] === 'u' ? parseInt(raw.substring(i + 2, i + 6), 16) : -1);
   for (let i = 0; i < raw.length; i++) {
     const ch = raw[i];
     if (ch !== '\\') {
+      const c = ch.charCodeAt(0);
+      const d = raw.charCodeAt(i + 1);
+      if (c >= 0xd800 && c <= 0xdbff && d >= 0xdc00 && d <= 0xdfff) {
+        out.push(ch, raw[++i]);
+        continue;
+      }
+      if (c >= 0xd800 && c <= 0xdfff) textValid = false;
       out.push(ch);
       continue;
     }
@@ -375,26 +461,37 @@ export function unescapeJson(raw: string): string | null {
       case 't':
         out.push('\t');
         break;
-      case 'u':
-        out.push(String.fromCharCode(parseInt(raw.substring(i + 1, i + 5), 16)));
+      case 'u': {
+        const c = escapeAt(i - 1);
         i += 4;
+        if (c >= 0xd800 && c <= 0xdbff) {
+          const low = escapeAt(i + 1);
+          if (low >= 0xdc00 && low <= 0xdfff) {
+            out.push(String.fromCharCode(c), String.fromCharCode(low));
+            i += 6;
+            break;
+          }
+          escapesValid = false;
+        } else if (c >= 0xdc00 && c <= 0xdfff) {
+          escapesValid = false;
+        }
+        out.push(String.fromCharCode(c));
         break;
+      }
       default:
         out.push(e);
     }
   }
-  const s = out.join('');
-  for (let i = 0; i < s.length; i++) {
-    const c = s.charCodeAt(i);
-    if (c >= 0xd800 && c <= 0xdbff) {
-      const d = s.charCodeAt(i + 1);
-      if (!(d >= 0xdc00 && d <= 0xdfff)) return null;
-      i++;
-    } else if (c >= 0xdc00 && c <= 0xdfff) {
-      return null;
-    }
-  }
-  return s;
+  return { value: out.join(''), escapesValid, textValid };
+}
+
+/**
+ * Unescapes a JSON string value; null for text that System.Text.Json cannot transcode (invalid
+ * surrogate escapes, invalid bytes of a UTF-8 input).
+ */
+export function unescapeJson(raw: string): string | null {
+  const r = unescapeJsonParts(raw);
+  return r.escapesValid && r.textValid ? r.value : null;
 }
 
 /** ReadStack.JsonPath: property names with special characters are written as ['name']. */
@@ -460,17 +557,21 @@ export class JsonDeserializer {
   }
 
   /**
-   * Reads the properties of an object (the reader is on StartObject). `onProperty` reads the
-   * value of a known property and returns true; unknown properties are skipped.
+   * Reads the properties of an object of the .NET type `typeName` (the reader is on
+   * StartObject). `onProperty` reads the value of a known property and returns true; unknown
+   * properties are skipped. A property name with invalid surrogate escapes fails as a value of
+   * the object type; invalid bytes of a UTF-8 input in a name are not transcoded (no error).
    */
-  protected readProperties(onProperty: (name: string) => boolean): void {
+  protected readProperties(onProperty: (name: string) => boolean, typeName: string): void {
     const r = this.reader;
     const frame: JsonFrame = { prop: null, index: null };
     this.frames.push(frame);
     for (;;) {
       r.read();
       if (r.tokenType === 'EndObject') break;
-      const name = unescapeJson(r.raw) ?? r.raw;
+      const parsed = unescapeJsonParts(r.raw);
+      if (!parsed.escapesValid) this.fail(typeName);
+      const name = parsed.value;
       frame.prop = name;
       r.read();
       if (!onProperty(name)) r.skip();
@@ -501,11 +602,22 @@ export class JsonDeserializer {
 /**
  * JsonSerializer.Deserialize<T>(json): creates the deserializer on a reader over `json`, reads the
  * root value with `readRoot` (which starts with `reader.read()`), then checks that the data ends
- * after the root value.
+ * after the root value. A string is read like the string overload (text that is no valid UTF-16
+ * cannot be transcoded to UTF-8: ArgumentException before any token), bytes like the UTF-8
+ * stream overload (utf8JsonText).
  */
-export function deserialize<D extends JsonDeserializer, R>(json: string, create: (reader: JsonReader) => D, readRoot: (deserializer: D) => R): R {
+export function deserialize<D extends JsonDeserializer, R>(json: string | Uint8Array, create: (reader: JsonReader) => D, readRoot: (deserializer: D) => R): R {
+  let text: string;
+  if (typeof json === 'string') {
+    if (/[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/.test(json)) {
+      throw new ArgumentException('Cannot transcode invalid UTF-16 string to UTF-8 JSON text.');
+    }
+    text = json;
+  } else {
+    text = utf8JsonText(json);
+  }
   let deserializer: D | null = null;
-  const reader = new JsonReader(json, () => deserializer!.path());
+  const reader = new JsonReader(text, () => deserializer!.path());
   deserializer = create(reader);
   const result = readRoot(deserializer);
   // The reader must reach the end of the data after the root value.
@@ -515,10 +627,37 @@ export function deserialize<D extends JsonDeserializer, R>(json: string, create:
 }
 
 /**
- * The text of a UTF-8 JSON stream as JsonSerializer.Deserialize<T>(Stream) reads it: a leading
- * UTF-8 preamble is skipped.
+ * The text of a UTF-8 JSON stream as JsonSerializer.Deserialize<T>(Stream) reads it: one leading
+ * UTF-8 preamble is skipped; every byte that is not part of a valid UTF-8 sequence (overlong
+ * forms, surrogates and values above U+10FFFF are invalid) becomes the lone surrogate
+ * U+DC00 + byte, which the reader counts as one byte and prints as 0xNN.
  */
 export function utf8JsonText(bytes: Uint8Array): string {
-  const start = bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf ? 3 : 0;
-  return new TextDecoder('utf-8').decode(bytes.subarray(start));
+  let i = bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf ? 3 : 0;
+  const out: string[] = [];
+  while (i < bytes.length) {
+    const b = bytes[i];
+    if (b < 0x80) {
+      out.push(String.fromCharCode(b));
+      i++;
+      continue;
+    }
+    // Lead byte: number of continuation bytes, payload bits and the smallest code point.
+    const [n, bits, min] = b >= 0xc2 && b <= 0xdf ? [1, b & 0x1f, 0x80] : b >= 0xe0 && b <= 0xef ? [2, b & 0x0f, 0x800] : b >= 0xf0 && b <= 0xf4 ? [3, b & 0x07, 0x10000] : [0, 0, 0];
+    let cp = bits;
+    let ok = n > 0;
+    for (let k = 1; ok && k <= n; k++) {
+      const c = bytes[i + k];
+      if (c === undefined || (c & 0xc0) !== 0x80) ok = false;
+      else cp = (cp << 6) | (c & 0x3f);
+    }
+    if (ok && cp >= min && cp <= 0x10ffff && !(cp >= 0xd800 && cp <= 0xdfff)) {
+      out.push(String.fromCodePoint(cp));
+      i += n + 1;
+    } else {
+      out.push(String.fromCharCode(0xdc00 + b));
+      i++;
+    }
+  }
+  return out.join('');
 }

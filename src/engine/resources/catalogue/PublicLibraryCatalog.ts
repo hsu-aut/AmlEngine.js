@@ -13,12 +13,12 @@
 
 import { T } from '../../registry.js';
 import { registerInterfaces } from '../../interfaces.js';
-import { ArgumentException, ArgumentNullException } from '../../../system/exceptions.js';
+import { ArgumentException, ArgumentNullException, DirectoryNotFoundException } from '../../../system/exceptions.js';
 import { isNullOrEmpty } from '../../../system/strings.js';
 import { cultureEndsWith } from '../../../system/CompareInfo.js';
 import { Enumerable, from } from '../../../system/linq.js';
-import { JsonDeserializer, deserialize, utf8JsonText, writeJson } from '../../../system/Json.js';
-import { getFs } from '../../amlobjects/internal/NetPath.js';
+import { JSON_MEMBER_NAMES, JsonDeserializer, deserialize, writeJson } from '../../../system/Json.js';
+import { getFs, getFullPath } from '../../amlobjects/internal/NetPath.js';
 import { SemanticVersion } from '../files/SemanticVersion.js';
 import { SignedLibraryVersionExtensions } from './SignedLibraryVersionExtensions.js';
 import type { SignedLibraryVersionLink } from './SignedLibraryVersionExtensions.js';
@@ -125,13 +125,18 @@ export class PublicLibraryCatalog_LibraryRevision implements ISignedLibraryVersi
     this.revision?.onDeserialized(libVersion);
   }
 
-  /** @internal The JSON properties in System.Text.Json order. */
-  toJsonObject(): Record<string, unknown> {
+  /**
+   * @internal The JSON properties in System.Text.Json order. `depth` is the writer depth inside
+   * this revision; the serializer fails at depth 64 before it reaches a revision below depth 65,
+   * so deeper revisions (and cycles) are not converted.
+   */
+  toJsonObject(depth: number): Record<string, unknown> {
+    if (depth > 65) return {};
     return {
       DownloadLink: this.downloadLink,
       DownloadLinks: this.downloadLinks,
       Signature: this.signature,
-      Revision: this.revision === null ? null : this.revision.toJsonObject(),
+      Revision: this.revision === null ? null : this.revision.toJsonObject(depth + 1),
     };
   }
 }
@@ -308,7 +313,8 @@ export class PublicLibraryCatalog_LibraryVersion implements ISignedLibraryVersio
       Sources: this.sources,
       Signature: this.signature,
       PublicKey: this.publicKey,
-      Revision: this.revision === null ? null : this.revision.toJsonObject(),
+      // The version is written at depth 7 (catalog, list, type, list, library, list, version).
+      Revision: this.revision === null ? null : this.revision.toJsonObject(8),
     };
   }
 }
@@ -499,7 +505,14 @@ export class PublicLibraryCatalog {
     const contents = this.serialize();
     if (filePath == null) throw new ArgumentNullException('path');
     if (filePath.length === 0) throw new ArgumentException('The value cannot be an empty string.', 'path');
-    getFs().writeFileSync(filePath, new TextEncoder().encode(contents));
+    try {
+      getFs().writeFileSync(filePath, new TextEncoder().encode(contents));
+    } catch (e) {
+      if ((e as { code?: string }).code === 'ENOENT') {
+        throw new DirectoryNotFoundException(`Could not find a part of the path '${getFullPath(filePath)}'.`);
+      }
+      throw e;
+    }
   }
 
   /**
@@ -521,21 +534,22 @@ export class PublicLibraryCatalog {
     return {
       Libraries: this.libraryTypes === null ? null : this.libraryTypes.map((t) => (t === null ? null : t.toJsonObject())),
       PublicKey: this.publicKey,
+      [JSON_MEMBER_NAMES]: { Libraries: 'LibraryTypes' },
     };
   }
 
   /**
    * JsonSerializer.Deserialize<PublicLibraryCatalog>(json) with the default options (port helper,
    * no C# member). A string is read like the string overload, bytes like the UTF-8 stream overload
-   * (a UTF-8 preamble is skipped). Errors are JsonException as in System.Text.Json.
+   * (a UTF-8 preamble is skipped). Errors are JsonException as in System.Text.Json; a string that
+   * is no valid UTF-16 throws ArgumentException.
    * @returns The catalog, or `null` for the JSON value null.
    */
   static deserialize(json: string | Uint8Array | null): PublicLibraryCatalog | null {
     if (json == null) {
       throw new ArgumentNullException('json');
     }
-    const text = typeof json === 'string' ? json : utf8JsonText(json);
-    return deserialize(text, (reader) => new CatalogDeserializer(reader), (d) => d.readCatalog());
+    return deserialize(json, (reader) => new CatalogDeserializer(reader), (d) => d.readCatalog());
   }
 }
 
@@ -563,7 +577,7 @@ class CatalogDeserializer extends JsonDeserializer {
         default:
           return false;
       }
-    });
+    }, CATALOGUE);
     c.onDeserialized();
     return c;
   }
@@ -588,7 +602,7 @@ class CatalogDeserializer extends JsonDeserializer {
         default:
           return false;
       }
-    });
+    }, `${CATALOGUE}+LibraryType`);
     return t;
   }
 
@@ -608,7 +622,7 @@ class CatalogDeserializer extends JsonDeserializer {
         default:
           return false;
       }
-    });
+    }, `${CATALOGUE}+Library`);
     return l;
   }
 
@@ -655,7 +669,7 @@ class CatalogDeserializer extends JsonDeserializer {
         default:
           return false;
       }
-    });
+    }, `${CATALOGUE}+LibraryVersion`);
     return v;
   }
 
@@ -681,7 +695,7 @@ class CatalogDeserializer extends JsonDeserializer {
         default:
           return false;
       }
-    });
+    }, `${CATALOGUE}+LibraryRevision`);
     return v;
   }
 }

@@ -66,7 +66,7 @@ class ProfileDeserializer extends JsonDeserializer {
         default:
           return false;
       }
-    });
+    }, typeName);
     return d;
   }
 
@@ -133,7 +133,7 @@ class ProfileDeserializer extends JsonDeserializer {
         default:
           return false;
       }
-    });
+    }, 'Aml.Engine.Services.Model.AMLLibraryServerProfile');
     p.onDeserialized();
     return p;
   }
