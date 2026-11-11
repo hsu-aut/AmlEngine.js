@@ -7,31 +7,11 @@ import { CAEX_CLASSModel_TagNames } from '../engine/caex/CAEX_CLASSModel_TagName
 import { ServiceLocator } from '../engine/services/ServiceLocator.js';
 import { XmlCAEXAttributes } from '../engine/xmlext/XmlCAEXAttributes.js';
 import { XmlCAEXSchema } from '../engine/xmlext/XmlCAEXSchema.js';
-import { ArgumentNullException, parseInt32 } from '../system/index.js';
+import { AggregateException, ArgumentNullException, parseInt32 } from '../system/index.js';
 import { Dictionary, from } from '../system/linq.js';
 import { isNullOrEmpty } from '../system/strings.js';
 import { XElement } from '../xml/index.js';
 import type { IUniqueName } from '../engine/services/interfaces/IUniqueName.js';
-
-/**
- * System.AggregateException as PLINQ throws it: an exception of the query is always wrapped in one
- * (`new AggregateException(inner)`).
- */
-class AggregateException extends Error {
-  override name = 'AggregateException';
-
-  readonly innerExceptions: readonly unknown[];
-
-  constructor(innerException: unknown) {
-    super(`One or more errors occurred. (${innerException instanceof Error ? innerException.message : String(innerException)})`);
-    this.innerExceptions = [innerException];
-  }
-
-  /** The first inner exception. */
-  get innerException(): unknown {
-    return this.innerExceptions[0];
-  }
-}
 
 /** `s.TrimEnd('0', ..., '9')`. */
 function trimEndDigits(s: string): string {

@@ -33,6 +33,27 @@ export class ArgumentOutOfRangeException extends ArgumentException {
   }
 }
 
+/**
+ * System.AggregateException with the exceptions of a task or a parallel query (derives from
+ * Exception, not SystemException, as in .NET). The message is .NET's: "One or more errors
+ * occurred." followed by " (message)" for each inner exception.
+ */
+export class AggregateException extends Error {
+  override name = 'AggregateException';
+
+  readonly innerExceptions: readonly unknown[];
+
+  constructor(...innerExceptions: unknown[]) {
+    super('One or more errors occurred.' + innerExceptions.map((e) => ` (${e instanceof Error ? e.message : String(e)})`).join(''));
+    this.innerExceptions = innerExceptions;
+  }
+
+  /** The first inner exception (InnerException). */
+  get innerException(): unknown {
+    return this.innerExceptions[0] ?? null;
+  }
+}
+
 export class InvalidOperationException extends SystemException {
   override name = 'InvalidOperationException';
 
