@@ -126,6 +126,37 @@ function record(src: string, sender: unknown, e: any): void {
 }
 const staticChanging = (s: unknown, e: any) => record('S-', s, e);
 const staticChanged = (s: unknown, e: any) => record('S+', s, e);
+
+// With services of the port registered (AMLENGINE_SERVICES, test/setup/services.ts) the oracle runs
+// every script in a new process (MutationsOracle.RunIsolated), so each script starts with new
+// services and with the static state of a new process: state an earlier script leaves behind (the
+// lookup tables, a change handler of the LookupService left paused by an exception, CaexCommand
+// IsSilent and the reference update counter of XmlOperation left set by an exception in
+// CreateClassInstance) must not reach the next one. As in the oracle, the services subscribe to
+// the static change events before the recorder of this test.
+const serviceNames = (process.env.AMLENGINE_SERVICES ?? '').split(',').map((n) => n.trim()).filter((n) => n !== '');
+let services: any = null;
+
+function restartServices(): void {
+  if (services === null) return;
+  CaexCommand.isSilent = false;
+  const xmlOperation = XmlOperation as any;
+  xmlOperation.UpdateReferences = true;
+  xmlOperation.RefCount = 0;
+  xmlOperation.idMap = null;
+  CaexCommand.caexElementChangingEvent.unsubscribe(staticChanging);
+  CaexCommand.caexElementChangedEvent.unsubscribe(staticChanged);
+  const classes: Record<string, any> = {
+    lookup: services.LookupService,
+    uniquename: services.UniqueNameService,
+    undo: services.UndoRedoService,
+    extref: services.ExternalReferenceResolver,
+  };
+  for (const name of serviceNames) classes[name].unRegister();
+  for (const name of serviceNames) classes[name].register();
+  CaexCommand.caexElementChangingEvent.subscribe(staticChanging);
+  CaexCommand.caexElementChangedEvent.subscribe(staticChanged);
+}
 const docChanging = (s: unknown, e: any) => record('D-', s, e);
 const docChanged = (s: unknown, e: any) => record('D+', s, e);
 
@@ -1100,7 +1131,8 @@ describe.skipIf(!existsSync(expectedFile))('mutations parity with Aml.Engine', (
     crash?: 'stackoverflow';
   }>;
 
-  beforeAll(() => {
+  beforeAll(async () => {
+    if (serviceNames.length > 0) services = await import('../../src/services/index.js');
     CaexCommand.caexElementChangingEvent.subscribe(staticChanging);
     CaexCommand.caexElementChangedEvent.subscribe(staticChanged);
   });
@@ -1112,6 +1144,7 @@ describe.skipIf(!existsSync(expectedFile))('mutations parity with Aml.Engine', (
   scripts.forEach((script, i) => {
     it(`script ${i} (${script.start}${script.other ? ' + ' + script.other : ''}${script.undo ? ', undo' : ''}${script.resolver ? ', resolver' : ''})`, () => {
       const canon = new Canonicalizer();
+      restartServices();
       pool.length = 0;
       events.length = 0;
       A = open(script.start);
