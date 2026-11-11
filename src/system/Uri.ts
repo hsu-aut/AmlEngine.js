@@ -2722,7 +2722,13 @@ export class Uri {
     const syntax = this._syntax!;
     if (uriComponents === C.Scheme) return syntax.schemeName;
     this.ensureParseRemaining();
-    if ((uriComponents & C.NormalizedHost) !== 0) throw new NotSupportedException('UriComponents.NormalizedHost is not ported.');
+    if ((uriComponents & C.NormalizedHost) !== 0) {
+      // .NET reaches the format check below first (the mask cannot take an early return).
+      if (uriFormat !== UriEscaped && uriFormat !== Unescaped && uriFormat !== SafeUnescaped && uriFormat !== V1ToStringUnescape) {
+        throw new ArgumentOutOfRangeException('uriFormat');
+      }
+      throw new NotSupportedException('UriComponents.NormalizedHost is not ported.');
+    }
     if ((uriComponents & C.Host) !== 0) this.ensureHostString(true);
     const info = this._info!;
 
@@ -3207,6 +3213,7 @@ export class Uri {
    * (simple) one, for which .NET calls GetComponentsHelper directly.
    */
   getComponents(components: UriComponents, format: UriFormat): string {
+    if ((components & 0x80000000) !== 0) throw new NotSupportedException('UriComponents.SerializationInfoString is not ported.');
     if ((format & ~UriFormat.SafeUnescaped) !== 0) throw new ArgumentOutOfRangeException('format');
     if (this._syntax === null) throw notAbsolute();
     return this.getComponentsHelper(components, format);
