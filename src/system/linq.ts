@@ -47,9 +47,20 @@ function cmp<T>(c?: IEqualityComparer<T> | null): IEqualityComparer<T> {
 }
 
 /**
+ * The exception of .NET's collection enumerators (List<T>, Dictionary<TKey, TValue>, HashSet<T>)
+ * when the collection was changed after the enumerator was created: MoveNext compares the version
+ * the enumerator started with to the current version of the collection.
+ */
+function enumFailedVersion(): InvalidOperationException {
+  return new InvalidOperationException('Collection was modified; enumeration operation may not execute.');
+}
+
+/**
  * HashSet<T> with a custom comparer (keys decide buckets, equals decides membership). Items live
  * in slots like the entries of .NET's HashSet: a removed slot goes onto a free list and the next
  * Add reuses the most recently freed slot, so enumeration order matches .NET after removals.
+ * As in .NET, adding an item while the set is enumerated makes the next step of the enumeration
+ * throw InvalidOperationException; Remove and Clear do not.
  */
 export class HashSet<T> implements Iterable<T> {
   private readonly buckets = new Map<unknown, number[]>();
@@ -57,6 +68,7 @@ export class HashSet<T> implements Iterable<T> {
   private used: boolean[] = [];
   private freeList: number[] = [];
   private count_ = 0;
+  private version = 0;
 
   constructor(
     items?: Iterable<T> | null,
@@ -87,6 +99,7 @@ export class HashSet<T> implements Iterable<T> {
     if (!b) this.buckets.set(k, (b = []));
     b.push(i);
     this.count_++;
+    this.version++;
     return true;
   }
 
@@ -120,7 +133,13 @@ export class HashSet<T> implements Iterable<T> {
   }
 
   *[Symbol.iterator](): Iterator<T> {
-    for (let i = 0; i < this.slots.length; i++) if (this.used[i]) yield this.slots[i] as T;
+    const version = this.version;
+    for (let i = 0; ; i++) {
+      if (this.version !== version) throw enumFailedVersion();
+      while (i < this.slots.length && !this.used[i]) i++;
+      if (i >= this.slots.length) return;
+      yield this.slots[i] as T;
+    }
   }
 }
 
@@ -137,6 +156,8 @@ export class Dictionary<K, V> implements Iterable<[K, V]> {
   private used: boolean[] = [];
   private freeList: number[] = [];
   private count_ = 0;
+  /** Changed by adding a key (not by replacing a value, Remove or Clear, as in .NET). */
+  private version = 0;
 
   constructor(private readonly comparer: IEqualityComparer<K> = DefaultComparer as IEqualityComparer<K>) {}
 
@@ -168,6 +189,7 @@ export class Dictionary<K, V> implements Iterable<[K, V]> {
     if (!b) this.buckets.set(k, (b = []));
     b.push(slot);
     this.count_++;
+    this.version++;
   }
 
   /** Add(key, value): throws ArgumentException for an existing key. */
@@ -220,16 +242,158 @@ export class Dictionary<K, V> implements Iterable<[K, V]> {
     this.count_ = 0;
   }
 
+  /** The used slots in order; each step throws when a key was added since the enumeration started. */
+  private *slotsInOrder(): Generator<number> {
+    const version = this.version;
+    for (let i = 0; ; i++) {
+      if (this.version !== version) throw enumFailedVersion();
+      while (i < this.keys_.length && !this.used[i]) i++;
+      if (i >= this.keys_.length) return;
+      yield i;
+    }
+  }
+
   *keys(): IterableIterator<K> {
-    for (let i = 0; i < this.keys_.length; i++) if (this.used[i]) yield this.keys_[i] as K;
+    for (const i of this.slotsInOrder()) yield this.keys_[i] as K;
   }
 
   *values(): IterableIterator<V> {
-    for (let i = 0; i < this.keys_.length; i++) if (this.used[i]) yield this.values_[i] as V;
+    for (const i of this.slotsInOrder()) yield this.values_[i] as V;
   }
 
   *[Symbol.iterator](): Iterator<[K, V]> {
-    for (let i = 0; i < this.keys_.length; i++) if (this.used[i]) yield [this.keys_[i] as K, this.values_[i] as V];
+    for (const i of this.slotsInOrder()) yield [this.keys_[i] as K, this.values_[i] as V];
+  }
+}
+
+/**
+ * List<T> with the enumeration check of .NET: every change of the list (Add, Insert, the indexer
+ * setter, Remove and RemoveAt of an item, RemoveAll and Clear that remove something, AddRange of
+ * items) makes the next step of an enumeration that started before it throw
+ * InvalidOperationException, as foreach and LINQ over a List<T> do in C#. ForEach throws when the
+ * action changed the list. Items compare with the default equality (Remove, IndexOf, Contains).
+ */
+export class List<T> implements Iterable<T> {
+  private items: T[];
+  private version = 0;
+
+  constructor(items?: Iterable<T> | null) {
+    this.items = items ? [...items] : [];
+  }
+
+  get count(): number {
+    return this.items.length;
+  }
+
+  private checkIndex(index: number, size: number): void {
+    if (!Number.isInteger(index) || index < 0 || index >= size) {
+      throw new ArgumentOutOfRangeException('index', 'Index was out of range. Must be non-negative and less than the size of the collection.');
+    }
+  }
+
+  /** The indexer getter. */
+  item(index: number): T {
+    this.checkIndex(index, this.items.length);
+    return this.items[index] as T;
+  }
+
+  /** The indexer setter. */
+  setItem(index: number, value: T): void {
+    this.checkIndex(index, this.items.length);
+    this.items[index] = value;
+    this.version++;
+  }
+
+  add(item: T): void {
+    this.items.push(item);
+    this.version++;
+  }
+
+  addRange(items: Iterable<T>): void {
+    for (const item of [...items]) this.add(item);
+  }
+
+  insert(index: number, item: T): void {
+    if (!Number.isInteger(index) || index < 0 || index > this.items.length) {
+      throw new ArgumentOutOfRangeException('index', 'Index must be within the bounds of the List.');
+    }
+    this.items.splice(index, 0, item);
+    this.version++;
+  }
+
+  indexOf(item: T): number {
+    for (let i = 0; i < this.items.length; i++) if (DefaultComparer.equals(this.items[i], item)) return i;
+    return -1;
+  }
+
+  contains(item: T): boolean {
+    return this.indexOf(item) >= 0;
+  }
+
+  /** Removes the first occurrence of the item. */
+  remove(item: T): boolean {
+    const i = this.indexOf(item);
+    if (i < 0) return false;
+    this.removeAt(i);
+    return true;
+  }
+
+  removeAt(index: number): void {
+    this.checkIndex(index, this.items.length);
+    this.items.splice(index, 1);
+    this.version++;
+  }
+
+  removeAll(match: (item: T) => boolean): number {
+    const kept = this.items.filter((x) => !match(x));
+    const removed = this.items.length - kept.length;
+    if (removed > 0) {
+      this.items = kept;
+      this.version++;
+    }
+    return removed;
+  }
+
+  clear(): void {
+    if (this.items.length > 0) {
+      this.items = [];
+      this.version++;
+    }
+  }
+
+  /** List<T>.Find: the first matching item, or null (default). */
+  find(match: (item: T) => boolean): T | null {
+    for (const x of this.items) if (match(x)) return x;
+    return null;
+  }
+
+  /** List<T>.ForEach: throws InvalidOperationException when the action changed the list. */
+  forEach(action: (item: T) => void): void {
+    const version = this.version;
+    for (let i = 0; i < this.items.length; i++) {
+      if (version !== this.version) break;
+      action(this.items[i] as T);
+    }
+    if (version !== this.version) throw enumFailedVersion();
+  }
+
+  /** A copy of the items (ToArray, ToList). */
+  toArray(): T[] {
+    return [...this.items];
+  }
+
+  [Symbol.iterator](): Iterator<T> {
+    // List<T>.GetEnumerator: the version is taken when the enumerator is created.
+    const version = this.version;
+    let index = 0;
+    return {
+      next: (): IteratorResult<T> => {
+        if (this.version !== version) throw enumFailedVersion();
+        if (index < this.items.length) return { value: this.items[index++] as T, done: false };
+        index = this.items.length + 1;
+        return { value: undefined, done: true };
+      },
+    };
   }
 }
 
