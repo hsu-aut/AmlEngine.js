@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="cyclic-30.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-lookup" OriginID="gen-services-lookup" OriginVersion="1.0.0" LastWritingDateTime="2024-05-06T07:08:09" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Cyc" ID="ie-cyc" RefBaseSystemUnitPath="SUCL/CycA">
+      <Attribute Name="X" AttributeDataType="xs:string" />
+      <ExternalInterface Name="P" ID="ei-cyc-p" RefBaseClassPath="ICL/CycA" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="CycA" ID="ic-cyca" RefBaseClassPath="ICL/CycB" />
+    <InterfaceClass Name="CycB" ID="ic-cycb" RefBaseClassPath="ICL/CycA" />
+    <InterfaceClass Name="Ok" ID="ic-ok" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="Self" RefBaseClassPath="RCL/Self">
+      <Attribute Name="S" AttributeDataType="xs:string" />
+    </RoleClass>
+    <RoleClass Name="Ok" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="CycA" ID="suc-cyca" RefBaseClassPath="SUCL/CycB">
+      <Attribute Name="X" AttributeDataType="xs:string" />
+      <ExternalInterface Name="P" ID="suc-cyca-p" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="CycB" ID="suc-cycb" RefBaseClassPath="SUCL/CycA">
+      <Attribute Name="X" AttributeDataType="xs:string" />
+      <ExternalInterface Name="P" ID="suc-cycb-p" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="T1" ID="suc-t1" RefBaseClassPath="SUCL/T3" />
+    <SystemUnitClass Name="T2" ID="suc-t2" RefBaseClassPath="SUCL/T1" />
+    <SystemUnitClass Name="T3" ID="suc-t3" RefBaseClassPath="SUCL/T2" />
+    <SystemUnitClass Name="Ok" ID="suc-ok" />
+  </SystemUnitClassLib>
+</CAEXFile>

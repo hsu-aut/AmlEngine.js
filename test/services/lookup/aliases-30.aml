@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="aliases-30.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-lookup" OriginID="gen-services-lookup" OriginVersion="1.0.0" LastWritingDateTime="2024-05-06T07:08:09" />
+  <ExternalReference Path="test/services/lookup/ext-lookup.aml" Alias="Ext" />
+  <ExternalReference Path="test/services/lookup/ext-lookup.aml" Alias="Dup" />
+  <ExternalReference Path="test/services/lookup/ext-lookup.aml" Alias="Dup" />
+  <ExternalReference Path="no-such-file.aml" Alias="Missing" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="UsesExt" ID="ie-uses" RefBaseSystemUnitPath="Ext@ExtSUCL/ExtClass">
+      <ExternalInterface Name="E" ID="ei-uses" RefBaseClassPath="Ext@ExtICL/ExtData" />
+      <Attribute Name="T" AttributeDataType="xs:string" RefAttributeType="Ext@ExtATL/ExtType" />
+      <RoleRequirements RefBaseRoleClassPath="Ext@ExtRCL/ExtRole" />
+    </InternalElement>
+    <InternalElement Name="UsesDup" ID="ie-dup" RefBaseSystemUnitPath="Dup@ExtSUCL/ExtClass" />
+    <InternalElement Name="UsesMissing" ID="ie-missing" RefBaseSystemUnitPath="Missing@Lib/Class">
+      <ExternalInterface Name="E" ID="ei-missing" RefBaseClassPath="Missing@ICL/X" />
+    </InternalElement>
+    <InternalElement Name="MirrorExt" ID="ie-mext" RefBaseSystemUnitPath="Ext@ext-ie" />
+    <InternalLink Name="L1" RefPartnerSideA="Ext@ext-ei" RefPartnerSideB="ei-uses" />
+    <InternalLink Name="L2" RefPartnerSideA="Missing@x" RefPartnerSideB="Dup@ext-ei" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="Local" RefBaseClassPath="Ext@ExtICL/ExtInterface">
+      <InterfaceClass Name="Sub" RefBaseClassPath="ICL/Local" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="R" RefBaseClassPath="Ext@ExtRCL/ExtRole" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="S" ID="suc-s" RefBaseClassPath="Ext@ExtSUCL/ExtClass">
+      <SupportedRoleClass RefRoleClassPath="Dup@ExtRCL/ExtRole" />
+      <SystemUnitClass Name="S2" ID="suc-s2" RefBaseClassPath="SUCL/S" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="ATL">
+    <AttributeType Name="A" AttributeDataType="xs:string" RefAttributeType="Ext@ExtATL/ExtType" />
+  </AttributeTypeLib>
+</CAEXFile>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="ids-215.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <ExternalReference Path="test/services/lookup/ext-lookup-215.aml" Alias="Ext" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Master" ID="ie-master" RefBaseSystemUnitPath="SUCL/Tank">
+      <Attribute Name="Level" AttributeDataType="xs:double" />
+      <ExternalInterface Name="Plug" ID="ei-master-plug" />
+      <ExternalInterface Name="NoId1" />
+      <InternalElement Name="Child" ID="ie-child" />
+    </InternalElement>
+    <InternalElement Name="Mirror" ID="ie-mirror" RefBaseSystemUnitPath="ie-master" />
+    <InternalElement Name="MirrorOfMirror" ID="ie-mm" RefBaseSystemUnitPath="ie-mirror" />
+    <InternalElement Name="Holder" ID="ie-holder">
+      <ExternalInterface Name="PlugMirror" ID="ei-mirror" RefBaseClassPath="ei-master-plug" />
+      <InternalElement Name="Same" ID="dup" />
+      <InternalElement Name="Same" ID="dup" />
+      <InternalElement Name="NoId" />
+      <InternalElement Name="NoId" />
+    </InternalElement>
+    <InternalLink Name="L1" RefPartnerSideA="ie-master:Plug" RefPartnerSideB="ie-holder:PlugMirror" />
+    <InternalLink Name="L2" RefPartnerSideA="dup:Same" RefPartnerSideB="missing-id:X" />
+    <InternalLink Name="L3" RefPartnerSideA="Ext@ext-ie:ExtEI" RefPartnerSideB="ie-master:Plug" />
+    <InternalLink Name="L4" RefPartnerSideA="ie-master:NoId1" RefPartnerSideB="ie-master" />
+  </InstanceHierarchy>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="Tank" ID="suc-tank">
+      <Attribute Name="Level" AttributeDataType="xs:double" />
+      <ExternalInterface Name="Plug" />
+      <InternalElement Name="In" ID="suc-tank-in">
+        <ExternalInterface Name="P" />
+      </InternalElement>
+      <InternalElement Name="Out" ID="suc-tank-out">
+        <ExternalInterface Name="P" />
+      </InternalElement>
+      <InternalLink Name="TL" RefPartnerSideA="suc-tank-in:P" RefPartnerSideB="suc-tank-out:P" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="DupId" ID="ie-master" />
+  </SystemUnitClassLib>
+</CAEXFile>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="deep-30.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-lookup" OriginID="gen-services-lookup" OriginVersion="1.0.0" LastWritingDateTime="2024-05-06T07:08:09" />
+  <ExternalReference Path="test/services/lookup/ext-lookup.aml" Alias="Ext" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="I1" ID="ie-i1" RefBaseSystemUnitPath="SUCL/L1/L2/L3">
+      <ExternalInterface Name="A" ID="ei-i1-a" RefBaseClassPath="ICL/I1" />
+      <ExternalInterface Name="B" ID="ei-i1-b" RefBaseClassPath="ICL/I1/I2/I3" />
+      <ExternalInterface Name="C" ID="ei-i1-c" RefBaseClassPath="ICL2/J1" />
+      <ExternalInterface Name="D" ID="ei-i1-d" RefBaseClassPath="ICL2/J1/J2" />
+      <ExternalInterface Name="E" ID="ei-i1-e" RefBaseClassPath="Ext@ExtICL/ExtData" />
+      <InternalElement Name="I2" ID="ie-i2" RefBaseSystemUnitPath="SUCL2/K3">
+        <ExternalInterface Name="A" ID="ei-i2-a" RefBaseClassPath="ICL/I1/I2" />
+      </InternalElement>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="I0" />
+    <InterfaceClass Name="I1" RefBaseClassPath="ICL/I0">
+      <InterfaceClass Name="I2" RefBaseClassPath="ICL/I1">
+        <InterfaceClass Name="I3" RefBaseClassPath="ICL/I1/I2">
+          <InterfaceClass Name="I4" RefBaseClassPath="ICL/I1/I2/I3" />
+        </InterfaceClass>
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <InterfaceClassLib Name="ICL2">
+    <InterfaceClass Name="J1" RefBaseClassPath="ICL/I1/I2/I3/I4">
+      <InterfaceClass Name="J2" RefBaseClassPath="ICL2/J1" />
+    </InterfaceClass>
+    <InterfaceClass Name="J3" RefBaseClassPath="Ext@ExtICL/ExtInterface" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="R0" />
+    <RoleClass Name="R1" RefBaseClassPath="RCL/R0" />
+    <RoleClass Name="R2" RefBaseClassPath="RCL/R1" />
+    <RoleClass Name="R3" RefBaseClassPath="RCL/R2" />
+    <RoleClass Name="R4" RefBaseClassPath="RCL/R3" />
+    <RoleClass Name="R5" RefBaseClassPath="RCL/R4" />
+    <RoleClass Name="RB" RefBaseClassPath="RCL/R0" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="L1" ID="suc-l1">
+      <SupportedRoleClass RefRoleClassPath="RCL/R5" />
+      <SystemUnitClass Name="L2" ID="suc-l2" RefBaseClassPath="SUCL/L1">
+        <SystemUnitClass Name="L3" ID="suc-l3" RefBaseClassPath="SUCL/L1/L2">
+          <SystemUnitClass Name="L4" ID="suc-l4" RefBaseClassPath="SUCL/L1/L2/L3" />
+        </SystemUnitClass>
+      </SystemUnitClass>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="SUCL2">
+    <SystemUnitClass Name="K1" ID="suc-k1" RefBaseClassPath="SUCL/L1/L2/L3/L4" />
+    <SystemUnitClass Name="K2" ID="suc-k2" RefBaseClassPath="SUCL2/K1" />
+    <SystemUnitClass Name="K3" ID="suc-k3" RefBaseClassPath="SUCL2/K2" />
+    <SystemUnitClass Name="K4" ID="suc-k4" RefBaseClassPath="SUCL2/K1" />
+    <SystemUnitClass Name="KX" ID="suc-kx" RefBaseClassPath="Ext@ExtSUCL/ExtClass" />
+    <SystemUnitClass Name="KY" ID="suc-ky" RefBaseClassPath="SUCL2/KX" />
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="ATL">
+    <AttributeType Name="T0" AttributeDataType="xs:string" />
+    <AttributeType Name="T1" AttributeDataType="xs:string" RefAttributeType="ATL/T0" />
+    <AttributeType Name="T2" AttributeDataType="xs:string" RefAttributeType="ATL/T1" />
+    <AttributeType Name="T3" AttributeDataType="xs:string" RefAttributeType="ATL/T2" />
+  </AttributeTypeLib>
+</CAEXFile>

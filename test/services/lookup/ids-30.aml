@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="ids-30.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-lookup" OriginID="gen-services-lookup" OriginVersion="1.0.0" LastWritingDateTime="2024-05-06T07:08:09" />
+  <ExternalReference Path="test/services/lookup/ext-lookup.aml" Alias="Ext" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Master" ID="ie-master" RefBaseSystemUnitPath="SUCL/Tank">
+      <Attribute Name="Level" AttributeDataType="xs:double">
+        <Value>1</Value>
+        <Attribute Name="Max" AttributeDataType="xs:double" />
+      </Attribute>
+      <ExternalInterface Name="Plug" ID="ei-master-plug" />
+      <ExternalInterface Name="NoId1" />
+      <ExternalInterface Name="NoId2" ID="" />
+      <InternalElement Name="Child" ID="ie-child" />
+    </InternalElement>
+    <InternalElement Name="Mirror" ID="ie-mirror" RefBaseSystemUnitPath="ie-master" />
+    <InternalElement Name="Mirror2" ID="ie-mirror2" RefBaseSystemUnitPath="ie-master" />
+    <InternalElement Name="MirrorOfMirror" ID="ie-mm" RefBaseSystemUnitPath="ie-mirror" />
+    <InternalElement Name="Holder" ID="ie-holder">
+      <ExternalInterface Name="PlugMirror" ID="ei-mirror" RefBaseClassPath="ei-master-plug" />
+      <ExternalInterface Name="Same" ID="dup" />
+      <InternalElement Name="Same" ID="dup" />
+      <InternalElement Name="NoId" />
+      <InternalElement Name="NoId" />
+      <InternalElement Name="Blank" ID=" " />
+    </InternalElement>
+    <InternalElement Name="Space Id" ID="id with space" />
+    <InternalElement Name="Guid" ID="{0f8c4d2e-1111-4a2b-9c3d-2e4f5a6b7c8d}" RefBaseSystemUnitPath="{0f8c4d2e-1111-4a2b-9c3d-2e4f5a6b7c8d}" />
+    <InternalElement Name="ExtMirror" ID="ie-extmirror" RefBaseSystemUnitPath="Ext@ext-ie" />
+    <InternalLink Name="L1" RefPartnerSideA="ei-master-plug" RefPartnerSideB="ei-mirror" />
+    <InternalLink Name="L2" RefPartnerSideA="dup" RefPartnerSideB="missing-id" />
+    <InternalLink Name="L3" RefPartnerSideA="Ext@ext-ei" RefPartnerSideB="ei-master-plug" />
+    <InternalLink Name="L4" RefPartnerSideA="" RefPartnerSideB="ie-master" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="Port" ID="ic-port" />
+  </InterfaceClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="Tank" ID="suc-tank">
+      <Attribute Name="Level" AttributeDataType="xs:double" />
+      <ExternalInterface Name="Plug" ID="suc-tank-plug" RefBaseClassPath="ICL/Port" />
+      <ExternalInterface Name="NoId" />
+      <InternalElement Name="In" ID="suc-tank-in">
+        <ExternalInterface Name="P" ID="suc-in-p" />
+      </InternalElement>
+      <InternalElement Name="Out" ID="suc-tank-out">
+        <ExternalInterface Name="P" ID="suc-out-p" />
+      </InternalElement>
+      <InternalLink Name="TL" RefPartnerSideA="suc-in-p" RefPartnerSideB="suc-out-p" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="DupId" ID="ie-master" />
+    <SystemUnitClass Name="NoId" />
+    <SystemUnitClass Name="NoId2" ID="" />
+  </SystemUnitClassLib>
+</CAEXFile>

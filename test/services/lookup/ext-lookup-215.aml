@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="ext-lookup-215.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InstanceHierarchy Name="ExtIH">
+    <InternalElement Name="ExtIE" ID="ext-ie">
+      <ExternalInterface Name="ExtEI" ID="ext-ei" RefBaseClassPath="ExtICL/ExtInterface" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ExtICL">
+    <InterfaceClass Name="ExtInterface" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="ExtRCL">
+    <RoleClass Name="ExtRole" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="ExtSUCL">
+    <SystemUnitClass Name="ExtClass" ID="ext-suc" />
+  </SystemUnitClassLib>
+</CAEXFile>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="names-215.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <ExternalReference Path="test/services/lookup/ext-lookup-215.aml" Alias="Ext" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="M1" ID="ie-m1" RefBaseSystemUnitPath="SUCL/Machine">
+      <Attribute Name="Power" AttributeDataType="xs:double">
+        <Value>5</Value>
+      </Attribute>
+      <ExternalInterface Name="Plug" ID="ei-m1-plug" RefBaseClassPath="ICL/Port" />
+      <InternalElement Name="Motor" ID="ie-m1-motor" RefBaseSystemUnitPath="SUCL/Motor" />
+      <RoleRequirements RefBaseRoleClassPath="RCL/Resource">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="Power" RoleAttributeName="Speed" />
+          <InterfaceNameMapping SystemUnitInterfaceName="Plug" RoleInterfaceName="In" />
+        </MappingObject>
+      </RoleRequirements>
+    </InternalElement>
+    <InternalElement Name="M2" ID="ie-m2" RefBaseSystemUnitPath="SUCL/Machine/Press">
+      <Attribute Name="Power" AttributeDataType="xs:double" />
+      <ExternalInterface Name="Plug" ID="ei-m2-plug" RefBaseClassPath="ICL/Port/Port" />
+      <ExternalInterface Name="Col" ID="ei-m2-col" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface" />
+    </InternalElement>
+    <InternalElement Name="Dup" ID="ie-dup1" />
+    <InternalElement Name="Dup" ID="ie-dup2" RefBaseSystemUnitPath="SUCL/Motor" />
+    <InternalLink Name="L1" RefPartnerSideA="ie-m1:Plug" RefPartnerSideB="ie-m2:Plug" />
+    <InternalLink Name="L2" RefPartnerSideA="ie-m2:Col" RefPartnerSideB="ie-m1:Missing" />
+    <InternalLink Name="L3" RefPartnerSideA="Ext@ext-ie:ExtEI" RefPartnerSideB="ie-m2:Plug" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="Port">
+      <InterfaceClass Name="Port" RefBaseClassPath="ICL/Port" />
+    </InterfaceClass>
+    <InterfaceClass Name="Ext" RefBaseClassPath="Ext@ExtICL/ExtInterface" />
+  </InterfaceClassLib>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="Resource">
+      <Attribute Name="Speed" AttributeDataType="xs:double" />
+      <ExternalInterface Name="In" RefBaseClassPath="ICL/Port" />
+    </RoleClass>
+  </RoleClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="Resource" RefBaseClassPath="RCL/Resource" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="Machine" ID="suc-machine">
+      <Attribute Name="Power" AttributeDataType="xs:double" />
+      <ExternalInterface Name="Plug" ID="suc-machine-plug" RefBaseClassPath="ICL/Port" />
+      <InternalElement Name="Motor" ID="suc-machine-motor" RefBaseSystemUnitPath="SUCL/Motor" />
+      <SupportedRoleClass RefRoleClassPath="RCL/Resource">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="Power" RoleAttributeName="Speed" />
+        </MappingObject>
+      </SupportedRoleClass>
+      <SystemUnitClass Name="Press" ID="suc-press" RefBaseClassPath="SUCL/Machine">
+        <Attribute Name="Power" AttributeDataType="xs:double" />
+        <ExternalInterface Name="Plug" ID="suc-press-plug" RefBaseClassPath="ICL/Port" />
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Motor" ID="suc-motor" />
+    <SystemUnitClass Name="Motor" ID="suc-motor-dup" />
+    <SystemUnitClass Name="Ext" ID="suc-ext" RefBaseClassPath="Ext@ExtSUCL/ExtClass" />
+  </SystemUnitClassLib>
+</CAEXFile>

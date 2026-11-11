@@ -215,16 +215,20 @@ same way when a recursion adds to the list it walks.
 
 None.
 
-## Open points for the verification against the original
+## Verified against the original
 
-- The order of the lookups listed above, especially after renames and deletions (free slot reuse of
-  the tables).
-- `CyclicReferenceException` exactly where the oracle overflows: the second `InsertBefore` of an
-  already registered class with an ID (the first one creates the self link), and later queries on
-  that document.
-- `NameReferenceTable.ChangeName` recurses into the elements whose name only reference points to the
-  renamed element (overriding elements in derived classes); with cyclic class hierarchies this may
-  not return in the original either. Not guarded.
-- `referenceUpdated` events (`UpdateEventArgs` with old and new values) with `isAutoUpdateEnabled`
-  and `supportsAutoUpdate` documents; the order of the events during a rename or delete.
-- Auto update of alias references (`ValueChanged` of `Alias`, `AliasReference.Update`).
+`test/services/lookup.oracle.test.ts` compares every public member on all corpus documents and
+generated ones, before and after random changes (docs/coverage-notes/services-lookup.md). The open
+points of the port are settled:
+
+- The order of the lookups and sequences, also after renames, deletions and re-insertions (free
+  slot reuse of the tables), is the original's.
+- `CyclicReferenceException` is thrown exactly where the original overflows the stack: cyclic ID
+  chains after a re-insertion, cyclic class hierarchies (`AllClassReferencesDeep`,
+  `AllExternalInterfacesOfType`), tables of cyclic documents.
+- `NameReferenceTable.ChangeName` stays unguarded: a cycle of name references cannot be built
+  (building the name references of a cyclic hierarchy already does not return in the engine), and
+  renames in hierarchies made cyclic later give the original's results.
+- `findByPath` of the MTP documents: the difference to the default QueryService is the original's.
+- `referenceUpdated` events (with `isAutoUpdateEnabled` and `supportsAutoUpdate`) are compared
+  after every call, in order; the auto update of alias references with alias changes.

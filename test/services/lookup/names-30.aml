@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="names-30.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-lookup" OriginID="gen-services-lookup" OriginVersion="1.0.0" LastWritingDateTime="2024-05-06T07:08:09" />
+  <ExternalReference Path="test/services/lookup/ext-lookup.aml" Alias="Ext" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="M1" ID="ie-m1" RefBaseSystemUnitPath="SUCL/Machine">
+      <Attribute Name="Power" AttributeDataType="xs:double">
+        <Value>5</Value>
+      </Attribute>
+      <ExternalInterface Name="Plug" ID="ei-m1-plug" RefBaseClassPath="ICL/Port" />
+      <ExternalInterface Name="Data" ID="ei-m1-data" RefBaseClassPath="ICL/Data" />
+      <InternalElement Name="Motor" ID="ie-m1-motor" RefBaseSystemUnitPath="SUCL/Motor" />
+      <RoleRequirements RefBaseRoleClassPath="RCL/Resource">
+        <Attribute Name="Speed" AttributeDataType="xs:double" />
+        <ExternalInterface Name="In" ID="ei-m1-in" RefBaseClassPath="ICL/Port" />
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="Power" RoleAttributeName="Speed" />
+          <InterfaceNameMapping SystemUnitInterfaceName="Plug" RoleInterfaceName="In" />
+          <InterfaceIDMapping SystemUnitInterfaceID="ei-m1-plug" RoleInterfaceID="ei-m1-in" />
+        </MappingObject>
+      </RoleRequirements>
+    </InternalElement>
+    <InternalElement Name="M2" ID="ie-m2" RefBaseSystemUnitPath="SUCL/Machine/Press">
+      <Attribute Name="Power" AttributeDataType="xs:double" />
+      <ExternalInterface Name="Plug" ID="ei-m2-plug" RefBaseClassPath="ICL/Port/Port" />
+      <ExternalInterface Name="Col" ID="ei-m2-col" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface" />
+    </InternalElement>
+    <InternalElement Name="M3" ID="ie-m3" RefBaseSystemUnitPath="SUCL/Machine/Press/Press">
+      <Attribute Name="Power" AttributeDataType="xs:double" />
+      <ExternalInterface Name="X" ID="ei-m3-x" RefBaseClassPath="Ext@ExtICL/ExtData" />
+    </InternalElement>
+    <InternalElement Name="Dup" ID="ie-dup1" />
+    <InternalElement Name="Dup" ID="ie-dup2" RefBaseSystemUnitPath="SUCL/Motor" />
+    <InternalLink Name="L1" RefPartnerSideA="ei-m1-plug" RefPartnerSideB="ei-m2-plug" />
+    <InternalLink Name="L2" RefPartnerSideA="ei-m1-data" RefPartnerSideB="ei-m2-col" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Other" ID="ie-other" RefBaseSystemUnitPath="SUCL/Second" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="Port">
+      <InterfaceClass Name="Port" RefBaseClassPath="ICL/Port">
+        <InterfaceClass Name="Port" RefBaseClassPath="ICL/Port/Port" />
+      </InterfaceClass>
+    </InterfaceClass>
+    <InterfaceClass Name="Data" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+    <InterfaceClass Name="ExtData" RefBaseClassPath="Ext@ExtICL/ExtData" />
+  </InterfaceClassLib>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+        <InterfaceClass Name="PLCopenXMLInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+      </InterfaceClass>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <InterfaceClassLib Name="ICL">
+    <InterfaceClass Name="Other" RefBaseClassPath="ICL/Port" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL">
+    <RoleClass Name="Resource">
+      <Attribute Name="Speed" AttributeDataType="xs:double" />
+      <ExternalInterface Name="In" RefBaseClassPath="ICL/Port" />
+      <RoleClass Name="Robot" RefBaseClassPath="RCL/Resource">
+        <Attribute Name="Speed" AttributeDataType="xs:double" />
+      </RoleClass>
+    </RoleClass>
+    <RoleClass Name="MyFacet" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+  </RoleClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Facet" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="Machine" ID="suc-machine">
+      <Attribute Name="Power" AttributeDataType="xs:double" />
+      <ExternalInterface Name="Plug" ID="suc-machine-plug" RefBaseClassPath="ICL/Port" />
+      <InternalElement Name="Motor" ID="suc-machine-motor" RefBaseSystemUnitPath="SUCL/Motor" />
+      <SupportedRoleClass RefRoleClassPath="RCL/Resource">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="Power" RoleAttributeName="Speed" />
+          <InterfaceNameMapping SystemUnitInterfaceName="Plug" RoleInterfaceName="In" />
+        </MappingObject>
+      </SupportedRoleClass>
+      <SystemUnitClass Name="Press" ID="suc-press" RefBaseClassPath="SUCL/Machine">
+        <Attribute Name="Power" AttributeDataType="xs:double" />
+        <ExternalInterface Name="Plug" ID="suc-press-plug" RefBaseClassPath="ICL/Port" />
+        <SystemUnitClass Name="Press" ID="suc-press2" RefBaseClassPath="SUCL/Machine/Press">
+          <Attribute Name="Power" AttributeDataType="xs:double" />
+        </SystemUnitClass>
+      </SystemUnitClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="Motor" ID="suc-motor" />
+    <SystemUnitClass Name="Motor" ID="suc-motor-dup" />
+    <SystemUnitClass Name="Ext" ID="suc-ext" RefBaseClassPath="Ext@ExtSUCL/ExtClass">
+      <ExternalInterface Name="P" ID="suc-ext-p" />
+      <SupportedRoleClass RefRoleClassPath="Ext@ExtRCL/ExtRole" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="SUCL">
+    <SystemUnitClass Name="Second" ID="suc-second" RefBaseClassPath="SUCL/Machine" />
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="ATL">
+    <AttributeType Name="Length" AttributeDataType="xs:double">
+      <Attribute Name="Unit" AttributeDataType="xs:string" />
+    </AttributeType>
+    <AttributeType Name="Width" AttributeDataType="xs:double" RefAttributeType="ATL/Length">
+      <Attribute Name="Unit" AttributeDataType="xs:string" />
+    </AttributeType>
+    <AttributeType Name="Ext" AttributeDataType="xs:string" RefAttributeType="Ext@ExtATL/ExtType" />
+  </AttributeTypeLib>
+</CAEXFile>
