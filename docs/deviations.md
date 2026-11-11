@@ -1,7 +1,8 @@
 # Deviations from Aml.Engine
 
-Where AmlEngine.js behaves differently from Aml.Engine 4.5.2 on purpose, or cannot behave the
-same. Everything not listed here is meant to be identical and is checked against the oracle.
+Where AmlEngine.js behaves differently from Aml.Engine 4.5.2 and Aml.Engine.Services 4.3.1 on
+purpose, or cannot behave the same. Everything not listed here is meant to be identical and is
+checked against the oracle.
 
 ## Decisions
 
@@ -58,6 +59,9 @@ original provably never returns; everything else behaves as before.
 | `CAEXPathBuilder.PathNameListWithSeparator` on a path longer than 65535 characters (the `ushort` loop counter wraps and the path is read again from the start) | endless loop, unless a later pass ends with `IndexOutOfRangeException` | the same exception where the original throws it; `ArgumentException` once a pass would repeat |
 | `XmlCAEXAttributes.GetPartialNodeCAEXPath` with a `root` that is not an ancestor (internal in C#, public in the port) | endless loop | `ArgumentException` |
 | `CopyAttributesFrom` with the target as its own source (each copy is appended to the sequence being walked) | endless loop, the attribute list grows until memory runs out | copies the attributes that were there, as the original does first, then `ArgumentException` |
+| LookupService (Aml.Engine.Services): an element that is already in the tables is inserted again, for example moved with `InsertBefore` (the chain of nodes with the same ID or name then contains itself) | stack overflow in `CAEXNode.LastAmbiguousNode` from the change handler, and in the other walkers of that chain | `CyclicReferenceException` |
+| LookupService: `AllClassReferencesDeep` on base class references in a cycle | stack overflow | `CyclicReferenceException` |
+| ExternalReferenceResolver (Aml.Engine.Services): a redirection of an absolute address to itself | endless loop | `InvalidOperationException` |
 
 `CyclicReferenceException` (exported from the package) derives from `InvalidOperationException`;
 its `element` is the XML element at which the cycle was detected, and its message names it. The
@@ -66,7 +70,10 @@ directions: for the `cyclic-*` documents of the read package it records every si
 overflows the stack or does not return within 5 s (`!stackoverflow`, `!hang`), and the port must
 throw `CyclicReferenceException` for exactly these calls and give the original's result for all
 others (`test/engine/reads.oracle.test.ts`); the path, partial path and self copy cases are in
-`test/noreturn/cases.json` (`test/engine/noreturn.oracle.test.ts`).
+`test/noreturn/cases.json` (`test/engine/noreturn.oracle.test.ts`). For the LookupService the
+lookup oracle records the same for every call of its scripts (`test/services/lookup.oracle.test.ts`,
+335 calls in 37 scripts), and the mutation scripts run with the service registered record the step
+at which the original's process ended (`scripts/services-check.mjs`).
 
 ## Limitations
 
@@ -81,8 +88,11 @@ from the current time are affected; parsed and computed dates keep their full pr
 
 `SetAttributeValueCmd.Execute` compares old and new value with `object != object`, which is a
 reference comparison in C#. JS compares strings by value. The port treats the values as
-different unless both are null or both are the same fallback `""`. This only affects whether
-change events fire and undo commands are recorded when a value is set to an equal string.
+different unless both are null or both are the same fallback `""`. This affects whether change
+events fire and undo commands are recorded when a value is set to an equal string. With the
+LookupService registered, that extra change can also reach a reference list the operation is
+walking, which then throws where the original returns: 2 of the 816 mutation scripts run with the
+service registered (`SERVICE_DEVIATIONS` in `test/engine/mutations.oracle.test.ts`).
 
 ### Very deep documents
 
@@ -150,6 +160,28 @@ file path that Node resolves against the working directory stays as written: the
 reports "file not found: lib.aml" in the browser where Node reports the full path. The scenario of
 the check removes that directory part before it compares.
 
+## Services (Aml.Engine.Services, Aml.Engine.Resources)
+
+The services are compared with Aml.Engine.Services 4.3.1 and Aml.Engine.Resources 4.2.1 by the
+tests in `test/services` (one oracle command per area, notes in `docs/coverage-notes/services-*.md`).
+Everything not listed here gave the original's results.
+
+### Synchronous calls that need the network
+
+The synchronous methods of `ExternalReferenceResolver` (LoadOrGetReferencedDocument,
+ResolveExternalDocument, CanResolve) and the engine members that call them
+(`ExternalReference.ExternalDocument`, FindByPath and FindByID with an alias, base classes from
+external documents) block in the original on the request of an http(s) or GitHub address.
+JavaScript cannot wait for a request synchronously: the port takes the failure path ("Error
+sending the request for {uri}" with the message "Synchronous access to '{uri}' needs the network;
+use the asynchronous methods.", false for CanResolve, no document). Unlike a failed request, this
+failure does not mark the address as unresolved: load such documents with the asynchronous methods
+first (LoadOrGetReferencedDocumentAsync, ResolveExternalDocumentAsync); the synchronous methods and
+the engine then find them in the resolver. A synchronous call while an asynchronous one holds the
+lock of the resolver runs at once (the original waits). FTP is not supported. The requests use
+fetch: no timeout, at most 20 redirects (HttpClient 50), a 407 answer is a network error, `'` in the
+query is escaped; in browsers CORS applies.
+
 ### ValidatorService: references over the network
 
 `ValidatorService` (Aml.Engine.Services) checks whether the paths of external references and the
@@ -168,6 +200,40 @@ container part ("part not found in AML Container: /http%3A//…"). The branch af
 prefix; none of the tested references is one, so the port's request-free variant of that branch is
 not compared. Without a file system (browser) `File.Exists` is false, so local file references are
 reported as not found.
+
+### AMLEditionTransformer: synchronous transformation
+
+`AMLEditionTransformer.TransformToEdition` is synchronous and blocks twice on the library service:
+`LoadLibraryCatalogAsync(...).Result`, to replace external references by documents of the new
+edition, and `LoadClassRepositoryAsync(...).Result`, to assign attribute types to the attributes
+of classes. The port's `transformToEdition` behaves exactly like the original as long as no load is
+needed (a document that is not CAEX 2.15; no external references or no library catalog in the
+server profile; no attributes in class libraries or no class catalog in the server profile). Where
+the original would load, it throws `NotSupportedException` and points to `transformToEditionAsync`;
+the document passed in is unchanged, the messages up to that point have been logged, and the schema
+transformer started for the call is unregistered again. `transformToEditionAsync` (not in the
+original) runs the same steps and awaits both loads; a load that fails is thrown as its own error,
+where `.Result` wraps it in an `AggregateException`. The test compares `transformToEditionAsync`
+with the original's `TransformToEdition` in every scenario and the synchronous method wherever no
+load is needed.
+
+### Smaller differences
+
+- UniqueNameService: PLINQ collects the exceptions of all partitions that fail; with several
+  overflowing name numbers the original's `AggregateException` can hold more than one, depending on
+  scheduling. The port wraps the first one.
+- Document lifetime: the service dictionaries hold their documents as in C#, but because the
+  engine's document table holds wrappers weakly by their XDocument ("Document table: weak
+  references only"), a document dropped without `Unload` stays in a service dictionary until
+  `Unload`, where .NET could report it as collected.
+- Aml.Engine.Resources: `ReadAutomationMLLibraryInformation` leaves its file open in C# (a later
+  `Save` to the same path fails); the port reads the file completely. `PublicLibraryCatalog.deserialize`
+  (a port helper standing for `JsonSerializer.Deserialize`) names a null argument "json" for byte
+  input too. `EnumDescriptionTypeConverter` takes every number as a value of its enum; `Enum[]`,
+  `InstanceDescriptor` and the other members of `EnumConverter` are not ported. `ClassRepositoryItem`
+  has no `with`.
+- Paths: the expected outputs come from .NET on Windows; split, merge and file references are not
+  compared with .NET on Linux.
 
 ## System layer (src/system)
 
