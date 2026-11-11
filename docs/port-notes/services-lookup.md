@@ -181,8 +181,8 @@ Marked `// Aml.Engine:` in the code where it is not obvious.
   reference table.
 - `allElementsIdentifiedByCAEXPath` returns null (not an empty lookup) when the document has no
   tables (a detached object); `elementsWithCAEXPathReference` returns null for an empty or white
-  space path; `allClassReferences(CAEXObject)` throws `ArgumentNullException('source')` for an object
-  of a document without tables (Select over a null-conditional result).
+  space path. (`allClassReferences(CAEXObject)` returns an empty sequence for an object of a
+  document without tables: the null-conditional call covers the whole query.)
 - `allExternalInterfacesOfType` throws `ArgumentNullException('caexObject')` for an empty interface
   class path (wrong parameter name).
 - `LookupService.findByPath` resolves only CAEX classes (the class table): it does not find
@@ -192,11 +192,22 @@ Marked `// Aml.Engine:` in the code where it is not obvious.
 - The private `ExternalReferences` and `_changeModeValues` are unused in the original; ported as they
   are.
 
+## Changes during enumeration
+
+The tables derive from `Dictionary` and keep their references in `List` of `src/system/linq.ts`,
+which check for changes during enumeration as .NET does: adding a key to a Dictionary, and any
+change of a List (Add, Remove of an item, RemoveAll and Clear that remove something, AddRange of
+items), makes the next step of an enumeration started before it throw `InvalidOperationException`
+("Collection was modified; enumeration operation may not execute."). The service returns many
+results lazily over these lists (`elementsWithIDReference`, `elementsWithCAEXPathReference`,
+`elementsWithAliasReference`, the mirror and class reference queries). When a caller changes a
+reference while it enumerates such a result, the change handler of the service updates the list
+and the enumeration fails, as in C#: `ChangeNameAndReferences` and `AssignNewGuidAsID(true)` of the
+engine stop after the first reference in these cases. `NameReferenceTable.ChangeName` fails the
+same way when a recursion adds to the list it walks.
+
 ## Not reproduced
 
-- "Collection was modified" exceptions of `List<T>` and `Dictionary<,>` enumerators. In the flows of
-  the service no table is changed while it is enumerated (the change handlers are paused while the
-  tables rewrite references).
 - The `lock` of DocumentReferenceDictionary and the `catch { throw; }` of `CreateTablesForDocument`
   (no effect).
 

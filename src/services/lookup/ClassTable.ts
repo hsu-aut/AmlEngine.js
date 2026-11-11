@@ -10,7 +10,7 @@ import { XmlCAEXAttributes } from '../../engine/xmlext/XmlCAEXAttributes.js';
 import { XmlCAEXSchema } from '../../engine/xmlext/XmlCAEXSchema.js';
 import { XmlOperation } from '../../engine/xmlext/XmlOperation.js';
 import { ArgumentOutOfRangeException, IndexOutOfRangeException } from '../../system/exceptions.js';
-import { Enumerable, from } from '../../system/linq.js';
+import { Enumerable, List, from } from '../../system/linq.js';
 import { isNullOrEmpty, isNullOrWhiteSpace } from '../../system/strings.js';
 import type { XElement } from '../../xml/index.js';
 import type { CAEXBasicObject } from '../../engine/caex/CAEXBasicObject.js';
@@ -50,7 +50,7 @@ const classReferencesGuard = new RecursionGuard('The base class references');
  */
 export class ClassTable extends CAEXNodeTable {
   /** Nodes with references removed by Delete (static in C#). */
-  static deletedNodesWithReference: CAEXNode[] = [];
+  static deletedNodesWithReference: List<CAEXNode> = new List<CAEXNode>();
 
   /** The path references of all nodes of the table and of the class hierarchy below them. */
   get allPathReferences(): Enumerable<CAEXNodeReference> {
@@ -179,8 +179,8 @@ export class ClassTable extends CAEXNodeTable {
         this.remove(key);
         if (value !== null) {
           const elementReferences = value.elementReferences;
-          if (elementReferences !== null && elementReferences.length > 0) {
-            ClassTable.deletedNodesWithReference.push(value);
+          if (elementReferences !== null && elementReferences.count > 0) {
+            ClassTable.deletedNodesWithReference.add(value);
           }
         }
       } else {

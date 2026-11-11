@@ -17,7 +17,7 @@ import { XmlCAEXAttributes } from '../../engine/xmlext/XmlCAEXAttributes.js';
 import { XmlCAEXSchema } from '../../engine/xmlext/XmlCAEXSchema.js';
 import { XmlOperation } from '../../engine/xmlext/XmlOperation.js';
 import { NotImplementedException } from '../../system/exceptions.js';
-import { Enumerable, from } from '../../system/linq.js';
+import { Enumerable, List, from } from '../../system/linq.js';
 import { isNullOrEmpty } from '../../system/strings.js';
 import type { XElement } from '../../xml/index.js';
 import type { IObjectWithAttributes } from '../../engine/caex/IObjectWithAttributes.js';
@@ -46,14 +46,6 @@ function chainName(identifier: CAEXNode_Identifier): string {
       : 'The lookup table nodes';
 }
 
-/** C# `list.Remove(item)`: removes the first occurrence (reference equality). */
-function removeItem<X>(list: X[], item: X): boolean {
-  const i = list.indexOf(item);
-  if (i < 0) return false;
-  list.splice(i, 1);
-  return true;
-}
-
 /** A node of a lookup table: an element (or a placeholder for an unresolved key) and the references to it. */
 export class CAEXNode {
   static readonly Identifier = CAEXNode_Identifier;
@@ -78,10 +70,10 @@ export class CAEXNode {
     return this.idReferences.where((r) => r.isInternalElementMirror);
   }
 
-  private _elementReferences: CAEXNodeReference[] | null = null;
+  private _elementReferences: List<CAEXNodeReference> | null = null;
 
   /** All references to this node (the setter is private in C#). */
-  get elementReferences(): CAEXNodeReference[] | null {
+  get elementReferences(): List<CAEXNodeReference> | null {
     return this._elementReferences;
   }
 
@@ -155,9 +147,9 @@ export class CAEXNode {
   /** Adds a reference to this node. */
   addReference(reference: CAEXNodeReference): void {
     if (this._elementReferences === null) {
-      this._elementReferences = [];
+      this._elementReferences = new List<CAEXNodeReference>();
     }
-    this._elementReferences.push(reference);
+    this._elementReferences.add(reference);
   }
 
   /**
@@ -191,9 +183,9 @@ export class CAEXNode {
         const cAEXNodeReference = from(node._elementReferences).firstOrDefault((e) => e.referenceAttributeName === attribute && e.element === xElement);
         if (cAEXNodeReference !== null) {
           LookupService.lookUpService!.onReferenceUpdate(node.element, cAEXNodeReference, cAEXNodeReference.referenceAttributeValue, null);
-          removeItem(node._elementReferences, cAEXNodeReference);
+          node._elementReferences.remove(cAEXNodeReference);
         }
-        if (node._elementReferences.length === 0) {
+        if (node._elementReferences.count === 0) {
           node._elementReferences = null;
         }
       }
@@ -287,7 +279,7 @@ export class CAEXNode {
         }
       }
       if (!item.update(referencedElement, oldID, newID)) {
-        removeItem(this._elementReferences!, item);
+        this._elementReferences!.remove(item);
       }
     }
   }
@@ -297,7 +289,7 @@ export class CAEXNode {
     if (this._elementReferences !== null) {
       for (const item of from(this._elementReferences).ofType(PathReference).toList()) {
         if (!item.update(this.element, oldName, newName)) {
-          removeItem(this._elementReferences!, item);
+          this._elementReferences!.remove(item);
         }
       }
     }
@@ -326,7 +318,7 @@ export class CAEXNode {
         }
       }
       if (!item.updateAttributeReference(referencedElement, oldPath, newPath)) {
-        if (this._elementReferences !== null) removeItem(this._elementReferences, item);
+        this._elementReferences?.remove(item);
       }
     }
   }
@@ -370,7 +362,7 @@ export class CAEXNode {
   updateInterfaceReferences(oldName: string | null, newName: string | null): void {
     for (const item of this.internalLinks.toList()) {
       if (!item.updateInternalLinkReference(this.referencedExternalInterface(item), oldName, newName)) {
-        if (this._elementReferences !== null) removeItem(this._elementReferences, item);
+        this._elementReferences?.remove(item);
       }
     }
   }

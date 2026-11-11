@@ -4,7 +4,7 @@ import '../../engine/index.js';
 import { CAEXFileType } from '../../engine/caex/CAEXFileType.js';
 import { XmlCAEXSchema } from '../../engine/xmlext/XmlCAEXSchema.js';
 import { XmlClassOperation } from '../../engine/xmlext/XmlClassOperation.js';
-import { Dictionary, Enumerable, from } from '../../system/linq.js';
+import { Dictionary, Enumerable, List, from } from '../../system/linq.js';
 import { isNullOrEmpty } from '../../system/strings.js';
 import type { XElement } from '../../xml/index.js';
 import type { CAEXBasicObject } from '../../engine/caex/CAEXBasicObject.js';
@@ -13,17 +13,9 @@ import { LookupTables } from './LookupTables.js';
 import { LookupService } from '../LookupService.js';
 import type { IDTable } from './IDTable.js';
 
-/** C# `list.Remove(item)`: removes the first occurrence (reference equality). */
-function removeItem<X>(list: X[], item: X): boolean {
-  const i = list.indexOf(item);
-  if (i < 0) return false;
-  list.splice(i, 1);
-  return true;
-}
-
 /** The references by name (overridden elements, mappings), by the referenced element. */
-export class NameReferenceTable extends Dictionary<XElement, CAEXNodeReference[]> {
-  private readonly unresolvedNameReferences: CAEXNodeReference[] = [];
+export class NameReferenceTable extends Dictionary<XElement, List<CAEXNodeReference>> {
+  private readonly unresolvedNameReferences = new List<CAEXNodeReference>();
 
   /** The ID table of the document (its InternalLinks or attribute mirrors are name references too). */
   idTable: IDTable | null = null;
@@ -31,15 +23,15 @@ export class NameReferenceTable extends Dictionary<XElement, CAEXNodeReference[]
   /** Registers the name reference to the element (an unresolved reference, if the element is null). */
   addReference(referencedElement: XElement | null, cAEXNodeReference: CAEXNodeReference): void {
     if (referencedElement === null) {
-      this.unresolvedNameReferences.push(cAEXNodeReference);
+      this.unresolvedNameReferences.add(cAEXNodeReference);
       return;
     }
     let value = this.tryGetValue(referencedElement).value;
     if (value === null) {
-      value = [];
+      value = new List<CAEXNodeReference>();
       this.setItem(referencedElement, value);
     }
-    value.push(cAEXNodeReference);
+    value.add(cAEXNodeReference);
     LookupService.lookUpService!.onReferenceUpdate(referencedElement, cAEXNodeReference, null, cAEXNodeReference.referenceAttributeValue);
   }
 
@@ -54,9 +46,9 @@ export class NameReferenceTable extends Dictionary<XElement, CAEXNodeReference[]
         }
       }
     }
-    for (const item2 of this.unresolvedNameReferences.slice()) {
+    for (const item2 of this.unresolvedNameReferences.toArray()) {
       if (XmlCAEXSchema.referencedElement(item2.element, null) === xElement) {
-        removeItem(this.unresolvedNameReferences, item2);
+        this.unresolvedNameReferences.remove(item2);
         this.addReference(xElement, item2);
       }
     }
@@ -74,16 +66,8 @@ export class NameReferenceTable extends Dictionary<XElement, CAEXNodeReference[]
   private deleteNameReference(referencedElement: XElement, cAEXElement: XElement, cAEXAttributeName: string | null): void {
     const value = this.tryGetValue(referencedElement).value;
     if (value !== null) {
-      // List.RemoveAll
-      let j = 0;
-      for (let i = 0; i < value.length; i++) {
-        const c = value[i]!;
-        if (!(c.element === cAEXElement && cAEXAttributeName === c.referenceAttributeName)) {
-          value[j++] = c;
-        }
-      }
-      value.length = j;
-      if (value.length === 0) {
+      value.removeAll((c) => c.element === cAEXElement && cAEXAttributeName === c.referenceAttributeName);
+      if (value.count === 0) {
         this.remove(referencedElement);
       }
     }
@@ -93,7 +77,7 @@ export class NameReferenceTable extends Dictionary<XElement, CAEXNodeReference[]
   changeNameReference(cAEXElement: XElement, cAEXAttributeName: string | null, oldNameRef: string | null, newNameRef: string | null): void {
     let unresolvedNameRef: CAEXNodeReference | null;
     if ((unresolvedNameRef = this.getUnresolvedNameRef(cAEXElement, cAEXAttributeName)) !== null) {
-      removeItem(this.unresolvedNameReferences, unresolvedNameRef);
+      this.unresolvedNameReferences.remove(unresolvedNameRef);
     } else {
       const xAttribute = cAEXElement.attribute(cAEXAttributeName!);
       const xElement = xAttribute !== null ? XmlCAEXSchema.referencedElement(xAttribute, oldNameRef) : null;

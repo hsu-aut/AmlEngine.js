@@ -6,7 +6,7 @@ import { CAEXWrapper } from '../../engine/caex/CAEXWrapper.js';
 import { CAEXDocumentExtensions } from '../../engine/caex/extensions/CAEXDocumentExtensions.js';
 import { InheritanceExtensions } from '../../engine/caex/extensions/InheritanceExtensions.js';
 import { XmlCAEXSchema } from '../../engine/xmlext/XmlCAEXSchema.js';
-import { Dictionary, Enumerable, from } from '../../system/linq.js';
+import { Dictionary, Enumerable, List, from } from '../../system/linq.js';
 import { isNullOrEmpty } from '../../system/strings.js';
 import type { XElement } from '../../xml/index.js';
 import type { CAEXBasicObject } from '../../engine/caex/CAEXBasicObject.js';
@@ -19,16 +19,8 @@ import { CAEXNodeTable } from './CAEXNodeTable.js';
 import { LookupService } from '../LookupService.js';
 import type { CAEXNodeReference } from './CAEXNodeReference.js';
 
-/** C# `list.Remove(item)`: removes the first occurrence (reference equality). */
-function removeItem<X>(list: X[], item: X): boolean {
-  const i = list.indexOf(item);
-  if (i < 0) return false;
-  list.splice(i, 1);
-  return true;
-}
-
 /** The Alias table is a registry of all alias references using the alias name as a key. */
-export class AliasTable extends Dictionary<string, AliasReference[]> {
+export class AliasTable extends Dictionary<string, List<AliasReference>> {
   /** All alias references. */
   get aliasReferences(): Enumerable<AliasReference> {
     return new Enumerable(() => this.values()).selectMany((s) => s);
@@ -47,11 +39,11 @@ export class AliasTable extends Dictionary<string, AliasReference[]> {
     aliasReference.identifier = identifier;
     let value = this.tryGetValue(alias).value;
     if (value === null) {
-      value = [];
+      value = new List<AliasReference>();
       this.setItem(alias, value);
     }
-    if (!value.some((r) => r.element === xElement && r.referenceAttributeName === attribute)) {
-      value.push(aliasReference);
+    if (!from(value).any((r) => r.element === xElement && r.referenceAttributeName === attribute)) {
+      value.add(aliasReference);
     }
     if (LookupService.lookUpService!.supportsUpdate(aliasReference)) {
       const lookUpService = LookupService.lookUpService!;
@@ -109,10 +101,9 @@ export class AliasTable extends Dictionary<string, AliasReference[]> {
     const root = CAEXNodeTable.root(caexObject);
     let source: Enumerable<AliasReference>;
     if (isNullOrEmpty(alias)) {
-      const list: AliasReference[] = [];
-      for (const item of from(this).selectMany(([, v]) => v)) {
-        list.push(item);
-      }
+      // C#: a new List filled with AddRange, wrapped in a read only list (a copy of the tables)
+      const list = new List<AliasReference>();
+      list.addRange(from(this).selectMany(([, v]) => v));
       source = from(list);
     } else {
       const value = this.tryGetValue(alias).value;
@@ -138,14 +129,14 @@ export class AliasTable extends Dictionary<string, AliasReference[]> {
     }
     const aliasReference = from(value).firstOrDefault((a) => a.element === xElement);
     if (aliasReference !== null) {
-      removeItem(value, aliasReference);
+      value.remove(aliasReference);
       if (LookupService.lookUpService!.supportsUpdate(aliasReference)) {
         const lookUpService = LookupService.lookUpService!;
         const obj = LookupService.lookUpService!.findByPath(XmlCAEXSchema.caexDocument(xElement), aliasReference.referenceAttributeValue);
         lookUpService.onReferenceUpdate(obj !== null ? obj.node : null, aliasReference, oldReference, aliasReference.referenceAttributeValue);
       }
     }
-    if (value.length === 0) {
+    if (value.count === 0) {
       this.remove(alias);
     }
   }
@@ -168,9 +159,7 @@ export class AliasTable extends Dictionary<string, AliasReference[]> {
     if (!deleteReferences && newAlias !== null) {
       const value2 = this.tryGetValue(newAlias).value;
       if (value2 !== null) {
-        for (const item of value) {
-          value2.push(item);
-        }
+        value2.addRange(value);
       } else {
         this.setItem(newAlias, value);
       }

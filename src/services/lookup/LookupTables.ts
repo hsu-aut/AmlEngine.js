@@ -10,7 +10,7 @@ import { XmlCAEXAttributes } from '../../engine/xmlext/XmlCAEXAttributes.js';
 import { XmlCAEXSchema } from '../../engine/xmlext/XmlCAEXSchema.js';
 import { XmlClassOperation } from '../../engine/xmlext/XmlClassOperation.js';
 import { ArgumentOutOfRangeException } from '../../system/exceptions.js';
-import type { Enumerable } from '../../system/linq.js';
+import { List, type Enumerable } from '../../system/linq.js';
 import { isNullOrEmpty, isNullOrWhiteSpace } from '../../system/strings.js';
 import { XElement } from '../../xml/index.js';
 import type { CAEXBasicObject } from '../../engine/caex/CAEXBasicObject.js';
@@ -168,13 +168,13 @@ export class LookupTables {
   deleteElementAndDescandants(rootElement: XElement): void {
     if (XmlCAEXSchema.isCAEXClass(rootElement, true)) {
       const text = XmlCAEXAttributes.caexPath(rootElement);
-      ClassTable.deletedNodesWithReference = [];
+      ClassTable.deletedNodesWithReference = new List<CAEXNode>();
       this.classTable.delete(rootElement, CAEXPathBuilder.pathNameArray(text, this.document.schema, false));
       for (const item of ClassTable.deletedNodesWithReference) {
         const node: CAEXNode = item;
         this.classTable.addNode(' ', CAEXNode_Identifier.NAME, node);
       }
-      ClassTable.deletedNodesWithReference.length = 0;
+      ClassTable.deletedNodesWithReference.clear();
     }
     for (const item2 of rootElement.descendantsAndSelf()) {
       if (XmlCAEXSchema.isExternalReference(item2)) {

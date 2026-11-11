@@ -191,10 +191,13 @@ export class LookupService implements IQuery, IAMLService, IAutoUpdate, IXMLDocu
       if (!implementsInterface(caexObject, 'IClassWithBaseClassReference')) {
         return Enumerable.empty<CAEXObject>();
       }
-      // C#: Select over the result of a null-conditional call, which fails with an
-      // ArgumentNullException when the document has no tables.
+      // C#: the null-conditional call covers the Select, OfType and Cast of the query; without
+      // tables (an object of no document) the result is the empty array of `??`.
       const references = this._caexElementDictionary.getOrLoadValue(caexObject.document, true)?.classTable.allPathReferencesToObject(caexObject) ?? null;
-      return from(references!)
+      if (references === null) {
+        return Enumerable.empty<CAEXObject>();
+      }
+      return from(references)
         .select((r) => r.caexObject)
         .ofType((x): x is CAEXBasicObject => implementsInterface(x, 'IClassWithBaseClassReference'))
         .cast<CAEXObject>();
@@ -580,7 +583,7 @@ export class LookupService implements IQuery, IAMLService, IAutoUpdate, IXMLDocu
     if (orLoadValue === null) {
       return false;
     }
-    const count = orLoadValue.classTable.findByPath(caexObject.caexPath())?.elementReferences?.length ?? null;
+    const count = orLoadValue.classTable.findByPath(caexObject.caexPath())?.elementReferences?.count ?? null;
     return count !== null && count > 0;
   }
 
