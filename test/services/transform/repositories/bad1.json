@@ -1,0 +1,14 @@
+[
+  {
+    "match": "Weight",
+    "item": [
+      "Weight",
+      "AutomationMLBaseAttributeTypeLib/Weight",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "x.y",
+      "AMLEd2",
+      null
+    ]
+  }
+]

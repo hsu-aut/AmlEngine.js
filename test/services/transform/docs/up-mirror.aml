@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="up-mirror.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Master" ID="0f38c3a2-30db-420d-a8bd-ee154f585a42">
+      <Attribute Name="A1" />
+      <ExternalInterface Name="P1" ID="6e814bdf-e3d7-4d3b-a91f-36ea2cccedbb" />
+      <InternalElement Name="C1" ID="7b0ee3b4-5e5b-42fe-aae6-450258739749" />
+      <InternalElement Name="C2" ID="9e688a1d-b6b5-411d-a216-42b8512ccf6d" />
+    </InternalElement>
+    <InternalElement Name="Group" ID="618ac65b-f86a-4061-a37d-5b314d971068">
+      <InternalElement Name="Mirror1" ID="62a19663-3396-470d-a47b-6a64e2c4259c" RefBaseSystemUnitPath="0f38c3a2-30db-420d-a8bd-ee154f585a42">
+        <Attribute Name="A1"><Value>mirror</Value></Attribute>
+        <Attribute Name="A2" />
+        <ExternalInterface Name="P1" ID="5fd7eb4f-e5db-4ef8-abf0-d864b24380ee" />
+        <ExternalInterface Name="P2" ID="073fc77e-05dc-498d-ac4a-1d616b94272e" />
+        <InternalElement Name="C1" ID="e08c9385-72d1-4d29-a846-ab895c61a662" />
+        <InternalElement Name="C3" ID="ec5f76da-c992-4e44-aa50-931d21e1f06b" />
+      </InternalElement>
+      <InternalElement Name="Mirror2" ID="a55d273c-803f-45cc-ab4d-302c6ffe262f" RefBaseSystemUnitPath="{0f38c3a2-30db-420d-a8bd-ee154f585a42}" />
+      <InternalElement Name="Mirror3" ID="11d50142-9f63-4698-a5b1-b57f69c335c3" RefBaseSystemUnitPath="672e395f-d95d-4bf5-a024-02c3d897e8f5">
+        <Attribute Name="Orphan" />
+      </InternalElement>
+      <InternalElement Name="Mirror4" ID="480531de-ee73-4af6-a978-2a00f755fc96" RefBaseSystemUnitPath="{0f38c3a2-30db-420d-a8bd-ee154f585a42}">
+        <Attribute Name="A3" />
+      </InternalElement>
+    </InternalElement>
+  </InstanceHierarchy>
+</CAEXFile>

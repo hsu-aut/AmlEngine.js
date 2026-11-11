@@ -1,0 +1,4631 @@
+{
+ "services": {
+  "none": {
+   "admin": []
+  },
+  "nullProfile": {
+   "profile": false
+  },
+  "cat-embedded": {
+   "admin": [
+    3
+   ],
+   "catalog": "embedded"
+  },
+  "cat-a": {
+   "admin": [
+    3
+   ],
+   "catalog": "a"
+  },
+  "cat-null": {
+   "admin": [
+    3
+   ],
+   "catalog": null
+  },
+  "cat-throw": {
+   "admin": [
+    3
+   ],
+   "catalog": "a",
+   "catalogMode": "throw"
+  },
+  "cat-fault": {
+   "admin": [
+    3
+   ],
+   "catalog": "a",
+   "catalogMode": "fault"
+  },
+  "repo-r1": {
+   "admin": [
+    4
+   ],
+   "repository": "r1"
+  },
+  "repo-null": {
+   "admin": [
+    4
+   ],
+   "repository": null
+  },
+  "repo-fault": {
+   "admin": [
+    4
+   ],
+   "repository": "r1",
+   "repositoryMode": "fault"
+  },
+  "full-a": {
+   "admin": [
+    3,
+    4
+   ],
+   "catalog": "a",
+   "repository": "r1"
+  },
+  "full-b": {
+   "admin": [
+    3,
+    4
+   ],
+   "catalog": "b",
+   "repository": "r1"
+  },
+  "full-embedded": {
+   "admin": [
+    3,
+    4
+   ],
+   "catalog": "embedded",
+   "repository": "r1"
+  },
+  "full-empty": {
+   "admin": [
+    3,
+    4
+   ],
+   "catalog": "a",
+   "repository": "empty"
+  },
+  "full-all": {
+   "admin": [
+    3,
+    4
+   ],
+   "catalog": "a",
+   "repository": "all"
+  },
+  "full-bad1": {
+   "admin": [
+    3,
+    4
+   ],
+   "catalog": "a",
+   "repository": "bad1"
+  },
+  "full-bad2": {
+   "admin": [
+    3,
+    4
+   ],
+   "catalog": "a",
+   "repository": "bad2"
+  },
+  "full-bad3": {
+   "admin": [
+    3,
+    4
+   ],
+   "catalog": "a",
+   "repository": "bad3"
+  },
+  "admin-order": {
+   "admin": [
+    4,
+    0,
+    3,
+    3,
+    4
+   ],
+   "catalog": "a",
+   "repository": "r1"
+  }
+ },
+ "schema": [
+  {
+   "doc": "gen:up-meta.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:up-nometa.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:up-roles.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:up-roles-null.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:up-mirror.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:up-links.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-none.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-many.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-sparse.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-nodate.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-baddate.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:down-roles.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:down-roles-nullpath.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:down-roles-nosu.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:down-links.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:ed-extrefs.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:ed-attrs.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:ed-attrs-noref.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "gen:ed-emptyname.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup",
+    "events",
+    "nulltarget",
+    "unregistered"
+   ]
+  },
+  {
+   "doc": "corpus:0_EmptyFile_V2.0.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:0_EmptyFile_V2.1.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:10_RefSemantic.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:11_Constraints.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:12_MirrorObject.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:13_Facet.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:1_AMLBaseLibraries.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:2016_OPCF_UA-Nodeset-AML_Topology.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:2017-02-20_DataVariable.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:2_IE.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:3_IE_Attribute.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:4_IH.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:5_SUC.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:6_RCL.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:7_ICL.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:8_AMLAttributeLibrary.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:9_ExtInt_IntLink.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:AssetAdministrationShellLib.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:AssetAdministrationShellLib_Full.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:AutomationML_ARAPC_Libraries_AMLEd1_1.4.0.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:AutomationML_Base_Libraries_AMLEd2_2.11.0.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:AutomationML_ObjectReferences_AttributeTypeLib_AMLEd2_1.1.1-beta.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:Bohrmodul_FPD.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:Bohrmodul_Schnitt.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:Bridging.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:BridgingExample_MPS500.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:Bridging_2.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:CommunicationInterfaceClassLib_V1.0.0.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:CommunicationRoleClassLib_V1.0.1.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:DemoLib.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:Deviations.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:EFL_DomainLibrary_v0.1.0.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:I40_UA-AML-Example.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:ISO_PT_DomainLibrary_v0.3.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:ISO_PT_DomainLibrary_v0.3_2.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:MPS500_FPD.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:MPS500_Integrated.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:MPS500_PT_export.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:MPS500_PlantStructure.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:MPS500_QualityCheck.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:MPS500_QualityCheck_2.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:MTPPy_example_minimal_manifest.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:MTPPy_mtp_example.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:Manifest.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:Manifest_2.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:OMG_DD_AttributeTypeLib_v0.1.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:ObjectReferences_AttributeTypeLib.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:QualityGate.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:QualityGate_2.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:Showcase-A-WaermetauscherMitRegelung.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:Showcase-B-PharmaChargeUndReinigung.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:Showcase-C-CncRobotikMontage.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:Topology.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:UnifiedAASExampleVWSiD2.0.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:VDI3682_Lib_v0.1.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:VDI_FPD_DomainLibrary_v0.7.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:bottling-line.elements.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:bottling-line.links.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:legacy-caex215.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:plant.aml",
+   "modes": [
+    "plain",
+    "ids",
+    "undo",
+    "lookup"
+   ]
+  },
+  {
+   "doc": "corpus:quality-gate.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:quality-gate_2.aml",
+   "modes": [
+    "plain"
+   ]
+  },
+  {
+   "doc": "corpus:test.aml",
+   "modes": [
+    "plain"
+   ]
+  }
+ ],
+ "engine": [
+  {
+   "doc": "gen:up-meta.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:up-nometa.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:up-roles.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:up-roles-null.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:up-mirror.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:up-links.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-none.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-many.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-sparse.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-nodate.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:down-sdi-baddate.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:down-roles.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:down-roles-nullpath.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:down-roles-nosu.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:down-links.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:ed-extrefs.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:ed-attrs.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:ed-attrs-noref.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "gen:ed-emptyname.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:0_EmptyFile_V2.0.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:0_EmptyFile_V2.1.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:10_RefSemantic.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:11_Constraints.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:12_MirrorObject.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:13_Facet.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:1_AMLBaseLibraries.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:2016_OPCF_UA-Nodeset-AML_Topology.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:2017-02-20_DataVariable.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:2_IE.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:3_IE_Attribute.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:4_IH.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:5_SUC.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:6_RCL.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:7_ICL.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:8_AMLAttributeLibrary.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:9_ExtInt_IntLink.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:AutomationML_ARAPC_Libraries_AMLEd1_1.4.0.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:AutomationML_ObjectReferences_AttributeTypeLib_AMLEd2_1.1.1-beta.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:CommunicationInterfaceClassLib_V1.0.0.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:CommunicationRoleClassLib_V1.0.1.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:DemoLib.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:Deviations.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:EFL_DomainLibrary_v0.1.0.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:I40_UA-AML-Example.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:ISO_PT_DomainLibrary_v0.3.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:ISO_PT_DomainLibrary_v0.3_2.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:OMG_DD_AttributeTypeLib_v0.1.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:ObjectReferences_AttributeTypeLib.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:Topology.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:VDI_FPD_DomainLibrary_v0.7.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:bottling-line.elements.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:bottling-line.links.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:legacy-caex215.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  },
+  {
+   "doc": "corpus:plant.aml",
+   "modes": [
+    "none",
+    "undo",
+    "transformer"
+   ]
+  }
+ ],
+ "imports": [
+  {
+   "from": "gen:up-roles.aml",
+   "into": "gen:down-roles.aml"
+  },
+  {
+   "from": "gen:down-roles.aml",
+   "into": "gen:up-roles.aml"
+  },
+  {
+   "from": "gen:up-links.aml",
+   "into": "gen:down-links.aml"
+  },
+  {
+   "from": "gen:down-links.aml",
+   "into": "gen:up-links.aml"
+  },
+  {
+   "from": "corpus:9_ExtInt_IntLink.aml",
+   "into": "corpus:12_MirrorObject.aml"
+  },
+  {
+   "from": "corpus:12_MirrorObject.aml",
+   "into": "corpus:9_ExtInt_IntLink.aml"
+  },
+  {
+   "from": "corpus:8_AMLAttributeLibrary.aml",
+   "into": "corpus:7_ICL.aml"
+  },
+  {
+   "from": "corpus:13_Facet.aml",
+   "into": "corpus:6_RCL.aml"
+  }
+ ],
+ "edition": [
+  {
+   "steps": [
+    {
+     "doc": "corpus:0_EmptyFile_V2.0.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:0_EmptyFile_V2.0.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:0_EmptyFile_V2.1.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:10_RefSemantic.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:11_Constraints.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:12_MirrorObject.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:13_Facet.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:1_AMLBaseLibraries.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:2016_OPCF_UA-Nodeset-AML_Topology.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:2016_OPCF_UA-Nodeset-AML_Topology.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:2017-02-20_DataVariable.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:2017-02-20_DataVariable.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:2_IE.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:2_IE.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:3_IE_Attribute.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:3_IE_Attribute.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:4_IH.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:4_IH.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:5_SUC.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:6_RCL.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:6_RCL.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:7_ICL.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:7_ICL.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:8_AMLAttributeLibrary.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:9_ExtInt_IntLink.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:9_ExtInt_IntLink.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:AssetAdministrationShellLib.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:AssetAdministrationShellLib.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:AssetAdministrationShellLib_Full.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:AssetAdministrationShellLib_Full.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:AutomationML_ARAPC_Libraries_AMLEd1_1.4.0.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:AutomationML_ARAPC_Libraries_AMLEd1_1.4.0.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:AutomationML_Base_Libraries_AMLEd2_2.11.0.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:AutomationML_ObjectReferences_AttributeTypeLib_AMLEd2_1.1.1-beta.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Bohrmodul_FPD.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Bohrmodul_Schnitt.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Bridging.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:BridgingExample_MPS500.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Bridging_2.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:CommunicationInterfaceClassLib_V1.0.0.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:CommunicationInterfaceClassLib_V1.0.0.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:CommunicationRoleClassLib_V1.0.1.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:CommunicationRoleClassLib_V1.0.1.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:DemoLib.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Deviations.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:EFL_DomainLibrary_v0.1.0.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:I40_UA-AML-Example.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:I40_UA-AML-Example.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:ISO_PT_DomainLibrary_v0.3.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:ISO_PT_DomainLibrary_v0.3_2.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MPS500_FPD.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MPS500_Integrated.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MPS500_PT_export.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MPS500_PlantStructure.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MPS500_QualityCheck.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MPS500_QualityCheck_2.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MTPPy_example_minimal_manifest.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MTPPy_example_minimal_manifest.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MTPPy_mtp_example.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:MTPPy_mtp_example.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Manifest.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Manifest.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Manifest_2.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Manifest_2.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:OMG_DD_AttributeTypeLib_v0.1.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:ObjectReferences_AttributeTypeLib.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:QualityGate.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:QualityGate_2.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Showcase-A-WaermetauscherMitRegelung.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Showcase-B-PharmaChargeUndReinigung.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Showcase-C-CncRobotikMontage.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Topology.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:Topology.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:UnifiedAASExampleVWSiD2.0.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:UnifiedAASExampleVWSiD2.0.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:VDI3682_Lib_v0.1.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:VDI_FPD_DomainLibrary_v0.7.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:bottling-line.elements.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:bottling-line.links.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:legacy-caex215.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:legacy-caex215.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:plant.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:quality-gate.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:quality-gate_2.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "corpus:test.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-meta.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-nometa.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles-null.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-mirror.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-links.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:down-sdi-none.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:down-sdi-many.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:down-sdi-sparse.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:down-sdi-nodate.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:down-sdi-baddate.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:down-roles.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:down-roles-nullpath.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:down-roles-nosu.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:down-links.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "nullProfile",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "cat-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "cat-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "cat-throw",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "cat-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "repo-null",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "repo-fault",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "full-b",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "full-empty",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "full-all",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "full-bad1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "full-bad2",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "full-bad3",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-emptyname.aml",
+     "service": "admin-order",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-a",
+     "edition": 0,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-a",
+     "edition": 0,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-a",
+     "edition": 2,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-a",
+     "edition": 2,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": true
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": true
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": true
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:up-roles.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": true
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": false,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false,
+     "preRegistered": true
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "none",
+     "edition": 1,
+     "logger": true,
+     "ids": false,
+     "preRegistered": true
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-extrefs.aml",
+     "service": "cat-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    },
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    },
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": false,
+     "ids": false
+    }
+   ]
+  },
+  {
+   "steps": [
+    {
+     "doc": "gen:ed-attrs-noref.aml",
+     "service": "repo-r1",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    },
+    {
+     "doc": "corpus:12_MirrorObject.aml",
+     "service": "full-a",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    },
+    {
+     "doc": "gen:ed-attrs.aml",
+     "service": "full-embedded",
+     "edition": 1,
+     "logger": true,
+     "ids": false
+    }
+   ]
+  }
+ ],
+ "isError": [
+  "ERROR",
+  "ERROR: x",
+  "Error",
+  "error: x",
+  "",
+  " ERROR",
+  "ERRORS",
+  "­ERROR",
+  "ÉRROR",
+  "ERR​OR",
+  "ＥRROR",
+  "ERROŔ",
+  null
+ ]
+}

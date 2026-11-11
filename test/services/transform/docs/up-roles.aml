@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="up-roles.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 1</WriterName>
+      <WriterID>W1</WriterID>
+      <WriterVendor>Vendor 1</WriterVendor>
+      <WriterVendorURL>www.vendor1.example</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0.1</WriterRelease>
+      <LastWritingDateTime>2018-03-04T05:06:07</LastWritingDateTime>
+      <WriterProjectTitle>Project 1</WriterProjectTitle>
+      <WriterProjectID>P1</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="OnlyRR" ID="275f5a1d-c311-4565-a3d8-f5c40bb33ecd">
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1" />
+    </InternalElement>
+    <InternalElement Name="Multi" ID="d1d32b16-0eb9-478d-ac01-2e0f9e9c52a8">
+      <Attribute Name="s1" />
+      <Attribute Name="s2" />
+      <Attribute Name="outer"><Attribute Name="inner" /></Attribute>
+      <ExternalInterface Name="e1" ID="af912819-1bcb-445a-ad78-6f30386e7408" RefBaseClassPath="Ifs/I" />
+      <ExternalInterface Name="e2" ID="6f4da0b6-cdf5-4a03-a7bc-b58b4e9ad337" RefBaseClassPath="Ifs/I" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R1" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R2" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R3" />
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1">
+        <Attribute Name="R2.b1" />
+        <Attribute Name="R3.c1" />
+        <Attribute Name="plain" />
+        <Attribute Name="RX.y" />
+        <ExternalInterface Name="R2.i2" ID="892a0d53-d828-4246-aff7-0365c26da1ba" RefBaseClassPath="Ifs/I" />
+        <ExternalInterface Name="own" ID="4d3e9165-7e70-45ec-a2d8-22f1cb3e8ed1" RefBaseClassPath="Ifs/I" />
+      </RoleRequirements>
+      <MappingObject>
+        <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="R2.b1" />
+        <AttributeNameMapping SystemUnitAttributeName="s2" RoleAttributeName="a1" />
+        <AttributeNameMapping SystemUnitAttributeName="outer.inner" RoleAttributeName="R3.c1" />
+        <AttributeNameMapping SystemUnitAttributeName="s3" RoleAttributeName="RX.y" />
+        <AttributeNameMapping SystemUnitAttributeName="s4" RoleAttributeName="a2.a2x" />
+        <AttributeNameMapping SystemUnitAttributeName="s5" RoleAttributeName="" />
+        <InterfaceNameMapping SystemUnitInterfaceName="e1" RoleInterfaceName="R2.i2" />
+        <InterfaceNameMapping SystemUnitInterfaceName="e2" RoleInterfaceName="i1" />
+        <InterfaceNameMapping SystemUnitInterfaceName="e9" RoleInterfaceName="R2.zz" />
+        <InterfaceNameMapping SystemUnitInterfaceName="e2" RoleInterfaceName="own" />
+      </MappingObject>
+    </InternalElement>
+    <InternalElement Name="SrcMapping" ID="fda356bb-461e-4380-a116-008fe4a509e8">
+      <Attribute Name="s1" />
+      <ExternalInterface Name="e1" ID="fc8e84c2-eada-440b-a1eb-a64aab3c6a10" RefBaseClassPath="Ifs/I" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R2">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="b1" />
+          <InterfaceNameMapping SystemUnitInterfaceName="e1" RoleInterfaceName="i2" />
+        </MappingObject>
+      </SupportedRoleClass>
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1" />
+    </InternalElement>
+    <InternalElement Name="SrcMappingAndIE" ID="dbd1f7cd-9d49-4a92-a9f0-344dc3388ea6">
+      <Attribute Name="s1" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R2">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="b1" />
+        </MappingObject>
+      </SupportedRoleClass>
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1">
+        <Attribute Name="R2.b1" />
+      </RoleRequirements>
+      <MappingObject>
+        <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="R2.b1" />
+      </MappingObject>
+    </InternalElement>
+    <InternalElement Name="SrcOnly" ID="64e61c7c-09ae-4e94-a5f2-fdac775fb8ad">
+      <SupportedRoleClass RefRoleClassPath="Roles/R1" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R2" />
+    </InternalElement>
+    <InternalElement Name="SrcUnknown" ID="649eb7c4-df65-4a4d-aa36-36ef1e517c7f">
+      <SupportedRoleClass RefRoleClassPath="Roles/Nope" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R1" />
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1" />
+    </InternalElement>
+    <InternalElement Name="RRUnknown" ID="f262e4de-60b1-4741-a278-46d15fe855cc">
+      <Attribute Name="s1" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R2" />
+      <RoleRequirements RefBaseRoleClassPath="Roles/Nope">
+        <Attribute Name="R2.b1" />
+      </RoleRequirements>
+      <MappingObject>
+        <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="R2.b1" />
+      </MappingObject>
+    </InternalElement>
+    <InternalElement Name="SrcAndMapNoRR" ID="538540e6-93b6-4f09-a88c-a3c5101c377e">
+      <Attribute Name="s1" />
+      <ExternalInterface Name="e1" ID="ba9a89c3-b417-4bd7-a416-2724918bfb5a" RefBaseClassPath="Ifs/I" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R2" />
+      <MappingObject>
+        <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="b1" />
+        <InterfaceNameMapping SystemUnitInterfaceName="e1" RoleInterfaceName="i2" />
+      </MappingObject>
+    </InternalElement>
+    <InternalElement Name="InterfacesOnly" ID="043c9560-7ccb-4920-a50d-752d55e11b1a">
+      <ExternalInterface Name="e1" ID="c2a61e88-3932-437d-aaef-7cf837b4fe05" RefBaseClassPath="Ifs/I" />
+      <ExternalInterface Name="e2" ID="a34901a3-8ffc-4903-ac0f-b9459485e70d" RefBaseClassPath="Ifs/I" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R1" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R2" />
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1">
+        <ExternalInterface Name="R2.i2" ID="4acf16da-8b6e-4f01-a91f-950fe4e80777" RefBaseClassPath="Ifs/I" />
+      </RoleRequirements>
+      <MappingObject>
+        <InterfaceNameMapping SystemUnitInterfaceName="e1" RoleInterfaceName="R2.i2" />
+        <InterfaceNameMapping SystemUnitInterfaceName="e2" RoleInterfaceName="i1" />
+      </MappingObject>
+    </InternalElement>
+    <InternalElement Name="MapOnly" ID="70414504-f01a-47cb-a877-f2ed9c2b5cbe">
+      <Attribute Name="s1" />
+      <MappingObject>
+        <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="a1" />
+      </MappingObject>
+    </InternalElement>
+    <InternalElement Name="Nested" ID="6838af3a-afc9-4f93-a459-117c9aa3c742">
+      <InternalElement Name="Inner" ID="1771ba3b-98ea-4a27-a8e6-69bd518350d7">
+        <SupportedRoleClass RefRoleClassPath="Roles/R3" />
+        <RoleRequirements RefBaseRoleClassPath="Roles/R1" />
+      </InternalElement>
+      <RoleRequirements RefBaseRoleClassPath="Roles/R2" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="Ifs">
+    <Version>1.0</Version>
+    <InterfaceClass Name="I" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="Roles">
+    <Version>1.0</Version>
+    <RoleClass Name="R1">
+      <Attribute Name="a1" AttributeDataType="xs:string" />
+      <Attribute Name="a2"><Attribute Name="a2x" /></Attribute>
+      <ExternalInterface Name="i1" ID="c4f60547-188c-4625-a6a0-1b51254e0f43" RefBaseClassPath="Ifs/I" />
+    </RoleClass>
+    <RoleClass Name="R2">
+      <Attribute Name="b1" />
+      <ExternalInterface Name="i2" ID="fba39f87-d04d-4817-ad9a-45c996a6be07" RefBaseClassPath="Ifs/I" />
+    </RoleClass>
+    <RoleClass Name="R3" RefBaseClassPath="Roles/R2">
+      <Attribute Name="c1" />
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCs">
+    <Version>1.0</Version>
+    <SystemUnitClass Name="S">
+      <Attribute Name="s1" />
+      <SupportedRoleClass RefRoleClassPath="Roles/R2">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="b1" />
+        </MappingObject>
+      </SupportedRoleClass>
+      <InternalElement Name="Part" ID="121e3da3-9b8f-43a5-ac8a-628d1d5d5afd">
+        <SupportedRoleClass RefRoleClassPath="Roles/R2" />
+        <RoleRequirements RefBaseRoleClassPath="Roles/R1" />
+      </InternalElement>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

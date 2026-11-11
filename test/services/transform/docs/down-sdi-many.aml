@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="down-sdi-many.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="Origin 1" OriginID="O1" OriginVendor="Vendor 1" OriginVendorURL="www.vendor1.example" OriginVersion="1.0" OriginRelease="1.0.1" LastWritingDateTime="2017-02-20T15:02:20.05+01:00" OriginProjectTitle="Project 1" OriginProjectID="P1" />
+  <SourceDocumentInformation OriginName="Origin 2" OriginID="O2" OriginVendor="Vendor 2" OriginVendorURL="www.vendor2.example" OriginVersion="2.0" OriginRelease="2.0.1" LastWritingDateTime="2020-01-01T00:00:00Z" OriginProjectTitle="Project 2" OriginProjectID="P2" />
+  <SourceDocumentInformation OriginName="Origin 3" OriginID="O3" OriginVendor="Vendor 3" OriginVendorURL="www.vendor3.example" OriginVersion="3.0" OriginRelease="3.0.1" LastWritingDateTime="2019-06-15T12:30:00" OriginProjectTitle="Project 3" OriginProjectID="P3" />
+  <InstanceHierarchy Name="IH">
+    <Version>1.0</Version>
+    <InternalElement Name="E" ID="5b4e4412-0aed-45fa-a302-f6eaf7b5f305" />
+  </InstanceHierarchy>
+</CAEXFile>

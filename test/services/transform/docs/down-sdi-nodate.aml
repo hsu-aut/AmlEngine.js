@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="down-sdi-nodate.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="N" OriginID="I" OriginVersion="1" />
+  <InstanceHierarchy Name="IH">
+    <Version>1.0</Version>
+    <InternalElement Name="E" ID="5b4e4412-0aed-45fa-a302-f6eaf7b5f305" />
+  </InstanceHierarchy>
+</CAEXFile>

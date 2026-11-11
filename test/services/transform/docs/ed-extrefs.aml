@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="ed-extrefs.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 1</WriterName>
+      <WriterID>W1</WriterID>
+      <WriterVendor>Vendor 1</WriterVendor>
+      <WriterVendorURL>www.vendor1.example</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0.1</WriterRelease>
+      <LastWritingDateTime>2014-04-04T04:04:04</LastWritingDateTime>
+      <WriterProjectTitle>Project 1</WriterProjectTitle>
+      <WriterProjectID>P1</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <ExternalReference Path="Libs/RoleClass Libraries/AutomationMLBaseRoleClassLib.aml" Alias="BaseRoleClassLib" />
+  <ExternalReference Path="Libs/InterfaceClass Libraries/AutomationMLInterfaceClassLib.aml" Alias="BaseInterfaceClassLib" />
+  <ExternalReference Path="https://example.org/ed1/unknown.aml" Alias="Unknown" />
+  <ExternalReference Path="Libs/RoleClass Libraries/AutomationMLBaseRoleClassLib.aml" Alias="VersionRef">
+    <Description>VersionRef</Description>
+  </ExternalReference>
+  <ExternalReference Path="Libs/RoleClass Libraries/AutomationMLBaseRoleClassLib.aml" Alias="OldVersion">
+    <Version>OldVersion</Version>
+  </ExternalReference>
+  <ExternalReference Path="rev2.aml" Alias="Rev2" />
+  <ExternalReference Path="https://example.org/ed1/ATL.aml" Alias="ATL1" />
+  <ExternalReference Path="https://example.org/ed1/OtherOnly.aml" Alias="Other" />
+  <ExternalReference Path="https://example.org/ed1/all.aml" Alias="All" />
+  <ExternalReference Path="" Alias="Empty" />
+  <ExternalReference Alias="NoPath" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="WithID" ID="0d5b28cd-92b9-497c-aa9e-4554841f06a9">
+      <Attribute Name="InIH" />
+    </InternalElement>
+    <InternalElement Name="EmptyID" ID="" />
+    <InternalElement Name="BlankID" ID="  " />
+    <InternalElement Name="NoID" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="Ifs">
+    <InterfaceClass Name="I" />
+    <InterfaceClass Name="J">
+      <Version>2.0</Version>
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="Roles">
+    <Version>1.0</Version>
+    <RoleClass Name="R" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCs">
+    <SystemUnitClass Name="S">
+      <Version>  </Version>
+      <InternalElement Name="Part" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

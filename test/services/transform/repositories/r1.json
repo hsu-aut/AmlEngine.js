@@ -1,0 +1,182 @@
+[
+  {
+    "match": "Length",
+    "item": [
+      "Length",
+      "AutomationMLBaseAttributeTypeLib/Length",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Length",
+    "item": [
+      "Length",
+      "AutomationMLBaseAttributeTypeLib/Length",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "1.1.0",
+      "AMLEd2",
+      "id-length"
+    ]
+  },
+  {
+    "match": "Length",
+    "item": [
+      "Length",
+      "Other/Length",
+      "",
+      "Other",
+      "9.0.0",
+      "AMLEd1",
+      null
+    ]
+  },
+  {
+    "match": "Weight",
+    "item": [
+      "Weight",
+      "AutomationMLBaseAttributeTypeLib/Weight",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Speed",
+    "item": [
+      "Speed",
+      "VendorAttributeTypeLib/Speed",
+      "",
+      "VendorAttributeTypeLib",
+      "2.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Mass",
+    "item": [
+      "Mass",
+      "AutomationMLBaseAttributeTypeLib/Mass",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Unknown",
+    "item": [
+      "Unknown",
+      "NoLib/Unknown",
+      "",
+      "NoLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Ver",
+    "item": [
+      "Ver",
+      "AutomationMLBaseAttributeTypeLib/Ver",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "3.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Ed1Only",
+    "item": [
+      "Ed1Only",
+      "AutomationMLBaseAttributeTypeLib/Ed1Only",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "1.0.0",
+      "AMLEd1",
+      null
+    ]
+  },
+  {
+    "match": "Tie",
+    "item": [
+      "Tie",
+      "AutomationMLBaseAttributeTypeLib/TieA",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Tie",
+    "item": [
+      "Tie",
+      "VendorAttributeTypeLib/TieB",
+      "",
+      "VendorAttributeTypeLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Pre",
+    "item": [
+      "Pre",
+      "VendorAttributeTypeLib/PreBeta",
+      "",
+      "VendorAttributeTypeLib",
+      "1.0.0-beta",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Pre",
+    "item": [
+      "Pre",
+      "VendorAttributeTypeLib/Pre",
+      "",
+      "VendorAttributeTypeLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "NullPath",
+    "item": [
+      null,
+      null,
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  },
+  {
+    "match": "Pressure",
+    "item": [
+      "Pressure",
+      "AutomationMLBaseAttributeTypeLib/Pressure",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  }
+]

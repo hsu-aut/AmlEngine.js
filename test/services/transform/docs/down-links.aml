@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="down-links.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="Origin 1" OriginID="O1" OriginVendor="Vendor 1" OriginVendorURL="www.vendor1.example" OriginVersion="1.0" OriginRelease="1.0.1" LastWritingDateTime="2015-01-02T03:04:05Z" OriginProjectTitle="Project 1" OriginProjectID="P1" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Parent" ID="52e5c981-d1dc-4a8d-a839-5ca05d6760c0">
+      <InternalElement Name="A" ID="fff7f9c8-16f5-431e-aa3d-2a518e22419b">
+        <ExternalInterface Name="p" ID="85bb80d4-ff12-4fed-a49e-41c67d53ecea">
+          <ExternalInterface Name="nested" ID="3d0538bd-8226-4f44-a48c-861adbef4548" />
+        </ExternalInterface>
+      </InternalElement>
+      <InternalElement Name="B" ID="b5275211-f001-447d-aa18-2d04ecfd6a64">
+        <ExternalInterface Name="q" ID="90463a1d-ed5b-43a1-af36-baecd5d65fbd" />
+      </InternalElement>
+      <InternalLink Name="L1" RefPartnerSideA="85bb80d4-ff12-4fed-a49e-41c67d53ecea" RefPartnerSideB="90463a1d-ed5b-43a1-af36-baecd5d65fbd" />
+      <InternalLink Name="L2" RefPartnerSideA="85bb80d4-ff12-4fed-a49e-41c67d53ecea" RefPartnerSideB="979de9d8-b5eb-4ccb-ab1f-e437fde9d173" />
+      <InternalLink Name="L3" RefPartnerSideA="12748d99-9daa-47c3-a31c-d02ddc9ae401" RefPartnerSideB="3fe522df-4719-4fa3-ad51-a3c29e43efb9" />
+      <InternalLink Name="L4" RefPartnerSideA="missing" RefPartnerSideB="" />
+      <InternalLink Name="L5" RefPartnerSideA="{3d0538bd-8226-4f44-a48c-861adbef4548}" RefPartnerSideB="90463a1d-ed5b-43a1-af36-baecd5d65fbd" />
+      <InternalLink Name="L6" RefPartnerSideB="90463a1d-ed5b-43a1-af36-baecd5d65fbd" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <RoleClassLib Name="Roles">
+    <RoleClass Name="R">
+      <ExternalInterface Name="ri" ID="3fe522df-4719-4fa3-ad51-a3c29e43efb9" />
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCs">
+    <SystemUnitClass Name="S">
+      <ExternalInterface Name="own" ID="979de9d8-b5eb-4ccb-ab1f-e437fde9d173" />
+      <InternalElement Name="In" ID="4655ca11-acba-4cfc-a725-87446ab2978d">
+        <ExternalInterface Name="x" ID="12748d99-9daa-47c3-a31c-d02ddc9ae401" />
+      </InternalElement>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

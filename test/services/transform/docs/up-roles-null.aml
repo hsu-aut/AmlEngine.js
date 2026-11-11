@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="up-roles-null.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="NullName" ID="16379d26-813d-4ac8-a3ee-f36ba93a3057">
+      <Attribute Name="s1" />
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1" />
+      <MappingObject>
+        <AttributeNameMapping SystemUnitAttributeName="s1" />
+      </MappingObject>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="Ifs">
+    <Version>1.0</Version>
+    <InterfaceClass Name="I" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="Roles">
+    <Version>1.0</Version>
+    <RoleClass Name="R1">
+      <Attribute Name="a1" AttributeDataType="xs:string" />
+      <Attribute Name="a2"><Attribute Name="a2x" /></Attribute>
+      <ExternalInterface Name="i1" ID="c4f60547-188c-4625-a6a0-1b51254e0f43" RefBaseClassPath="Ifs/I" />
+    </RoleClass>
+    <RoleClass Name="R2">
+      <Attribute Name="b1" />
+      <ExternalInterface Name="i2" ID="fba39f87-d04d-4817-ad9a-45c996a6be07" RefBaseClassPath="Ifs/I" />
+    </RoleClass>
+    <RoleClass Name="R3" RefBaseClassPath="Roles/R2">
+      <Attribute Name="c1" />
+    </RoleClass>
+  </RoleClassLib>
+</CAEXFile>

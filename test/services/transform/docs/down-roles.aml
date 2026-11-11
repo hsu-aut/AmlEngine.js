@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="down-roles.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="Origin 1" OriginID="O1" OriginVendor="Vendor 1" OriginVendorURL="www.vendor1.example" OriginVersion="1.0" OriginRelease="1.0.1" LastWritingDateTime="2016-05-06T07:08:09+02:00" OriginProjectTitle="Project 1" OriginProjectID="P1" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Multi" ID="5f017626-d38f-408b-a70e-24fbb174c9e3">
+      <Attribute Name="s1" />
+      <Attribute Name="s2"><Attribute Name="x" /></Attribute>
+      <ExternalInterface Name="e1" ID="1487dec9-7e6f-4e72-a9e3-355c04eb6de7" />
+      <ExternalInterface Name="e2" ID="a35b0dd6-6129-477b-a281-06311fd707e6" />
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1">
+        <Attribute Name="a1" />
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="a1" />
+          <AttributeNameMapping SystemUnitAttributeName="s2/x" RoleAttributeName="a2" />
+          <InterfaceIDMapping SystemUnitInterfaceID="1487dec9-7e6f-4e72-a9e3-355c04eb6de7" RoleInterfaceID="fea98baa-9580-4011-a438-9cbe23ce44fc" />
+        </MappingObject>
+      </RoleRequirements>
+      <RoleRequirements RefBaseRoleClassPath="Roles/R2">
+        <Attribute Name="b1"><Attribute Name="b1x" /></Attribute>
+        <ExternalInterface Name="i2" ID="ac20dd1b-a797-430a-a54b-7e54e6bf34cb" />
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s2" RoleAttributeName="b1" />
+          <AttributeNameMapping SystemUnitAttributeName="s2/x" RoleAttributeName="b1/b1x" />
+          <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="zz" />
+          <InterfaceIDMapping SystemUnitInterfaceID="a35b0dd6-6129-477b-a281-06311fd707e6" RoleInterfaceID="57c088ba-f514-4786-a308-3f2a8d614c62" />
+          <InterfaceIDMapping SystemUnitInterfaceID="1487dec9-7e6f-4e72-a9e3-355c04eb6de7" RoleInterfaceID="nope" />
+        </MappingObject>
+      </RoleRequirements>
+      <RoleRequirements RefBaseRoleClassPath="Roles/R3">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s1" RoleAttributeName="c1" />
+        </MappingObject>
+      </RoleRequirements>
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1" />
+      <RoleRequirements RefBaseRoleClassPath="Roles/R2">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s2" RoleAttributeName="b1" />
+        </MappingObject>
+      </RoleRequirements>
+    </InternalElement>
+    <InternalElement Name="Single" ID="beabcf60-e6bb-414b-aed7-80075d6a0df9">
+      <Attribute Name="s" />
+      <ExternalInterface Name="e" ID="bade02f9-7a7e-4864-ab44-3d711262ede6" />
+      <RoleRequirements RefBaseRoleClassPath="Roles/R2">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s" RoleAttributeName="b1" />
+          <InterfaceIDMapping SystemUnitInterfaceID="1487dec9-7e6f-4e72-a9e3-355c04eb6de7" RoleInterfaceID="57c088ba-f514-4786-a308-3f2a8d614c62" />
+        </MappingObject>
+      </RoleRequirements>
+    </InternalElement>
+    <InternalElement Name="NoMap" ID="1cd02707-1179-4b69-a26f-575e4c48a59f">
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1" />
+    </InternalElement>
+    <InternalElement Name="FirstWithoutMapping" ID="95253e00-3946-4b32-a6ae-709dc9d9d8b0">
+      <Attribute Name="s" />
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1" />
+      <RoleRequirements RefBaseRoleClassPath="Lib@Roles/R2">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="s" RoleAttributeName="b1" />
+        </MappingObject>
+      </RoleRequirements>
+    </InternalElement>
+  </InstanceHierarchy>
+  <RoleClassLib Name="Roles">
+    <Version>1.0</Version>
+    <RoleClass Name="R1">
+      <Attribute Name="a1" AttributeDataType="xs:string" />
+      <ExternalInterface Name="i1" ID="fea98baa-9580-4011-a438-9cbe23ce44fc" />
+    </RoleClass>
+    <RoleClass Name="R2">
+      <Attribute Name="b1"><Attribute Name="b1x" /></Attribute>
+      <ExternalInterface Name="i2" ID="57c088ba-f514-4786-a308-3f2a8d614c62" />
+    </RoleClass>
+    <RoleClass Name="R3">
+      <Attribute Name="c1" />
+    </RoleClass>
+  </RoleClassLib>
+</CAEXFile>

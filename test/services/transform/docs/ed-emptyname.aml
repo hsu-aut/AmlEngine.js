@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="ed-emptyname.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SystemUnitClassLib Name="SUCs">
+    <SystemUnitClass Name="S">
+      <Attribute Name="Weight" />
+      <Attribute Name="" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

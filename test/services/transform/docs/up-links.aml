@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="up-links.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Parent" ID="202a0cfe-cf23-4207-a4b4-7439c461b83b">
+      <ExternalInterface Name="pp" ID="62eda2a7-33a8-4959-a214-0c83624e1a13" />
+      <InternalElement Name="A" ID="a777b989-a0c6-4730-a1f6-bc6592e9e89f">
+        <ExternalInterface Name="p" ID="fb31be4b-4fe2-4793-a33a-64a48751060e" />
+      </InternalElement>
+      <InternalElement Name="B" ID="2e113c1b-5aaa-45ad-a60b-afcf39736df8">
+        <ExternalInterface Name="q" ID="7fe59009-4c27-4c31-af05-1be83213a034" />
+        <InternalElement Name="C" ID="92f9f03f-49d8-4b65-a028-312a714da8ce">
+          <ExternalInterface Name="r" ID="757038d5-2c62-4b30-acbb-e9708c955365" />
+        </InternalElement>
+      </InternalElement>
+      <InternalLink Name="L1" RefPartnerSideA="a777b989-a0c6-4730-a1f6-bc6592e9e89f:p" RefPartnerSideB="2e113c1b-5aaa-45ad-a60b-afcf39736df8:q" />
+      <InternalLink Name="L2" RefPartnerSideA="a777b989-a0c6-4730-a1f6-bc6592e9e89f:p" RefPartnerSideB="92f9f03f-49d8-4b65-a028-312a714da8ce:r" />
+      <InternalLink Name="L3" RefPartnerSideA="a777b989-a0c6-4730-a1f6-bc6592e9e89f:nope" RefPartnerSideB="b17bee5f-126e-466a-a7d3-b149a1de9e85:q" />
+      <InternalLink Name="L4" RefPartnerSideA="" RefPartnerSideB="2e113c1b-5aaa-45ad-a60b-afcf39736df8:q" />
+      <InternalLink Name="L5" RefPartnerSideA="202a0cfe-cf23-4207-a4b4-7439c461b83b:pp" />
+      <InternalLink Name="L6" RefPartnerSideA="{a777b989-a0c6-4730-a1f6-bc6592e9e89f}:p" RefPartnerSideB="2e113c1b-5aaa-45ad-a60b-afcf39736df8:q:x" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <SystemUnitClassLib Name="SUCs">
+    <SystemUnitClass Name="S">
+      <ExternalInterface Name="own" ID="6abb2340-dd5c-495f-a08b-4f0f8086fce6" />
+      <InternalElement Name="In" ID="b877c2b3-7b54-40cf-a0c3-f58122313ac6">
+        <ExternalInterface Name="x" ID="9583267c-74c3-4566-aa5e-e4dee06f3762" />
+      </InternalElement>
+      <InternalLink Name="SL" RefPartnerSideA="SUCs/S:own" RefPartnerSideB="SUCs/S/In:x" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

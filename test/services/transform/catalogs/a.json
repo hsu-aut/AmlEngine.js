@@ -1,0 +1,202 @@
+{
+  "Libraries": [
+    {
+      "CAEXType": "RoleClassLib",
+      "Libraries": [
+        {
+          "Name": "AutomationMLBaseRoleClassLib",
+          "Versions": [
+            {
+              "Version": "2.2.2",
+              "CAEXVersion": "2.15",
+              "DownloadLinks": [
+                "Libs/RoleClass Libraries/AutomationMLBaseRoleClassLib.aml",
+                "https://example.org/ed1/BaseRCL.aml"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "2.2.3",
+              "CAEXVersion": "2.15",
+              "DownloadLinks": [
+                "Libs/RoleClass Libraries/AutomationMLBaseRoleClassLib.aml"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "2.10.0",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "https://example.org/ed2/AutomationMLBaseRoleClassLib_2.10.0.aml"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "2.11.0",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "https://example.org/ed2/AutomationMLBaseRoleClassLib_2.11.0.zip",
+                "https://example.org/ed2/AutomationMLBaseRoleClassLib_2.11.0.aml"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "2.9",
+              "CAEXVersion": "3.0",
+              "AMLEdition": "AMLEd2",
+              "DownloadLink": "https://example.org/ed2/AutomationMLBaseRoleClassLib_2.9.aml"
+            }
+          ]
+        },
+        {
+          "Name": "OtherRCL",
+          "Versions": [
+            {
+              "Version": "1.0.0",
+              "CAEXVersion": "2.15",
+              "DownloadLinks": [
+                "Libs/RoleClass Libraries/AutomationMLBaseRoleClassLib.aml",
+                "https://example.org/ed1/OtherOnly.aml"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "1.1.0",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "https://example.org/ed2/OtherRCL_1.1.0.amlx"
+              ],
+              "Signature": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "CAEXType": "InterfaceClassLib",
+      "Libraries": [
+        {
+          "Name": "AutomationMLInterfaceClassLib",
+          "Versions": [
+            {
+              "Version": "2.2.2",
+              "CAEXVersion": "2.15",
+              "DownloadLinks": [],
+              "Signature": "",
+              "Revision": {
+                "DownloadLinks": [
+                  "Libs/InterfaceClass Libraries/AutomationMLInterfaceClassLib.aml"
+                ],
+                "Signature": "r1",
+                "Revision": {
+                  "DownloadLink": "rev2.aml",
+                  "Signature": "r2"
+                }
+              }
+            },
+            {
+              "Version": "2.10.0",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "https://example.org/ed2/ICL.AML"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "2.10.0-beta",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "https://example.org/ed2/ICL-beta.aml"
+              ],
+              "Signature": ""
+            }
+          ]
+        },
+        {
+          "Name": "AllLib",
+          "Versions": [
+            {
+              "Version": "1",
+              "DownloadLinks": [
+                "https://example.org/ed1/all.aml",
+                "https://example.org/any/all_1.0.aml"
+              ]
+            },
+            {
+              "Version": "2.0.0",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "https://example.org/ed2/all_2.0.0.aml"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "0.5.0",
+              "CAEXVersion": "2.15",
+              "DownloadLinks": [
+                "https://example.org/ed1/all_0.5.0.aml"
+              ],
+              "Signature": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "CAEXType": "AttributeTypeLib",
+      "Libraries": [
+        {
+          "Name": "AutomationMLBaseAttributeTypeLib",
+          "Versions": [
+            {
+              "Version": "1.0.0",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "https://example.org/ed2/AutomationMLBaseAttributeTypeLib_1.0.0.aml"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "1.1.0",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "https://example.org/ed2/AutomationMLBaseAttributeTypeLib_1.1.0.zip"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "1.0.0",
+              "CAEXVersion": "2.15",
+              "DownloadLinks": [
+                "https://example.org/ed1/ATL.aml"
+              ],
+              "Signature": ""
+            }
+          ]
+        },
+        {
+          "Name": "VendorAttributeTypeLib",
+          "Versions": [
+            {
+              "Version": "2.0.0",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "https://example.org/ed2/Vendor ATL_2.0.0.aml"
+              ],
+              "Signature": ""
+            },
+            {
+              "Version": "1.0.0",
+              "CAEXVersion": "3.0",
+              "DownloadLinks": [
+                "vendor-1.0.0.aml"
+              ],
+              "Signature": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "PublicKey": "key"
+}

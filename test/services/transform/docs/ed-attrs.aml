@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="ed-attrs.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 1</WriterName>
+      <WriterID>W1</WriterID>
+      <WriterVendor>Vendor 1</WriterVendor>
+      <WriterVendorURL>www.vendor1.example</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0.1</WriterRelease>
+      <LastWritingDateTime>2013-03-03T03:03:03</LastWritingDateTime>
+      <WriterProjectTitle>Project 1</WriterProjectTitle>
+      <WriterProjectID>P1</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <ExternalReference Path="Libs/RoleClass Libraries/AutomationMLBaseRoleClassLib.aml" Alias="BaseRoleClassLib" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="E" ID="6caf4470-192b-4e30-aa97-610ef404c333">
+      <Attribute Name="Length" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="Ifs">
+    <InterfaceClass Name="I">
+      <Attribute Name="Weight" AttributeDataType="xs:double" Unit="kg" />
+      <Attribute Name="Pressure" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="Roles">
+    <RoleClass Name="R">
+      <Attribute Name="Length" AttributeDataType="xs:double" />
+      <Attribute Name="Colour"><Value>red</Value></Attribute>
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCs">
+    <SystemUnitClass Name="Motor">
+      <Attribute Name="Length" AttributeDataType="xs:double" Unit="mm"><Value>12</Value></Attribute>
+      <Attribute Name="length" />
+      <Attribute Name="Weight">
+        <Attribute Name="Inner" />
+      </Attribute>
+      <Attribute Name="Speed" />
+      <Attribute Name="Mass" />
+      <Attribute Name="Unknown" />
+      <Attribute Name="Ver" />
+      <Attribute Name="Ed1Only" />
+      <Attribute Name="Tie" />
+      <Attribute Name="Pre" />
+      <Attribute Name="NullPath" />
+      <Attribute Name="Plain" AttributeDataType="xs:int"><Description>plain one</Description><DefaultValue>3</DefaultValue></Attribute>
+      <Attribute Name="&#214;lstand" />
+      <Attribute Name="ID" />
+      <Attribute Name="X" />
+      <ExternalInterface Name="P" ID="2930f593-5b12-4ab6-a191-448df3701d80">
+        <Attribute Name="Pressure" />
+      </ExternalInterface>
+      <InternalElement Name="Part" ID="6acc3468-d7d1-4f54-aa2b-c8c621811ad6">
+        <Attribute Name="Speed" />
+      </InternalElement>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

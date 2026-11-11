@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="down-roles-nosu.aml" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="Origin 1" OriginID="O1" OriginVendor="Vendor 1" OriginVendorURL="www.vendor1.example" OriginVersion="1.0" OriginRelease="1.0.1" LastWritingDateTime="2016-05-06T07:08:09+02:00" OriginProjectTitle="Project 1" OriginProjectID="P1" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="NoSystemUnitInterface" ID="7270e4f3-59b8-479d-abde-daa2a4bdb5a6">
+      <RoleRequirements RefBaseRoleClassPath="Roles/R1">
+        <MappingObject>
+          <InterfaceIDMapping SystemUnitInterfaceID="missing" RoleInterfaceID="fea98baa-9580-4011-a438-9cbe23ce44fc" />
+        </MappingObject>
+      </RoleRequirements>
+    </InternalElement>
+  </InstanceHierarchy>
+  <RoleClassLib Name="Roles">
+    <Version>1.0</Version>
+    <RoleClass Name="R1">
+      <Attribute Name="a1" AttributeDataType="xs:string" />
+      <ExternalInterface Name="i1" ID="fea98baa-9580-4011-a438-9cbe23ce44fc" />
+    </RoleClass>
+    <RoleClass Name="R2">
+      <Attribute Name="b1"><Attribute Name="b1x" /></Attribute>
+      <ExternalInterface Name="i2" ID="57c088ba-f514-4786-a308-3f2a8d614c62" />
+    </RoleClass>
+    <RoleClass Name="R3">
+      <Attribute Name="c1" />
+    </RoleClass>
+  </RoleClassLib>
+</CAEXFile>

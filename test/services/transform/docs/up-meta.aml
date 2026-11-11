@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="up-meta.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 1</WriterName>
+      <WriterID>W1</WriterID>
+      <WriterVendor>Vendor 1</WriterVendor>
+      <WriterVendorURL>www.vendor1.example</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0.1</WriterRelease>
+      <LastWritingDateTime>2017-02-20T15:02:20.05+01:00</LastWritingDateTime>
+      <WriterProjectTitle>Project 1</WriterProjectTitle>
+      <WriterProjectID>P1</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 2</WriterName>
+      <WriterID>W2</WriterID>
+      <WriterVendor>Vendor 2</WriterVendor>
+      <WriterVendorURL>www.vendor2.example</WriterVendorURL>
+      <WriterVersion>2.0</WriterVersion>
+      <WriterRelease>2.0.1</WriterRelease>
+      <LastWritingDateTime>2020-01-01T00:00:00Z</LastWritingDateTime>
+      <WriterProjectTitle>Project 2</WriterProjectTitle>
+      <WriterProjectID>P2</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 3</WriterName>
+      <WriterID>W3</WriterID>
+      <WriterVendor>Vendor 3</WriterVendor>
+      <WriterVendorURL>www.vendor3.example</WriterVendorURL>
+      <WriterVersion>3.0</WriterVersion>
+      <WriterRelease>3.0.1</WriterRelease>
+      <LastWritingDateTime>2019-06-15T12:30:00</LastWritingDateTime>
+      <WriterProjectTitle>Project 3</WriterProjectTitle>
+      <WriterProjectID>P3</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 4</WriterName>
+      <WriterID>W4</WriterID>
+      <WriterVendor>Vendor 4</WriterVendor>
+      <WriterVendorURL>www.vendor4.example</WriterVendorURL>
+      <WriterVersion>4.0</WriterVersion>
+      <WriterRelease>4.0.1</WriterRelease>
+      <LastWritingDateTime>2012-02-20
+			</LastWritingDateTime>
+      <WriterProjectTitle>Project 4</WriterProjectTitle>
+      <WriterProjectID>P4</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 5</WriterName>
+      <WriterID>W5</WriterID>
+      <WriterVendor>Vendor 5</WriterVendor>
+      <WriterVendorURL>www.vendor5.example</WriterVendorURL>
+      <WriterVersion>5.0</WriterVersion>
+      <WriterRelease>5.0.1</WriterRelease>
+      <LastWritingDateTime>03/13/2019 14:37:59</LastWritingDateTime>
+      <WriterProjectTitle>Project 5</WriterProjectTitle>
+      <WriterProjectID>P5</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 6</WriterName>
+      <WriterID>W6</WriterID>
+      <WriterVendor>Vendor 6</WriterVendor>
+      <WriterVendorURL>www.vendor6.example</WriterVendorURL>
+      <WriterVersion>6.0</WriterVersion>
+      <WriterRelease>6.0.1</WriterRelease>
+      <LastWritingDateTime>08.06.2018 11:36:16</LastWritingDateTime>
+      <WriterProjectTitle>Project 6</WriterProjectTitle>
+      <WriterProjectID>P6</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 7</WriterName>
+      <WriterID>W7</WriterID>
+      <WriterVendor>Vendor 7</WriterVendor>
+      <WriterVendorURL>www.vendor7.example</WriterVendorURL>
+      <WriterVersion>7.0</WriterVersion>
+      <WriterRelease>7.0.1</WriterRelease>
+      <LastWritingDateTime>not a date</LastWritingDateTime>
+      <WriterProjectTitle>Project 7</WriterProjectTitle>
+      <WriterProjectID>P7</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 8</WriterName>
+      <WriterID>W8</WriterID>
+      <WriterVendor>Vendor 8</WriterVendor>
+      <WriterVendorURL>www.vendor8.example</WriterVendorURL>
+      <WriterVersion>8.0</WriterVersion>
+      <WriterRelease>8.0.1</WriterRelease>
+      <LastWritingDateTime></LastWritingDateTime>
+      <WriterProjectTitle>Project 8</WriterProjectTitle>
+      <WriterProjectID>P8</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Sparse</WriterName>
+      <WriterID>S</WriterID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>Writer 9</WriterName>
+      <WriterID>W9</WriterID>
+      <WriterVendor>Vendor 9</WriterVendor>
+      <WriterVendorURL>www.vendor9.example</WriterVendorURL>
+      <WriterVersion>9.0</WriterVersion>
+      <WriterRelease>9.0.1</WriterRelease>
+      <LastWritingDateTime>2021-07-04T23:59:59.9999999-07:00</LastWritingDateTime>
+      <WriterProjectTitle>Project 9</WriterProjectTitle>
+      <WriterProjectID>P9</WriterProjectID>
+    </WriterHeader>
+  </AdditionalInformation>
+  <AdditionalInformation DocumentVersions="Recommendations">
+    <Document DocumentIdentifier="AutomationML Edition 2.1 Part 1" Version="2.1" />
+  </AdditionalInformation>
+  <AdditionalInformation Name="Generic">text</AdditionalInformation>
+  <InstanceHierarchy Name="IH">
+    <Version>1.0</Version>
+    <InternalElement Name="E" ID="8454e85b-c64d-46ef-a15b-26f53458ca1a" />
+  </InstanceHierarchy>
+</CAEXFile>

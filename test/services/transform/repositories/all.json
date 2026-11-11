@@ -1,0 +1,14 @@
+[
+  {
+    "match": "*",
+    "item": [
+      "Any",
+      "AutomationMLBaseAttributeTypeLib/Any",
+      "",
+      "AutomationMLBaseAttributeTypeLib",
+      "1.0.0",
+      "AMLEd2",
+      null
+    ]
+  }
+]
