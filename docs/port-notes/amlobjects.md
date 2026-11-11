@@ -21,7 +21,7 @@ Helper modules without an entry in `docs/type-map.tsv` (no C# counterpart in Aml
 | Module | Content |
 |---|---|
 | `amlobjects/internal/Version.ts` | System.Version (Parse/TryParse with the .NET exceptions, compare, ToString). Also used by `resources/files/SemanticVersion.ts`. |
-| `amlobjects/internal/NetPath.ts` | System.IO.Path / File / Directory subset; node:fs via `process.getBuiltinModule` (NotSupportedException without it). |
+| `amlobjects/internal/NetPath.ts` | System.IO.Path / File / Directory subset; node:fs via `process.getBuiltinModule` (NotSupportedException without it). `getFullPath` throws as .NET for null, empty and null characters; on Windows it follows GetFullPathNameW (`windowsFullPath`: trailing dots and spaces, trailing separators, drive-relative, UNC and device paths, compared in test/services/validator.oracle.test.ts), elsewhere `node:path`. |
 | `amlobjects/mimetype/InvariantIgnoreCaseDictionary.ts` | `Dictionary<string, T>` with InvariantCultureIgnoreCase (MappingList). |
 | `amlobjects/packaging/*.ts` | System.IO.Packaging port (see "AMLX containers" below): `Package.ts`, `PackUriHelper.ts`, `ContentType.ts`, `ZipArchive.ts`, `MemoryStream.ts`. |
 | `resources/libraries/AMLLibraries.ts`, `LibraryResources.ts`, `EmbeddedLibrary.ts`, `data/*.ts` | Port of `Aml.Engine.Resources.AMLStandard.AMLLibraries`/`LibraryResources` (assembly Aml.Engine.Resources 4.2.1) and the embedded libraries. |

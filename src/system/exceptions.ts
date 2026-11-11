@@ -110,6 +110,11 @@ export class IOException extends SystemException {
   override name = 'IOException';
 }
 
+/** System.IO.PathTooLongException. */
+export class PathTooLongException extends IOException {
+  override name = 'PathTooLongException';
+}
+
 /** System.IO.DirectoryNotFoundException. */
 export class DirectoryNotFoundException extends IOException {
   override name = 'DirectoryNotFoundException';
