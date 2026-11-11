@@ -15,6 +15,7 @@ import {
   ArgumentNullException,
   ArgumentOutOfRangeException,
   FileNotFoundException,
+  IOException,
   InvalidOperationException,
   NotSupportedException,
   ObjectDisposedException,
@@ -44,10 +45,8 @@ import { MemoryStream } from './MemoryStream.js';
 import { PackUriHelper, ValidatedPartUri, containerRelationshipPartName, packageRootUri } from './PackUriHelper.js';
 import { CompressionLevel, InvalidDataException, ZipArchive, ZipArchiveMode, type ZipArchiveEntry } from './ZipArchive.js';
 
-/** System.IO.IOException. */
-export class IOException extends SystemException {
-  override name = 'IOException';
-}
+/** System.IO.IOException (defined with the other System exceptions). */
+export { IOException };
 
 /** System.IO.FileFormatException. */
 export class FileFormatException extends SystemException {

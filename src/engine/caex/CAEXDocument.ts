@@ -15,8 +15,11 @@ import {
 import {
   ArgumentNullException,
   ArgumentOutOfRangeException,
+  DirectoryNotFoundException,
   FileNotFoundException,
+  IOException,
   NotSupportedException,
+  UnauthorizedAccessException,
 } from '../../system/exceptions.js';
 import { isNullOrEmpty } from '../../system/strings.js';
 import { EventSource } from '../../system/index.js';
@@ -140,6 +143,27 @@ function getDirectoryName(path: string | null): string | null {
   const dir = nodePath.dirname(path);
   const hasSeparator = /[\\/]/.test(path) || (nodePath.sep === '\\' && path.includes(':'));
   return !hasSeparator && dir === '.' ? '' : dir;
+}
+
+/**
+ * The exception FileStream throws when a file cannot be created for writing. Node reports ENOENT
+ * for a missing directory and for a name Windows rejects (ERROR_PATH_NOT_FOUND and
+ * ERROR_INVALID_NAME), so the name is checked: on Windows a ':' after the drive or one of
+ * "*?<>| and control characters makes the IOException of an invalid name.
+ */
+function writeError(e: unknown, path: string, nodePath: NodePath): unknown {
+  const code = (e as { code?: string }).code;
+  const full = nodePath.resolve(path);
+  if (code === 'ENOENT') {
+    if (nodePath.sep === '\\' && (/["<>|*?\u0000-\u001f]/.test(full) || full.indexOf(':', 2) >= 0)) {
+      return new IOException(`The filename, directory name, or volume label syntax is incorrect. : '${full}'`);
+    }
+    return new DirectoryNotFoundException(`Could not find a part of the path '${full}'.`);
+  }
+  if (code === 'EACCES' || code === 'EPERM' || code === 'EISDIR') {
+    return new UnauthorizedAccessException(`Access to the path '${full}' is denied.`);
+  }
+  return e;
 }
 
 function isHttp(uri: string): boolean {
@@ -551,7 +575,11 @@ export class CAEXDocument extends XDocumentWrapper implements IAMLFile {
       encodingName: 'utf-8',
       omitXmlDeclaration: false,
     });
-    fs.writeFileSync(filename, CAEXDocument.Utf8NoBom.encode(text));
+    try {
+      fs.writeFileSync(filename, CAEXDocument.Utf8NoBom.encode(text));
+    } catch (e) {
+      throw writeError(e, filename, syncModule<NodePath>('node:path')!);
+    }
     if (!filename.endsWith('.tmp')) {
       this.documentSavedEvent.raise(this, filePath);
     }
@@ -579,7 +607,11 @@ export class CAEXDocument extends XDocumentWrapper implements IAMLFile {
       encodingName: 'utf-8',
       omitXmlDeclaration: true,
     });
-    await fs.writeFile(filename, CAEXDocument.Utf8NoBom.encode(text));
+    try {
+      await fs.writeFile(filename, CAEXDocument.Utf8NoBom.encode(text));
+    } catch (e) {
+      throw writeError(e, filename, syncModule<NodePath>('node:path')!);
+    }
     if (!filename.endsWith('.tmp')) {
       this.documentSavedEvent.raise(this, filePathBefore);
     }
