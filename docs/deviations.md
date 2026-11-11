@@ -172,9 +172,13 @@ The synchronous methods of `ExternalReferenceResolver` (LoadOrGetReferencedDocum
 ResolveExternalDocument, CanResolve) and the engine members that call them
 (`ExternalReference.ExternalDocument`, FindByPath and FindByID with an alias, base classes from
 external documents) block in the original on the request of an http(s) or GitHub address.
-JavaScript cannot wait for a request synchronously: the port takes the failure path ("Error
-sending the request for {uri}" with the message "Synchronous access to '{uri}' needs the network;
-use the asynchronous methods.", false for CanResolve, no document). Unlike a failed request, this
+JavaScript cannot wait for a request synchronously, so the port sends no request. CanResolve
+gives false and leaves the message of the resolver unchanged, as the original does when the request
+fails (GetResponseFromWebServerAsync catches every error and gives no response).
+LoadOrGetReferencedDocument and ResolveExternalDocument give no document; where the original would
+report the failed request, the port's message is "Error sending the request for {uri}" followed by
+"Synchronous access to '{uri}' needs the network; use the asynchronous methods." (the original gives
+"{status}: no response for {uri}" or ": no response for {uri}"). Unlike a failed request, this
 failure does not mark the address as unresolved: load such documents with the asynchronous methods
 first (LoadOrGetReferencedDocumentAsync, ResolveExternalDocumentAsync); the synchronous methods and
 the engine then find them in the resolver. A synchronous call while an asynchronous one holds the
@@ -310,6 +314,7 @@ Results of time-only or year-less inputs are compared relative to today / the cu
 - `DateTimeParse`: ParseExact, DateTimeOffset, calendars other than Gregorian, culture-specific
   tokens; the ICU case-insensitive comparison of tokens is emulated with a lower-case comparison.
 - `Uri`: base/relative combination, `MakeRelativeUri`, `IsBaseOf`, `IdnHost` / `DnsSafeHost`
-  (punycode), custom parsers; Unicode data for normalization and letters comes from the JS
-  engine.
+  (punycode), `GetComponents` with `NormalizedHost` or `SerializationInfoString`
+  (NotSupportedException), custom parsers; Unicode data for normalization and letters comes from
+  the JS engine.
 - Number formatting: custom numeric format strings ("0.##") throw `NotSupportedException`.
