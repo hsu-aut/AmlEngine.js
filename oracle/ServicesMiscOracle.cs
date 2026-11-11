@@ -42,6 +42,7 @@ public static class ServicesMiscOracle
             ("repair", RepairSection),
             ("vkey", ValidationKeySection),
             ("dict", DictionarySection),
+            ("coll", CollectionSection),
             ("lock", LockSection),
         };
         var result = new JsonObject();
@@ -669,6 +670,183 @@ public static class ServicesMiscOracle
             }
             catch (Exception e) { r = ExMsg(e); }
             lines.Add(r + "|" + d.Count + "|" + string.Join(",", d.Select(kv => kv.Key + "=" + kv.Value)));
+        }
+        return lines;
+    }
+
+    // ------------------------- List<int>, Dictionary<int,int>, HashSet<int>: changes while enumerating
+
+    static JsonNode CollectionSection()
+    {
+        var results = new JsonArray();
+        foreach (var seq in Read("coll.json").AsArray())
+        {
+            var ops = seq!["ops"]!.AsArray();
+            results.Add(S(seq, "kind") switch
+            {
+                "list" => RunList(ops),
+                "dict" => RunDictionaryEnumeration(ops),
+                _ => RunHashSet(ops),
+            });
+        }
+        return results;
+    }
+
+    static string Fmt(object? current) => current switch
+    {
+        KeyValuePair<int, int> kv => $"{kv.Key}={kv.Value}",
+        _ => Str(current),
+    };
+
+    /// <summary>begin (opens an enumerator) and next (MoveNext of an open one, index modulo their number).</summary>
+    static string Enumeration(JsonArray op, List<System.Collections.IEnumerator> enums, Func<System.Collections.IEnumerator> begin)
+    {
+        if (op[0]!.GetValue<string>() == "begin")
+        {
+            enums.Add(begin());
+            return "e" + (enums.Count - 1);
+        }
+        if (enums.Count == 0) return "none";
+        var e = enums[op[1]!.GetValue<int>() % enums.Count];
+        return e.MoveNext() ? "True:" + Fmt(e.Current) : "False";
+    }
+
+    static IEnumerable<int> Gen(int v)
+    {
+        yield return v;
+        yield return v + 1;
+    }
+
+    static JsonArray RunList(JsonArray ops)
+    {
+        var list = new List<int>();
+        var enums = new List<System.Collections.IEnumerator>();
+        var lines = new JsonArray();
+        foreach (var opNode in ops)
+        {
+            var op = opNode!.AsArray();
+            int I(int k) => op[k]!.GetValue<int>();
+            string r;
+            try
+            {
+                switch (op[0]!.GetValue<string>())
+                {
+                    case "add": list.Add(I(1)); r = "ok"; break;
+                    case "addRange":
+                    {
+                        var v = I(2);
+                        IEnumerable<int> source = op[1]!.GetValue<string>() switch
+                        {
+                            "self" => list,
+                            "selfWhere" => list.Where(x => x % 2 == 1),
+                            "selfWhereNone" => list.Where(x => x < 0),
+                            "selfSelect" => list.Select(x => x + 100),
+                            "selfOrderBy" => list.OrderBy(x => x),
+                            "selfToList" => list.ToList(),
+                            "array" => new[] { v, v + 1 },
+                            "emptyArray" => Array.Empty<int>(),
+                            "copy" => new List<int> { v },
+                            "set" => new HashSet<int> { v, v + 1 },
+                            _ => Gen(v),
+                        };
+                        list.AddRange(source);
+                        r = "ok";
+                        break;
+                    }
+                    case "insert": list.Insert(I(1), I(2)); r = "ok"; break;
+                    case "removeAt": list.RemoveAt(I(1)); r = "ok"; break;
+                    case "remove": r = Str(list.Remove(I(1))); break;
+                    case "set": list[I(1)] = I(2); r = "ok"; break;
+                    case "clear": list.Clear(); r = "ok"; break;
+                    case "removeAll": { var m = I(1); r = list.RemoveAll(x => x % m == 0).ToString(); break; }
+                    case "forEach":
+                    {
+                        var mode = op[1]!.GetValue<string>();
+                        var seen = new List<int>();
+                        try
+                        {
+                            list.ForEach(x =>
+                            {
+                                seen.Add(x);
+                                if (mode == "add" && seen.Count == 1) list.Add(99);
+                                if (mode == "set" && seen.Count == 1) list[0] = list[0];
+                            });
+                            r = string.Join(",", seen);
+                        }
+                        catch (Exception e) { r = string.Join(",", seen) + ExMsg(e); }
+                        break;
+                    }
+                    case "get": r = list[I(1)].ToString(); break;
+                    case "indexOf": r = list.IndexOf(I(1)).ToString(); break;
+                    case "contains": r = Str(list.Contains(I(1))); break;
+                    default: r = Enumeration(op, enums, () => list.GetEnumerator()); break;
+                }
+            }
+            catch (Exception e) { r = ExMsg(e); }
+            lines.Add($"{r}|{list.Count}|{string.Join(",", list)}");
+        }
+        return lines;
+    }
+
+    static JsonArray RunDictionaryEnumeration(JsonArray ops)
+    {
+        var d = new Dictionary<int, int>();
+        var enums = new List<System.Collections.IEnumerator>();
+        var lines = new JsonArray();
+        foreach (var opNode in ops)
+        {
+            var op = opNode!.AsArray();
+            int I(int k) => op[k]!.GetValue<int>();
+            string r;
+            try
+            {
+                switch (op[0]!.GetValue<string>())
+                {
+                    case "add": d.Add(I(1), I(2)); r = "ok"; break;
+                    case "set": d[I(1)] = I(2); r = "ok"; break;
+                    case "remove": r = Str(d.Remove(I(1))); break;
+                    case "clear": d.Clear(); r = "ok"; break;
+                    case "tryGet": r = Str(d.TryGetValue(I(1), out var v)) + ":" + v; break;
+                    default:
+                        // the function is called for 'begin' only, which names the kind of enumerator
+                        r = Enumeration(op, enums, () => op[1]!.GetValue<string>() switch
+                        {
+                            "keys" => d.Keys.GetEnumerator(),
+                            "values" => d.Values.GetEnumerator(),
+                            _ => d.GetEnumerator(),
+                        });
+                        break;
+                }
+            }
+            catch (Exception e) { r = ExMsg(e); }
+            lines.Add($"{r}|{d.Count}|{string.Join(",", d.Select(kv => kv.Key + "=" + kv.Value))}");
+        }
+        return lines;
+    }
+
+    static JsonArray RunHashSet(JsonArray ops)
+    {
+        var set = new HashSet<int>();
+        var enums = new List<System.Collections.IEnumerator>();
+        var lines = new JsonArray();
+        foreach (var opNode in ops)
+        {
+            var op = opNode!.AsArray();
+            int I(int k) => op[k]!.GetValue<int>();
+            string r;
+            try
+            {
+                switch (op[0]!.GetValue<string>())
+                {
+                    case "add": r = Str(set.Add(I(1))); break;
+                    case "remove": r = Str(set.Remove(I(1))); break;
+                    case "clear": set.Clear(); r = "ok"; break;
+                    case "contains": r = Str(set.Contains(I(1))); break;
+                    default: r = Enumeration(op, enums, () => set.GetEnumerator()); break;
+                }
+            }
+            catch (Exception e) { r = ExMsg(e); }
+            lines.Add($"{r}|{set.Count}|{string.Join(",", set)}");
         }
         return lines;
     }

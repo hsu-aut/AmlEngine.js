@@ -451,6 +451,72 @@ for (let i = 0; i < 32; i++) repairValues.push((1 << i) | 0);
 for (let i = 0; i < 22; i++) for (let j = i + 1; j < 22; j++) repairValues.push((1 << i) | (1 << j));
 const repair = { values: repairValues, all: 22, chunkBits: 16 };
 
+// ------------------------- List, Dictionary, HashSet of src/system/linq.ts: changes while enumerating
+
+// 'begin' opens an enumerator, 'next' moves one of the open ones (index modulo their number).
+const SOURCES = ['self', 'selfWhere', 'selfWhereNone', 'selfSelect', 'selfOrderBy', 'selfToList', 'array', 'emptyArray', 'copy', 'set', 'gen'];
+const small = () => int(21);
+const index = () => int(10) - 1;
+function listOp() {
+  return weighted([
+    [3, () => ['add', small()]],
+    [2, () => ['addRange', pick(SOURCES), small()]],
+    [1.5, () => ['insert', index(), small()]],
+    [1, () => ['removeAt', index()]],
+    [1, () => ['remove', small()]],
+    [1, () => ['set', index(), small()]],
+    [0.6, () => ['clear']],
+    [0.7, () => ['removeAll', 2 + int(3)]],
+    [0.6, () => ['forEach', pick(['sum', 'add', 'set'])]],
+    [2.5, () => ['begin']],
+    [5, () => ['next', int(10)]],
+    [0.5, () => ['get', index()]],
+    [0.5, () => ['indexOf', small()]],
+    [0.3, () => ['contains', small()]],
+  ]);
+}
+function dictOp() {
+  const k = () => int(8);
+  return weighted([
+    [3, () => ['add', k(), small()]],
+    [3, () => ['set', k(), small()]],
+    [2.5, () => ['remove', k()]],
+    [0.5, () => ['clear']],
+    [0.5, () => ['tryGet', k()]],
+    [2.5, () => ['begin', pick(['pairs', 'keys', 'values'])]],
+    [5, () => ['next', int(10)]],
+  ]);
+}
+function setOp() {
+  const v = () => int(8);
+  return weighted([
+    [3, () => ['add', v()]],
+    [2.5, () => ['remove', v()]],
+    [0.5, () => ['clear']],
+    [0.5, () => ['contains', v()]],
+    [2.5, () => ['begin']],
+    [5, () => ['next', int(10)]],
+  ]);
+}
+const coll = [
+  // targeted: Clear of an empty list, AddRange of lazy queries over the list itself and of collections
+  { kind: 'list', ops: [['begin'], ['clear'], ['next', 0]] },
+  { kind: 'list', ops: [['add', 1], ['begin'], ['next', 0], ['next', 0], ['clear'], ['next', 0]] },
+  ...SOURCES.map((src) => ({ kind: 'list', ops: [['add', 1], ['add', 2], ['add', 3], ['begin'], ['addRange', src, 7], ['next', 0], ['begin'], ['next', 1]] })),
+  ...SOURCES.map((src) => ({ kind: 'list', ops: [['begin'], ['addRange', src, 7], ['next', 0]] })),
+  { kind: 'list', ops: [['add', 1], ['add', 2], ['forEach', 'add'], ['forEach', 'set'], ['forEach', 'sum']] },
+  { kind: 'dict', ops: [['add', 1, 1], ['add', 2, 2], ['begin', 'pairs'], ['next', 0], ['set', 1, 5], ['next', 0], ['remove', 2], ['next', 0], ['clear'], ['next', 0], ['add', 3, 3], ['next', 0]] },
+  { kind: 'dict', ops: [['begin', 'keys'], ['add', 1, 1], ['next', 0], ['begin', 'values'], ['clear'], ['next', 1]] },
+  { kind: 'set', ops: [['add', 1], ['add', 2], ['begin'], ['next', 0], ['remove', 1], ['next', 0], ['clear'], ['next', 0], ['add', 3], ['next', 0]] },
+];
+for (let s = 0; s < 60; s++) {
+  const kind = ['list', 'list', 'dict', 'set'][s % 4];
+  const op = kind === 'list' ? listOp : kind === 'dict' ? dictOp : setOp;
+  const ops = [];
+  for (let i = 0; i < 50; i++) ops.push(op());
+  coll.push({ kind, ops });
+}
+
 // ------------------------------------------------------------------------------------- write
 
 mkdirSync(outDir, { recursive: true });
@@ -462,6 +528,7 @@ write('engineops.json', engineops);
 write('stat.json', stat);
 write('dict.json', dict);
 write('lock.json', lock);
+write('coll.json', coll);
 write('vkey.json', vkey);
 write('repair.json', repair);
-console.log(`unique ${unique.length}, appends ${appends.length}, engineops ${engineops.length}, stat ${stat.docs.length}, dict ${dict.length}, lock ${lock.length}, vkey ${vkey.keys.length}, repair ${repair.values.length}`);
+console.log(`unique ${unique.length}, appends ${appends.length}, engineops ${engineops.length}, stat ${stat.docs.length}, dict ${dict.length}, coll ${coll.length}, lock ${lock.length}, vkey ${vkey.keys.length}, repair ${repair.values.length}`);
