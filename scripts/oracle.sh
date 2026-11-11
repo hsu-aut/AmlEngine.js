@@ -35,6 +35,25 @@ $ORACLE gapsinfra test/gapsinfra/cases.json test/oracle-out/gapsinfra.json
 node scripts/gen-gapsservices.mjs test/gapsservices 3682 >/dev/null
 $ORACLE gapsservices test/gapsservices test/corpus test/oracle-out/gapsservices
 $ORACLE gapscaex test/gapscaex test/oracle-out/gapscaex.json
+# Aml.Engine.Services and Aml.Engine.Resources (test/services, docs/coverage-notes/services-*.md).
+mkdir -p test/oracle-out/services
+node scripts/gen-services-resources.mjs test/services/resources 4210 >/dev/null
+$ORACLE resources test/services/resources test/oracle-out/services/resources.json
+node scripts/gen-services-undo.mjs test/services/undo/scripts.json 260 28 3682 >/dev/null
+$ORACLE svc-undo test/services/undo/scripts.json test/corpus test/oracle-out/services/undo.json
+node scripts/gen-services-misc.mjs test/services/misc 3682 >/dev/null
+$ORACLE svc-misc test/services/misc test/corpus test/oracle-out/services/misc.json
+node scripts/gen-services-transform.mjs test/corpus test/services/transform 3682 >/dev/null
+$ORACLE svc-transform test/corpus test/services/transform test/oracle-out/services/transform
+node scripts/gen-services-split.mjs test/services/split 3682 >/dev/null
+$ORACLE svc-split test/services/split test/oracle-out/services/split-work test/oracle-out/services/split
+node scripts/gen-services-validator.mjs test/services/validator 3682 >/dev/null
+$ORACLE svc-validator test/services/validator test/oracle-out/services
+# The external reference cases load over http from a local server (test/services/extref-server.mjs).
+node scripts/gen-services-extref.mjs test/services/extref 3682 >/dev/null
+node test/services/extref-server.mjs test/services/extref >/dev/null &
+$ORACLE svc-extref test/services/extref test/oracle-out/services http://127.0.0.1:48217
+node -e "fetch('http://127.0.0.1:48217/__stop').catch(() => {})"
 # Large documents (10 and 50 MB, 10 MB with schema errors). The full read model walk only for
 # 10 MB: it grows with the square of the size (FindByID without ID table), 50 MB takes hours.
 node scripts/gen-large.mjs test/large 10,50,10i 3682 >/dev/null
