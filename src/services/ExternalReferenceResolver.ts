@@ -3,12 +3,15 @@
 // Asynchronous and synchronous methods: the …Async methods are asynchronous as in C# and use
 // fetch for http(s) addresses (through the GitHub service for GitHub addresses) and node:fs for
 // local files. Each synchronous method of the C# class calls `XxxAsync(...).Result`; here it runs
-// the same steps without awaiting (local files complete synchronously in C# as well). Where the
-// C# code awaits an http(s) request (GetResponseFromWebServerAsync), the synchronous twin takes the
-// path of the catch block around that await, with the message of a NotSupportedException saying
-// that synchronous network access is not possible. Such a failure comes from the platform, not from
-// the address, so the address is not recorded as unresolved: a later asynchronous call loads it.
-// FTP (FtpWebRequest) is not supported: both twins take the failure path of the C# FTP branches.
+// the same steps without awaiting (local files complete synchronously in C# as well); an exception
+// that `.Result` would let through reaches the caller wrapped in an AggregateException, as in C#.
+// Where the C# code awaits an http(s) request (GetResponseFromWebServerAsync), the synchronous twin
+// sends no request: CanResolve gives false as for a failed request (null response, message
+// unchanged); LoadOrGetReferencedDocument and ResolveExternalDocument take the catch block around
+// that await, with the message of a NotSupportedException saying that synchronous network access is
+// not possible. Such a failure comes from the platform, not from the address, so the address is not
+// recorded as unresolved: a later asynchronous call loads it. FTP (FtpWebRequest) is not supported:
+// both twins take the failure path of the C# FTP branches.
 //
 // The lock: SemaphoreSlim(1, 1) is an AsyncLock. RemoveDocument defers removals while the lock is
 // held (unless MakePendingRemove is running), as in C#. A synchronous twin cannot wait for the lock:
@@ -31,7 +34,7 @@ import { ServiceLocator } from '../engine/services/ServiceLocator.js';
 import { XmlCAEXSchema } from '../engine/xmlext/XmlCAEXSchema.js';
 import { AsyncLock } from '../system/AsyncLock.js';
 import { toBase64String } from '../system/Convert.js';
-import { InvalidOperationException, NotSupportedException } from '../system/exceptions.js';
+import { AggregateException, InvalidOperationException, NotSupportedException } from '../system/exceptions.js';
 import { from } from '../system/linq.js';
 import { foldInvariantIgnoreCase, isNullOrEmpty } from '../system/strings.js';
 import { Uri, UriComponents, UriFormat, UriKind } from '../system/Uri.js';
@@ -61,6 +64,18 @@ const UriSchemeHttps = 'https';
 /** Exception.Message of a caught error. */
 function exceptionMessage(ex: unknown): string {
   return ex instanceof Error ? ex.message : String(ex);
+}
+
+/**
+ * `task.Result` of C# on the asynchronous twin run without awaiting: an exception reaches the
+ * caller wrapped in an AggregateException.
+ */
+function taskResult<T>(run: () => T): T {
+  try {
+    return run();
+  } catch (e) {
+    throw new AggregateException(e);
+  }
 }
 
 /** The exception a synchronous method takes the place of an http(s) request with. */
@@ -207,12 +222,6 @@ export class ExternalReferenceResolver
 
   private _allowAccess = false;
 
-  /**
-   * Set by documentFromURL: the last synchronous load failed only because the address needs the
-   * network (port only; such an address is not recorded in _unresolvedExternalDocumentByURL).
-   */
-  private _syncNetworkFailure = false;
-
   private constructor() {
     this._externalDocumentRegistry = new ExternalDocumentRegistry();
     this._referenceDictionary = new DocumentReferenceDictionary<ExternalDocument | null>();
@@ -248,7 +257,7 @@ export class ExternalReferenceResolver
 
   /** Determines whether the external address can be resolved to a server or a physical file. */
   canResolve(externalAddress: string): boolean {
-    return this.canAccess(externalAddress);
+    return taskResult(() => this.canAccess(externalAddress));
   }
 
   /** Asynchronously determines whether the external address can be resolved. */
@@ -320,7 +329,7 @@ export class ExternalReferenceResolver
     if (arguments.length >= 2 || externalReferenceOrDocument instanceof CAEXDocument) {
       const result: DocumentResult = { document: null, message: null };
       if (!isNullOrEmpty(caexObjectPath)) {
-        return this.loadOrGetReferencedDocumentForPath(externalReferenceOrDocument as CAEXDocument | null, caexObjectPath);
+        return taskResult(() => this.loadOrGetReferencedDocumentForPath(externalReferenceOrDocument as CAEXDocument | null, caexObjectPath));
       }
       return result;
     }
@@ -332,7 +341,7 @@ export class ExternalReferenceResolver
     if (text !== null) {
       return { document: null, message: text };
     }
-    return this.loadOrGetReferencedDocumentForReference(externalReference);
+    return taskResult(() => this.loadOrGetReferencedDocumentForReference(externalReference));
   }
 
   private redirectionAddress(externalAddress: string | null): { result: string | null; isFile: boolean; isRedirected: boolean } {
@@ -445,14 +454,15 @@ export class ExternalReferenceResolver
       if (this._unresolvedExternalDocumentByURL.has(address)) {
         return { document: null, message: this.message };
       }
-      let val = this.documentFromURL(
+      const loaded = this.documentFromURL(
         address,
         (filePath: string | null) => ValidatorService.normalizeFilePath(filePath, CAEXBasicObjectExtensions.caexFile(externalReference)),
         true,
       );
+      let val = loaded.document;
       if (val === null) {
         // Port: not recorded when only the synchronous network access failed (see the header).
-        if (!this._syncNetworkFailure) {
+        if (!loaded.needsNetwork) {
           this._unresolvedExternalDocumentByURL.add(address);
         }
         return { document: null, message: this.message };
@@ -614,7 +624,11 @@ export class ExternalReferenceResolver
       // call, initially "") instead of null.
       return { document: fromURL.caexDocument, message: this.message };
     }
-    // ResolveExternalDocumentAsync(url, useCache).Result: the same steps without awaiting.
+    return taskResult(() => this.resolveExternalDocumentSynchronously(url, useCache));
+  }
+
+  /** ResolveExternalDocumentAsync(url, useCache).Result: the same steps without awaiting. */
+  private resolveExternalDocumentSynchronously(url: string | null, useCache: boolean): DocumentResult {
     if (useCache) {
       let fromURL2: ExternalDocument | null;
       if ((fromURL2 = this._externalDocumentRegistry.getFromURL(url)) !== null) {
@@ -625,10 +639,10 @@ export class ExternalReferenceResolver
       }
     }
     const addressWithRedirection = this.getAddressWithRedirection(url, null);
-    const val = this.documentFromURL(addressWithRedirection, null, useCache);
+    const { document: val, needsNetwork } = this.documentFromURL(addressWithRedirection, null, useCache);
     if (val === null) {
       // Port: not recorded when only the synchronous network access failed (see the header).
-      if (useCache && !this._syncNetworkFailure) {
+      if (useCache && !needsNetwork) {
         this._unresolvedExternalDocumentByURL.add(url);
       }
       return { document: null, message: 'can not find file for ' + (url ?? '') };
@@ -729,13 +743,12 @@ export class ExternalReferenceResolver
     return this.canAccessWithoutHttp(fileRef, uri);
   }
 
-  /** CanAccessAsync(fileRef).Result: an http(s) request fails (the catch block of the request). */
+  /** CanAccessAsync(fileRef) without awaiting: an http(s) address gives false (no request). */
   private canAccess(fileRef: string | null): boolean {
     const uri = Uri.tryCreate(fileRef, UriKind.RelativeOrAbsolute);
     if (uri !== null && uri.isAbsoluteUri && (uri.scheme === UriSchemeHttp || uri.scheme === UriSchemeHttps)) {
-      // C# awaits GetResponseFromWebServerAsync here. Synchronously the request fails
-      // (syncNetworkException); the catch block of C#:
-      this.message = `Error sending the request for ${uri}`;
+      // C# awaits GetResponseFromWebServerAsync here, which gives null when the request fails; the
+      // null response gives false and leaves the message as it is.
       return false;
     }
     return this.canAccessWithoutHttp(fileRef, uri);
@@ -794,23 +807,23 @@ export class ExternalReferenceResolver
     return this.documentFromURLWithoutHttp(fileRef, uri, resolveRelativePath, useCache);
   }
 
-  /** DocumentFromURLAsync(...).Result: an http(s) request fails (the catch block of the request). */
+  /**
+   * DocumentFromURLAsync(...) without awaiting: an http(s) address gives no document, with the
+   * message of the catch block around the request (it says why no request was sent);
+   * `needsNetwork` tells the caller that only the synchronous network access failed.
+   */
   private documentFromURL(
     fileRef: string | null,
     resolveRelativePath: ((filePath: string | null) => string | null) | null,
     useCache: boolean,
-  ): CAEXDocument | null {
-    this._syncNetworkFailure = false;
+  ): { document: CAEXDocument | null; needsNetwork: boolean } {
     const uri = Uri.tryCreate(fileRef, UriKind.RelativeOrAbsolute);
     if (uri !== null && uri.isAbsoluteUri && (uri.scheme === UriSchemeHttp || uri.scheme === UriSchemeHttps)) {
-      // C# awaits GetResponseFromWebServerAsync here. Synchronously the request fails; the catch
-      // block of C#:
-      this._syncNetworkFailure = true;
       const ex = syncNetworkException(uri);
       this.message = `Error sending the request for ${uri}\n${ex.message}`;
-      return null;
+      return { document: null, needsNetwork: true };
     }
-    return this.documentFromURLWithoutHttp(fileRef, uri, resolveRelativePath, useCache);
+    return { document: this.documentFromURLWithoutHttp(fileRef, uri, resolveRelativePath, useCache), needsNetwork: false };
   }
 
   /** The part of DocumentFromURLAsync after the http(s) branch (it completes synchronously in C#). */
