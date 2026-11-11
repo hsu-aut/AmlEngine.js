@@ -1,6 +1,8 @@
 AmlEngine.js is a port of Aml.Engine (https://www.nuget.org/packages/Aml.Engine), the
-AutomationML .NET API, to TypeScript. Its behaviour, structure and documentation comments
-follow Aml.Engine 4.5.2. Aml.Engine is distributed under the following license:
+AutomationML .NET API, and of Aml.Engine.Services
+(https://www.nuget.org/packages/Aml.Engine.Services) to TypeScript. Its behaviour, structure and
+documentation comments follow Aml.Engine 4.5.2, Aml.Engine.Services 4.3.1 and
+Aml.Engine.Resources 4.2.1. All three are distributed under the following license:
 
 The MIT License (MIT)
 
@@ -21,9 +23,9 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FO
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-The AutomationML standard libraries in src/engine/resources/libraries are embedded byte for
-byte from the NuGet package Aml.Engine.Resources (MIT License, Copyright AutomationML e.V.),
-under the license above.
+The AutomationML standard libraries and the library catalog in src/engine/resources/libraries
+are embedded byte for byte from the NuGet package Aml.Engine.Resources (MIT License, Copyright
+AutomationML e.V.), under the license above.
 
 AMLX containers are read and written with fflate (https://github.com/101arrowz/fflate),
 MIT License, Copyright (c) 2023 Arjun Barrett.

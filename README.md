@@ -2,7 +2,9 @@
 
 AutomationML for JavaScript: CAEX 2.15 and 3.0 documents in the browser and in Node, with the
 behaviour of [Aml.Engine](https://www.nuget.org/packages/Aml.Engine) 4.5.2, the .NET API of
-AutomationML e.V. It is a TypeScript port of that engine, checked against the original by
+AutomationML e.V., and of its services
+([Aml.Engine.Services](https://www.nuget.org/packages/Aml.Engine.Services) 4.3.1). It is a
+TypeScript port of both, checked against the originals by
 differential tests: the same calls on the same documents give the same results, the same
 exceptions and byte for byte the same saved files. The tests execute 98 % of the functions of the
 port; [docs/coverage.md](docs/coverage.md) lists the rest and the reasons. AmlEngine.js is an
@@ -13,7 +15,11 @@ libraries, classes, instances, inheritance, role requirements, interfaces, inter
 mirrors and mapping objects, CAEX paths and aliases, lookups by path and ID, typed attribute
 values for all XSD data types, schema validation, change events and undo hooks, the AutomationML
 objects (facets, groups, ports, frames, external data references, document versions), the
-standard libraries, and AMLX containers.
+standard libraries and the library catalog, and AMLX containers. The services, in the entry
+`amlengine-js/services`: undo and redo with transactions, the validator that finds and repairs
+broken IDs, references, aliases and headers, lookup tables for fast queries, the transformation
+between CAEX 2.15 and 3.0 and between AutomationML editions, splitting and merging documents,
+external references (files, http and GitHub), unique names and statistics.
 
 Deliberate and unavoidable differences to Aml.Engine are listed in
 [docs/deviations.md](docs/deviations.md), changes per version in [CHANGELOG.md](CHANGELOG.md).
@@ -27,7 +33,8 @@ npm install amlengine-js
 It runs in Node 20 or later and in current browsers (checked in Chromium, Edge, Firefox and
 WebKit), as ESM or CommonJS with type declarations. The only dependency is
 [fflate](https://github.com/101arrowz/fflate) for AMLX containers. In the browser the engine is
-about 220 KB with gzip (980 KB minified); load it with `import()` where it is needed.
+about 230 KB with gzip (1 MB minified), the services add about 35 KB (150 KB); load them with
+`import()` where they are needed.
 
 ## Use
 
@@ -62,6 +69,34 @@ const root = CAEXDocument.loadFromBinary(opened.rootDocumentStream().toArray());
 opened.dispose();                                        // close() would throw here, as in C#
 ```
 
+The services work as in C#: a service is registered once, and from then on the engine uses it
+(the undo service records every change, the lookup service answers the queries).
+
+```ts
+import { CAEXSchemaTransformer, UndoRedoService, ValidationResults, ValidatorService } from 'amlengine-js/services';
+
+const undo = UndoRedoService.register();
+undo.beginTransaction(doc, 'Add a line');                // one undo step for both changes
+const line = doc.caexFile.instanceHierarchy.item(0).internalElement.append('Line');
+line.internalElement.append('Conveyor');
+undo.endTransaction(doc);
+undo.undo(doc);                                          // the line is gone
+undo.redo(doc);                                          // and back
+
+const validator = ValidatorService.register();
+const issues = [...validator.validateAll(doc)];          // missing headers, broken IDs and references
+for (const issue of ValidationResults.repairable(issues)) validator.repair(issue);
+
+const caex215 = CAEXSchemaTransformer.register().transformTo(doc, CAEXDocument.CAEXSchema.CAEX2_15);
+```
+
+Both entries share one engine: a service registered through `amlengine-js/services` is the one
+`ServiceLocator` of `amlengine-js` finds (in ESM and in CommonJS; use one of the two module systems
+for both entries). Where a service of the original waits for the network in a synchronous method
+(external references over http, the library catalog of the edition transformer), the port cannot:
+use the asynchronous method (`loadOrGetReferencedDocumentAsync`, `transformToEditionAsync`) first
+([docs/deviations.md](docs/deviations.md)).
+
 Names follow the C# API in camel case (`CAEXFile` is `caexFile`, `RefBaseSystemUnitPath` is
 `refBaseSystemUnitPath`); the rules are in [docs/PORTING.md](docs/PORTING.md). The C# extension
 methods exist in both forms, `doc.findByPath(path)` and
@@ -94,12 +129,14 @@ only read.
 
 ## Verification
 
-`oracle/` is a .NET 8 console program that runs the real Aml.Engine 4.5.2. The tests run the
+`oracle/` is a .NET 8 console program that runs the real Aml.Engine 4.5.2 and
+Aml.Engine.Services 4.3.1. The tests run the
 same operations with both engines and compare the results exactly; only random GUIDs and
 timestamps of "now" are masked. The oracle outputs are generated with `npm run oracle`
 (.NET 8 SDK, Windows, time zone Europe/Berlin) and are not in the repository.
 
-The port follows Aml.Engine 4.5.2. `npm test` warns when NuGet has a newer release
+The port follows Aml.Engine 4.5.2, Aml.Engine.Services 4.3.1 and Aml.Engine.Resources 4.2.1.
+`npm test` warns when NuGet has a newer release of one of them
 (`npm run check-upstream` checks alone); [docs/upgrading-aml-engine.md](docs/upgrading-aml-engine.md)
 describes how to follow it.
 
@@ -118,7 +155,9 @@ describes how to follow it.
 | `test/engine/large` | generated documents of 10 and 50 MB: saving, the read API (10 MB), validation messages |
 | `scripts/tz-check.mjs` | the time dependent packages in UTC, New York and Kolkata (oracle and tests in that zone) |
 | `scripts/culture-check.mjs` | where the original depends on the current culture (oracle in de-DE; results in docs/deviations.md) |
-| `test/browser` | a scenario and all System cases in Edge, Chromium, Firefox and WebKit, compared with Node |
+| `test/services` | every service: undo and redo, lookup, validator and repairs, schema and edition transformation, split and merge, external references (with a local web server; GitHub live on request), unique names, statistics, the library catalog and file models |
+| `scripts/services-check.mjs` | the engine packages again with the lookup, unique name and undo services registered |
+| `test/browser` | a scenario (also with the services) and all System cases in Edge, Chromium, Firefox and WebKit, compared with Node |
 
 [docs/coverage.md](docs/coverage.md) lists the functions of the port that no comparison
 executes, with the reasons in `docs/coverage-notes/`. [docs/seed-runs.md](docs/seed-runs.md)
@@ -131,11 +170,13 @@ records runs with other seeds and larger sizes than the committed inputs.
 ```bash
 npm install
 npm run typecheck
-npm run build          # dist/index.js (ESM), dist/index.cjs, dist/index.d.ts
+npm run build          # dist/index.js, dist/services.js (ESM), *.cjs, declarations in dist/types
+node scripts/check-package.mjs   # the packed package: one engine for both entries, ESM and CommonJS
 npm run oracle         # the outputs of the original (.NET 8 SDK, Windows, about two hours)
 npm test               # compares with them; without oracle outputs those tests are skipped
 AMLENGINE_CHECK_ID_TABLE=1 npm test   # also compares every findByID with the plain search
 npm run test:browser   # scenario and System cases in Node, Edge, Chromium, Firefox, WebKit
+node scripts/services-check.mjs   # the engine packages with registered services
 ```
 
 ## Repository
@@ -144,8 +185,9 @@ npm run test:browser   # scenario and System cases in Node, Edge, Chromium, Fire
 |---|---|
 | `src/xml/` | System.Xml.Linq |
 | `src/system/` | .NET value types, LINQ, exceptions |
-| `src/engine/` | the port of Aml.Engine, one file per C# file |
-| `oracle/` | the reference program on the real Aml.Engine |
+| `src/engine/` | the port of Aml.Engine and Aml.Engine.Resources, one file per C# file |
+| `src/services/` | the port of Aml.Engine.Services (entry `amlengine-js/services`) |
+| `oracle/` | the reference program on the real Aml.Engine and Aml.Engine.Services |
 | `scripts/` | generators for test inputs, the API, the registry |
 | `test/` | tests and their inputs (`test/corpus/`: CAEX files, origins in `SOURCES.tsv`) |
 | `docs/` | porting rules and notes, deviations, optional corrections, coverage, performance |
@@ -153,8 +195,8 @@ npm run test:browser   # scenario and System cases in Node, Edge, Chromium, Fire
 
 ## Third-party content
 
-Aml.Engine and the AutomationML standard libraries in `src/engine/resources/libraries/`
-(Aml.Engine.Resources) are MIT licensed by AutomationML e.V.; AMLX containers use
+Aml.Engine, Aml.Engine.Services and the AutomationML standard libraries and library catalog in
+`src/engine/resources/libraries/` (Aml.Engine.Resources) are MIT licensed by AutomationML e.V.; AMLX containers use
 [fflate](https://github.com/101arrowz/fflate) (MIT). The test corpus contains, besides the
 author's own files, published examples of AutomationML e.V., P2O-Lab, ZVEI and the OPC
 Foundation, used unchanged as test inputs; origin and license of each file are in
