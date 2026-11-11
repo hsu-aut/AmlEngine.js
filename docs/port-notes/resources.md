@@ -60,18 +60,25 @@ of an AutomationML file; the converters are System.ComponentModel type converter
   (System.ComponentModel.TypeConverter) with `canConvertFrom(context, sourceType)`,
   `canConvertTo(context, destinationType)`, `convertFrom(context, culture, value)` and
   `convertTo(context, culture, value, destinationType)`. `Type` arguments are constructors
-  (`String` for typeof(string)); context and culture are ignored. SemanticVersionTypeConverter
-  overrides CanConvertFrom and ConvertFrom as in C# and inherits the TypeConverter behaviour for
-  ConvertTo (`value.toString()`, "" for null).
+  (`String` for typeof(string), `Object` for typeof(object)); context and culture are ignored.
+  SemanticVersionTypeConverter overrides CanConvertFrom and ConvertFrom as in C# and inherits the
+  TypeConverter behaviour for ConvertTo (`value.ToString()`: "" for null, True/False for
+  booleans, the .NET type name for objects without their own toString). The messages use .NET
+  type names: strings, booleans, numbers (Int32 or Double), bigint (Int64), classes registered
+  with `registerNetTypeName` (SemanticVersion), System.Object for plain objects, the
+  constructor name otherwise.
 - **EnumDescriptionTypeConverter** takes the TS enum object (C# `Type`). TS enums carry no
   attributes, so the [Description] texts are a table in the module: AMLFileContentType,
   AccessRightsEnum and AMLEditionEnum (the enums with
   [TypeConverter(typeof(EnumDescriptionTypeConverter))]) and CAEXDocument.CAEXSchema (the only
   other enum of the ported assemblies with [Description] texts); the table also gives the .NET
-  type names of the messages. ConvertTo(string): the description, the member name without
+  type names of the messages and lists the other enums of Aml.Engine.Resources (AMLFileType,
+  AMLDomainEnum, AMLLibraryTypeEnum, StringComparisonAlgorithmEnum, ClassRepositoryEnum) for their
+  names. ConvertTo(string): the description, the member name without
   description, "" for null and for values that are no member. The members inherited from
   EnumConverter are ported for strings: ConvertFrom parses with Enum.Parse(type, s, ignoreCase:
-  true) (integer with sign and trailing white space, or a member name; comma separated values are
+  true) (integer with sign, trailing white space and trailing NUL characters, or a member name;
+  comma separated values are
   ORed) and throws FormatException("<value> is not a valid value for <EnumName>."); other values
   throw NotSupportedException("EnumDescriptionTypeConverter cannot convert from <type>.").
   CanConvertFrom/CanConvertTo are true for `String`.
@@ -87,7 +94,10 @@ of an AutomationML file; the converters are System.ComponentModel type converter
   stored by git with LF line ends; it is now the extracted original (CRLF, 7883 bytes) and the
   folder is marked binary in `.gitattributes`.
 - `AMLLibraries.readAutomationMLLibraryInformation(catalogFile)` (internal) is ported: node:fs,
-  FileNotFoundException with the full path for a missing file, then the stream deserialization.
+  FileNotFoundException with the full path for a missing file (DirectoryNotFoundException when
+  its directory is missing), then the stream deserialization. `getManifestResourceStream` throws
+  for a null name (ArgumentNullException) and an empty one (ArgumentException) like
+  RuntimeAssembly.GetManifestResourceStream.
 
 ## C# behaviour not reproduced exactly
 
@@ -95,20 +105,24 @@ of an AutomationML file; the converters are System.ComponentModel type converter
   `cultureEndsWith` of `src/system/CompareInfo.ts`. `IndexOf("AMLEd",
   StringComparison.InvariantCultureIgnoreCase)` in AMLFileMetaModel is emulated: ignorable
   characters (controls, default ignorable code points) are skipped, letters match ignoring case
-  and compatibility forms (except full and half width forms); combining marks after the match are
-  not checked.
-- System.Text.Json: the maximum depth of 64 (reading and writing) is not enforced; invalid UTF-8
-  in a byte input is decoded with replacement characters instead of failing; lone surrogates are
-  written as \uXXXX escapes. A null input throws ArgumentNullException("json") for both
-  overloads.
+  and compatibility forms (except full and half width forms); a match followed by a combining
+  mark is no match (the mark belongs to its last letter). Other ICU subtleties (contractions,
+  ignorable characters between the match and a combining mark) are not emulated.
+- System.Text.Json: a null input throws ArgumentNullException("json") for both overloads (the
+  stream overload names the parameter "utf8Json"). On writing, the depth check of list items is
+  made for objects and arrays only (System.Text.Json also checks null items of object lists; the
+  catalog has no list deeper than 6). Errors of the file system other than a missing file or
+  directory are the errors of node:fs. ReadAutomationMLLibraryInformation does not dispose its
+  FileStream in C#, so the file stays locked until the stream is collected (a later Save to the
+  same file fails with IOException); the port reads the file completely and keeps no handle.
 - EnumDescriptionTypeConverter: an enum value is a number, so a number is always taken as a value
   of the converter's enum (C# `value.GetType()` would be Int32 for a plain integer). For a string,
   `GetType().GetField(value)` finds only the field `String.Empty`, so "Empty" converts to "Empty"
   and every other string to "". The type names in the NotSupportedException messages are .NET
   names for strings, booleans, numbers and the table enums, constructor names otherwise
-  ("System.Enum" for an enum outside the table). Enum[] and InstanceDescriptor conversions do not
-  exist. The FormatException has no inner exception. Trailing NUL characters after an integer are
-  not accepted (.NET number parsing accepts them).
+  ("System.Enum" for an enum outside the table). Enum[] and InstanceDescriptor conversions and
+  the other members of EnumConverter (GetStandardValues, IsValid, ...) do not exist. The
+  FormatException has no inner exception.
 - ClassRepositoryItem: `equalityKey()` is a string over the type name and the properties (C#
   combines hash codes; the key is consistent with `equals`).
 
@@ -139,11 +153,25 @@ of an AutomationML file; the converters are System.ComponentModel type converter
   `utf8JsonText(bytes)`. Added: the message for input without any token ("The input does not
   contain any JSON tokens. ..."); AMLLibraryServerProfile never passes such input (it rejects
   empty and white space profiles first). `AMLLibraryServerProfile.ts` keeps only its converters
-  (`ProfileDeserializer extends JsonDeserializer`); its behaviour is unchanged
-  (test/engine/gapsservices.oracle.test.ts).
-- `src/system/TypeConverter.ts` (new): System.ComponentModel.TypeConverter base class.
+  (`ProfileDeserializer extends JsonDeserializer`), test/engine/gapsservices.oracle.test.ts.
+  Corrected in the verification (test/services/resources.oracle.test.ts, also for the profile):
+  "when isFinalBlock" in that message; the maximum depth of 64 when reading (error at the opening
+  bracket) and writing (JsonException "A possible object cycle was detected ..." with the member
+  path, `JSON_MEMBER_NAMES`); a string with lone surrogates throws ArgumentException ("Cannot
+  transcode invalid UTF-16 string to UTF-8 JSON text."); `deserialize` takes the bytes and
+  decodes them itself (one preamble skipped, invalid bytes kept as U+DC80..U+DCFF so that a string
+  value fails as System.String, a syntax error prints 0xNN and positions count bytes); a property
+  name with invalid surrogate escapes fails as the object type (`readProperties` takes the .NET
+  type name); a '/' right after a property name, '{' or '[' has the message of a comment after a
+  value; lone surrogates are written as \uFFFD.
+- `src/system/TypeConverter.ts` (new): System.ComponentModel.TypeConverter base class, with
+  `registerNetTypeName` for the .NET names in its messages.
 - `src/engine/resources/files/SemanticVersion.ts`: registers itself in the registry
-  (`T.SemanticVersion = SemanticVersion`), which now lists it.
+  (`T.SemanticVersion = SemanticVersion`), which now lists it, and its .NET type name.
+- `src/engine/amlobjects/internal/NetPath.ts`: `getFileName` cut a path at a ':' in the first two
+  characters also without a drive letter ("Ⅿ:x", ":x"); .NET only cuts the root ("C:").
+- `src/system/exceptions.ts`: DirectoryNotFoundException (Save to a missing directory,
+  ReadAutomationMLLibraryInformation).
 - `src/engine/resources/libraries/AMLLibraries.ts`: `getManifestResourceStream` and
   `readAutomationMLLibraryInformation` added, getAutomationMLLibrary unchanged in behaviour.
 - `src/engine/services/interfaces/IAMLLibraryService.ts`: the placeholder types AMLFileMetaModel
@@ -156,17 +184,8 @@ of an AutomationML file; the converters are System.ComponentModel type converter
   ArgumentOutOfRangeException for short paths ending in "AMLEd", Path.GetFileName with the
   Windows rules on every platform).
 
-## Open points for the verification against the original
+## Verification
 
-- Catalog JSON: compare `serialize()` of the embedded catalog and of edited catalogs (revisions,
-  archived versions, null lists, non-ASCII text) with JsonSerializer.Serialize, and the
-  JsonException messages and positions of malformed catalogs (in particular the stream overload,
-  which reads in buffers, and the empty input).
-- `PublicLibraryCatalog.deserialize` of the embedded AutomationMLLibs.json: the versions have no
-  CAEXVersion, so OnDeserialized sets no AMLEdition; check GetPublishedLibraryVersion and
-  HighestVersion for the CAEX versions "2.15", "3.0", "CAEX3_0".
-- AMLFileMetaModel for file names with 4, 5, 6 and 7 parts, URL-escaped names, ".amlx"/".zip"
-  URLs, names with ignorable characters before "AMLEd" and paths with backslashes on Linux.
-- EnumDescriptionTypeConverter.ConvertFrom with numeric strings, signs, white space, mixed case
-  and comma separated names; the NotSupportedException texts.
-- ClassRepositoryItem.ToString with null properties.
+Compared with the original by `resources` (oracle/ServicesResourcesOracle.cs,
+test/services/resources.oracle.test.ts); cases, deviations and coverage in
+docs/coverage-notes/services-resources.md.

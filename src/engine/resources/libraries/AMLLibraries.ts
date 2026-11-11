@@ -8,9 +8,9 @@
 // serves it, and every other resource, by its manifest resource name.
 
 import { T } from '../../registry.js';
-import { ArgumentNullException, FileNotFoundException } from '../../../system/exceptions.js';
+import { ArgumentException, ArgumentNullException, DirectoryNotFoundException, FileNotFoundException } from '../../../system/exceptions.js';
 import { isNullOrEmpty } from '../../../system/strings.js';
-import { fileExists, getFs, getFullPath } from '../../amlobjects/internal/NetPath.js';
+import { directoryExists, fileExists, getDirectoryName, getFs, getFullPath } from '../../amlobjects/internal/NetPath.js';
 import { EMBEDDED_LIBRARIES } from './data/index.js';
 import { embeddedLibraryBytes } from './EmbeddedLibrary.js';
 import type { PublicLibraryCatalog } from '../catalogue/PublicLibraryCatalog.js';
@@ -80,9 +80,12 @@ export class AMLLibraries {
   /**
    * `typeof(AMLLibraries).Assembly.GetManifestResourceStream(name)` (port helper, no C# member):
    * the bytes of the embedded resource with this manifest resource name (case-sensitive), e.g.
-   * `Aml.Engine.Resources.Resources.AutomationMLLibs.json`, or `null` when there is none.
+   * `Aml.Engine.Resources.Resources.AutomationMLLibs.json`, or `null` when there is none. A null
+   * or empty name throws like RuntimeAssembly.GetManifestResourceStream.
    */
   static getManifestResourceStream(name: string): Uint8Array | null {
+    if (name === null || name === undefined) throw new ArgumentNullException(null, 'String reference not set to an instance of a String.');
+    if (name.length === 0) throw new ArgumentException('String cannot have zero length.');
     const library = EMBEDDED_LIBRARIES.get(name);
     return library === undefined ? null : embeddedLibraryBytes(library);
   }
@@ -98,10 +101,15 @@ export class AMLLibraries {
     if (isNullOrEmpty(catalogFile)) {
       throw new ArgumentNullException('catalogFile');
     }
-    // File.OpenRead: FileNotFoundException with the full path for a missing file.
+    // File.OpenRead: FileNotFoundException with the full path for a missing file,
+    // DirectoryNotFoundException when its directory is missing.
     const fs = getFs();
     if (!fileExists(catalogFile)) {
-      throw new FileNotFoundException(`Could not find file '${getFullPath(catalogFile)}'.`);
+      const fullPath = getFullPath(catalogFile);
+      if (!directoryExists(getDirectoryName(fullPath))) {
+        throw new DirectoryNotFoundException(`Could not find a part of the path '${fullPath}'.`);
+      }
+      throw new FileNotFoundException(`Could not find file '${fullPath}'.`);
     }
     const stream = fs.readFileSync(catalogFile);
     if (stream != null) {

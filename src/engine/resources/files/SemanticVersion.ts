@@ -10,6 +10,7 @@ import { T } from '../../registry.js';
 import { ArgumentNullException } from '../../../system/exceptions.js';
 import { compareOrdinalIgnoreCase, equalsOrdinalIgnoreCase, isNullOrEmpty } from '../../../system/strings.js';
 import { Version } from '../../amlobjects/internal/Version.js';
+import { registerNetTypeName } from '../../../system/TypeConverter.js';
 
 const WS = '[\\f\\n\\r\\t\\v\\x85\\p{Z}]';
 
@@ -276,3 +277,4 @@ export class SemanticVersion {
 }
 
 T.SemanticVersion = SemanticVersion;
+registerNetTypeName(SemanticVersion, 'Aml.Engine.Resources.Files.SemanticVersion');

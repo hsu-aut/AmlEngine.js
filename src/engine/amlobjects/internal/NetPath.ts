@@ -86,7 +86,7 @@ export function getFileName(path: string | null): string | null {
   if (path == null) return null;
   const root = isWindows ? rootLength(path) : 0;
   for (let i = path.length - 1; i >= root; i--) {
-    if (isSep(path[i]!) || (isWindows && i < 2 && path[i] === ':')) return path.substring(i + 1);
+    if (isSep(path[i]!)) return path.substring(i + 1);
   }
   return path.substring(root);
 }

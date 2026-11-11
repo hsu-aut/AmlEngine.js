@@ -4,9 +4,18 @@
 // (the port formats with the invariant culture). InstanceDescriptor has no counterpart.
 
 import { ArgumentNullException, NotSupportedException } from './exceptions.js';
+import { formatDouble } from './Number.js';
 
 /** A `Type` argument: a constructor (`String` stands for System.String). */
 export type TypeArgument = unknown;
+
+/** .NET full names of ported classes (registerNetTypeName), by constructor. */
+const netTypeNames = new WeakMap<object, string>();
+
+/** Registers the .NET full type name of a ported class for the messages of the converters. */
+export function registerNetTypeName(type: object, fullName: string): void {
+  netTypeNames.set(type, fullName);
+}
 
 /**
  * The .NET full type name of a value as `value.GetType().FullName` would give it for the values a
@@ -24,7 +33,10 @@ export function netTypeName(value: unknown): string {
     case 'bigint':
       return 'System.Int64';
   }
-  const name = (value as { constructor?: { name?: string } }).constructor?.name;
+  const ctor = (value as { constructor?: { name?: string } }).constructor;
+  const registered = ctor === undefined ? undefined : netTypeNames.get(ctor);
+  if (registered !== undefined) return registered;
+  const name = ctor?.name;
   return name !== undefined && name !== '' && name !== 'Object' ? name : 'System.Object';
 }
 
@@ -33,6 +45,7 @@ export function netTypeArgumentName(type: TypeArgument): string {
   if (type === String) return 'System.String';
   if (type === Number) return 'System.Double';
   if (type === Boolean) return 'System.Boolean';
+  if (type === Object) return 'System.Object';
   const name = (type as { name?: string } | null)?.name;
   return name !== undefined && name !== '' ? name : String(type);
 }
@@ -55,11 +68,18 @@ export class TypeConverter {
     throw this.getConvertFromException(value);
   }
 
-  /** Converts the given value object to the specified type (System.String: `value.ToString()`, "" for null). */
+  /**
+   * Converts the given value object to the specified type (System.String: `value.ToString()`, ""
+   * for null; booleans as True/False, numbers as Int32 or Double with the invariant culture).
+   */
   convertTo(_context: unknown, _culture: unknown, value: unknown, destinationType: TypeArgument): unknown {
     if (destinationType === null || destinationType === undefined) throw new ArgumentNullException('destinationType');
     if (destinationType === String) {
       if (value === null || value === undefined) return '';
+      if (typeof value === 'boolean') return value ? 'True' : 'False';
+      if (typeof value === 'number') return netTypeName(value) === 'System.Int32' ? String(value) : formatDouble(value);
+      // Object.ToString() without an override: the full type name.
+      if ((value as { toString?: unknown }).toString === Object.prototype.toString) return netTypeName(value);
       return String((value as { toString(): string }).toString());
     }
     throw this.getConvertToException(value, destinationType);

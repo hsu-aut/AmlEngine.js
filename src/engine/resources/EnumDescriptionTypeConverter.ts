@@ -16,6 +16,11 @@ import { isWhiteSpace, trimWhiteSpace } from '../../system/Char.js';
 import { TypeConverter, netTypeArgumentName, netTypeName } from '../../system/TypeConverter.js';
 import type { TypeArgument } from '../../system/TypeConverter.js';
 import { AMLFileContentType } from './files/AMLFileContentType.js';
+import { AMLFileType } from './files/AMLFileType.js';
+import { AMLDomainEnum } from './files/AMLDomainEnum.js';
+import { AMLLibraryTypeEnum } from './files/AMLLibraryTypeEnum.js';
+import { StringComparisonAlgorithmEnum } from './catalogue/StringComparisonAlgorithmEnum.js';
+import { ClassRepositoryEnum } from './catalogue/ClassRepositoryEnum.js';
 import { AccessRightsEnum } from '../services/model/AccessRightsEnum.js';
 import { AMLEditionEnum } from '../services/model/AMLEditionEnum.js';
 
@@ -27,10 +32,21 @@ interface EnumInfo {
 
 let enumTable: Map<object, EnumInfo> | null = null;
 
-/** The [Description] texts of the enums of the ported assemblies (built on first use). */
+/** An enum without [Description] texts. */
+const plain = (fullName: string): EnumInfo => ({ fullName, descriptions: new Map() });
+
+/**
+ * The .NET names and [Description] texts of the enums of the ported assemblies (built on first
+ * use): the enums with [Description] texts and the other enums of Aml.Engine.Resources.
+ */
 function enumInfo(type: object): EnumInfo | null {
   if (enumTable === null) {
     enumTable = new Map<object, EnumInfo>([
+      [AMLFileType, plain('Aml.Engine.Resources.Files.AMLFileType')],
+      [AMLDomainEnum, plain('Aml.Engine.Resources.Files.AMLDomainEnum')],
+      [AMLLibraryTypeEnum, plain('Aml.Engine.Resources.Files.AMLLibraryTypeEnum')],
+      [StringComparisonAlgorithmEnum, plain('Aml.Engine.Resources.Catalogue.StringComparisonAlgorithmEnum')],
+      [ClassRepositoryEnum, plain('Aml.Engine.Resources.Catalogue.ClassRepositoryEnum')],
       [
         AMLFileContentType,
         {
@@ -174,7 +190,8 @@ export class EnumDescriptionTypeConverter extends TypeConverter {
 
   /**
    * Enum.Parse(EnumType, value, true) of an Int32 enum: an integer (leading sign, trailing white
-   * space) or a member name ignoring case, white space around it trimmed. `null` for any failure
+   * space, then trailing NUL characters as in .NET number parsing) or a member name ignoring
+   * case, white space around it trimmed. `null` for any failure
    * (EnumConverter turns every exception into a FormatException).
    */
   private enumParse(value: string): number | null {
@@ -188,7 +205,7 @@ export class EnumDescriptionTypeConverter extends TypeConverter {
     }
     const c = v[0];
     if ((c >= '0' && c <= '9') || c === '-' || c === '+') {
-      const m = /^([+-]?)([0-9]+)[\t\n\v\f\r ]*$/.exec(v);
+      const m = /^([+-]?)([0-9]+)[\t\n\v\f\r ]*\0*$/.exec(v);
       if (m !== null) {
         const n = BigInt(m[1] === '-' ? '-' + m[2] : m[2]);
         if (n < -2147483648n || n > 2147483647n) return null; // OverflowException

@@ -21,7 +21,8 @@ const IGNORABLE = /^[\p{Cc}\p{Default_Ignorable_Code_Point}]$/u;
 /**
  * `s.IndexOf(value, StringComparison.InvariantCultureIgnoreCase)` for an ASCII `value`: the index
  * of the first match, where completely ignorable characters in `s` are skipped and letters match
- * regardless of case (also their compatibility forms, except the full and half width forms).
+ * regardless of case (also their compatibility forms, except the full and half width forms). A
+ * match must end on a character boundary: a combining mark after it belongs to its last letter.
  */
 function indexOfInvariantIgnoreCase(s: string, value: string): number {
   const target = value.toLowerCase();
@@ -44,7 +45,7 @@ function indexOfInvariantIgnoreCase(s: string, value: string): number {
       }
       break;
     }
-    if (k === target.length) return start;
+    if (k === target.length && !(i < s.length && /\p{M}/u.test(s[i]))) return start;
   }
   return -1;
 }
