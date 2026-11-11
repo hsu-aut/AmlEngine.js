@@ -234,6 +234,36 @@ const FIXED = [
     ],
   },
   {
+    // EndTransaction pops the inner multi document transaction and puts the outer one on the undo
+    // stack: the only way a MultiDocumentTransaction is undone and redone (with its related one).
+    name: 'two multi document transactions',
+    start: 'new30',
+    related: '3_IE_Attribute.aml',
+    ops: [
+      S('begin', { d: 'a', name: 'M1', rel: 'r' }), S('rename', { a: 1, name: 'R1', d: 'r' }), S('push', { d: 'r', name: 'RC', fail: 'none' }),
+      S('begin', { d: 'a', name: 'M2', rel: 'r' }), ih('a', 'In2'), S('push', { d: 'a', name: 'AC', fail: 'none' }), ih('r', 'R2'), S('end', { d: 'a' }),
+      S('undo', { d: 'a' }), S('redo', { d: 'a' }), S('undo', { d: 'a' }), S('end', { d: 'r' }), S('end', { d: 'r' }), S('redo', { d: 'a' }),
+    ],
+  },
+  {
+    name: 'two multi document transactions, related paused',
+    start: 'new30',
+    related: 'new30',
+    ops: [
+      S('pause', { d: 'r' }), S('begin', { d: 'a', name: 'M1', rel: 'r' }), S('begin', { d: 'a', name: 'M2', rel: 'r' }), S('resume', { d: 'r' }), ih('a', 'X'),
+      S('end', { d: 'a' }), S('push', { d: 'a', name: 'AC', fail: 'none' }), S('undo', { d: 'a' }), S('undo', { d: 'a' }), S('redo', { d: 'a' }),
+    ],
+  },
+  {
+    name: 'two multi document transactions, the outer with commands',
+    start: 'new30',
+    related: 'new215',
+    ops: [
+      S('begin', { d: 'a', name: 'M1', rel: 'r' }), ih('a', 'Out'), S('begin', { d: 'a', name: 'M2', rel: 'r' }), ih('a', 'In'), ih('r', 'RIn'),
+      S('end', { d: 'a' }), S('end', { d: 'r' }), S('end', { d: 'r' }), S('undo', { d: 'a' }), S('redo', { d: 'a' }), S('undo', { d: 'r' }), S('undo', { d: 'a' }),
+    ],
+  },
+  {
     name: 'pause per document, nested',
     start: '5_SUC.aml',
     related: 'new30',
@@ -312,6 +342,16 @@ const FIXED = [
     name: 'undo inside an open transaction',
     start: 'new30',
     ops: [ih(), ih('a', 'H2'), S('begin', { d: 'a', name: 'T' }), ie(), S('undo', { d: 'a' }), ie('a', 'Y'), S('end', { d: 'a' }), S('undo', { d: 'a' }), S('undo', { d: 'a' })],
+  },
+  {
+    // MoveCmd.UnExecute without a previous sibling (the moved element was the first child).
+    name: 'move the first element',
+    start: 'new30',
+    ops: [
+      ih(), ie('a', 'E1'), S('newAttr', { a: 0, name: 'A1' }), S('newAttr', { a: 0, name: 'A2' }), S('newIE', { a: 1, name: 'C1' }), S('newIE', { a: 1, name: 'C2' }),
+      S('seqMove', { kind: 'attr', a: 0, i: 0, j: 1 }), S('seqMove', { kind: 'ie', a: 1, i: 0, j: 1 }), S('seqMove', { kind: 'ie', a: 1, i: 1, j: 0 }),
+      S('undo', { d: 'a' }), S('undo', { d: 'a' }), S('undo', { d: 'a' }), S('redo', { d: 'a' }), S('redo', { d: 'a' }), S('redo', { d: 'a' }),
+    ],
   },
   {
     name: 'push clears redo',

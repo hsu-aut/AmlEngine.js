@@ -122,10 +122,10 @@ function applyOp(op: any): string {
   const d = docOf(op.d);
   switch (op.op) {
     case 'undo':
-      svc.undo(d);
+      undoRedo(d, true);
       return 'ok';
     case 'redo':
-      svc.redo(d);
+      undoRedo(d, false);
       return 'ok';
     case 'begin':
       return bool(svc.beginTransaction(d, op.name ?? null, docOf(op.rel)));
@@ -397,6 +397,47 @@ class RecCmd {
   }
 }
 
+// ---- command types undone and redone --------------------------------------------------------
+
+const COMMAND_TYPES = ['AddCmd', 'AddNewCmd', 'InsertCmd', 'InsertNewCmd', 'MoveCmd', 'RemoveCmd', 'SetAttributeValueCmd', 'SetElementContentCmd', 'SetElementValueCmd'];
+const undone = new Set<string>();
+const redone = new Set<string>();
+let phase: 'undo' | 'redo' | null = null;
+const originals: Array<[any, string, (...a: unknown[]) => unknown]> = [];
+
+/** Svc.Undo / Svc.Redo, noting which command types they reach. */
+function undoRedo(d: any, undo: boolean): void {
+  phase = undo ? 'undo' : 'redo';
+  try {
+    if (undo) svc.undo(d);
+    else svc.redo(d);
+  } finally {
+    phase = null;
+  }
+}
+
+/** Wraps Execute and UnExecute of every command type to note the types undone and redone. */
+function watchCommands(): void {
+  for (const name of COMMAND_TYPES) {
+    const proto = (T as any)[name].prototype;
+    for (const method of ['execute', 'unExecute']) {
+      if (!Object.prototype.hasOwnProperty.call(proto, method)) continue;
+      const original = proto[method];
+      originals.push([proto, method, original]);
+      proto[method] = function (this: any, ...args: unknown[]) {
+        if (phase === 'undo' && method === 'unExecute') undone.add(this.constructor.name);
+        if (phase === 'redo' && method === 'execute') redone.add(this.constructor.name);
+        return original.apply(this, args);
+      };
+    }
+  }
+}
+
+function unwatchCommands(): void {
+  for (const [proto, method, original] of originals) proto[method] = original;
+  originals.length = 0;
+}
+
 function runScript(script: any): Expected {
   const now = DateTime.now.ticks;
   scriptStartTicks = now - (now % 10_000_000n);
@@ -436,8 +477,7 @@ function runScript(script: any): Expected {
           props.length = 0;
           let label = (undo ? 'u' : 'r') + tag;
           try {
-            if (undo) svc.undo(d);
-            else svc.redo(d);
+            undoRedo(d, undo);
           } catch (e) {
             label += ex(e, false);
           }
@@ -474,13 +514,16 @@ describe.skipIf(!existsSync(expectedFile))('UndoRedoService parity with Aml.Engi
   const scripts = JSON.parse(readFileSync(scriptFile, 'utf8')) as any[];
   // The suite body runs even when skipped (vitest collects the tests): read only what exists.
   const expected = (existsSync(expectedFile) ? JSON.parse(readFileSync(expectedFile, 'utf8')) : []) as Expected[];
+  let ran = 0;
   beforeAll(() => {
     CaexCommand.caexElementChangingEvent.subscribe(changing);
     CaexCommand.caexElementChangedEvent.subscribe(changed);
+    watchCommands();
   });
   afterAll(() => {
     CaexCommand.caexElementChangingEvent.unsubscribe(changing);
     CaexCommand.caexElementChangedEvent.unsubscribe(changed);
+    unwatchCommands();
   });
 
   scripts.forEach((script, i) => {
@@ -488,6 +531,7 @@ describe.skipIf(!existsSync(expectedFile))('UndoRedoService parity with Aml.Engi
     it(`script ${i} (${label})`, () => {
       const exp = expected[i];
       const act = runScript(script);
+      ran++;
       for (let j = 0; j < Math.max(exp.steps.length, act.steps.length); j++) {
         if (JSON.stringify(act.steps[j]) !== JSON.stringify(exp.steps[j])) {
           expect({ step: j, op: script.ops[j], record: act.steps[j] }).toEqual({ step: j, op: script.ops[j], record: exp.steps[j] });
@@ -502,5 +546,11 @@ describe.skipIf(!existsSync(expectedFile))('UndoRedoService parity with Aml.Engi
       expect(act.textR).toBe(exp.textR);
       expect(act.dispose).toBe(exp.dispose);
     });
+  });
+
+  it('undoes and redoes every command type of the engine', (ctx) => {
+    if (ran < scripts.length) ctx.skip();
+    expect([...undone].sort()).toEqual(COMMAND_TYPES);
+    expect([...redone].sort()).toEqual(COMMAND_TYPES);
   });
 });
