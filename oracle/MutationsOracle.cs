@@ -27,10 +27,10 @@ public static class MutationsOracle
     {
         var scripts = JsonNode.Parse(File.ReadAllText(args[0]))!.AsArray();
         var corpus = args[1];
-        // With services of Aml.Engine.Services registered (ORACLE_SERVICES), the original can end
-        // with a stack overflow (LookupService on a moved element): each script then runs in its own
+        // With the LookupService of Aml.Engine.Services registered (ORACLE_SERVICES), the original
+        // can end with a stack overflow (on a moved element): each script then runs in its own
         // process, see RunIsolated.
-        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ORACLE_SERVICES"))
+        if ((Environment.GetEnvironmentVariable("ORACLE_SERVICES") ?? "").Split(',').Any(s => s.Trim() == "lookup")
             && Environment.GetEnvironmentVariable("MUT_CHILD") == null)
         {
             RunIsolated(args, scripts.Count);
