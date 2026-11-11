@@ -1,11 +1,12 @@
 # Two jobs:
-# - quick (Linux): typecheck, build, the tests that need no oracle outputs, browser check in
-#   Chromium, Firefox and WebKit.
+# - quick (Linux): typecheck, build, the packed package (scripts/check-package.mjs), the tests
+#   that need no oracle outputs, browser check in Chromium, Firefox and WebKit.
 # - oracle (Windows, time zone W. Europe like the reference machine): the outputs of the original
 #   Aml.Engine (scripts/oracle.sh, about two hours) are kept in the Actions cache under a key made
 #   of the oracle, the generators and the test inputs, so they are only rebuilt when one of these
-#   changes. Then all tests against them, the time zone check (scripts/tz-check.mjs) and the
-#   browser check including Edge.
+#   changes. Then all tests against them, the engine packages with registered services
+#   (scripts/services-check.mjs), the time zone check (scripts/tz-check.mjs) and the browser check
+#   including Edge.
 # release.yml calls this workflow before it publishes a version.
 name: CI
 
@@ -33,6 +34,7 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run build
+      - run: node scripts/check-package.mjs --no-build
       - run: npm test
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: node test/browser/run.mjs chromium,firefox,webkit
@@ -61,8 +63,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: test/oracle-out
-          key: oracle-out-${{ hashFiles('oracle/**/*.cs', 'oracle/*.csproj', 'scripts/**', 'test/corpus/**', 'test/xml-corpus/**', 'test/xml-fuzz/**', 'test/xml-ops/**', 'test/engine-ops/**', 'test/validation/cases/**', 'test/values/**', 'test/mutations/**', 'test/amlobjects/**', 'test/reads/**', 'test/fixes/**', 'test/noreturn/**', 'test/gapsinfra/**', 'test/gapsservices/**', 'test/gapscaex/**', 'test/system/cases.json', 'docs/CAEX_ClassModel_V.3.0.xsd') }}
-      - name: Run the oracle (Aml.Engine 4.5.2)
+          key: oracle-out-${{ hashFiles('oracle/**/*.cs', 'oracle/*.csproj', 'scripts/**', 'test/corpus/**', 'test/xml-corpus/**', 'test/xml-fuzz/**', 'test/xml-ops/**', 'test/engine-ops/**', 'test/validation/cases/**', 'test/values/**', 'test/mutations/**', 'test/amlobjects/**', 'test/reads/**', 'test/fixes/**', 'test/noreturn/**', 'test/gapsinfra/**', 'test/gapsservices/**', 'test/gapscaex/**', 'test/services/**', 'test/system/cases.json', 'docs/CAEX_ClassModel_V.3.0.xsd') }}
+      - name: Run the oracle (Aml.Engine 4.5.2, Aml.Engine.Services 4.3.1)
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm run oracle
       - name: Keep the oracle outputs
@@ -75,6 +77,8 @@ jobs:
         run: node scripts/gen-large.mjs test/large 10,50,10i 3682
       - run: npm run build
       - run: npm test
+      - name: Engine packages with registered services
+        run: node scripts/services-check.mjs lookup,uniquename,undo
       - name: Other time zones
         run: node scripts/tz-check.mjs UTC,America/New_York,Asia/Kolkata
       - run: npx playwright install chromium firefox webkit
