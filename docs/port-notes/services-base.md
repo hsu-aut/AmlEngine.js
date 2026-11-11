@@ -31,9 +31,11 @@ declaration at run time. The engine calls the undo service through `ServiceLocat
 - **Stack<T>**: a module-private class in `UndoRedoService.ts` with the members the service uses.
   `pop` and `peek` throw `InvalidOperationException("Stack empty.")` on an empty stack, enumeration
   starts at the top (most recently pushed first, so `undoActions`/`redoActions` list the most recent
-  action first) and throws `InvalidOperationException("Collection was modified; enumeration
-  operation may not execute.")` on the next step after a push, pop or clear, like the enumerator of
-  .NET. `undoActions`/`redoActions` stay lazy (C# `Select` over the stack).
+  action first) and throws `InvalidOperationException("Collection was modified after the enumerator
+  was instantiated.")` on the next step after a push, pop or clear, like the enumerator of .NET
+  (the text of System.Collections, where Stack<T> lives; List<T> of CoreLib, as in `Transaction`,
+  says "Collection was modified; enumeration operation may not execute."). `undoActions`/
+  `redoActions` stay lazy (C# `Select` over the stack).
 - **Time stamps**: `DateTime.Now.ToLongTimeString()` is `DateTime.now.toString('T')` (invariant
   culture: `HH:mm:ss`). `lastModificationDate` parses it with `DateTime.tryParse` (invariant), which
   gives today's date (at the time of the call) with that time, kind Unspecified; a failed parse is
