@@ -67,7 +67,12 @@ public static class ServicesExtRefOracle
     static string Ex(Exception e)
     {
         while (e is TargetInvocationException { InnerException: not null } t) e = t.InnerException!;
-        while (e is AggregateException { InnerException: not null } a) e = a.InnerException!;
+        // .Result of a synchronous method: the wrapper, whether its message has the .NET format, the inner exception
+        if (e is AggregateException { InnerExceptions.Count: 1 } a)
+        {
+            var inner = a.InnerExceptions[0];
+            return "!AggregateException[" + (a.Message == "One or more errors occurred. (" + inner.Message + ")" ? "message" : a.Message) + "]" + Ex(inner);
+        }
         return e is NullReferenceException ? "!" + e.GetType().Name : "!" + e.GetType().Name + ": " + e.Message;
     }
 

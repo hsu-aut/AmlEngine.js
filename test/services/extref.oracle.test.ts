@@ -71,7 +71,7 @@ describe.skipIf(!existsSync(expectedUri))('Uri.getComponents against .NET', () =
             }
             const line = `${mask.toString(16)}|${format}=${r}`;
             const k = lines.length;
-            const documented = uri.isAbsoluteUri && (mask & 0x100) !== 0 && format >= 0 && format <= 3;
+            const documented = uri.isAbsoluteUri && (mask & 0x100) !== 0 && format >= 1 && format <= 3;
             if (documented) {
               lines.push(expected[k]!);
               if (line !== `${mask.toString(16)}|${format}=${normalizedHostNotPorted}`) differences.push(key + ' ' + line + ' (expected the NormalizedHost exception)');

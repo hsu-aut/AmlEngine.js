@@ -13,6 +13,7 @@ import { CAEXDocument } from '../../src/engine/caex/CAEXDocument.js';
 import { ServiceLocator } from '../../src/engine/services/ServiceLocator.js';
 import { ExternalReferenceResolver } from '../../src/services/ExternalReferenceResolver.js';
 import { AsyncLock, SemaphoreFullException } from '../../src/system/AsyncLock.js';
+import { AggregateException, InvalidOperationException } from '../../src/system/exceptions.js';
 import { from } from '../../src/system/linq.js';
 import { EXTREF_PORT, startExtRefServer } from './extref-server.mjs';
 import { casesDir } from './extref-run.js';
@@ -205,7 +206,9 @@ describe('ExternalReferenceResolver: calls that do not return in C# (port only)'
     const er = addRef(m, 'S', self);
     expect(resolver.loadOrGetReferencedDocument(er)).toEqual({ document: null, message });
     expect(await resolver.loadOrGetReferencedDocumentAsync(er)).toEqual({ document: null, message });
-    expect(() => resolver.resolveExternalDocument(self, false)).toThrow(message);
+    // the synchronous twin blocks on .Result in C#: the exception comes wrapped
+    expect(() => resolver.resolveExternalDocument(self, false)).toThrow(new AggregateException(new InvalidOperationException(message)).message);
+    expect(() => resolver.resolveExternalDocument(self, false)).toThrow(AggregateException);
     await expect(resolver.resolveExternalDocumentAsync(self, false)).rejects.toThrow(message);
     // a relative address redirected to itself is no cycle: the redirection is a file path
     resolver.setRedirection('self.aml', 'self.aml');

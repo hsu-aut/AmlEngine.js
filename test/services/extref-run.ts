@@ -14,7 +14,7 @@ import { ExternalReferenceResolver } from '../../src/services/ExternalReferenceR
 import { GitHubAccessService } from '../../src/services/GitHubAccessService.js';
 import { GitHubReferenceResolver } from '../../src/services/GitHubReferenceResolver.js';
 import { from } from '../../src/system/linq.js';
-import { dotNetExceptionName, InvalidOperationException } from '../../src/system/exceptions.js';
+import { AggregateException, dotNetExceptionName, InvalidOperationException } from '../../src/system/exceptions.js';
 import { Uri, UriKind } from '../../src/system/Uri.js';
 import { EXTREF_BASE } from './extref-server.mjs';
 
@@ -72,6 +72,12 @@ function expand(s: string | null | undefined): string | null {
 }
 
 export function ex(e: unknown): string {
+  // .Result of a synchronous method: the wrapper, whether its message has the .NET format, the inner exception
+  if (e instanceof AggregateException && e.innerExceptions.length === 1) {
+    const inner = e.innerExceptions[0];
+    const innerMessage = inner instanceof Error ? inner.message : String(inner);
+    return '!AggregateException[' + (e.message === `One or more errors occurred. (${innerMessage})` ? 'message' : e.message) + ']' + ex(inner);
+  }
   const name = dotNetExceptionName(e);
   return name === 'NullReferenceException' ? '!' + name : '!' + name + ': ' + (e as Error).message;
 }
