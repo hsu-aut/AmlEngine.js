@@ -33,7 +33,7 @@ import { AsyncLock } from '../system/AsyncLock.js';
 import { toBase64String } from '../system/Convert.js';
 import { InvalidOperationException, NotSupportedException } from '../system/exceptions.js';
 import { from } from '../system/linq.js';
-import { isNullOrEmpty } from '../system/strings.js';
+import { foldInvariantIgnoreCase, isNullOrEmpty } from '../system/strings.js';
 import { Uri, UriComponents, UriFormat, UriKind } from '../system/Uri.js';
 import { DocumentReferenceDictionary } from './generique/DocumentReferenceDictionary.js';
 import { ExternalDocument } from './generique/ExternalDocument.js';
@@ -110,22 +110,6 @@ function asciiBytes(s: string): Uint8Array {
     bytes.push(c < 0x80 ? c : 0x3f);
   }
   return new Uint8Array(bytes);
-}
-
-/**
- * Folds a key for StringComparer.InvariantCultureIgnoreCase, the default comparer of
- * NameValueCollection: the same folding as InvariantIgnoreCaseDictionary of the engine (an
- * approximation of the ICU collation, see there).
- */
-function foldInvariantIgnoreCase(key: string): string {
-  let folded = '';
-  for (const ch of key.normalize('NFD')) {
-    // Ignorable in the ICU root collation: controls (not the white space ones) and default ignorables.
-    if (/[\p{Cc}\p{Default_Ignorable_Code_Point}]/u.test(ch) && !/[\t\n\v\f\r\u0085]/.test(ch)) continue;
-    // Kana and full width forms keep their width (IgnoreCase does not ignore it), not their case.
-    folded += /[぀-ヿ＀-￯]/.test(ch) ? ch.toLowerCase() : ch.normalize('NFKD').toLowerCase();
-  }
-  return folded;
 }
 
 /**

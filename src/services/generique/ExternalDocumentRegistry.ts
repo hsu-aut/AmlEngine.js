@@ -3,26 +3,10 @@
 import '../../engine/index.js';
 import { XDocumentWrapper } from '../../engine/xml/XDocumentWrapper.js';
 import { Dictionary, from } from '../../system/linq.js';
-import { isNullOrEmpty } from '../../system/strings.js';
+import { foldInvariantIgnoreCase, isNullOrEmpty } from '../../system/strings.js';
 import { ExternalDocument } from './ExternalDocument.js';
 import type { CAEXDocument } from '../../engine/caex/CAEXDocument.js';
 import type { ExternalReferenceType } from '../../engine/caex/ExternalReferenceType.js';
-
-/**
- * Folds a key for StringComparer.InvariantCultureIgnoreCase, the default comparer of
- * NameValueCollection in .NET: the same folding as InvariantIgnoreCaseDictionary of the engine
- * (approximation of the ICU collation, see there).
- */
-function foldInvariantIgnoreCase(key: string): string {
-  let folded = '';
-  for (const ch of key.normalize('NFD')) {
-    // Ignorable in the ICU root collation: controls (not the white space ones) and default ignorables.
-    if (/[\p{Cc}\p{Default_Ignorable_Code_Point}]/u.test(ch) && !/[\t\n\v\f\r\u0085]/.test(ch)) continue;
-    // Kana and full width forms keep their width (IgnoreCase does not ignore it), not their case.
-    folded += /[\u3040-\u30FF\uFF00-\uFFEF]/.test(ch) ? ch.toLowerCase() : ch.normalize('NFKD').toLowerCase();
-  }
-  return folded;
-}
 
 /**
  * The part of System.Collections.Specialized.NameValueCollection the registry uses: the indexer

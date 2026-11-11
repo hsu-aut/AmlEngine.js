@@ -178,3 +178,21 @@ export function equalsOrdinalIgnoreCase(a: string | null | undefined, b: string 
   if (a === null || a === undefined || b === null || b === undefined) return false;
   return a.length === b.length && compareOrdinalIgnoreCase(a, b) === 0;
 }
+
+/**
+ * Folds a string for StringComparer.InvariantCultureIgnoreCase, an approximation of the ICU
+ * collation behind it, as compared with the oracle (test/engine/gapsservices.oracle.test.ts,
+ * test/services/extref.oracle.test.ts): completely ignorable characters (controls other than the
+ * white space ones TAB, LF, VT, FF, CR, NEL, the soft hyphen, zero width characters) are dropped,
+ * case and compatibility variants are equal ("ﬀ"/"FF", "é"/"é", "ǅ"/"ǆ", "²"/"2"), while "ß"/"SS",
+ * "ı"/"I", full and half width forms and the kana types stay distinct (only their case is folded).
+ * Used by NameValueCollection (default comparer) and Dictionary<string, T> with that comparer.
+ */
+export function foldInvariantIgnoreCase(key: string): string {
+  let folded = '';
+  for (const ch of key.normalize('NFD')) {
+    if (/[\p{Cc}\p{Default_Ignorable_Code_Point}]/u.test(ch) && !/[\t\n\v\f\r\u0085]/.test(ch)) continue;
+    folded += /[\u3040-\u30FF\uFF00-\uFFEF]/.test(ch) ? ch.toLowerCase() : ch.normalize('NFKD').toLowerCase();
+  }
+  return folded;
+}

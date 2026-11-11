@@ -9,6 +9,7 @@
 // the MIME table, for which this is plain case insensitivity.
 
 import { ArgumentException, ArgumentNullException } from '../../../system/exceptions.js';
+import { foldInvariantIgnoreCase } from '../../../system/strings.js';
 
 /** A case-insensitive string dictionary keeping the key spelling of the first Add. */
 export class InvariantIgnoreCaseDictionary<TValue> implements Iterable<{ key: string; value: TValue }> {
@@ -16,12 +17,7 @@ export class InvariantIgnoreCaseDictionary<TValue> implements Iterable<{ key: st
 
   private static fold(key: string | null): string {
     if (key == null) throw new ArgumentNullException('key');
-    let folded = '';
-    for (const ch of key.normalize('NFD')) {
-      if (/[\p{Cc}\p{Default_Ignorable_Code_Point}]/u.test(ch)) continue;
-      folded += /[぀-ヿ＀-￯]/.test(ch) ? ch : ch.normalize('NFKD').toLowerCase();
-    }
-    return folded;
+    return foldInvariantIgnoreCase(key);
   }
 
   /** Number of entries. */
