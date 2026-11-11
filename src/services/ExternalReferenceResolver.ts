@@ -119,8 +119,10 @@ function asciiBytes(s: string): Uint8Array {
 function foldInvariantIgnoreCase(key: string): string {
   let folded = '';
   for (const ch of key.normalize('NFD')) {
-    if (/[\p{Cc}\p{Default_Ignorable_Code_Point}]/u.test(ch)) continue;
-    folded += /[぀-ヿ＀-￯]/.test(ch) ? ch : ch.normalize('NFKD').toLowerCase();
+    // Ignorable in the ICU root collation: controls (not the white space ones) and default ignorables.
+    if (/[\p{Cc}\p{Default_Ignorable_Code_Point}]/u.test(ch) && !/[\t\n\v\f\r\u0085]/.test(ch)) continue;
+    // Kana and full width forms keep their width (IgnoreCase does not ignore it), not their case.
+    folded += /[぀-ヿ＀-￯]/.test(ch) ? ch.toLowerCase() : ch.normalize('NFKD').toLowerCase();
   }
   return folded;
 }
