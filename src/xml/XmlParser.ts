@@ -117,7 +117,8 @@ class Parser {
         this.fail('Data at the root level is invalid.');
       }
     }
-    if (!sawRoot) this.fail('Root element is missing.');
+    // XmlTextReaderImpl throws this one without line information (ThrowWithoutLineInfo).
+    if (!sawRoot) throw new XmlException('Root element is missing.');
     return this.doc;
   }
 
