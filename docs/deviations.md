@@ -144,6 +144,12 @@ in two known points, which the check counts per reason:
 - Local mean time before 1893: Firefox reports it with seconds (+00:53:28), V8 truncated to whole
   minutes. Both are within "Local time of old dates" below (Firefox, 63 cases).
 
+A browser has no file system and no working directory. Methods that read or write files throw
+`NotSupportedException` there (README), and checks for the existence of a file find none. A relative
+file path that Node resolves against the working directory stays as written: the ValidatorService
+reports "file not found: lib.aml" in the browser where Node reports the full path. The scenario of
+the check removes that directory part before it compares.
+
 ### ValidatorService: references over the network
 
 `ValidatorService` (Aml.Engine.Services) checks whether the paths of external references and the

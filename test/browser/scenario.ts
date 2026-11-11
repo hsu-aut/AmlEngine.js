@@ -15,6 +15,13 @@ import {
   UriKind,
   InternalElementType,
 } from '../../src/index.js';
+import {
+  CAEXSchemaTransformer,
+  LookupService,
+  UndoRedoService,
+  UniqueNameService,
+  ValidatorService,
+} from '../../src/services/index.js';
 
 /** FNV-1a over UTF-16 code units: a small synchronous fingerprint for long texts. */
 function fp(text: string): string {
@@ -120,6 +127,69 @@ export function runScenario(inputs: { big: string; plant: string; lib: string })
   log('cyclic.derived', () => cycA.classIsDerivedFrom('SUCL/X'));
   log('cyclic.attributes', () => [...cycA.attributeAndInherited].length);
   log('cyclic.instance', () => [...cycA.createClassInstance().attribute].length);
+
+  // 5. The services entry (amlengine-js/services), each service registered for its part only.
+  log('svc.undo', () => {
+    const undo = UndoRedoService.register();
+    try {
+      const d: any = CAEXDocument.new_CAEXDocument();
+      const lib = d.caexFile.systemUnitClassLib.append('Lib');
+      lib.systemUnitClass.append('Valve').attribute.append('Size');
+      const done = canon(saved(d));
+      let undone = 0;
+      while (undo.canUndo(d)) {
+        undo.undo(d);
+        undone++;
+      }
+      const empty = canon(saved(d));
+      while (undo.canRedo(d)) undo.redo(d);
+      return `${undone}|${fp(empty)}|${canon(saved(d)) === done}`;
+    } finally {
+      UndoRedoService.unRegister();
+    }
+  });
+  log('svc.validator', () => {
+    const validator: any = ValidatorService.register();
+    try {
+      // "file not found: <path>": Node resolves a relative path against the working directory, a
+      // browser has none and reports the path as written (docs/deviations.md, "Browsers").
+      const results = [...validator.validateAll(big)].map((v: any) =>
+        `${v.validationType}|${String(v.validationInformation).replace(/^(file not found: ).*[\\/]/, '$1')}|${v.availableRepairOptions}`,
+      );
+      return `${results.length}|${fp(results.join('\n'))}`;
+    } finally {
+      ValidatorService.unRegister();
+    }
+  });
+  log('svc.lookup', () => {
+    LookupService.register();
+    try {
+      const d: any = CAEXDocument.loadFromString(inputs.big);
+      const found = ies.slice(0, 40).map((e: any) => CAEXDocumentExtensions.findByID(d, new InternalElementType(e).id)?.name ?? null);
+      return fp(found.join('|'));
+    } finally {
+      LookupService.unRegister();
+    }
+  });
+  log('svc.transform', () => {
+    const transformer = CAEXSchemaTransformer.register();
+    try {
+      const old: any = transformer.transformTo(doc, CAEXDocument.CAEXSchema.CAEX2_15);
+      return `${old.schemaVersionString}|${canon(saved(old))}`;
+    } finally {
+      CAEXSchemaTransformer.unRegister();
+    }
+  });
+  log('svc.uniquename', () => {
+    UniqueNameService.register();
+    try {
+      const d: any = CAEXDocument.new_CAEXDocument();
+      const ihs = [0, 1, 2].map(() => d.caexFile.instanceHierarchy.append());
+      return ihs.map((x: any) => x.name).join('|');
+    } finally {
+      UniqueNameService.unRegister();
+    }
+  });
   return r;
 }
 
