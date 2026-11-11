@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.3.0 (unreleased)
+
+- The services of Aml.Engine: a port of Aml.Engine.Services 4.3.1 in the new entry
+  `amlengine-js/services`. UndoRedoService (undo and redo with transactions, also over two
+  documents), LookupService (lookup tables the engine's queries use), ValidatorService (finds and
+  repairs IDs, references, aliases, versions and headers), CAEXSchemaTransformer (CAEX 2.15 and
+  3.0 in both directions), AMLEditionTransformer, MergeService and SplitService,
+  ExternalReferenceResolver (files, http and GitHub), UniqueNameService, CAEXFileStatisticService.
+  Both entries share one engine: a service registered through `amlengine-js/services` is used by
+  the engine of `amlengine-js` (checked on the packed package in ESM and CommonJS by
+  `scripts/check-package.mjs`).
+- The rest of Aml.Engine.Resources 4.2.1: the library catalog (`PublicLibraryCatalog`, with the
+  embedded `AutomationMLLibs.json`), the file models (`AMLFileMetaModel`, ...), the type converters.
+- Verified against the original like the engine: one oracle command and one test per area
+  (`test/services`), and the engine packages again with the lookup, unique name and undo services
+  registered (`scripts/services-check.mjs`), which also runs the about 180 places where the engine
+  asks for a service. Where the original never returns (LookupService on a moved element, cyclic
+  class references), the port throws `CyclicReferenceException`. Where a service waits for the
+  network in a synchronous method, the port cannot: use the asynchronous methods
+  (docs/deviations.md, "Services").
+- Engine errors found on the way and fixed, each against the original: `XName` with a null name,
+  the exceptions of `saveToFile`, `Path.GetFullPath` on Windows, "Root element is missing." without
+  line information, `Uri.GetComponents`, the case-insensitive key comparison of the MIME table,
+  "Collection was modified" of `List`, `Dictionary` and `HashSet`.
+- Type declarations are written per module by tsc (`dist/types`, and `dist/types-cjs` for
+  `require`), so both entries refer to the same classes.
+- `npm test` and `npm run check-upstream` also watch Aml.Engine.Services and Aml.Engine.Resources
+  on NuGet.
+
 ## 0.2.1 (2026-11-09)
 
 - AMLX containers can be created and changed in memory through the public API, which is the way
