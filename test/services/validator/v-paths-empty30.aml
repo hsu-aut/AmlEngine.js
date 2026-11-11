@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="v-paths-empty30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <InstanceHierarchy Name="">
+    <InternalElement Name="A" ID="00000000-0000-4000-8000-000000000b01" />
+  </InstanceHierarchy>
+  <InstanceHierarchy>
+    <InternalElement Name="B" ID="00000000-0000-4000-8000-000000000b02" />
+  </InstanceHierarchy>
+  <SystemUnitClassLib Name="">
+    <SystemUnitClass Name="S" />
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="" />
+  <RoleClassLib>
+    <RoleClass Name="R" />
+  </RoleClassLib>
+  <InterfaceClassLib Name="" />
+  <AttributeTypeLib Name="">
+    <AttributeType Name="T" />
+  </AttributeTypeLib>
+</CAEXFile>

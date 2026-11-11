@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="v-idrefs30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="A" ID="00000000-0000-4000-8000-0000000000a0">
+      <ExternalInterface Name="a1" ID="00000000-0000-4000-8000-0000000000a1" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <ExternalInterface Name="a2" ID="00000000-0000-4000-8000-0000000000a2" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalElement Name="B" ID="00000000-0000-4000-8000-0000000000b0">
+      <ExternalInterface Name="b1" ID="00000000-0000-4000-8000-0000000000b1" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalLink Name="L_ok" RefPartnerSideA="00000000-0000-4000-8000-0000000000a1" RefPartnerSideB="00000000-0000-4000-8000-0000000000b1" />
+    <InternalLink Name="L_unres" RefPartnerSideA="99999999-9999-4999-8999-999999999999" RefPartnerSideB="00000000-0000-4000-8000-0000000000b1" />
+    <InternalLink Name="L_unresB" RefPartnerSideA="00000000-0000-4000-8000-0000000000a2" RefPartnerSideB="unknown-id" />
+    <InternalLink Name="L_empty" RefPartnerSideA="" RefPartnerSideB="00000000-0000-4000-8000-0000000000b1" />
+    <InternalLink Name="L_bothEmpty" RefPartnerSideA="" RefPartnerSideB="" />
+    <InternalLink Name="L_toIE" RefPartnerSideA="00000000-0000-4000-8000-0000000000a0" RefPartnerSideB="00000000-0000-4000-8000-0000000000b1" />
+    <InternalLink Name="L_toClassEI" RefPartnerSideA="00000000-0000-4000-8000-000000000051" RefPartnerSideB="00000000-0000-4000-8000-0000000000a1" />
+    <InternalLink Name="L_toIcEI" RefPartnerSideA="00000000-0000-4000-8000-000000000061" RefPartnerSideB="00000000-0000-4000-8000-0000000000a2" />
+    <InternalLink Name="L_noB" RefPartnerSideA="00000000-0000-4000-8000-0000000000a1" />
+    <InternalElement Name="MirrorOk" ID="00000000-0000-4000-8000-0000000000e1" RefBaseSystemUnitPath="00000000-0000-4000-8000-0000000000a0" />
+    <InternalElement Name="MirrorBad" ID="00000000-0000-4000-8000-0000000000e2" RefBaseSystemUnitPath="88888888-8888-4888-8888-888888888888" />
+    <InternalElement Name="MirrorToEI" ID="00000000-0000-4000-8000-0000000000e3" RefBaseSystemUnitPath="00000000-0000-4000-8000-0000000000a1" />
+    <InternalElement Name="MirrorEmpty" ID="00000000-0000-4000-8000-0000000000e4" RefBaseSystemUnitPath="" />
+    <InternalElement Name="MirrorToClass" ID="00000000-0000-4000-8000-0000000000e5" RefBaseSystemUnitPath="00000000-0000-4000-8000-000000000052" />
+    <InternalElement Name="C" ID="00000000-0000-4000-8000-0000000000c0">
+      <ExternalInterface Name="cMirror" ID="00000000-0000-4000-8000-0000000000c1" RefBaseClassPath="00000000-0000-4000-8000-0000000000a1" />
+      <ExternalInterface Name="cMirrorBad" ID="00000000-0000-4000-8000-0000000000c2" RefBaseClassPath="77777777-7777-4777-8777-777777777777" />
+      <ExternalInterface Name="cMirrorToIE" ID="00000000-0000-4000-8000-0000000000c3" RefBaseClassPath="00000000-0000-4000-8000-0000000000b0" />
+      <ExternalInterface Name="cMirrorToClass" ID="00000000-0000-4000-8000-0000000000c4" RefBaseClassPath="00000000-0000-4000-8000-000000000051" />
+    </InternalElement>
+    <InternalElement Name="D" ID="00000000-0000-4000-8000-0000000000d0">
+      <ExternalInterface Name="d1" ID="00000000-0000-4000-8000-0000000000d1" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <RoleRequirements RefBaseRoleClassPath="MyRoles/PortRole">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="missingSU" RoleAttributeName="missingRole" />
+          <AttributeNameMapping SystemUnitAttributeName="dAttr" RoleAttributeName="roleAttr" />
+          <InterfaceIDMapping SystemUnitInterfaceID="00000000-0000-4000-8000-0000000000d1" RoleInterfaceID="00000000-0000-4000-8000-000000000071" />
+          <InterfaceIDMapping SystemUnitInterfaceID="00000000-0000-4000-8000-0000000000d1" RoleInterfaceID="unknown-role-if" />
+          <InterfaceIDMapping SystemUnitInterfaceID="00000000-0000-4000-8000-0000000000a1" RoleInterfaceID="00000000-0000-4000-8000-000000000071" />
+          <InterfaceIDMapping SystemUnitInterfaceID="00000000-0000-4000-8000-0000000000d1" RoleInterfaceID="00000000-0000-4000-8000-000000000072" />
+          <InterfaceIDMapping SystemUnitInterfaceID="" RoleInterfaceID="00000000-0000-4000-8000-000000000071" />
+          <InterfaceIDMapping SystemUnitInterfaceID="00000000-0000-4000-8000-0000000000d0" RoleInterfaceID="00000000-0000-4000-8000-000000000071" />
+        </MappingObject>
+      </RoleRequirements>
+      <Attribute Name="dAttr" AttributeDataType="xs:string" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+        <ExternalInterface Name="ConnectionPoint" ID="00000000-0000-4000-8000-00000000f001" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib">
+    <AttributeType Name="Cardinality">
+      <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+      <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+    </AttributeType>
+    <AttributeType Name="Direction" AttributeDataType="xs:string" />
+    <AttributeType Name="Category" AttributeDataType="xs:string" />
+    <AttributeType Name="refURI" AttributeDataType="xs:anyURI" />
+  </AttributeTypeLib>
+  <SystemUnitClassLib Name="Sucs">
+    <SystemUnitClass Name="S1" ID="00000000-0000-4000-8000-000000000050">
+      <ExternalInterface Name="s1e" ID="00000000-0000-4000-8000-000000000051" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <InternalElement Name="S1i" ID="00000000-0000-4000-8000-000000000052">
+        <ExternalInterface Name="s1ie" ID="00000000-0000-4000-8000-000000000053" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </InternalElement>
+      <InternalLink Name="S1_in" RefPartnerSideA="00000000-0000-4000-8000-000000000051" RefPartnerSideB="00000000-0000-4000-8000-000000000053" />
+      <InternalLink Name="S1_out" RefPartnerSideA="00000000-0000-4000-8000-000000000051" RefPartnerSideB="00000000-0000-4000-8000-0000000000a1" />
+      <SupportedRoleClass RefRoleClassPath="MyRoles/PortRole">
+        <MappingObject>
+          <InterfaceIDMapping SystemUnitInterfaceID="00000000-0000-4000-8000-000000000051" RoleInterfaceID="00000000-0000-4000-8000-000000000071" />
+          <InterfaceIDMapping SystemUnitInterfaceID="00000000-0000-4000-8000-000000000051" RoleInterfaceID="00000000-0000-4000-8000-000000000051" />
+          <InterfaceIDMapping SystemUnitInterfaceID="00000000-0000-4000-8000-000000000071" RoleInterfaceID="00000000-0000-4000-8000-000000000071" />
+          <AttributeNameMapping SystemUnitAttributeName="nope" RoleAttributeName="nope2" />
+          <AttributeNameMapping SystemUnitAttributeName="" RoleAttributeName="" />
+        </MappingObject>
+      </SupportedRoleClass>
+    </SystemUnitClass>
+    <SystemUnitClass Name="S2" ID="00000000-0000-4000-8000-000000000055">
+      <ExternalInterface Name="s2e" ID="00000000-0000-4000-8000-000000000054" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <InternalLink Name="S2_toS1" RefPartnerSideA="00000000-0000-4000-8000-000000000054" RefPartnerSideB="00000000-0000-4000-8000-000000000051" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <RoleClassLib Name="MyRoles">
+    <RoleClass Name="PortRole" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Port">
+      <ExternalInterface Name="PortEI" ID="00000000-0000-4000-8000-000000000071" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <ExternalInterface Name="PortEI2" ID="00000000-0000-4000-8000-000000000072" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <Attribute Name="roleAttr" />
+    </RoleClass>
+  </RoleClassLib>
+  <InterfaceClassLib Name="MyIfs">
+    <InterfaceClass Name="MyIC" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+      <ExternalInterface Name="icEI" ID="00000000-0000-4000-8000-000000000061" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+</CAEXFile>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="v-links30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="P1" ID="00000000-0000-4000-8000-000000000801">
+      <ExternalInterface Name="out1" ID="00000000-0000-4000-8000-000000000811" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>Out</Value>
+        </Attribute>
+        <Attribute Name="Cardinality" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt">
+            <Value>1</Value>
+          </Attribute>
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt">
+            <Value>1</Value>
+          </Attribute>
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category">
+          <Value>Water</Value>
+        </Attribute>
+      </ExternalInterface>
+    </InternalElement>
+    <InternalElement Name="P2" ID="00000000-0000-4000-8000-000000000802">
+      <ExternalInterface Name="in1" ID="00000000-0000-4000-8000-000000000812" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>In</Value>
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category">
+          <Value>Water</Value>
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category">
+          <Value>Oil</Value>
+        </Attribute>
+      </ExternalInterface>
+    </InternalElement>
+    <InternalElement Name="P3" ID="00000000-0000-4000-8000-000000000803">
+      <ExternalInterface Name="in2" ID="00000000-0000-4000-8000-000000000813" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>Out</Value>
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category">
+          <Value>Oil</Value>
+        </Attribute>
+      </ExternalInterface>
+    </InternalElement>
+    <InternalElement Name="P4" ID="00000000-0000-4000-8000-000000000804">
+      <ExternalInterface Name="unlinked" ID="00000000-0000-4000-8000-000000000814" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="Cardinality" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt">
+            <Value>2</Value>
+          </Attribute>
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt">
+            <Value>n</Value>
+          </Attribute>
+        </Attribute>
+      </ExternalInterface>
+    </InternalElement>
+    <InternalElement Name="P5" ID="00000000-0000-4000-8000-000000000805">
+      <ExternalInterface Name="io" ID="00000000-0000-4000-8000-000000000815" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>InOut</Value>
+        </Attribute>
+        <Attribute Name="Cardinality" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt">
+            <Value>0</Value>
+          </Attribute>
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category" />
+      </ExternalInterface>
+    </InternalElement>
+    <InternalElement Name="P6" ID="00000000-0000-4000-8000-000000000806">
+      <ExternalInterface Name="side" ID="00000000-0000-4000-8000-000000000816" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>Sideways</Value>
+        </Attribute>
+        <Attribute Name="Cardinality" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt">
+            <Value>x</Value>
+          </Attribute>
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt">
+            <Value>abc</Value>
+          </Attribute>
+        </Attribute>
+      </ExternalInterface>
+    </InternalElement>
+    <InternalElement Name="P7" ID="00000000-0000-4000-8000-000000000807">
+      <ExternalInterface Name="nodir" ID="00000000-0000-4000-8000-000000000817" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction" />
+        <Attribute Name="Cardinality" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt">
+            <Value>1</Value>
+          </Attribute>
+        </Attribute>
+      </ExternalInterface>
+    </InternalElement>
+    <InternalElement Name="P8" ID="00000000-0000-4000-8000-000000000808">
+      <ExternalInterface Name="in3" ID="00000000-0000-4000-8000-000000000818" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>In</Value>
+        </Attribute>
+        <Attribute Name="Cardinality" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt">
+            <Value>0</Value>
+          </Attribute>
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt">
+            <Value>1</Value>
+          </Attribute>
+        </Attribute>
+      </ExternalInterface>
+    </InternalElement>
+    <InternalLink Name="L1" RefPartnerSideA="00000000-0000-4000-8000-000000000811" RefPartnerSideB="00000000-0000-4000-8000-000000000812" />
+    <InternalLink Name="L2" RefPartnerSideA="00000000-0000-4000-8000-000000000811" RefPartnerSideB="00000000-0000-4000-8000-000000000813" />
+    <InternalLink Name="L3" RefPartnerSideA="00000000-0000-4000-8000-000000000815" RefPartnerSideB="00000000-0000-4000-8000-000000000816" />
+    <InternalLink Name="L4" RefPartnerSideA="00000000-0000-4000-8000-000000000816" RefPartnerSideB="00000000-0000-4000-8000-000000000817" />
+    <InternalLink Name="L5" RefPartnerSideA="00000000-0000-4000-8000-000000000818" RefPartnerSideB="00000000-0000-4000-8000-000000000813" />
+    <InternalLink Name="L6" RefPartnerSideA="00000000-0000-4000-8000-000000000818" RefPartnerSideB="00000000-0000-4000-8000-000000000812" />
+    <InternalLink Name="L7" RefPartnerSideA="00000000-0000-4000-8000-000000000812" RefPartnerSideB="00000000-0000-4000-8000-000000000812" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+        <ExternalInterface Name="ConnectionPoint" ID="00000000-0000-4000-8000-00000000f001" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib">
+    <AttributeType Name="Cardinality">
+      <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+      <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+    </AttributeType>
+    <AttributeType Name="Direction" AttributeDataType="xs:string" />
+    <AttributeType Name="Category" AttributeDataType="xs:string" />
+    <AttributeType Name="refURI" AttributeDataType="xs:anyURI" />
+  </AttributeTypeLib>
+  <SystemUnitClassLib Name="Sucs">
+    <SystemUnitClass Name="S" ID="00000000-0000-4000-8000-000000000820">
+      <ExternalInterface Name="classIf" ID="00000000-0000-4000-8000-000000000821" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="Cardinality" RefAttributeType="AutomationMLBaseAttributeTypeLib/Cardinality">
+          <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt">
+            <Value>1</Value>
+          </Attribute>
+          <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt">
+            <Value>1</Value>
+          </Attribute>
+        </Attribute>
+        <Attribute Name="Direction" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction">
+          <Value>In</Value>
+        </Attribute>
+        <Attribute Name="Category" AttributeDataType="xs:string" RefAttributeType="AutomationMLBaseAttributeTypeLib/Category">
+          <Value>Water</Value>
+        </Attribute>
+      </ExternalInterface>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

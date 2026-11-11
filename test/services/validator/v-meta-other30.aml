@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.1" FileName="v-meta-other30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <SuperiorStandardVersion>AutomationML 2.0</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <ExternalReference Path="AutomationML_Base_Libraries_AMLEd2_2.11.0.aml" Alias="base" />
+</CAEXFile>

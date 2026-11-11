@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="v-fuzz-5.aml" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd">
+  <AdditionalInformation AutomationMLVersion="2.1" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>gen</WriterName>
+      <WriterID>GEN</WriterID>
+      <WriterVendor>gen</WriterVendor>
+      <WriterVendorURL>none</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0</WriterRelease>
+      <LastWritingDateTime>2024-01-01T00:00:00</LastWritingDateTime>
+    </WriterHeader>
+  </AdditionalInformation>
+  <ExternalReference Path="lib/missing.aml" Alias="" />
+  <ExternalReference Path="lib/missing.aml" Alias="s" />
+  <InstanceHierarchy Name="Lib0">
+    <InternalElement Name="B" ID="00000000-0000-4000-8000-000000000a01">
+      <ExternalInterface Name="n%%0001" ID="{00000000-0000-4000-8000-000000000a03}" RefBaseClassPath="gone@Lib0/A" />
+    </InternalElement>
+    <InternalElement Name="Ä" ID="{00000000-0000-4000-8000-000000000a01}">
+      <InternalElement Name="C" ID="{x/y}">
+        <InternalElement Name="B" ID="00000000-0000-4000-8000-000000000a02">
+          <ExternalInterface Name="C" ID="{00000000-0000-4000-8000-000000000a04}" RefBaseClassPath="Lib0/A/A" />
+          <Attribute Name="Same" />
+        </InternalElement>
+        <InternalElement Name="A" ID="{00000000-0000-4000-8000-000000000a02}">
+          <InternalElement Name="C" ID="{00000000-0000-4000-8000-000000000a04}" />
+          <InternalElement Name="x/y" ID="{00000000-0000-4000-8000-000000000a01}">
+            <Attribute Name="A" />
+          </InternalElement>
+          <ExternalInterface Name="n%%0001" ID="00000000-0000-4000-8000-000000000a02" RefBaseClassPath="Lib0/A/A" />
+        </InternalElement>
+        <ExternalInterface Name="B" ID="x/y" RefBaseClassPath="00000000-0000-4000-8000-000000000a01" />
+        <Attribute Name="Same" />
+        <InternalLink Name="x/y" RefPartnerSideA="00000000-0000-4000-8000-000000000bad:B" RefPartnerSideB="00000000-0000-4000-8000-000000000a02" />
+      </InternalElement>
+      <InternalElement Name="x/y" ID="{00000000-0000-4000-8000-000000000a04}">
+        <InternalElement Name="A" ID="00000000-0000-4000-8000-000000000a02">
+          <ExternalInterface Name="x/y" ID="{00000000-0000-4000-8000-000000000a02}" RefBaseClassPath="Lib0/B" />
+          <RoleRequirements RefBaseRoleClassPath="Lib0/A" />
+          <InternalLink Name="C" RefPartnerSideA="{00000000-0000-4000-8000-000000000a04}:Same" RefPartnerSideB="missing" />
+        </InternalElement>
+        <InternalElement Name="A" ID="{bad-id}">
+          <ExternalInterface Name="n%%0001" ID="00000000-0000-4000-8000-000000000a02" RefBaseClassPath="missing" />
+          <RoleRequirements RefBaseRoleClassPath="" />
+        </InternalElement>
+        <ExternalInterface Name="A" ID="bad-id" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </InternalElement>
+      <ExternalInterface Name="C" ID="{}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <Attribute Name="Lib0" />
+    </InternalElement>
+    <InternalElement Name="B" ID="00000000-0000-4000-8000-000000000a02" RefBaseSystemUnitPath="gone@Lib0/A">
+      <InternalElement Name="B" ID="x/y" />
+      <InternalElement Name="C" ID="{00000000-0000-4000-8000-000000000a02}">
+        <InternalElement Name="x/y" ID="{00000000-0000-4000-8000-000000000a02}" RefBaseSystemUnitPath="Lib0/A">
+          <InternalElement Name="A" ID="{00000000-0000-4000-8000-000000000a02}" RefBaseSystemUnitPath="Ifs0/I">
+            <InternalLink Name="A" RefPartnerSideA="00000000-0000-4000-8000-000000000a03:A" RefPartnerSideB="" />
+          </InternalElement>
+          <InternalElement Name="Lib0" ID="00000000-0000-4000-8000-000000000a03" RefBaseSystemUnitPath="Types0/T" />
+          <ExternalInterface Name="A" ID="00000000-0000-4000-8000-000000000a02" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+          <Attribute Name="A" />
+        </InternalElement>
+        <Attribute Name="A" />
+        <RoleRequirements RefBaseRoleClassPath="Types0/T" />
+        <InternalLink Name="C" RefPartnerSideA="00000000-0000-4000-8000-000000000a02:B" RefPartnerSideB="" />
+      </InternalElement>
+      <Attribute Name="A" />
+      <InternalLink Name="B" RefPartnerSideA="missing:Same" RefPartnerSideB="{00000000-0000-4000-8000-000000000a04}" />
+    </InternalElement>
+    <InternalElement Name="Ä" ID="{Lib0}" RefBaseSystemUnitPath="missing">
+      <InternalElement Name="x/y" ID="00000000-0000-4000-8000-000000000a03">
+        <InternalElement Name="Same" ID="{00000000-0000-4000-8000-000000000a02}" RefBaseSystemUnitPath="Lib0/A/A">
+          <InternalElement Name="Same" ID="{00000000-0000-4000-8000-000000000a03}">
+            <ExternalInterface Name="x/y" ID="{00000000-0000-4000-8000-000000000a02}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+            <Attribute Name="" />
+          </InternalElement>
+          <InternalElement Name="A" ID="" />
+          <Attribute Name="Same" />
+        </InternalElement>
+        <InternalElement Name="A" ID="{x/y}">
+          <ExternalInterface Name="Lib0" ID="" RefBaseClassPath="r@Lib0/A" />
+          <Attribute Name="x/y" />
+        </InternalElement>
+        <RoleRequirements RefBaseRoleClassPath="Lib0/A/A" />
+      </InternalElement>
+      <ExternalInterface Name="A" ID="{00000000-0000-4000-8000-000000000a03}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Lib0" ID="{00000000-0000-4000-8000-000000000a01}">
+      <InternalElement Name="C" ID="{00000000-0000-4000-8000-000000000a02}">
+        <InternalElement Name="" ID="00000000-0000-4000-8000-000000000a02" RefBaseSystemUnitPath="r@Lib0/A">
+          <InternalElement Name="Lib0" ID="{00000000-0000-4000-8000-000000000a04}">
+            <RoleRequirements RefBaseRoleClassPath="gone@Lib0/A" />
+          </InternalElement>
+          <InternalElement Name="A" ID="{00000000-0000-4000-8000-000000000a04}">
+            <Attribute Name="A" />
+            <InternalLink Name="C" RefPartnerSideA="00000000-0000-4000-8000-000000000a02:C" RefPartnerSideB="{00000000-0000-4000-8000-000000000a04}" />
+          </InternalElement>
+        </InternalElement>
+        <ExternalInterface Name="n%%0001" ID="00000000-0000-4000-8000-000000000a02" RefBaseClassPath="00000000-0000-4000-8000-000000000a03" />
+        <InternalLink Name="Same" RefPartnerSideA=":n%%0001" RefPartnerSideB="{00000000-0000-4000-8000-000000000a04}" />
+      </InternalElement>
+      <InternalElement Name="A" ID="00000000-0000-4000-8000-000000000a03" RefBaseSystemUnitPath="r@Lib0/A">
+        <ExternalInterface Name="Ä" ID="{00000000-0000-4000-8000-000000000a01}" RefBaseClassPath="00000000-0000-4000-8000-000000000a03" />
+      </InternalElement>
+      <ExternalInterface Name="C" ID="" RefBaseClassPath="00000000-0000-4000-8000-000000000bad" />
+    </InternalElement>
+    <InternalElement Name="A" ID="{00000000-0000-4000-8000-000000000a01}" RefBaseSystemUnitPath="">
+      <ExternalInterface Name="A" ID="{00000000-0000-4000-8000-000000000a02}" RefBaseClassPath="Roles0/R" />
+      <InternalLink Name="" RefPartnerSideA="{00000000-0000-4000-8000-000000000a04}:Ä" RefPartnerSideB="00000000-0000-4000-8000-000000000a02" />
+    </InternalElement>
+    <InternalElement Name="x/y" ID="x/y" RefBaseSystemUnitPath="">
+      <ExternalInterface Name="Same" ID="{00000000-0000-4000-8000-000000000a04}" RefBaseClassPath="00000000-0000-4000-8000-000000000a02" />
+      <RoleRequirements RefBaseRoleClassPath="gone@Lib0/A" />
+    </InternalElement>
+    <InternalElement Name="Ä" ID="{bad-id}" RefBaseSystemUnitPath="00000000-0000-4000-8000-000000000bad">
+      <InternalElement Name="B" ID="{00000000-0000-4000-8000-000000000a04}" RefBaseSystemUnitPath="gone@Lib0/A">
+        <InternalElement Name="x/y" ID="{00000000-0000-4000-8000-000000000a04}">
+          <InternalElement Name="Lib0" ID="{00000000-0000-4000-8000-000000000a04}" />
+          <Attribute Name="x/y" />
+        </InternalElement>
+        <ExternalInterface Name="Lib0" ID="{bad-id}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+        <Attribute Name="Same" />
+        <RoleRequirements RefBaseRoleClassPath="00000000-0000-4000-8000-000000000a01" />
+      </InternalElement>
+      <ExternalInterface Name="Same" ID="{00000000-0000-4000-8000-000000000a02}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <SystemUnitClassLib Name="Lib0">
+    <SystemUnitClass Name="" />
+    <SystemUnitClass Name="Ä" />
+    <SystemUnitClass Name="Same" />
+  </SystemUnitClassLib>
+  <RoleClassLib Name="Roles0">
+    <RoleClass Name="R" />
+    <RoleClass Name="n%%0001" />
+  </RoleClassLib>
+  <InterfaceClassLib Name="Ifs0">
+    <InterfaceClass Name="I" />
+    <InterfaceClass Name="x/y" />
+  </InterfaceClassLib>
+</CAEXFile>

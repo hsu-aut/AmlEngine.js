@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="v-paths30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <ExternalReference Path="lib/Existing Lib.aml" Alias="ext" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="OkInst" ID="00000000-0000-4000-8000-000000000101" RefBaseSystemUnitPath="Sucs/Dup">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+    <InternalElement Name="Unres" ID="00000000-0000-4000-8000-000000000102" RefBaseSystemUnitPath="Sucs/Missing" />
+    <InternalElement Name="Empty" ID="00000000-0000-4000-8000-000000000103" RefBaseSystemUnitPath="" />
+    <InternalElement Name="ToRole" ID="00000000-0000-4000-8000-000000000104" RefBaseSystemUnitPath="Roles/R" />
+    <InternalElement Name="Aliased" ID="00000000-0000-4000-8000-000000000105" RefBaseSystemUnitPath="ext@ExtLib/ExtClass" />
+    <InternalElement Name="AliasedMissing" ID="00000000-0000-4000-8000-000000000106" RefBaseSystemUnitPath="nope@Sucs/Missing" />
+    <InternalElement Name="Useless" ID="00000000-0000-4000-8000-000000000107" RefBaseSystemUnitPath="nope@Sucs/Single" />
+    <InternalElement Name="UselessId" ID="00000000-0000-4000-8000-000000000108" RefBaseSystemUnitPath="nope@00000000-0000-4000-8000-000000000101" />
+    <InternalElement Name="RoleOk" ID="00000000-0000-4000-8000-000000000109">
+      <RoleRequirements RefBaseRoleClassPath="Roles/R" />
+    </InternalElement>
+    <InternalElement Name="RoleToIC" ID="00000000-0000-4000-8000-00000000010a">
+      <RoleRequirements RefBaseRoleClassPath="Ifs/I" />
+    </InternalElement>
+    <InternalElement Name="RoleUnres" ID="00000000-0000-4000-8000-00000000010b">
+      <RoleRequirements RefBaseRoleClassPath="Roles/Missing" />
+    </InternalElement>
+    <InternalElement Name="RoleEmpty" ID="00000000-0000-4000-8000-00000000010c">
+      <RoleRequirements RefBaseRoleClassPath="" />
+    </InternalElement>
+    <InternalElement Name="Roles/Missing2" ID="00000000-0000-4000-8000-00000000010d">
+      <RoleRequirements RefBaseRoleClassPath="Roles/Missing2" />
+    </InternalElement>
+    <InternalElement Name="Self" ID="00000000-0000-4000-8000-00000000010e">
+      <RoleRequirements RefBaseRoleClassPath="Self" />
+    </InternalElement>
+    <InternalElement Name="Attrs" ID="00000000-0000-4000-8000-00000000010f">
+      <Attribute Name="a1" RefAttributeType="Types/T" />
+      <Attribute Name="a2" RefAttributeType="Sucs/Single" />
+      <Attribute Name="a3" RefAttributeType="Types/Missing" />
+      <Attribute Name="a4" RefAttributeType="" />
+      <Attribute Name="a5" RefAttributeType="AutomationMLBaseAttributeTypeLib/Direction" />
+    </InternalElement>
+    <InternalElement Name="Ifs" ID="00000000-0000-4000-8000-000000000110">
+      <ExternalInterface Name="e1" ID="00000000-0000-4000-8000-000000000111" RefBaseClassPath="Ifs/I" />
+      <ExternalInterface Name="e2" ID="00000000-0000-4000-8000-000000000112" RefBaseClassPath="Roles/R" />
+      <ExternalInterface Name="e3" ID="00000000-0000-4000-8000-000000000113" RefBaseClassPath="Ifs/Missing" />
+      <ExternalInterface Name="e4" ID="00000000-0000-4000-8000-000000000114" RefBaseClassPath="" />
+      <ExternalInterface Name="e5" ID="00000000-0000-4000-8000-000000000115" RefBaseClassPath="ext@Lib/If" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+        <ExternalInterface Name="ConnectionPoint" ID="00000000-0000-4000-8000-00000000f001" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib">
+    <AttributeType Name="Cardinality">
+      <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+      <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+    </AttributeType>
+    <AttributeType Name="Direction" AttributeDataType="xs:string" />
+    <AttributeType Name="Category" AttributeDataType="xs:string" />
+    <AttributeType Name="refURI" AttributeDataType="xs:anyURI" />
+  </AttributeTypeLib>
+  <SystemUnitClassLib Name="Sucs">
+    <SystemUnitClass Name="Dup" />
+    <SystemUnitClass Name="Dup" />
+    <SystemUnitClass Name="Unreferenced" />
+    <SystemUnitClass Name="Unreferenced" />
+    <SystemUnitClass Name="Single" RefBaseClassPath="Sucs/Dup" />
+    <SystemUnitClass Name="ToRole" RefBaseClassPath="Roles/R" />
+    <SystemUnitClass Name="ToMissing" RefBaseClassPath="Sucs/Nothing" />
+    <SystemUnitClass Name="EmptyBase" RefBaseClassPath="" />
+    <SystemUnitClass Name="" />
+    <SystemUnitClass Name="WithSupported">
+      <SupportedRoleClass RefRoleClassPath="Roles/R" />
+      <SupportedRoleClass RefRoleClassPath="Sucs/Single" />
+      <SupportedRoleClass RefRoleClassPath="Roles/Gone" />
+      <SupportedRoleClass RefRoleClassPath="" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="Mixed">
+      <Attribute Name="Mixed" />
+      <Attribute Name="x" />
+      <Attribute Name="x" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="Sucs" />
+  <RoleClassLib Name="Roles">
+    <RoleClass Name="R" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+    <RoleClass Name="R" />
+    <RoleClass Name="RToIc" RefBaseClassPath="Ifs/I" />
+    <RoleClass Name="RMissing" RefBaseClassPath="Roles/Gone" />
+  </RoleClassLib>
+  <InterfaceClassLib Name="Ifs">
+    <InterfaceClass Name="I" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    <InterfaceClass Name="IToRole" RefBaseClassPath="Roles/R" />
+    <InterfaceClass Name="IMissing" RefBaseClassPath="Ifs/Gone" />
+    <InterfaceClass Name="IDup" />
+    <InterfaceClass Name="IDup" />
+  </InterfaceClassLib>
+  <AttributeTypeLib Name="Types">
+    <AttributeType Name="T" />
+    <AttributeType Name="TToSuc" RefAttributeType="Sucs/Single" />
+    <AttributeType Name="TBase" RefBaseClassPath="Types/T" />
+    <AttributeType Name="TBadBase" RefBaseClassPath="Roles/R" />
+    <AttributeType Name="TMissing" RefBaseClassPath="Types/Gone" />
+    <AttributeType Name="TDup" />
+    <AttributeType Name="TDup" />
+  </AttributeTypeLib>
+</CAEXFile>

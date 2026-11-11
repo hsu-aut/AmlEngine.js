@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="v-meta-ed215.aml" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd">
+  <AdditionalInformation AutomationMLVersion="2.1" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>gen</WriterName>
+      <WriterID>GEN</WriterID>
+      <WriterVendor>gen</WriterVendor>
+      <WriterVendorURL>none</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0</WriterRelease>
+      <LastWritingDateTime>2024-01-01T00:00:00</LastWritingDateTime>
+    </WriterHeader>
+  </AdditionalInformation>
+  <ExternalReference Path="Lib_AMLEd1_x.aml" Alias="ed1" />
+  <ExternalReference Path="AutomationML_Base_Libraries_AMLEd2_2.11.0.aml" Alias="ed2" />
+</CAEXFile>

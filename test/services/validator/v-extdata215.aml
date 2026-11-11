@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="v-extdata215.aml" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>gen</WriterName>
+      <WriterID>GEN</WriterID>
+      <WriterVendor>gen</WriterVendor>
+      <WriterVendorURL>none</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0</WriterRelease>
+      <LastWritingDateTime>2024-01-01T00:00:00</LastWritingDateTime>
+    </WriterHeader>
+  </AdditionalInformation>
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Geo" ID="{00000000-0000-4000-8000-000000000701}">
+      <ExternalInterface Name="d0" ID="{00000000-0000-4000-8000-000000000702}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI">
+          <Value>file:///model.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d1" ID="{00000000-0000-4000-8000-000000000703}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI">
+          <Value>missing.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+        <ExternalInterface Name="ConnectionPoint" ID="{00000000-0000-4000-8000-00000000f001}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+</CAEXFile>

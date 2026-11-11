@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="v-aliases30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <ExternalReference Path="lib/Existing Lib.aml" Alias="known" />
+  <ExternalReference Path="lib/plain.aml" Alias="known@" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Known" ID="00000000-0000-4000-8000-000000000901" RefBaseSystemUnitPath="known@ExtLib/ExtClass" />
+    <InternalElement Name="Unknown" ID="00000000-0000-4000-8000-000000000902" RefBaseSystemUnitPath="unknown@ExtLib/ExtClass" />
+    <InternalElement Name="Unknown2" ID="00000000-0000-4000-8000-000000000903" RefBaseSystemUnitPath="unknown@ExtLib/Other" />
+    <InternalElement Name="Useless" ID="00000000-0000-4000-8000-000000000904" RefBaseSystemUnitPath="gone@Local/L" />
+    <InternalElement Name="UselessId" ID="00000000-0000-4000-8000-000000000905" RefBaseSystemUnitPath="gone@00000000-0000-4000-8000-000000000901" />
+    <InternalElement Name="Twice" ID="00000000-0000-4000-8000-000000000906" RefBaseSystemUnitPath="a@b@Local/L" />
+    <InternalElement Name="Roles" ID="00000000-0000-4000-8000-000000000907">
+      <RoleRequirements RefBaseRoleClassPath="r@Lib/Role" />
+      <RoleRequirements RefBaseRoleClassPath="r@Local2/R" />
+    </InternalElement>
+    <InternalElement Name="Ifs" ID="00000000-0000-4000-8000-000000000908">
+      <ExternalInterface Name="e" ID="00000000-0000-4000-8000-000000000909" RefBaseClassPath="i@Lib/If" />
+      <Attribute Name="a" RefAttributeType="t@Lib/T" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <SystemUnitClassLib Name="Local">
+    <SystemUnitClass Name="L" />
+    <SystemUnitClass Name="Derived" RefBaseClassPath="x@Local/L" />
+  </SystemUnitClassLib>
+  <RoleClassLib Name="Local2">
+    <RoleClass Name="R" />
+  </RoleClassLib>
+</CAEXFile>

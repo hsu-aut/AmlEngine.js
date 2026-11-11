@@ -104,16 +104,18 @@ repairs some of them. MergeService uses it to remove resolvable aliases.
   ("'c', hexadecimal value 0x01, is an invalid character.", U+0000 shown as '.'; the two surrogate
   messages) and the line position `i + 1`.
 
-## Open points for the verification against the original
+## Verification against the original
 
-- The messages of `verifyXmlChars` for lone and unpaired surrogates (taken from the .NET sources,
-  not yet compared with the oracle).
-- The order of the issues follows the order of the lookups of the query service (and of
-  LookupService, when registered); compare complete `validateAll` results of the corpus, with and
-  without `generateLongDescription`, with the ID and path tables loaded and not loaded.
-- Repairs: compare the saved documents after `repair` of every repairable issue, in particular the
-  writer header (date text), RenameElement with and without a registered UniqueNameService, and
-  ChangeFileURLToRelative.
-- File references relative to the document path on Windows and Linux (Uri parsing of rooted paths
-  with `UriKind.RelativeOrAbsolute` differs between the platforms in .NET).
-- AutomationML containers: part lookup with escaped and unescaped part names.
+Compared with the original by `test/services/validator.oracle.test.ts` (see
+docs/coverage-notes/services-validator.md):
+
+- The messages of `verifyXmlChars` (also lone and unpaired surrogates) match .NET.
+- The order of the issues matches with and without LookupService, with the ID and path tables
+  loaded by the validator and after a partial enumeration.
+- Repairs (writer header, RenameElement with and without UniqueNameService,
+  ChangeFileURLToRelative and every other repair method) give the same documents.
+- File references relative to the document match on Windows after `NetPath.getFullPath` was made
+  to follow GetFullPathNameW; Linux is not compared.
+- Container parts are found under escaped and unescaped names as in the original.
+- `ValidateAll` of a CAEX 2.15 document writes InternalElement IDs without braces in the original
+  as well.

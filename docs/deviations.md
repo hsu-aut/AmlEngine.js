@@ -152,12 +152,16 @@ original sends the request synchronously (it blocks on
 `ExternalReferenceResolver.GetResponseFromWebServerAsync(uri).Result`) and treats a failure as
 "not found". JavaScript cannot wait for a request synchronously, so the port always takes that
 failure path: such a reference is reported as "can't resolve path reference …  to an existing
-file", also when the server would answer. With an AutomationML container, an http(s) path that the
-original reaches gives "reference should be a container part: …"; the port gives the "can't
-resolve" message (an issue in both). For an ftp URL the original sends an `FtpWebRequest` without
-a catch block; the port throws `NotSupportedException` there, out of the enumeration of the
-validation results. Without a file system (browser) `File.Exists` is false, so local file
-references are reported as not found.
+file", also when the server would answer (the oracle of test/services/validator.oracle.test.ts
+makes every request of the original fail, and then both give the same results). For an ftp URL the
+original sends an `FtpWebRequest` without a catch block, and its `WebException` ends the
+enumeration of the validation results; the port throws `NotSupportedException` there. With an
+AutomationML container neither sends a request: the reference, prefixed with "/", is looked up as a
+container part ("part not found in AML Container: /http%3A//…"). The branch after that lookup
+("reference should be a container part") needs a reference that is no relative URI with the
+prefix; none of the tested references is one, so the port's request-free variant of that branch is
+not compared. Without a file system (browser) `File.Exists` is false, so local file references are
+reported as not found.
 
 ## System layer (src/system)
 

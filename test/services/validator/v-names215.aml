@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="v-names215.aml" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>gen</WriterName>
+      <WriterID>GEN</WriterID>
+      <WriterVendor>gen</WriterVendor>
+      <WriterVendorURL>none</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0</WriterRelease>
+      <LastWritingDateTime>2024-01-01T00:00:00</LastWritingDateTime>
+    </WriterHeader>
+  </AdditionalInformation>
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Same" ID="{00000000-0000-4000-8000-000000000401}">
+      <ExternalInterface Name="i" ID="{00000000-0000-4000-8000-000000000403}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <ExternalInterface Name="i" ID="{00000000-0000-4000-8000-000000000404}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalElement Name="Same" ID="{00000000-0000-4000-8000-000000000402}" />
+    <InternalElement Name="" ID="{00000000-0000-4000-8000-000000000405}" />
+    <InternalElement Name="Ctrl%%001Fx" ID="{00000000-0000-4000-8000-000000000406}" />
+    <InternalLink Name="Link" RefPartnerSideA="" RefPartnerSideB="" />
+    <InternalLink Name="Link" RefPartnerSideA="" RefPartnerSideB="" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+        <ExternalInterface Name="ConnectionPoint" ID="{00000000-0000-4000-8000-00000000f001}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="Sucs">
+    <SystemUnitClass Name="C">
+      <Attribute Name="C" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="C" />
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="Sucs" />
+</CAEXFile>

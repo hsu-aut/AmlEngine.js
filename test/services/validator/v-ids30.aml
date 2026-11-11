@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="v-ids30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Dup1" ID="11111111-1111-1111-1111-111111111111">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+      <ExternalInterface Name="IfDup" ID="22222222-2222-2222-2222-222222222222" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalElement Name="Dup2" ID="11111111-1111-1111-1111-111111111111">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+      <ExternalInterface Name="IfDup" ID="22222222-2222-2222-2222-222222222222" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalElement Name="NoIdAttr" />
+    <InternalElement Name="EmptyId" ID="">
+      <ExternalInterface Name="IfEmpty" ID="" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalElement Name="WsId" ID="   " />
+    <InternalElement Name="Braced" ID="{33333333-3333-3333-3333-333333333333}">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+    <InternalElement Name="Paren" ID="(44444444-4444-4444-4444-444444444444)">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+    <InternalElement Name="NForm" ID="55555555555555555555555555555555">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+    <InternalElement Name="XForm" ID="{0x66666666,0x6666,0x6666,{0x66,0x66,0x66,0x66,0x66,0x66,0x66,0x66}}">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+    <InternalElement Name="Upper" ID="ABCDEFAB-CDEF-ABCD-EFAB-CDEFABCDEFAB">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+    <InternalElement Name="BadAml" ID="not-a-guid">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+    <InternalElement Name="BadAmlEI" ID="00000000-0000-4000-8000-000000000001">
+      <ExternalInterface Name="BadIf" ID="if-not-a-guid" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalElement Name="BadPlain" ID="plain-id" />
+    <InternalElement Name="Slash" ID="a/b" />
+    <InternalElement Name="Dot" ID="a.b" />
+    <InternalElement Name="LibName" ID="MySUCLib" />
+    <InternalElement Name="BadSlashAml" ID="x/y">
+      <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource" />
+    </InternalElement>
+    <InternalElement Name="DupPlain1" ID="plain-dup" />
+    <InternalElement Name="DupPlain2" ID="plain-dup" />
+    <InternalElement Name="Triple1" ID="00000000-0000-4000-8000-000000000002" />
+    <InternalElement Name="Triple2" ID="00000000-0000-4000-8000-000000000002">
+      <InternalElement Name="Triple3" ID="00000000-0000-4000-8000-000000000002" />
+    </InternalElement>
+    <InternalElement Name="CaseA" ID="ABCDEF01-0000-4000-8000-000000000001" />
+    <InternalElement Name="CaseB" ID="abcdef01-0000-4000-8000-000000000001" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+        <ExternalInterface Name="ConnectionPoint" ID="00000000-0000-4000-8000-00000000f001" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib">
+    <AttributeType Name="Cardinality">
+      <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+      <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+    </AttributeType>
+    <AttributeType Name="Direction" AttributeDataType="xs:string" />
+    <AttributeType Name="Category" AttributeDataType="xs:string" />
+    <AttributeType Name="refURI" AttributeDataType="xs:anyURI" />
+  </AttributeTypeLib>
+  <SystemUnitClassLib Name="MySUCLib">
+    <SystemUnitClass Name="Suc1">
+      <InternalElement Name="InnerNoId" ID="" />
+      <InternalElement Name="InnerWs" ID=" " />
+      <ExternalInterface Name="InnerEI" ID="" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <InternalElement Name="InnerDeep" ID="00000000-0000-4000-8000-000000000003">
+        <ExternalInterface Name="DeepEI" ID="" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </InternalElement>
+    </SystemUnitClass>
+    <SystemUnitClass Name="SucId" ID="" />
+    <SystemUnitClass Name="SucId2" ID="00000000-0000-4000-8000-000000000004">
+      <SystemUnitClass Name="Nested" ID="00000000-0000-4000-8000-000000000004" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <RoleClassLib Name="MyRoles">
+    <RoleClass Name="R1">
+      <ExternalInterface Name="RoleEI" ID="" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </RoleClass>
+  </RoleClassLib>
+  <InterfaceClassLib Name="MyIfs">
+    <InterfaceClass Name="I1" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+      <ExternalInterface Name="NestedEI" ID="" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+</CAEXFile>

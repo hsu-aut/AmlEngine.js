@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="v-names30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Same" ID="00000000-0000-4000-8000-000000000301" />
+    <InternalElement Name="Same" ID="00000000-0000-4000-8000-000000000302" />
+    <InternalElement Name="" ID="00000000-0000-4000-8000-000000000303" />
+    <InternalElement Name="Ctrl%%0001x" ID="00000000-0000-4000-8000-000000000304" />
+    <InternalElement Name="Nul%%0000" ID="00000000-0000-4000-8000-000000000305" />
+    <InternalElement Name="Lone%%D800" ID="00000000-0000-4000-8000-000000000306" />
+    <InternalElement Name="%%DC00Low" ID="00000000-0000-4000-8000-000000000307" />
+    <InternalElement Name="Pair%%D83D%%DE00ok" ID="00000000-0000-4000-8000-000000000308" />
+    <InternalElement Name="Rev%%DE00%%D83D" ID="00000000-0000-4000-8000-000000000309" />
+    <InternalElement Name="FFFE%%FFFE" ID="00000000-0000-4000-8000-00000000030a" />
+    <InternalElement Name="Tab%%0009ok" ID="00000000-0000-4000-8000-00000000030b" />
+    <InternalElement Name="Hi%%D800%%0041" ID="00000000-0000-4000-8000-00000000030c" />
+    <InternalElement Name="WithAttrs" ID="00000000-0000-4000-8000-00000000030d">
+      <Attribute Name="a" />
+      <Attribute Name="a" />
+      <Attribute Name="" />
+      <Attribute Name="b">
+        <Attribute Name="c" />
+        <Attribute Name="c" />
+      </Attribute>
+      <ExternalInterface Name="i" ID="00000000-0000-4000-8000-00000000030e" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <ExternalInterface Name="i" ID="00000000-0000-4000-8000-00000000030f" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <ExternalInterface Name="" ID="00000000-0000-4000-8000-000000000310" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <ExternalInterface Name="Bad%%0002" ID="00000000-0000-4000-8000-000000000311" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalElement Name="Facets" ID="00000000-0000-4000-8000-000000000312">
+      <InternalElement Name="F" ID="00000000-0000-4000-8000-000000000313">
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+      </InternalElement>
+      <InternalElement Name="F" ID="00000000-0000-4000-8000-000000000314">
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Facet" />
+      </InternalElement>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="Plant" />
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+        <ExternalInterface Name="ConnectionPoint" ID="00000000-0000-4000-8000-00000000f001" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib">
+    <AttributeType Name="Cardinality">
+      <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+      <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+    </AttributeType>
+    <AttributeType Name="Direction" AttributeDataType="xs:string" />
+    <AttributeType Name="Category" AttributeDataType="xs:string" />
+    <AttributeType Name="refURI" AttributeDataType="xs:anyURI" />
+  </AttributeTypeLib>
+  <SystemUnitClassLib Name="Sucs">
+    <SystemUnitClass Name="C" ID="00000000-0000-4000-8000-000000000320">
+      <Attribute Name="Inner" />
+      <SystemUnitClass Name="Inner" />
+      <SystemUnitClass Name="Inner2" />
+      <Attribute Name="Inner2" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="C" />
+    <SystemUnitClass Name="Bad%%0003Class" />
+    <SystemUnitClass Name="D">
+      <InternalElement Name="x" ID="00000000-0000-4000-8000-000000000321" />
+      <InternalElement Name="x" ID="00000000-0000-4000-8000-000000000322" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="Plant" />
+  <RoleClassLib Name="Sucs" />
+  <AttributeTypeLib Name="Types">
+    <AttributeType Name="T">
+      <Attribute Name="T" />
+      <Attribute Name="n" />
+      <Attribute Name="n" />
+    </AttributeType>
+    <AttributeType Name="T" />
+  </AttributeTypeLib>
+</CAEXFile>

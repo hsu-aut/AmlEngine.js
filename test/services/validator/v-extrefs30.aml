@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="v-extrefs30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <ExternalReference Path="lib/Existing Lib.aml" Alias="ex1" />
+  <ExternalReference Path="lib/Existing%20Lib.aml" Alias="ex1esc" />
+  <ExternalReference Path="lib/missing.aml" Alias="miss" />
+  <ExternalReference Path="" Alias="emptyPath" />
+  <ExternalReference Path="lib/plain.aml" Alias="" />
+  <ExternalReference Path="lib/Existing Lib.aml" Alias="dup" />
+  <ExternalReference Path="lib/missing2.aml" Alias="dup" />
+  <ExternalReference Path="lib/Bibliothek_ä.aml" Alias="uml" />
+  <ExternalReference Path="lib/Bibliothek_%C3%A4.aml" Alias="umlesc" />
+  <ExternalReference Path="AutomationML_Base_Libraries_AMLEd1_2.1.0.aml" Alias="ed1" />
+  <ExternalReference Path="Producer_Domain_Lib_AMLEd2_1.0.0.aml" Alias="ed2" />
+  <ExternalReference Path="Producer_Domain_Lib_Ext_AMLEd3_1.0.0.aml" Alias="ed3" />
+  <ExternalReference Path="x/AMLEd2-lib.aml" Alias="edsub" />
+  <ExternalReference Path="http://127.0.0.1:1/lib.aml" Alias="http" />
+  <ExternalReference Path="https://example.invalid/AutomationML_Base_Libraries_AMLEd2_2.11.0.aml" Alias="https" />
+  <ExternalReference Path="lib\Existing Lib.aml" Alias="backslash" />
+  <ExternalReference Path="/lib/Existing Lib.aml" Alias="rooted" />
+  <ExternalReference Path="lib/Existing Lib.aml#frag" Alias="frag" />
+  <ExternalReference Path="%CASES%\lib\plain.aml" Alias="abs" />
+  <ExternalReference Path="%CASES%/lib/missing.aml" Alias="absmiss" />
+  <ExternalReference Path="%CASESURL%/lib/Existing%20Lib.aml" Alias="url" />
+  <ExternalReference Path="%CASESURL%/lib/missing.aml" Alias="urlmiss" />
+  <ExternalReference Path="file:///C:/no/such/dir/x.aml" Alias="urlC" />
+  <ExternalReference Path="../validator/lib/plain.aml" Alias="up" />
+  <ExternalReference Path="urn:example:lib" Alias="urn" />
+  <ExternalReference Path="   " Alias="blank" />
+  <ExternalReference Path="%zz.aml" Alias="badescape" />
+  <ExternalReference Path="Old_Domain_Lib_AMLEd1_1.0.0.aml" Alias="ver">
+    <Version>OldVersion</Version>
+  </ExternalReference>
+  <ExternalReference Path="Old_Domain_Lib_AMLEd1_1.0.0.aml" Alias="verdesc">
+    <Description>VersionRef</Description>
+  </ExternalReference>
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="UsesEx" ID="00000000-0000-4000-8000-000000000501" RefBaseSystemUnitPath="ex1@ExtLib/ExtClass" />
+    <InternalElement Name="UsesDup" ID="00000000-0000-4000-8000-000000000502" RefBaseSystemUnitPath="dup@ExtLib/ExtClass" />
+    <InternalElement Name="UsesMissingAlias" ID="00000000-0000-4000-8000-000000000503" RefBaseSystemUnitPath="gone@ExtLib/ExtClass" />
+  </InstanceHierarchy>
+</CAEXFile>

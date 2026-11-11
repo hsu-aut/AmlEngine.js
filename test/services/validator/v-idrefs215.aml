@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="v-idrefs215.aml" SchemaVersion="2.15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <AdditionalInformation>
+    <WriterHeader>
+      <WriterName>gen</WriterName>
+      <WriterID>GEN</WriterID>
+      <WriterVendor>gen</WriterVendor>
+      <WriterVendorURL>none</WriterVendorURL>
+      <WriterVersion>1.0</WriterVersion>
+      <WriterRelease>1.0</WriterRelease>
+      <LastWritingDateTime>2024-01-01T00:00:00</LastWritingDateTime>
+    </WriterHeader>
+  </AdditionalInformation>
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="A" ID="{00000000-0000-4000-8000-0000000000a0}">
+      <ExternalInterface Name="a1" ID="{00000000-0000-4000-8000-0000000000a1}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalElement Name="B" ID="{00000000-0000-4000-8000-0000000000b0}">
+      <ExternalInterface Name="b1" ID="{00000000-0000-4000-8000-0000000000b1}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+    </InternalElement>
+    <InternalLink Name="L_ok" RefPartnerSideA="{00000000-0000-4000-8000-0000000000a0}:a1" RefPartnerSideB="{00000000-0000-4000-8000-0000000000b0}:b1" />
+    <InternalLink Name="L_path" RefPartnerSideA="Plant/A:a1" RefPartnerSideB="Plant/B:b1" />
+    <InternalLink Name="L_unres" RefPartnerSideA="{99999999-9999-4999-8999-999999999999}:x" RefPartnerSideB="{00000000-0000-4000-8000-0000000000b0}:b1" />
+    <InternalLink Name="L_noIf" RefPartnerSideA="{00000000-0000-4000-8000-0000000000a0}:none" RefPartnerSideB="{00000000-0000-4000-8000-0000000000b0}:b1" />
+    <InternalLink Name="L_empty" RefPartnerSideA="" RefPartnerSideB="{00000000-0000-4000-8000-0000000000b0}:b1" />
+    <InternalLink Name="L_toEI" RefPartnerSideA="{00000000-0000-4000-8000-0000000000a1}:a1" RefPartnerSideB="{00000000-0000-4000-8000-0000000000b0}:b1" />
+    <InternalLink Name="L_toClass" RefPartnerSideA="{00000000-0000-4000-8000-000000000052}:s1ie" RefPartnerSideB="{00000000-0000-4000-8000-0000000000b0}:b1" />
+    <InternalElement Name="Inst" ID="{00000000-0000-4000-8000-0000000000e1}" RefBaseSystemUnitPath="Sucs/S1" />
+    <InternalElement Name="InstBad" ID="{00000000-0000-4000-8000-0000000000e2}" RefBaseSystemUnitPath="Sucs/Missing" />
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+        <ExternalInterface Name="ConnectionPoint" ID="{00000000-0000-4000-8000-00000000f001}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="Sucs">
+    <SystemUnitClass Name="S1">
+      <ExternalInterface Name="s1e" ID="{00000000-0000-4000-8000-000000000051}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      <InternalElement Name="S1i" ID="{00000000-0000-4000-8000-000000000052}">
+        <ExternalInterface Name="s1ie" ID="{00000000-0000-4000-8000-000000000053}" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </InternalElement>
+      <InternalLink Name="S1_in" RefPartnerSideA="S1:s1e" RefPartnerSideB="{00000000-0000-4000-8000-000000000052}:s1ie" />
+      <SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Port">
+        <MappingObject>
+          <AttributeNameMapping SystemUnitAttributeName="missingSU" RoleAttributeName="missingRole" />
+          <InterfaceNameMapping SystemUnitInterfaceName="s1e" RoleInterfaceName="ConnectionPoint" />
+          <InterfaceNameMapping SystemUnitInterfaceName="nope" RoleInterfaceName="nope2" />
+          <InterfaceNameMapping SystemUnitInterfaceName="" RoleInterfaceName="" />
+        </MappingObject>
+      </SupportedRoleClass>
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

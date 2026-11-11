@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="v-extdata30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-validator" OriginID="GEN" OriginVersion="1.0" LastWritingDateTime="2024-01-01T00:00:00" OriginRelease="1.0" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Geo" ID="00000000-0000-4000-8000-000000000601">
+      <ExternalInterface Name="d0" ID="00000000-0000-4000-8000-000000000610" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>file:///model.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d1" ID="00000000-0000-4000-8000-000000000611" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>file:///data/geo%20file.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d2" ID="00000000-0000-4000-8000-000000000612" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>file:///data/part.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d3" ID="00000000-0000-4000-8000-000000000613" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>model.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d4" ID="00000000-0000-4000-8000-000000000614" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>missing.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d5" ID="00000000-0000-4000-8000-000000000615" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>missing.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d6" ID="00000000-0000-4000-8000-000000000616" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>file:///C:/definitely/missing.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d7" ID="00000000-0000-4000-8000-000000000617" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>%CASESURL%/model.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d8" ID="00000000-0000-4000-8000-000000000618" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>%CASESURL%/missing.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d9" ID="00000000-0000-4000-8000-000000000619" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>model.dae#node</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d10" ID="00000000-0000-4000-8000-00000000061a" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>missing.dae#node</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d11" ID="00000000-0000-4000-8000-00000000061b" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>http://127.0.0.1:1/x.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d12" ID="00000000-0000-4000-8000-00000000061c" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value></Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d13" ID="00000000-0000-4000-8000-00000000061d" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>data/geo file.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d14" ID="00000000-0000-4000-8000-00000000061e" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>data/geo%20file.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d15" ID="00000000-0000-4000-8000-00000000061f" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>/model.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d16" ID="00000000-0000-4000-8000-000000000620" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>/missing.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d17" ID="00000000-0000-4000-8000-000000000621" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>file:model.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d18" ID="00000000-0000-4000-8000-000000000622" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>file:///model.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d19" ID="00000000-0000-4000-8000-000000000623" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>%CASES%\model.dae</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="d20" ID="00000000-0000-4000-8000-000000000624" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI">
+          <Value>urn:x</Value>
+        </Attribute>
+      </ExternalInterface>
+      <ExternalInterface Name="noValue" ID="00000000-0000-4000-8000-0000000006f0" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+      </ExternalInterface>
+      <ExternalInterface Name="noAttr" ID="00000000-0000-4000-8000-0000000006f1" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+    <InterfaceClass Name="AutomationMLBaseInterface">
+      <InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface">
+        <Attribute Name="refURI" AttributeDataType="xs:anyURI" RefAttributeType="AutomationMLBaseAttributeTypeLib/refURI" />
+        <InterfaceClass Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector" />
+      </InterfaceClass>
+      <InterfaceClass Name="PortConnector" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface" />
+    </InterfaceClass>
+  </InterfaceClassLib>
+  <RoleClassLib Name="AutomationMLBaseRoleClassLib">
+    <RoleClass Name="AutomationMLBaseRole">
+      <RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+      <RoleClass Name="Port" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole">
+        <ExternalInterface Name="ConnectionPoint" ID="00000000-0000-4000-8000-00000000f001" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PortConnector" />
+      </RoleClass>
+    </RoleClass>
+  </RoleClassLib>
+  <AttributeTypeLib Name="AutomationMLBaseAttributeTypeLib">
+    <AttributeType Name="Cardinality">
+      <Attribute Name="MinOccur" AttributeDataType="xs:unsignedInt" />
+      <Attribute Name="MaxOccur" AttributeDataType="xs:unsignedInt" />
+    </AttributeType>
+    <AttributeType Name="Direction" AttributeDataType="xs:string" />
+    <AttributeType Name="Category" AttributeDataType="xs:string" />
+    <AttributeType Name="refURI" AttributeDataType="xs:anyURI" />
+  </AttributeTypeLib>
+</CAEXFile>
