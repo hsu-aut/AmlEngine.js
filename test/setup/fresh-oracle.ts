@@ -1,5 +1,6 @@
 // Global test setup.
-// - Warns when NuGet has a newer Aml.Engine than the oracle runs (scripts/check-upstream.mjs).
+// - Warns when NuGet has a newer Aml.Engine, Aml.Engine.Services or Aml.Engine.Resources than the
+//   oracle runs (scripts/check-upstream.mjs).
 // - Some oracle outputs depend on the date of the oracle run (results relative to "today",
 //   DateTime.Now defaults). They are compared with the JS results of the same day only, so
 //   outputs from an earlier day are regenerated before the tests run. Needs the .NET 8 SDK;
@@ -39,14 +40,18 @@ export default async function setup(): Promise<void> {
   }
 }
 
-/** Warns when NuGet has a newer Aml.Engine than the oracle runs (docs/upgrading-aml-engine.md). */
+/**
+ * Warns when NuGet has a newer Aml.Engine, Aml.Engine.Services or Aml.Engine.Resources than the
+ * oracle runs (docs/upgrading-aml-engine.md).
+ */
 async function warnIfUpstreamIsNewer(): Promise<void> {
   // @ts-expect-error plain JS module without type declarations
   const { newerVersions } = await import('../../scripts/check-upstream.mjs');
-  const r = await newerVersions(3000);
-  if (r !== null && r.newer.length > 0) {
+  const r: Array<{ id: string; current: string; newer: string[] }> | null = await newerVersions(3000);
+  for (const p of r ?? []) {
+    if (p.newer.length === 0) continue;
     console.warn(
-      `*** Aml.Engine ${r.newer.join(', ')} on NuGet is newer than ${r.current} in the oracle: ` +
+      `*** ${p.id} ${p.newer.join(', ')} on NuGet is newer than ${p.current} in the oracle: ` +
         'the port may no longer match the original. See docs/upgrading-aml-engine.md. ***',
     );
   }

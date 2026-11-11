@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Aml.Engine" Version="4.5.2" />
     <PackageReference Include="Aml.Engine.Services" Version="4.3.1" />
+    <!-- the version Aml.Engine 4.5.2 depends on; pinned so that scripts/check-upstream.mjs watches it -->
+    <PackageReference Include="Aml.Engine.Resources" Version="4.2.1" />
   </ItemGroup>
 
 </Project>
