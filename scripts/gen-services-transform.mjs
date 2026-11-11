@@ -379,6 +379,7 @@ docs['down-sdi-baddate.aml'] = head30('down-sdi-baddate.aml', sdi({ OriginName: 
   const r2 = guid();
   const e1 = guid();
   const e2 = guid();
+  const single = guid();
   const roles = `  <RoleClassLib Name="Roles">
     <Version>1.0</Version>
     <RoleClass Name="R1">
@@ -436,11 +437,11 @@ docs['down-sdi-baddate.aml'] = head30('down-sdi-baddate.aml', sdi({ OriginName: 
     </InternalElement>
     <InternalElement Name="Single" ID="${guid()}">
       <Attribute Name="s" />
-      <ExternalInterface Name="e" ID="${guid()}" />
+      <ExternalInterface Name="e" ID="${single}" />
       <RoleRequirements RefBaseRoleClassPath="Roles/R2">
         <MappingObject>
           <AttributeNameMapping SystemUnitAttributeName="s" RoleAttributeName="b1" />
-          <InterfaceIDMapping SystemUnitInterfaceID="${e1}" RoleInterfaceID="${r2}" />
+          <InterfaceIDMapping SystemUnitInterfaceID="${single}" RoleInterfaceID="${r2}" />
         </MappingObject>
       </RoleRequirements>
     </InternalElement>
