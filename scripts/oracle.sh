@@ -47,6 +47,8 @@ node scripts/gen-services-transform.mjs test/corpus test/services/transform 3682
 $ORACLE svc-transform test/corpus test/services/transform test/oracle-out/services/transform
 node scripts/gen-services-split.mjs test/services/split 3682 >/dev/null
 $ORACLE svc-split test/services/split test/oracle-out/services/split-work test/oracle-out/services/split
+node scripts/gen-services-lookup.mjs test/services/lookup 3682 >/dev/null
+$ORACLE svc-lookup test/corpus test/services/lookup test/oracle-out/services
 node scripts/gen-services-validator.mjs test/services/validator 3682 >/dev/null
 $ORACLE svc-validator test/services/validator test/oracle-out/services
 # The external reference cases load over http from a local server (test/services/extref-server.mjs).
