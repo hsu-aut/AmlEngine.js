@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="dupid30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-split" OriginID="gen" OriginVersion="1.0" LastWritingDateTime="2020-01-01T00:00:00" OriginRelease="1.0" />
+  <InstanceHierarchy Name="IH">
+    <InternalElement Name="Out" ID="dup1">
+      <ExternalInterface Name="P0" ID="ei-out" />
+    </InternalElement>
+    <InternalElement Name="Part" ID="part1">
+      <InternalElement Name="In" ID="dup1">
+        <ExternalInterface Name="P0" ID="ei-in" />
+      </InternalElement>
+      <InternalElement Name="In2" ID="in2">
+        <ExternalInterface Name="P0" ID="ei-in2" />
+      </InternalElement>
+    </InternalElement>
+    <InternalElement Name="NoId">
+      <ExternalInterface Name="P0" />
+    </InternalElement>
+    <InternalElement Name="User" ID="user1" RefBaseSystemUnitPath="dup1">
+      <ExternalInterface Name="P0" ID="ei-user" />
+      <InternalLink Name="L1" RefPartnerSideA="dup1:P0" RefPartnerSideB="user1:P0" />
+      <InternalLink Name="L2" RefPartnerSideA="in2:P0" RefPartnerSideB="user1:P0" />
+    </InternalElement>
+  </InstanceHierarchy>
+</CAEXFile>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="g30-4.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-split" OriginID="gen" OriginVersion="1.0" LastWritingDateTime="2020-01-01T00:00:00" OriginRelease="1.0" />
+  <ExternalReference Path="Base.aml" Alias="Base" />
+  <InstanceHierarchy Name="IH_0">
+    <Version>1.0.0</Version>
+    <InternalElement Name="E0" ID="aca5f72d-9d03-4543-a24b-5ae8b0540241">
+      <Attribute Name="Length" AttributeDataType="xs:string" RefAttributeType="ATL_0/AT_1">
+        <Value>19</Value>
+      </Attribute>
+      <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_2" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="IH_1">
+    <Version>1.0.0</Version>
+    <InternalElement Name="E1" ID="616a726c-b644-48de-a062-144b45334b7b">
+      <Attribute Name="Length" AttributeDataType="xs:string">
+        <Value>98</Value>
+      </Attribute>
+      <ExternalInterface Name="P0" ID="02a0bfe1-948a-4f38-ab8e-bd8dd3ab82cb" RefBaseClassPath="ICL_0/IC_0" />
+      <InternalElement Name="E2" ID="d770f541-737f-4a9c-a67c-4f522a43c424" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+        <Attribute Name="b" AttributeDataType="xs:string">
+          <Value>90</Value>
+        </Attribute>
+        <ExternalInterface Name="P0" ID="5848246a-f91b-492f-a6ce-b5e910e7c51f" RefBaseClassPath="ICL_0/IC_0" />
+        <InternalElement Name="E3" ID="3dec0739-da9d-4f96-ace5-28d4befc0168" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+          <InternalElement Name="E4" ID="971868ca-499a-4f9a-a9a4-f418c58a6103" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+            <Attribute Name="a" AttributeDataType="xs:string">
+              <Value>2</Value>
+            </Attribute>
+            <SupportedRoleClass RefRoleClassPath="RCL_0/RC_0" />
+          </InternalElement>
+          <InternalElement Name="E5" ID="b08eabbd-41d6-4f62-adb5-b27048e3460c" RefBaseSystemUnitPath="Base@SystemUnitClassLib/SystemUnitClass">
+            <InternalLink Name="L0" RefPartnerSideA="616a726c-b644-48de-a062-144b45334b7b:P0" RefPartnerSideB="616a726c-b644-48de-a062-144b45334b7b:P0" />
+            <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_1" />
+          </InternalElement>
+        </InternalElement>
+        <InternalElement Name="E6" ID="03ffebae-fa4f-457f-a77e-1701ff232ff4" RefBaseSystemUnitPath="aca5f72d-9d03-4543-a24b-5ae8b0540241">
+          <ExternalInterface Name="P0" ID="7f99bc8b-ff90-4906-a39b-f2a3ccf99122" RefBaseClassPath="ICL_0/IC_0" />
+          <InternalElement Name="E7" ID="6091f3c2-444e-469c-ae5e-8b114ceab489" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+            <ExternalInterface Name="P0" ID="6989ff0e-0f40-45ae-a6b4-9ab75a67bc4d" RefBaseClassPath="ICL_0/IC_0" />
+            <ExternalInterface Name="P1" ID="2e48eba1-9fd7-46e0-ac51-a868d8b5c82b" RefBaseClassPath="Base@InterfaceClassLib/InterfaceClass" />
+            <RoleRequirements RefBaseRoleClassPath="Base@RoleClassLib/RoleClass" />
+          </InternalElement>
+          <SupportedRoleClass RefRoleClassPath="RCL_0/RC_2" />
+          <InternalLink Name="L1" RefPartnerSideA="616a726c-b644-48de-a062-144b45334b7b:P0" RefPartnerSideB="03ffebae-fa4f-457f-a77e-1701ff232ff4:P0" />
+          <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_1" />
+        </InternalElement>
+      </InternalElement>
+      <InternalElement Name="E8" ID="d945f348-7427-4d36-a025-37f2b51d7612" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+        <Attribute Name="Length" AttributeDataType="xs:string" RefAttributeType="ATL_0/AT_1">
+          <Value>22</Value>
+        </Attribute>
+        <InternalLink Name="L2" RefPartnerSideA="03ffebae-fa4f-457f-a77e-1701ff232ff4:P0" RefPartnerSideB="03ffebae-fa4f-457f-a77e-1701ff232ff4:P0" />
+        <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_1" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="RCL_0/RC_0" />
+      <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_2" />
+    </InternalElement>
+    <InternalElement Name="E9" ID="8142d0cc-02fb-49f1-a99f-d8b80741dc93">
+      <Attribute Name="b" AttributeDataType="xs:string" RefAttributeType="ATL_0/AT_1">
+        <Value>34</Value>
+      </Attribute>
+      <ExternalInterface Name="P0" ID="219d3d1c-4638-4746-aeb0-ff6b73458b64" RefBaseClassPath="ICL_0/IC_1" />
+      <ExternalInterface Name="P1" ID="97c3bee9-e146-4ed9-a28c-45919b42ff3e" RefBaseClassPath="Base@InterfaceClassLib/InterfaceClass" />
+      <InternalElement Name="E10" ID="e4b4d6e4-ad47-40c1-a628-ab6ccf314319" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+        <ExternalInterface Name="P0" ID="62f3ddd4-a054-48a3-aa1d-3cad5fde7ed6" RefBaseClassPath="ICL_0/IC_1" />
+        <InternalElement Name="E11" ID="df3f9f75-79b2-466b-a751-af953980dd42" RefBaseSystemUnitPath="d770f541-737f-4a9c-a67c-4f522a43c424">
+          <Attribute Name="Length" AttributeDataType="xs:string">
+            <Value>59</Value>
+          </Attribute>
+          <ExternalInterface Name="P0" ID="555ec23c-f2ef-4ba0-a4c5-60948c2b6eb2" RefBaseClassPath="ICL_0/IC_0" />
+          <ExternalInterface Name="P1" ID="d3cda561-0925-4eff-afa1-f322d4a1afe1" RefBaseClassPath="ICL_0/IC_0" />
+          <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_1" />
+        </InternalElement>
+        <InternalElement Name="E12" ID="b7e1be0d-68cd-4fb9-aafc-157f53231406">
+          <Attribute Name="Speed" AttributeDataType="xs:string" RefAttributeType="Base@AttributeLib/Attribute">
+            <Value>99</Value>
+          </Attribute>
+          <ExternalInterface Name="P0" ID="37ba2213-4296-42b1-a1ac-c65824dfc88d" RefBaseClassPath="ICL_0/IC_1" />
+          <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group" />
+        </InternalElement>
+        <InternalLink Name="L3" RefPartnerSideA="b7e1be0d-68cd-4fb9-aafc-157f53231406:P0" RefPartnerSideB="b7e1be0d-68cd-4fb9-aafc-157f53231406:P0" />
+        <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_2" />
+      </InternalElement>
+      <InternalElement Name="E13" ID="f7bc4e29-6569-447a-a65c-bd018ef217ae" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+        <Attribute Name="b" AttributeDataType="xs:string" RefAttributeType="ATL_0/AT_0">
+          <Value>43</Value>
+        </Attribute>
+        <ExternalInterface Name="P0" ID="7c8b4e59-4897-4a30-a5dc-b311bb2f562c" RefBaseClassPath="ICL_0/IC_0" />
+        <InternalElement Name="E14" ID="a5550c9a-9e39-4fd2-a1f7-b88a09eae558" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+          <ExternalInterface Name="P0" ID="74fd76c0-df76-4e38-af80-2c062f98c00c" RefBaseClassPath="Base@InterfaceClassLib/InterfaceClass" />
+          <ExternalInterface Name="P1" ID="074b403c-0223-40b1-a6e1-d9f673ec6f45" RefBaseClassPath="ICL_0/IC_1" />
+          <InternalElement Name="E15" ID="a75a4e5f-3d4c-4be1-ac4b-433aae6e2d1f">
+            <ExternalInterface Name="P0" ID="eb493b83-d3c3-4335-a8ef-f49cb9cdb5c0" RefBaseClassPath="ICL_0/IC_0" />
+            <SupportedRoleClass RefRoleClassPath="RCL_0/RC_0" />
+            <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_2" />
+          </InternalElement>
+          <SupportedRoleClass RefRoleClassPath="RCL_0/RC_0" />
+        </InternalElement>
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="RCL_0/RC_2" />
+      <InternalLink Name="L4" RefPartnerSideA="df3f9f75-79b2-466b-a751-af953980dd42:P1" RefPartnerSideB="e4b4d6e4-ad47-40c1-a628-ab6ccf314319:P0" />
+      <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_0" />
+    </InternalElement>
+    <InternalElement Name="E16" ID="ee2af7a3-1687-4f33-a5d4-cf793df0f9af" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+      <Attribute Name="b" AttributeDataType="xs:string" RefAttributeType="Base@AttributeLib/Attribute">
+        <Value>45</Value>
+      </Attribute>
+      <InternalElement Name="E17" ID="0b317a65-df60-4625-a2e1-f107b1dc1487" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+        <Attribute Name="a" AttributeDataType="xs:string">
+          <Value>27</Value>
+        </Attribute>
+        <InternalElement Name="E18" ID="b2295a7c-ee23-4649-a4f7-bebeb3cff690" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+          <Attribute Name="b" AttributeDataType="xs:string" RefAttributeType="Base@AttributeLib/Attribute">
+            <Value>44</Value>
+          </Attribute>
+          <ExternalInterface Name="P0" ID="50aa2050-2574-4053-aa4c-bc55cca5e54f" RefBaseClassPath="Base@InterfaceClassLib/InterfaceClass" />
+          <InternalElement Name="E19" ID="d9b90dee-2350-47fd-a81f-684a6b9745fb" RefBaseSystemUnitPath="Base@SystemUnitClassLib/SystemUnitClass">
+          </InternalElement>
+          <InternalElement Name="E20" ID="99ae89b6-057e-41e2-a096-f0bc1e2dc56f" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+            <InternalLink Name="L5" RefPartnerSideA="03ffebae-fa4f-457f-a77e-1701ff232ff4:P0" RefPartnerSideB="e4b4d6e4-ad47-40c1-a628-ab6ccf314319:P0" />
+          </InternalElement>
+          <InternalLink Name="L6" RefPartnerSideA="6091f3c2-444e-469c-ae5e-8b114ceab489:P0" RefPartnerSideB="a5550c9a-9e39-4fd2-a1f7-b88a09eae558:P0" />
+          <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_2" />
+        </InternalElement>
+        <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_1" />
+      </InternalElement>
+      <InternalLink Name="L7" RefPartnerSideA="a75a4e5f-3d4c-4be1-ac4b-433aae6e2d1f:P0" RefPartnerSideB="f7bc4e29-6569-447a-a65c-bd018ef217ae:P0" />
+      <RoleRequirements RefBaseRoleClassPath="Base@RoleClassLib/RoleClass" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="IH_2">
+    <Version>1.0.0</Version>
+    <InternalElement Name="E21" ID="0168d1f0-4f3b-4f7e-a86c-f4e85f7388a1">
+      <Attribute Name="Speed" AttributeDataType="xs:string" RefAttributeType="ATL_0/AT_0">
+        <Value>62</Value>
+      </Attribute>
+      <ExternalInterface Name="P0" ID="267a3404-2ccc-4f75-a29f-3b19efc4f335" RefBaseClassPath="ICL_0/IC_1" />
+      <SupportedRoleClass RefRoleClassPath="RCL_0/RC_0" />
+      <InternalLink Name="L8" RefPartnerSideA="6091f3c2-444e-469c-ae5e-8b114ceab489:P1" RefPartnerSideB="b2295a7c-ee23-4649-a4f7-bebeb3cff690:P0" />
+    </InternalElement>
+    <InternalElement Name="E22" ID="2812ab66-1bc1-4914-aac1-266cf5d17edc" RefBaseSystemUnitPath="b08eabbd-41d6-4f62-adb5-b27048e3460c">
+      <Attribute Name="Length" AttributeDataType="xs:string" RefAttributeType="ATL_0/AT_1">
+        <Value>13</Value>
+      </Attribute>
+      <InternalElement Name="E23" ID="7a15cf91-983b-4a91-a7f5-8df636046d1c">
+        <Attribute Name="Speed" AttributeDataType="xs:string" RefAttributeType="ATL_0/AT_0">
+          <Value>84</Value>
+        </Attribute>
+        <ExternalInterface Name="P0" ID="89f55393-9b2a-461c-a2cc-96549ab9cff9" RefBaseClassPath="ICL_0/IC_0" />
+        <SupportedRoleClass RefRoleClassPath="RCL_0/RC_0" />
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group" />
+      </InternalElement>
+      <InternalElement Name="E24" ID="12db6762-96bd-4eaa-a602-ebfac9ed03a8" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+        <ExternalInterface Name="P0" ID="27e0ff63-e2be-40df-a14d-83a1cbcec3ef" RefBaseClassPath="ICL_0/IC_0" />
+      </InternalElement>
+      <InternalElement Name="E25" ID="51ce8c61-f721-475b-a4ea-4d3f6115fe81" RefBaseSystemUnitPath="971868ca-499a-4f9a-a9a4-f418c58a6103">
+        <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_1" />
+      </InternalElement>
+      <SupportedRoleClass RefRoleClassPath="RCL_0/RC_2" />
+      <InternalLink Name="L9" RefPartnerSideA="616a726c-b644-48de-a062-144b45334b7b:P0" RefPartnerSideB="a75a4e5f-3d4c-4be1-ac4b-433aae6e2d1f:P0" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL_0">
+    <Version>3</Version>
+    <InterfaceClass Name="IC_0" />
+    <InterfaceClass Name="IC_1" RefBaseClassPath="ICL_0/IC_0" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL_0">
+    <Version>1.0.0</Version>
+    <RoleClass Name="RC_0">
+    </RoleClass>
+    <RoleClass Name="RC_1">
+    </RoleClass>
+    <RoleClass Name="RC_2" RefBaseClassPath="RCL_0/RC_0">
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL_0">
+    <Version>x.y</Version>
+    <SystemUnitClass Name="SUC_0">
+      <SupportedRoleClass RefRoleClassPath="RCL_0/RC_2" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="ATL_0">
+    <Version>2.1</Version>
+    <AttributeType Name="AT_0" AttributeDataType="xs:string" />
+    <AttributeType Name="AT_1" AttributeDataType="xs:string" />
+  </AttributeTypeLib>
+</CAEXFile>

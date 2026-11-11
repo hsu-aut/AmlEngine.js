@@ -96,20 +96,25 @@ class.
 - `AddExternalReferenceIfNeeded` always appends a new ExternalReference, also when one with the
   alias exists.
 
-## Open points for the verification against the original
+## Verified against the original
 
-- Merge without a registered resolver: `BeginService<ExternalReferenceResolver>` registers one
-  under the key `ExternalReferenceResolver`, and `ExternalReferenceResolver.UnRegister` removes the
-  key `IExternalReferenceResolver`, so the resolver stays registered after the merge (behaviour of
-  ExternalReferenceResolver, observable here).
-- The second Merge overload disposes the loaded source document in `finally`, also when the
-  resolver keeps it in its table; `EndService` runs only when no exception occurs.
-- The order of the merge protocol (SystemUnitClassLib, RoleClassLib, InterfaceClassLib,
-  AttributeTypeLib, InstanceHierarchy, ExternalReference) and the order in which Split handles the
-  split points (AttributeTypeLib, InterfaceClassLib, RoleClassLib, SystemUnitClassLib,
-  InstanceHierarchy, InternalElement) follow the C# code.
-- Split points of a document that is unloaded are removed through `removeDocument`
-  (IXMLDocumentRegistry), called by `XDocumentWrapper.unload`.
-- Saved split documents and the paths of the new ExternalReferences (`.\name.aml` when the split
-  file is in the directory of the source document) should be compared with the original on
-  Windows and Linux paths.
+The points that were open before the verification, as the oracle (`svc-split`, see
+docs/coverage-notes/services-merge-split.md) shows them; the port behaves the same:
+
+- Merge without a registered resolver leaves the resolver it started registered under the key
+  `ExternalReferenceResolver` (`EndService` calls `ExternalReferenceResolver.UnRegister`, which
+  removes the key `IExternalReferenceResolver`). Later merges find it through the interface.
+- The second Merge overload disposes the loaded source document; a second merge of the same file
+  with the same resolver still succeeds, because the merge unloads the document from the resolver
+  before.
+- The order of the merge protocol and of the split points follows the C# code (compared line by
+  line).
+- Split points of a disposed document are removed through `removeDocument`.
+- ExternalReference paths written by Split (Windows): `.\part.aml` for a file in the directory of
+  the source document, `.2\part.aml` for a sibling folder whose name
+  starts with the name of that directory (the prefix test of the original), the path as given
+  otherwise (relative, forward slashes, other folders, web addresses). Paths on Unix follow
+  `NetPath` on Unix; .NET on Linux is no reference for the oracle (scripts/tz-check.mjs).
+- Master mirrors are searched in the external source. The default QueryService does not find the
+  alias references there, LookupService does (protocol "Mirror M replaced with X"); both as in the
+  original.

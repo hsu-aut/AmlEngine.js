@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0" FileName="mt30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-split" OriginID="gen" OriginVersion="1.0" LastWritingDateTime="2020-01-01T00:00:00" OriginRelease="1.0" />
+  <ExternalReference Path="ext30.aml" Alias="ext" />
+  <ExternalReference Path="Base.aml" Alias="Base" />
+  <ExternalReference Path="Missing.aml" Alias="missing" />
+  <ExternalReference Path="" Alias="nopath" />
+  <ExternalReference Path="nodir\x.aml" Alias="" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Mirror" ID="edb947f1-2d9d-452e-af1c-38ceeef7ed4a" RefBaseSystemUnitPath="ext@56a3cc4e-32a7-4053-a245-f29d131482fd" />
+    <InternalElement Name="UsesExt" ID="0a220d39-686e-4763-a1e5-6d0efc482515" RefBaseSystemUnitPath="ext@SUCL_New/S">
+      <ExternalInterface Name="C" ID="2aa745fa-5602-4b6d-a877-ee1e20f31487" RefBaseClassPath="ext@ICL_New/IC" />
+      <RoleRequirements RefBaseRoleClassPath="ext@RCL_New/RC" />
+    </InternalElement>
+    <InternalElement Name="UsesMissing" ID="ac69b652-6a2d-4753-a902-bb1be1897908" RefBaseSystemUnitPath="missing@SUCL/S" />
+    <InternalElement Name="UsesUnused" ID="UU1id" RefBaseSystemUnitPath="Unused@SUCL/S" />
+    <InternalElement Name="UsesVer2" ID="UV2id" RefBaseSystemUnitPath="Ver2@SUCL/S" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="Shared">
+    <Version>2.0.0</Version>
+  </InstanceHierarchy>
+  <InstanceHierarchy />
+  <InterfaceClassLib Name="ICL_Shared">
+    <Version>0.5</Version>
+    <InterfaceClass Name="IC" />
+  </InterfaceClassLib>
+  <InterfaceClassLib />
+  <RoleClassLib Name="RCL_Shared">
+    <RoleClass Name="RC" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL_Shared">
+    <Version>1.0</Version>
+    <SystemUnitClass Name="S" />
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="SUCL_T">
+    <SystemUnitClass Name="S" />
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="ATL_Shared">
+    <Version>3.0.0</Version>
+    <AttributeType Name="AT" AttributeDataType="xs:string" />
+  </AttributeTypeLib>
+</CAEXFile>

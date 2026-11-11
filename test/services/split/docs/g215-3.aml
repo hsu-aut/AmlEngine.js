@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="g215-3.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <ExternalReference Path="Base.aml" Alias="Base" />
+  <InstanceHierarchy Name="IH_0">
+    <Version>2.1</Version>
+    <InternalElement Name="E0" ID="3420be60-18ef-44a0-aa2b-98e7b49cb58e">
+      <Attribute Name="Speed" AttributeDataType="xs:string">
+        <Value>91</Value>
+      </Attribute>
+      <InternalElement Name="E1" ID="33dd1f17-90c5-430a-add9-baa2d9ee70b9" RefBaseSystemUnitPath="SUCL_0/SUC_0">
+        <ExternalInterface Name="P0" ID="27735f78-fdd7-413e-a22e-e97a7ff0f740" RefBaseClassPath="ICL_0/IC_1" />
+        <ExternalInterface Name="P1" ID="650199f3-8828-4ea2-a411-afb69dd81257" RefBaseClassPath="ICL_0/IC_0" />
+      </InternalElement>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="IH_1">
+    <Version>x.y</Version>
+    <InternalElement Name="E2" ID="708619ec-ed44-4eb3-a057-d2647f40d29f" RefBaseSystemUnitPath="SUCL_0/SUC_1">
+      <InternalElement Name="E3" ID="c5b9ea0c-fb18-448a-adc1-dd4b26a80a8c">
+        <ExternalInterface Name="P0" ID="eadbbecd-f5a0-4cc0-aca1-8bded90028f2" RefBaseClassPath="ICL_0/IC_1" />
+        <InternalLink Name="L0" RefPartnerSideA="33dd1f17-90c5-430a-add9-baa2d9ee70b9:P0" RefPartnerSideB="33dd1f17-90c5-430a-add9-baa2d9ee70b9:P1" />
+      </InternalElement>
+      <InternalElement Name="E4" ID="a2cc260e-3f6c-4946-a392-73b374778953" RefBaseSystemUnitPath="SUCL_0/SUC_2">
+        <ExternalInterface Name="P0" ID="245e1ac8-ab4c-49fe-a46b-0372c44f8729" RefBaseClassPath="ICL_0/IC_0" />
+        <InternalElement Name="E5" ID="0fb5a790-b327-49e7-af89-d4467f793b65">
+          <ExternalInterface Name="P0" ID="d9f84414-4553-4629-a295-130eb7a29836" RefBaseClassPath="ICL_0/IC_0" />
+          <ExternalInterface Name="P1" ID="5a00dfc4-7e95-43d2-ab4a-bc5e62de5d0b" RefBaseClassPath="ICL_0/IC_1" />
+          <InternalElement Name="E6" ID="74c2cc62-4e39-4b08-aff5-58bccf6866b9" RefBaseSystemUnitPath="c5b9ea0c-fb18-448a-adc1-dd4b26a80a8c">
+            <Attribute Name="b" AttributeDataType="xs:string">
+              <Value>31</Value>
+            </Attribute>
+            <ExternalInterface Name="P0" ID="6ce3b932-c4f3-4edf-a823-49db7a2c3b29" RefBaseClassPath="ICL_0/IC_1" />
+            <ExternalInterface Name="P1" ID="e467f861-00c0-4f3f-a84a-fda10e858ee2" RefBaseClassPath="ICL_0/IC_1" />
+            <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_1" />
+          </InternalElement>
+          <InternalLink Name="L1" RefPartnerSideA="74c2cc62-4e39-4b08-aff5-58bccf6866b9:P0" RefPartnerSideB="c5b9ea0c-fb18-448a-adc1-dd4b26a80a8c:P0" />
+          <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_0" />
+        </InternalElement>
+        <InternalElement Name="E7" ID="0f8d6811-6bdf-4d31-a6d7-f979a1177276" RefBaseSystemUnitPath="Base@SystemUnitClassLib/SystemUnitClass">
+          <InternalElement Name="E8" ID="659285d3-9902-4f69-a013-c40016c85b7a" RefBaseSystemUnitPath="SUCL_0/SUC_1">
+            <InternalLink Name="L2" RefPartnerSideA="a2cc260e-3f6c-4946-a392-73b374778953:P0" RefPartnerSideB="74c2cc62-4e39-4b08-aff5-58bccf6866b9:P1" />
+          </InternalElement>
+          <InternalElement Name="E9" ID="eb7410d0-4ae6-439a-a191-26640f3936e3" RefBaseSystemUnitPath="33dd1f17-90c5-430a-add9-baa2d9ee70b9">
+            <ExternalInterface Name="P0" ID="e71dc793-6a41-4fcf-a592-1780c5fab662" RefBaseClassPath="ICL_0/IC_0" />
+            <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_1" />
+          </InternalElement>
+        </InternalElement>
+        <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_0" />
+      </InternalElement>
+      <InternalElement Name="E10" ID="8987c4e6-2a23-440f-a056-bcac94b70d59">
+        <ExternalInterface Name="P0" ID="4bf1ff7f-65dd-45aa-a8d1-f250198ddeac" RefBaseClassPath="ICL_0/IC_1" />
+        <InternalElement Name="E11" ID="9a6be21c-1186-4262-a12b-a1bce52b8484" RefBaseSystemUnitPath="659285d3-9902-4f69-a013-c40016c85b7a">
+          <Attribute Name="a" AttributeDataType="xs:string">
+            <Value>55</Value>
+          </Attribute>
+          <ExternalInterface Name="P0" ID="bf49fa01-6e91-47ac-a037-e2db089e6c49" RefBaseClassPath="ICL_0/IC_1" />
+          <InternalElement Name="E12" ID="1cd71d79-e973-4a5d-a661-46e39387700a">
+          </InternalElement>
+          <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_0" />
+        </InternalElement>
+        <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_0" />
+      </InternalElement>
+      <InternalLink Name="L3" RefPartnerSideA="9a6be21c-1186-4262-a12b-a1bce52b8484:P0" RefPartnerSideB="9a6be21c-1186-4262-a12b-a1bce52b8484:P0" />
+      <RoleRequirements RefBaseRoleClassPath="RCL_0/RC_0" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL_0">
+    <Version>x.y</Version>
+    <InterfaceClass Name="IC_0" />
+    <InterfaceClass Name="IC_1" RefBaseClassPath="ICL_0/IC_0" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL_0">
+    <Version>1.0.0</Version>
+    <RoleClass Name="RC_0">
+    </RoleClass>
+    <RoleClass Name="RC_1" RefBaseClassPath="RCL_0/RC_0">
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL_0">
+    <Version>x.y</Version>
+    <SystemUnitClass Name="SUC_0">
+    </SystemUnitClass>
+    <SystemUnitClass Name="SUC_1" RefBaseClassPath="SUCL_0/SUC_0">
+      <Attribute Name="a" AttributeDataType="xs:string">
+        <Value>23</Value>
+      </Attribute>
+      <ExternalInterface Name="C" ID="e8272adb-03c1-4f58-a606-f20af7aa6acd" RefBaseClassPath="ICL_0/IC_1" />
+      <InternalElement Name="Inner" ID="1ca2baa9-3d26-474f-a3de-b516b900d197" />
+    </SystemUnitClass>
+    <SystemUnitClass Name="SUC_2">
+      <ExternalInterface Name="C" ID="aca36f88-3e28-4a28-a687-c87ab37f977b" RefBaseClassPath="ICL_0/IC_0" />
+      <InternalElement Name="Inner" ID="9c73c9f1-688e-4470-acc5-6d2a4acc88e5" />
+      <SupportedRoleClass RefRoleClassPath="RCL_0/RC_1" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

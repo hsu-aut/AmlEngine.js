@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="mt215x.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <ExternalReference Path="ext30.aml" Alias="ext" />
+  <ExternalReference Path="Base.aml" Alias="Base" />
+  <ExternalReference Path="Missing.aml" Alias="missing" />
+  <ExternalReference Path="" Alias="nopath" />
+  <ExternalReference Path="nodir\x.aml" Alias="" />
+  <InstanceHierarchy Name="Plant">
+    <InternalElement Name="Mirror" ID="89cc8e72-1574-4f18-ab4f-2e95aad9a1a1" RefBaseSystemUnitPath="ext@89fbc57c-6be4-4aae-ab88-a7b5acbb19e6" />
+    <InternalElement Name="UsesExt" ID="eac9d159-d504-44c2-a230-89385208d335" RefBaseSystemUnitPath="ext@SUCL_New/S">
+      <ExternalInterface Name="C" ID="f14fa42f-1dbf-4343-a3ab-ef0aeb0e8634" RefBaseClassPath="ext@ICL_New/IC" />
+      <RoleRequirements RefBaseRoleClassPath="ext@RCL_New/RC" />
+    </InternalElement>
+    <InternalElement Name="UsesMissing" ID="d84e8a13-2f30-4a34-ad9f-92fdc2531385" RefBaseSystemUnitPath="missing@SUCL/S" />
+    <InternalElement Name="UsesUnused" ID="UU1id" RefBaseSystemUnitPath="Unused@SUCL/S" />
+    <InternalElement Name="UsesVer2" ID="UV2id" RefBaseSystemUnitPath="Ver2@SUCL/S" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="Shared">
+    <Version>2.0.0</Version>
+  </InstanceHierarchy>
+  <InstanceHierarchy />
+  <InterfaceClassLib Name="ICL_Shared">
+    <Version>0.5</Version>
+    <InterfaceClass Name="IC" />
+  </InterfaceClassLib>
+  <InterfaceClassLib />
+  <RoleClassLib Name="RCL_Shared">
+    <RoleClass Name="RC" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL_Shared">
+    <Version>1.0</Version>
+    <SystemUnitClass Name="S" />
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="SUCL_T">
+    <SystemUnitClass Name="S" />
+  </SystemUnitClassLib>
+</CAEXFile>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="g215-1.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AdditionalInformation AutomationMLVersion="2.0" />
+  <ExternalReference Path="Base.aml" Alias="Base" />
+  <InstanceHierarchy Name="IH_0">
+    <InternalElement Name="E0" ID="ddc68d5b-cc6e-49e7-a6e6-c6d2afbddfe7" RefBaseSystemUnitPath="SUCL_1/SUC_0">
+      <InternalElement Name="E1" ID="8deb54d5-7a26-447f-a161-15d3af486bcf" RefBaseSystemUnitPath="SUCL_1/SUC_0">
+      </InternalElement>
+    </InternalElement>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL_0">
+    <Version>2.1</Version>
+    <InterfaceClass Name="IC_0" />
+    <InterfaceClass Name="IC_1" RefBaseClassPath="ICL_0/IC_0" />
+    <InterfaceClass Name="IC_2" RefBaseClassPath="ICL_0/IC_1" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL_0">
+    <Version>x.y</Version>
+    <RoleClass Name="RC_0">
+    </RoleClass>
+    <RoleClass Name="RC_1" RefBaseClassPath="RCL_0/RC_0">
+    </RoleClass>
+    <RoleClass Name="RC_2">
+    </RoleClass>
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL_0">
+    <Version>2.1</Version>
+    <SystemUnitClass Name="SUC_0">
+      <InternalElement Name="Inner" ID="ef285c51-280e-462b-a634-02d3687c41d0" />
+      <SupportedRoleClass RefRoleClassPath="RCL_0/RC_0" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="SUCL_1">
+    <SystemUnitClass Name="SUC_0">
+      <Attribute Name="b" AttributeDataType="xs:string">
+        <Value>78</Value>
+      </Attribute>
+      <ExternalInterface Name="C" ID="be745d65-7aa8-4e6d-a01f-92f6f3077519" RefBaseClassPath="ICL_0/IC_1" />
+      <InternalElement Name="Inner" ID="f17d3d19-1070-4901-ae2a-818b9f949fe3" RefBaseSystemUnitPath="SUCL_0/SUC_0" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+</CAEXFile>

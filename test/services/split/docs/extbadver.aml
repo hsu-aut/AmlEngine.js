@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile SchemaVersion="3.0-beta" FileName="ext30.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd" xmlns="http://www.dke.de/CAEX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SuperiorStandardVersion>AutomationML 2.10</SuperiorStandardVersion>
+  <SourceDocumentInformation OriginName="gen-services-split" OriginID="gen" OriginVersion="1.0" LastWritingDateTime="2020-01-01T00:00:00" OriginRelease="1.0" />
+  <ExternalReference Path="Base.aml" Alias="Base" />
+  <ExternalReference Path="Second.aml" Alias="Base" />
+  <ExternalReference Path="mt30.aml" Alias="Self" />
+  <ExternalReference Path="Versioned.aml" Alias="Ver">
+    <Version>NewVersion</Version>
+  </ExternalReference>
+  <ExternalReference Path="Unused.aml" Alias="Unused" />
+  <ExternalReference Path="Desc.aml" Alias="Desc">
+    <Description>VersionRef</Description>
+  </ExternalReference>
+  <ExternalReference Path="Other.aml" Alias="missing" />
+  <ExternalReference Path="V2.aml" Alias="Ver2">
+    <Version>NewVersion</Version>
+  </ExternalReference>
+  <InstanceHierarchy Name="HX">
+    <Version>1.0.0</Version>
+    <InternalElement Name="X" ID="56a3cc4e-32a7-4053-a245-f29d131482fd" RefBaseSystemUnitPath="Base@SUCL/S" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="HM">
+    <InternalElement Name="Holder" ID="b2b39a5d-944a-4c90-ade7-c02f80324cb5">
+      <InternalElement Name="M" ID="88c5d599-fa32-43e3-ac09-dfe879f6df3b" RefBaseSystemUnitPath="ext@56a3cc4e-32a7-4053-a245-f29d131482fd" />
+      <InternalElement Name="M2a" ID="d4b48e70-54c3-449b-af90-92843046ad78" RefBaseSystemUnitPath="ext@7ec6e15d-e813-4eb7-a42f-2a71709eb5ca" />
+      <InternalElement Name="M2b" ID="f5143daa-140c-4141-a6af-352cfc49dc26" RefBaseSystemUnitPath="ext@7ec6e15d-e813-4eb7-a42f-2a71709eb5ca" />
+      <InternalElement Name="Grp" ID="097f200a-e665-48fd-a6c9-43fb389b70d2">
+        <InternalElement Name="MG" ID="10a87a48-2eca-408c-a4ed-a09aa92b9baa" RefBaseSystemUnitPath="ext@d5025dd5-8f04-4a80-ae83-16381d0cda65" />
+        <InternalElement Name="MG5" ID="MG5id" RefBaseSystemUnitPath="ext@X5id" />
+        <RoleRequirements RefBaseRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group" />
+      </InternalElement>
+      <InternalElement Name="M4" ID="M4id" RefBaseSystemUnitPath="ext@X4id" />
+      <InternalElement Name="U" ID="cbb827c6-f304-476a-aebb-330e8c6476b7" RefBaseSystemUnitPath="Desc@SUCL/S" />
+      <InternalElement Name="V" ID="c988ccd6-33fb-4856-a9f0-ea32d625249d" RefBaseSystemUnitPath="Ver@SUCL/S" />
+    </InternalElement>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="HX2">
+    <InternalElement Name="X2" ID="7ec6e15d-e813-4eb7-a42f-2a71709eb5ca" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="HX3">
+    <InternalElement Name="X3" ID="d5025dd5-8f04-4a80-ae83-16381d0cda65" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="HX4">
+    <InternalElement Name="X4" ID="X4id" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="HX5">
+    <InternalElement Name="X5" ID="X5id" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="HM6">
+    <InternalElement Name="M6" ID="M6id" RefBaseSystemUnitPath="ext@X6id" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="HX6">
+    <InternalElement Name="X6" ID="X6id" />
+  </InstanceHierarchy>
+  <InstanceHierarchy>
+    <Version>1.0</Version>
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="HTwo">
+    <InternalElement Name="T1" ID="1cd6c5cb-f273-41d6-af8b-786e8c0cc571" />
+    <InternalElement Name="T2" ID="2db0ebf8-5c5d-4a3c-a6ff-9adc9dfe4b78" RefBaseSystemUnitPath="Self@SUCL_T/S" />
+  </InstanceHierarchy>
+  <InstanceHierarchy Name="Shared">
+    <Version>2.0.0</Version>
+  </InstanceHierarchy>
+  <InterfaceClassLib Name="ICL_Shared">
+    <Version>1.0.0</Version>
+    <InterfaceClass Name="IC" />
+  </InterfaceClassLib>
+  <InterfaceClassLib Name="ICL_New">
+    <InterfaceClass Name="IC" RefBaseClassPath="Base@ICL/IC" />
+  </InterfaceClassLib>
+  <InterfaceClassLib>
+    <InterfaceClass Name="Nameless" />
+  </InterfaceClassLib>
+  <RoleClassLib Name="RCL_Shared">
+    <Version>x.1</Version>
+    <RoleClass Name="RC" />
+  </RoleClassLib>
+  <RoleClassLib Name="RCL_New">
+    <RoleClass Name="RC" RefBaseClassPath="RCL_Shared/RC" />
+  </RoleClassLib>
+  <SystemUnitClassLib Name="SUCL_Shared">
+    <SystemUnitClass Name="S" />
+  </SystemUnitClassLib>
+  <SystemUnitClassLib Name="SUCL_New">
+    <Version>0.9</Version>
+    <SystemUnitClass Name="S">
+      <ExternalInterface Name="C" ID="f2c0183c-2220-43e3-ac4e-72f0678f6049" RefBaseClassPath="ICL_New/IC" />
+      <SupportedRoleClass RefRoleClassPath="RCL_New/RC" />
+    </SystemUnitClass>
+  </SystemUnitClassLib>
+  <AttributeTypeLib Name="ATL_Shared">
+    <Version>1.0.0</Version>
+    <AttributeType Name="AT" AttributeDataType="xs:string" />
+  </AttributeTypeLib>
+  <AttributeTypeLib Name="ATL_New">
+    <AttributeType Name="AT" AttributeDataType="xs:string" RefAttributeType="ATL_Shared/AT" />
+  </AttributeTypeLib>
+</CAEXFile>
