@@ -5,6 +5,7 @@
 // (oracle/OracleServices.cs) and writes into test/oracle-out-services/<list>; the JS tests register
 // them through AMLENGINE_SERVICES (test/setup/services.ts) and read these outputs (ORACLE_OUT).
 //   node scripts/services-check.mjs [list=lookup,uniquename,undo] [--tests-only | --oracle-only]
+// ORACLE_DLL=<path> runs an oracle built elsewhere instead of building oracle/.
 // Exit code 1 when a comparison fails.
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
@@ -14,7 +15,7 @@ const args = process.argv.slice(2);
 const testsOnly = args.includes('--tests-only');
 const oracleOnly = args.includes('--oracle-only');
 const list = args.find((a) => !a.startsWith('--')) ?? 'lookup,uniquename,undo';
-const ORACLE = 'oracle/bin/Release/net8.0/Oracle.dll';
+const ORACLE = process.env.ORACLE_DLL ?? 'oracle/bin/Release/net8.0/Oracle.dll';
 const corpus = readdirSync('test/corpus').filter((f) => f.endsWith('.aml')).sort().map((f) => join('test/corpus', f));
 
 // oracle mode and arguments ('@' stands for the output directory), then the JS test file
@@ -27,7 +28,7 @@ const PACKAGES = [
   ['dump', '@/dump', ...corpus, 'test/engine/dump.oracle.test.ts'],
 ];
 
-if (!testsOnly) {
+if (!testsOnly && !process.env.ORACLE_DLL) {
   execFileSync('dotnet', ['build', 'oracle', '-c', 'Release', '-nologo', '-v', 'q'], { stdio: 'ignore' });
   if (!existsSync(ORACLE)) throw new Error('oracle not built');
 }
