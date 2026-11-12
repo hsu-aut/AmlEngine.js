@@ -399,12 +399,6 @@ export class List<T> implements Iterable<T> {
     this.version++;
   }
 
-  /** List<T>.Find: the first matching item, or null (default). */
-  find(match: (item: T) => boolean): T | null {
-    for (const x of this.items) if (match(x)) return x;
-    return null;
-  }
-
   /** List<T>.ForEach: throws InvalidOperationException when the action changed the list. */
   forEach(action: (item: T) => void): void {
     const version = this.version;
