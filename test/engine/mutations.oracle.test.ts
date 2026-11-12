@@ -127,14 +127,18 @@ function record(src: string, sender: unknown, e: any): void {
 const staticChanging = (s: unknown, e: any) => record('S-', s, e);
 const staticChanged = (s: unknown, e: any) => record('S+', s, e);
 
-// With services of the port registered (AMLENGINE_SERVICES, test/setup/services.ts) the oracle runs
-// every script in a new process (MutationsOracle.RunIsolated), so each script starts with new
-// services and with the static state of a new process: state an earlier script leaves behind (the
-// lookup tables, a change handler of the LookupService left paused by an exception, CaexCommand
-// IsSilent and the reference update counter of XmlOperation left set by an exception in
-// CreateClassInstance) must not reach the next one. As in the oracle, the services subscribe to
-// the static change events before the recorder of this test.
+// With services of the port registered (AMLENGINE_SERVICES, test/setup/services.ts) the oracle
+// registers the same services (ORACLE_SERVICES). When the LookupService is among them, the oracle
+// runs every script in a new process (MutationsOracle.RunIsolated), because the original's
+// LookupService overflows the stack in some scripts; each script then starts with new services and
+// with the static state of a new process, and this test restarts them before each script: state an
+// earlier script leaves behind (the lookup tables, a LookupService left paused by an exception,
+// CaexCommand IsSilent and the reference update counter of XmlOperation left set by an exception
+// in CreateClassInstance) must not reach the next one. Without the LookupService the oracle runs
+// all scripts in one process with one set of services, and so does this test. As in the oracle,
+// the services subscribe to the static change events before the recorder of this test.
 const serviceNames = (process.env.AMLENGINE_SERVICES ?? '').split(',').map((n) => n.trim()).filter((n) => n !== '');
+const isolated = serviceNames.includes('lookup');
 
 /**
  * Steps where the port cannot give the original's result with a service registered, from the
@@ -142,16 +146,17 @@ const serviceNames = (process.env.AMLENGINE_SERVICES ?? '').split(',').map((n) =
  * attribute to the string instance it already holds is a no-op in the original (reference
  * comparison) but a change in the port, and with the LookupService registered that change modifies
  * a reference list the operation is enumerating, which throws. The test expects the port's result
- * at exactly these steps, checks that the original's result differs, and compares no further step.
+ * at exactly these steps, checks that the oracle recorded the original's result given here, and
+ * compares no further step.
  */
-const SERVICE_DEVIATIONS: Array<{ service: string; script: number; step: number; port: string }> = [
-  { service: 'lookup', script: 105, step: 3, port: '!InvalidOperationException' },
-  { service: 'lookup', script: 428, step: 37, port: '!InvalidOperationException' },
+const SERVICE_DEVIATIONS: Array<{ service: string; script: number; step: number; port: string; original: string }> = [
+  { service: 'lookup', script: 105, step: 3, port: '!InvalidOperationException', original: 'SystemUnitClass|Pump||A|Resources/Pump' },
+  { service: 'lookup', script: 428, step: 37, port: '!InvalidOperationException', original: 'SystemUnitClass|B||A|Conveyors/B' },
 ];
 let services: any = null;
 
 function restartServices(): void {
-  if (services === null) return;
+  if (services === null || !isolated) return;
   CaexCommand.isSilent = false;
   const xmlOperation = XmlOperation as any;
   xmlOperation.UpdateReferences = true;
@@ -1192,7 +1197,7 @@ describe.skipIf(!existsSync(expectedFile))('mutations parity with Aml.Engine', (
           }
           if (deviation !== null && j === deviation.step) {
             expect({ step: j, op, result }).toEqual({ step: j, op, result: deviation.port });
-            expect(expected[i].steps[j][0]).not.toBe(deviation.port);
+            expect(expected[i].steps[j][0]).toBe(deviation.original);
             return;
           }
           try {
