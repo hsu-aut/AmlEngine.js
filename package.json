@@ -1,6 +1,6 @@
 {
   "name": "amlengine-js",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "AutomationML engine for JavaScript: CAEX 2.15 and 3.0 documents in Node and the browser, ported from Aml.Engine.",
   "license": "MIT",
   "author": "Hamied Nabizada",

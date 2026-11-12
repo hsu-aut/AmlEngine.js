@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0 (unreleased)
+## 0.3.0 (2026-11-12)
 
 - The services of Aml.Engine: a port of Aml.Engine.Services 4.3.1 in the new entry
   `amlengine-js/services`. UndoRedoService (undo and redo with transactions, also over two
