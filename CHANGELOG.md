@@ -23,9 +23,15 @@
 - Engine errors found on the way and fixed, each against the original: `XName` with a null name,
   the exceptions of `saveToFile`, `Path.GetFullPath` on Windows, "Root element is missing." without
   line information, `Uri.GetComponents`, the case-insensitive key comparison of the MIME table,
-  "Collection was modified" of `List`, `Dictionary` and `HashSet`.
+  "Collection was modified" of `List`, `Dictionary` and `HashSet` (also `List.Clear` on an empty
+  list, `AddRange` of a query over the same list, enumerators that take the version when they are
+  created).
 - Type declarations are written per module by tsc (`dist/types`, and `dist/types-cjs` for
-  `require`), so both entries refer to the same classes.
+  `require`), so both entries refer to the same classes; `typesVersions` serves them to
+  TypeScript with the old `node` module resolution.
+- A second copy of the engine in one process (the ESM and the CommonJS entries mixed, or two
+  versions of the package) warns once: services registered in one copy do not act on the documents
+  of the other.
 - `npm test` and `npm run check-upstream` also watch Aml.Engine.Services and Aml.Engine.Resources
   on NuGet.
 
