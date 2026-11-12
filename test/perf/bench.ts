@@ -3,10 +3,27 @@
 // interfaces; walkSum must equal the one of Aml.Engine), find (findByID for up to 200 IDs spread
 // over the document), save (saveToStream(true)), validate, loadIndexed and findIndexed (loading with
 // createIndices, then findByID for every InternalElement). Bundled for Node and for browsers by
-// test/perf/run.mjs; `now` and `heap` come from the environment.
+// test/perf/run.mjs; `now` and `heap` come from the environment. registerServices registers
+// services of the port for the whole run, as ORACLE_SERVICES does for the oracle.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CAEXBasicObjectExtensions, CAEXDocument, CAEXDocumentExtensions, InternalElementType } from '../../src/index.js';
+import { ExternalReferenceResolver, LookupService, UndoRedoService, UniqueNameService } from '../../src/services/index.js';
+
+/** Registers the services of a comma list of lookup, uniquename, undo, extref. */
+export function registerServices(list: string): void {
+  const register: Record<string, () => unknown> = {
+    lookup: () => LookupService.register(),
+    uniquename: () => UniqueNameService.register(),
+    undo: () => UndoRedoService.register(),
+    extref: () => ExternalReferenceResolver.register(),
+  };
+  for (const name of list.split(',').map((n) => n.trim()).filter((n) => n !== '')) {
+    const r = register[name];
+    if (r === undefined) throw new Error('unknown service: ' + name);
+    r();
+  }
+}
 
 export function bench(file: string, text: string, now: () => number, heap: () => number | null): Record<string, unknown> {
   const ms = (t: number): number => Math.round((now() - t) * 10) / 10;

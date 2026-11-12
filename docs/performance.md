@@ -50,6 +50,29 @@ The heap in Chromium is from a second run; the first gave a negative value.
 | Firefox | 3.9 s | 0.68 s | 0.12 s | 3.4 s | 9.5 s | 4.5 s | 0.03 s | |
 | WebKit | 2.1 s | 0.39 s | 0.16 s | 3.1 s | 5.1 s | 2.5 s | 0.05 s | |
 
+## LookupService (10 MB)
+
+Measured on 2026-11-12 with `node test/perf/run.mjs dotnet,node,chromium,firefox,webkit
+--services=lookup test/corpus/MPS500_Integrated.aml test/large/large-10mb.aml`: the LookupService
+of Aml.Engine.Services (`amlengine-js/services` in the port) is registered for the whole run, in
+.NET through `ORACLE_SERVICES`. "without" is a run without services on the same day; the other
+steps (load, save, validate, load idx) do not change beyond the usual variation.
+
+| | walk without | walk with | find without | find with | find idx without | find idx with |
+|---|---|---|---|---|---|---|
+| Aml.Engine (.NET 8) | 0.12 s | 0.75 s | 1.1 s | 0.5 ms | 0.03 s | 0.35 s |
+| Node | 0.19 s | 1.7 s | 0.06 s | 2 ms | 0.05 s | 1.5 s |
+| Chromium | 0.11 s | 0.85 s | 0.04 s | 1 ms | 5 ms | 0.76 s |
+| Firefox | 0.15 s | 1.5 s | 0.02 s | 2 ms | 8 ms | 1.3 s |
+| WebKit | 0.13 s | 0.82 s | 0.04 s | 1 ms | 12 ms | 0.72 s |
+
+The service builds its tables for a document at the first query. Here that is the walk, which
+resolves `SystemUnitClass` through the query service; after that the 200 `FindByID` calls cost
+almost nothing. The indexed document of "find idx" gets its own tables at its first call: the ID
+table of `createIndices` belongs to the default query service, which the LookupService replaces.
+Building the tables takes 1.1 times as long as in the original in Chromium and WebKit and about
+twice as long in Node and Firefox. The walk checksum is the same in all five environments.
+
 ## Read model walk
 
 The walk of `test/engine/dump.ts` (the `dump` mode of the oracle in .NET) reads every object

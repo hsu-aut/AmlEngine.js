@@ -1,8 +1,11 @@
 // Runs test/perf/bench.ts in Node and in Chromium, Firefox and WebKit (Playwright) and, if the
 // oracle is built, oracle/BenchOracle.cs with Aml.Engine; prints one table per document and writes
 // test/perf/out/results.json. The first document only warms up the JIT compilers and is not reported.
-//   node test/perf/run.mjs [dotnet,node,chromium,firefox,webkit] [file...]
+//   node test/perf/run.mjs [dotnet,node,chromium,firefox,webkit] [--services=lookup,...] [file...]
 // Default files: test/corpus/MPS500_Integrated.aml (warm-up), then test/large/*.aml.
+// --services registers services of Aml.Engine.Services for the whole run in every environment
+// (lookup, uniquename, undo, extref; ORACLE_SERVICES for the oracle) and writes
+// results-<services>.json.
 import { execFileSync } from 'node:child_process';
 import { buildSync } from 'esbuild';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -11,8 +14,10 @@ import { basename, extname, join, resolve } from 'node:path';
 
 const out = resolve('test/perf/out');
 mkdirSync(out, { recursive: true });
-const wanted = new Set((process.argv[2] ?? 'dotnet,node,chromium,firefox,webkit').split(','));
-let files = process.argv.slice(3);
+const argv = process.argv.slice(2).filter((a) => !a.startsWith('--services='));
+const services = process.argv.find((a) => a.startsWith('--services='))?.slice('--services='.length) ?? '';
+const wanted = new Set((argv[0] ?? 'dotnet,node,chromium,firefox,webkit').split(','));
+let files = argv.slice(1);
 if (files.length === 0) {
   const large = existsSync('test/large') ? readdirSync('test/large').filter((f) => f.endsWith('.aml')).sort().map((f) => join('test/large', f)) : [];
   files = ['test/corpus/MPS500_Integrated.aml', ...large];
@@ -25,9 +30,10 @@ writeFileSync(join(out, 'page.html'), '<!doctype html><html><head><meta charset=
 writeFileSync(
   join(out, 'node-runner.mjs'),
   `import { readFileSync } from 'node:fs';
-import { bench } from './bench.node.mjs';
+import { bench, registerServices } from './bench.node.mjs';
 const read = (f) => { const b = readFileSync(f); return new TextDecoder().decode(b[0] === 0xef ? b.subarray(3) : b); };
 const heap = () => { globalThis.gc(); return process.memoryUsage().heapUsed; };
+registerServices(process.env.BENCH_SERVICES ?? '');
 for (const f of process.argv.slice(2)) console.log(JSON.stringify(bench(f.split(/[\\\\/]/).pop(), read(f), () => performance.now(), heap)));
 `,
 );
@@ -37,17 +43,24 @@ const lines = (text) => text.split('\n').filter((l) => l.startsWith('{')).map((l
 
 if (wanted.has('dotnet')) {
   const dll = process.env.ORACLE_DLL ?? 'oracle/bin/Release/net8.0/Oracle.dll';
-  if (existsSync(dll)) results.dotnet = lines(execFileSync('dotnet', [dll, 'bench', ...files], { encoding: 'utf8', maxBuffer: 1 << 26 }));
+  if (existsSync(dll)) results.dotnet = lines(execFileSync('dotnet', [dll, 'bench', ...files], { encoding: 'utf8', maxBuffer: 1 << 26, env: { ...process.env, ORACLE_SERVICES: services } }));
   else console.log('dotnet: oracle not built, skipped');
 }
 if (wanted.has('node')) {
-  results.node = lines(execFileSync(process.execPath, ['--expose-gc', '--max-old-space-size=8192', join(out, 'node-runner.mjs'), ...files], { encoding: 'utf8', maxBuffer: 1 << 26 }));
+  results.node = lines(
+    execFileSync(process.execPath, ['--expose-gc', '--max-old-space-size=8192', join(out, 'node-runner.mjs'), ...files], {
+      encoding: 'utf8',
+      maxBuffer: 1 << 26,
+      env: { ...process.env, BENCH_SERVICES: services },
+    }),
+  );
 }
 for (const name of ['chromium', 'firefox', 'webkit']) {
   if (wanted.has(name)) results[name] = await runBrowser(name);
 }
 
-writeFileSync(join(out, 'results.json'), JSON.stringify(results, null, 1));
+writeFileSync(join(out, services === '' ? 'results.json' : `results-${services.replace(/,/g, '+')}.json`), JSON.stringify(results, null, 1));
+if (services !== '') console.log(`services: ${services}`);
 for (const f of files.slice(1)) {
   const file = basename(f);
   console.log(`\n${file} (${(readFileSync(f).length / 1048576).toFixed(1)} MB)`);
@@ -82,6 +95,7 @@ async function runBrowser(name) {
     const page = await browser.newPage();
     await page.goto(`http://127.0.0.1:${server.address().port}/page.html`);
     await page.addScriptTag({ url: 'bench.browser.js' });
+    await page.evaluate((list) => AmlBench.registerServices(list), services);
     for (const f of files) {
       const row = await page.evaluate(async (file) => {
         const text = await (await fetch('doc/' + encodeURIComponent(file))).text();
