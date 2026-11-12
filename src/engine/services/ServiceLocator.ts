@@ -10,7 +10,7 @@
 
 import { T } from '../registry.js';
 import { implementsInterface } from '../interfaces.js';
-import { DefaultComparer, from, HashSet } from '../../system/linq.js';
+import { DefaultComparer, Dictionary, from, HashSet } from '../../system/linq.js';
 import type { IAMLService } from './interfaces/IAMLService.js';
 import type { IAutoUpdate } from './interfaces/IAutoUpdate.js';
 import type { ICaexIDService } from './interfaces/ICaexIDService.js';
@@ -37,7 +37,7 @@ function isOfType(service: unknown, type: ServiceType): boolean {
 }
 
 interface LocatorState {
-  servicesDictionary: Map<string, IAMLService>;
+  servicesDictionary: Dictionary<string, IAMLService>;
   defaultQueryService: IQuery;
   defaultCaexIDService: ICaexIDService;
   startedServices: HashSet<IAMLService>;
@@ -69,7 +69,7 @@ if (typeof __AMLENGINE_BUILD__ !== 'undefined') {
 function init(): LocatorState {
   if (state !== null) return state;
   const s: LocatorState = {
-    servicesDictionary: new Map<string, IAMLService>(),
+    servicesDictionary: new Dictionary<string, IAMLService>(),
     startedServices: new HashSet<IAMLService>(),
     defaultQueryService: new T.QueryService(),
     defaultCaexIDService: new T.CaexIDService(),
@@ -92,8 +92,11 @@ function transform_TransformationStarted(_sender: unknown, e: SchemaTransformati
 export class ServiceLocator {
   private constructor() {}
 
-  /** All registered services by type name. */
-  static get servicesDictionary(): Map<string, IAMLService> {
+  /**
+   * All registered services by type name (internal in C#). A .NET Dictionary: after a service is
+   * removed, the next one registered takes its slot, which decides the order of the values.
+   */
+  static get servicesDictionary(): Dictionary<string, IAMLService> {
     return init().servicesDictionary;
   }
 
@@ -169,11 +172,11 @@ export class ServiceLocator {
   /** Gets the registered service of the given type, or null. */
   static getService<TService extends IAMLService>(type: ServiceType): TService | null {
     const s = init();
-    const value = s.servicesDictionary.get(typeName(type));
-    if (value !== undefined) {
-      return value as TService;
+    const found = s.servicesDictionary.tryGetValue(typeName(type));
+    if (found.result) {
+      return found.value as TService;
     }
-    if (s.servicesDictionary.size <= 0) {
+    if (s.servicesDictionary.count <= 0) {
       return null;
     }
     const iAMLService = from(s.servicesDictionary.values()).firstOrDefault((x) => isOfType(x, type));
@@ -187,7 +190,7 @@ export class ServiceLocator {
   static register<TService extends IAMLService>(service: TService, type?: ServiceType): void {
     const s = init();
     const key = type !== undefined ? typeName(type) : (service as object).constructor.name;
-    s.servicesDictionary.set(key, service);
+    s.servicesDictionary.setItem(key, service);
     if (implementsInterface(service, 'ISchemaTransform')) {
       const schemaTransform = service as unknown as ISchemaTransform;
       schemaTransform.transformationStarted.subscribe(transform_TransformationStarted);
@@ -202,17 +205,18 @@ export class ServiceLocator {
   static unRegister(type: ServiceType): IAMLService | null {
     const s = init();
     const key = typeName(type);
-    const value = s.servicesDictionary.get(key);
-    if (value === undefined) {
+    const found = s.servicesDictionary.tryGetValue(key);
+    if (!found.result) {
       return null;
     }
+    const value = found.value!;
     if (DefaultComparer.equals(value, s.defaultQueryService)) {
       return null;
     }
     if (DefaultComparer.equals(value, s.defaultCaexIDService)) {
       return null;
     }
-    s.servicesDictionary.delete(key);
+    s.servicesDictionary.remove(key);
     if (!implementsInterface(value, 'IQuery')) {
       if (!implementsInterface(value, 'ICaexIDService')) {
         if (implementsInterface(value, 'ISchemaTransform')) {

@@ -140,7 +140,7 @@ function files(w: string): [string, string][] {
 }
 
 function servicesState(): string {
-  return [...ServiceLocator.servicesDictionary.entries()]
+  return [...ServiceLocator.servicesDictionary]
     .sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
     .map(([k, v]) => k + '=' + (v as object).constructor.name)
     .join(';');
@@ -178,7 +178,7 @@ function unRegister(svc: string): void {
 function cleanup(): void {
   for (const svc of ['split', 'merge', 'undo', 'uniquename', 'lookup', 'extref', 'transform', 'validator']) unRegister(svc);
   const dict = ServiceLocator.servicesDictionary;
-  for (const key of [...dict.keys()].filter((k) => k !== 'IQuery' && k !== 'ICaexIDService')) dict.delete(key);
+  for (const key of [...dict.keys()].filter((k) => k !== 'IQuery' && k !== 'ICaexIDService')) dict.remove(key);
 }
 
 /** "<W>" is the work directory, "<W/>" the same with forward slashes. */
