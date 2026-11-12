@@ -2,17 +2,19 @@
 
 Area: `src/services/UniqueNameService.ts`, `src/services/CAEXFileStatisticService.ts`,
 `src/services/RepairTypeEnumConverter.ts`, the equality members of `src/services/ValidationKey.ts`,
-and two System helpers of the port compared with their .NET types: `Dictionary` in
-`src/system/linq.ts` (`Dictionary<string,int>`, `Dictionary<int,int>`) and `AsyncLock` in
-`src/system/AsyncLock.ts` (`SemaphoreSlim`).
+and System helpers of the port compared with their .NET types: `Dictionary`, `List` and `HashSet`
+in `src/system/linq.ts` (`Dictionary<string,int>`, `Dictionary<int,int>`, `List<int>`,
+`HashSet<int>`) and `AsyncLock` in `src/system/AsyncLock.ts` (`SemaphoreSlim`).
 
 Files: `oracle/ServicesMiscOracle.cs`, `test/services/misc.oracle.test.ts`,
 `scripts/gen-services-misc.mjs` (seed 3682, deterministic) writing the cases under
 `test/services/misc/`. Oracle call:
 `svc-misc test/services/misc test/corpus test/oracle-out/services/misc.json [section]`
-(sections `unique`, `appends`, `engineops`, `stat`, `repair`, `vkey`, `dict`, `lock`).
+(sections `unique`, `appends`, `engineops`, `stat`, `repair`, `vkey`, `dict`, `coll`, `lock`).
 
-The oracle runs in about 17 s and the test in about 40 to 55 s. The test has 337 tests, and all of them pass.
+The oracle runs in about 17 s and the test in about 25 to 55 s. The test has 425 tests, and all of
+them pass. The tests are built from the input cases; a case without an entry in the oracle output
+fails instead of being left out.
 Every result is compared exactly. In the engine-operation and append sections, GUIDs and "now"
 timestamps are canonicalized as in `EngineOpsOracle`. Nothing else is normalized, except the
 AggregateException below.
@@ -84,6 +86,16 @@ AggregateException below.
    `tryWait`, Release (previous count, or `SemaphoreFullException` with its message) and
    CurrentCount. After every step the test compares the count and the set of completed waiters,
    which shows the order in which waiters are served.
+9. **Changes while enumerating** (88 sequences: 44 `List<int>`, 22 `Dictionary<int,int>`, 22
+   `HashSet<int>`). Enumerators are opened (`GetEnumerator`, `Keys`, `Values`) and moved one step
+   at a time between changes, also after their end. The List changes are Add, Insert, RemoveAt,
+   Remove, the indexer setter, Clear (also of an empty list), RemoveAll, and ForEach with an
+   action that adds or sets. AddRange takes the list itself, lazy queries over the list (`Where`,
+   `Select`, `OrderBy`, an empty `Where`), `ToList()`, an array, an empty array, a List, a HashSet
+   and an iterator method. The Dictionary changes are Add, setting an existing or new key, Remove,
+   Clear and TryGetValue; the HashSet changes are Add, Remove, Clear and Contains. After every step
+   the test compares the result (with the message of "Collection was modified"), Count and the
+   contents. The port's List has no Sort and Reverse, so those are not compared.
 
 ## Deviations
 
@@ -106,10 +118,19 @@ AggregateException below.
   `ArgumentNullException`, as `XNamespace + null` does. This shows in `UniqueCAEXName(sequence,
   null, defaultName)`: the original returns the default name for CAEX 2.15 and throws
   ArgumentNullException for CAEX 3.0. The port had thrown a TypeError in both cases.
+- `src/system/linq.ts`, `List`: `Clear` now changes the version also for an empty list, as in
+  .NET 8. `AddRange` copies an array, List or HashSet at once (ICollection<T>, one version change
+  when it has items) and adds the items of any other sequence one by one with `Add`. So
+  `list.AddRange(list.Where(...))` now throws "Collection was modified" after the first item, as
+  in .NET 8; before, the port took a snapshot first. A null source throws `ArgumentNullException`
+  (collection).
+- `src/system/linq.ts`, `Dictionary` and `HashSet`: the enumerators were generators. They took
+  the version on their first step, not when they were created, and a step after the end returned
+  done instead of throwing when the collection had changed. They now behave as the .NET enumerators.
 
-No port errors were found in the files of this area.
+No port errors were found in the service files of this area.
 
-## Coverage (v8, this test only)
+## Coverage (v8, this test only, measured before the collection sequences and the linq.ts changes)
 
 | File | Statements | Functions | Uncovered |
 |---|---|---|---|
@@ -126,14 +147,16 @@ No port errors were found in the files of this area.
 - `RepairTypeEnumConverter.ts` line 59 (`repairOption.ToString()`) is unreachable:
   `HasFlag(None)` is always true, so every value that reaches the check gives "No option". The same
   is true in C#. The private constructor stands in for the C# static class and is never called.
-- `linq.ts` line 152 (a bucket with an equal key but no equal entry) cannot happen with the default
-  comparer for strings, numbers or ValidationKey, whose keys are equal exactly when the items are.
+- The uncovered statement of `Dictionary` (in `find`, a bucket with an equal key but no equal
+  entry) cannot happen with the default comparer for strings, numbers or ValidationKey, whose keys
+  are equal exactly when the items are.
 
 ## Open points
 
 - `AsyncLock` does not check its constructor arguments. `SemaphoreSlim` throws
   `ArgumentOutOfRangeException` for a negative initial count, an initial count above the maximum,
   and a maximum of 0 or less. The port creates it only as (1, 1), so this was not compared.
-- `Dictionary` has no version check. .NET throws InvalidOperationException ("Collection was
-  modified") when Add or Clear runs during an enumeration. The tests here do not change a
-  dictionary while enumerating it.
+- `List.addRange` treats only arrays, `List` and `HashSet` as ICollection<T>. A C# source that is
+  an ICollection<T> but a lazy sequence in the port (for example the `Keys` of a dictionary) is
+  added item by item; the result differs only when that source is a view of the list being
+  extended, which no caller does.
