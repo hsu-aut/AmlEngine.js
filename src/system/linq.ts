@@ -132,15 +132,40 @@ export class HashSet<T> implements Iterable<T> {
     this.count_ = 0;
   }
 
-  *[Symbol.iterator](): Iterator<T> {
-    const version = this.version;
-    for (let i = 0; ; i++) {
-      if (this.version !== version) throw enumFailedVersion();
-      while (i < this.slots.length && !this.used[i]) i++;
-      if (i >= this.slots.length) return;
-      yield this.slots[i] as T;
-    }
+  [Symbol.iterator](): IterableIterator<T> {
+    return slotEnumerator(
+      () => this.version,
+      () => this.slots.length,
+      (i) => this.used[i],
+      (i) => this.slots[i] as T,
+    );
   }
+}
+
+/**
+ * The enumerator of .NET's Dictionary<TKey, TValue> and HashSet<T>: it takes the version of the
+ * collection when it is created (not on its first step), and every step, also after the end,
+ * throws when the version changed since. A step walks the slots up to the highest one ever used and
+ * skips free ones.
+ */
+function slotEnumerator<R>(version: () => number, length: () => number, used: (i: number) => boolean, project: (i: number) => R): IterableIterator<R> {
+  const start = version();
+  let index = 0;
+  const it: IterableIterator<R> = {
+    next(): IteratorResult<R> {
+      if (version() !== start) throw enumFailedVersion();
+      while (index < length()) {
+        const i = index++;
+        if (used(i)) return { value: project(i), done: false };
+      }
+      index = length() + 1;
+      return { value: undefined, done: true };
+    },
+    [Symbol.iterator]() {
+      return it;
+    },
+  };
+  return it;
 }
 
 /**
@@ -242,33 +267,32 @@ export class Dictionary<K, V> implements Iterable<[K, V]> {
     this.count_ = 0;
   }
 
-  /** The used slots in order; each step throws when a key was added since the enumeration started. */
-  private *slotsInOrder(): Generator<number> {
-    const version = this.version;
-    for (let i = 0; ; i++) {
-      if (this.version !== version) throw enumFailedVersion();
-      while (i < this.keys_.length && !this.used[i]) i++;
-      if (i >= this.keys_.length) return;
-      yield i;
-    }
+  /** The used slots in order; each step throws when a key was added since the enumerator was created. */
+  private enumerate<R>(project: (i: number) => R): IterableIterator<R> {
+    return slotEnumerator(
+      () => this.version,
+      () => this.keys_.length,
+      (i) => this.used[i],
+      project,
+    );
   }
 
-  *keys(): IterableIterator<K> {
-    for (const i of this.slotsInOrder()) yield this.keys_[i] as K;
+  keys(): IterableIterator<K> {
+    return this.enumerate((i) => this.keys_[i] as K);
   }
 
-  *values(): IterableIterator<V> {
-    for (const i of this.slotsInOrder()) yield this.values_[i] as V;
+  values(): IterableIterator<V> {
+    return this.enumerate((i) => this.values_[i] as V);
   }
 
-  *[Symbol.iterator](): Iterator<[K, V]> {
-    for (const i of this.slotsInOrder()) yield [this.keys_[i] as K, this.values_[i] as V];
+  [Symbol.iterator](): IterableIterator<[K, V]> {
+    return this.enumerate((i) => [this.keys_[i] as K, this.values_[i] as V] as [K, V]);
   }
 }
 
 /**
  * List<T> with the enumeration check of .NET: every change of the list (Add, Insert, the indexer
- * setter, Remove and RemoveAt of an item, RemoveAll and Clear that remove something, AddRange of
+ * setter, Remove and RemoveAt of an item, RemoveAll that removes something, Clear, AddRange of
  * items) makes the next step of an enumeration that started before it throw
  * InvalidOperationException, as foreach and LINQ over a List<T> do in C#. ForEach throws when the
  * action changed the list. Items compare with the default equality (Remove, IndexOf, Contains).
@@ -309,8 +333,23 @@ export class List<T> implements Iterable<T> {
     this.version++;
   }
 
+  /**
+   * List<T>.AddRange (.NET 8): a collection (ICollection<T>: an array, a List, a HashSet) is copied
+   * at once, with one change of the version when it has items; any other sequence is enumerated and
+   * every item added with Add, so a lazy query over this list fails on its next step after the
+   * first Add.
+   */
   addRange(items: Iterable<T>): void {
-    for (const item of [...items]) this.add(item);
+    if (items === null || items === undefined) throw new ArgumentNullException('collection');
+    if (Array.isArray(items) || items instanceof List || items instanceof HashSet) {
+      const copy: T[] = items instanceof List ? items.items.slice() : Array.isArray(items) ? items.slice() : [...items];
+      if (copy.length > 0) {
+        for (const item of copy) this.items.push(item);
+        this.version++;
+      }
+      return;
+    }
+    for (const item of items) this.add(item);
   }
 
   insert(index: number, item: T): void {
@@ -354,11 +393,10 @@ export class List<T> implements Iterable<T> {
     return removed;
   }
 
+  /** List<T>.Clear: changes the version also when the list is empty (.NET 8). */
   clear(): void {
-    if (this.items.length > 0) {
-      this.items = [];
-      this.version++;
-    }
+    this.items = [];
+    this.version++;
   }
 
   /** List<T>.Find: the first matching item, or null (default). */
