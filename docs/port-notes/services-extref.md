@@ -77,25 +77,39 @@ DocumentFromURLAsync complete synchronously in C# and are shared helpers of both
 (`canAccessWithoutHttp`, `documentFromURLWithoutHttp`); LoadOrGetReferencedDocumentAsync(reference)
 and ResolveExternalDocumentAsync are written twice (async and synchronous), side by side.
 
+`.Result` lets an exception of the asynchronous method reach the caller wrapped in an
+AggregateException. The port wraps exactly where the C# synchronous method blocks on `.Result`
+outside a catch block (`taskResult`): CanResolve, LoadOrGetReferencedDocument (both overloads; the
+registry lookup the reference overload makes before `.Result` is not wrapped) and
+ResolveExternalDocument (the first cache lookup is not wrapped). The asynchronous methods reject
+with the exception itself, as an awaited task throws it. AggregateException is the shared class of
+`src/system/exceptions.ts` (also used by UniqueNameService): message "One or more errors occurred."
+followed by " (message)" for each inner exception, `innerExceptions` and `innerException`.
+
 Places where a synchronous twin would need the network (for docs/deviations.md):
 
 | Synchronous method | C# awaits | Port |
 |---|---|---|
-| `canResolve` (CanAccessAsync, http/https) | GetResponseFromWebServerAsync | the catch block around that await: message "Error sending the request for {uri}", false |
+| `canResolve` (CanAccessAsync, http/https) | GetResponseFromWebServerAsync | no request: false, the message unchanged (the null response path of C#) |
 | `loadOrGetReferencedDocument` (both overloads; DocumentFromURLAsync, http/https) | GetResponseFromWebServerAsync | the catch block around that await: message "Error sending the request for {uri}\n" + the message of a NotSupportedException ("Synchronous access to '{uri}' needs the network; use the asynchronous methods."), no document; the result is (null, that message); the address is not recorded as unresolved |
 | `resolveExternalDocument` (DocumentFromURLAsync, http/https) | the same | the same catch block; the result is (null, "can not find file for {url}"); the URL is not recorded as unresolved |
 | all FTP branches, asynchronous ones included (FtpWebRequest RETR) | (blocking request) | FTP is not supported: the catch block of the FTP request, "Error sending the request for {uri}" (false or no document) |
 
-Strictly, GetResponseFromWebServerAsync never throws in C# (its catch block returns null), so a
-failing request there gives ": no response for {uri}". The synchronous twins take the catch block
-around the await instead, so that the message says why the request did not happen. GitHub
-addresses go through GetResponseFromWebServerAsync as well and take the same path.
+GetResponseFromWebServerAsync never throws in C# (its catch block returns null), so the path C#
+reaches for a failing request is the null response: CanAccessAsync gives false and leaves the
+message as it is, DocumentFromURLAsync gives ": no response for {uri}". The synchronous canResolve
+takes the null response path as well. The synchronous twins of LoadOrGetReferencedDocument and
+ResolveExternalDocument take the catch block around the await instead, so that the message says
+why the request did not happen (a documented difference). GitHub addresses go through
+GetResponseFromWebServerAsync as well and take the same path.
 
 Such a failure comes from the platform, not from the address, so the synchronous twins of
 LoadOrGetReferencedDocument and ResolveExternalDocument do not record the address in
-`_unresolvedExternalDocumentByURL` (`_syncNetworkFailure`, port only): a later asynchronous call
-for the same address sends the request and loads the document, which later synchronous calls then
-get from the registry. A request that fails in an asynchronous call is recorded as in C#.
+`_unresolvedExternalDocumentByURL` (port only): the synchronous documentFromURL returns
+`{ document, needsNetwork }`, a return value rather than a field, so a resolver function that calls
+the resolver again cannot change it for the outer call. A later asynchronous call for the same
+address sends the request and loads the document, which later synchronous calls then get from the
+registry. A request that fails in an asynchronous call is recorded as in C#.
 
 **The lock.** SemaphoreSlim(1, 1) is an `AsyncLock`. RemoveDocument defers removals while the
 lock is held (`currentCount === 0 && !_allowAccess`), and MakePendingRemove processes them in the
@@ -146,7 +160,8 @@ RegisterExternalDocument (NullReferenceException in C#, TypeError here).
   InvalidOperationException ("The redirection of '{address}' leads back to itself."), following
   "Calls that do not return: the port throws". It is the only cycle SetRedirection allows (it
   refuses a target that is redirected itself). LoadOrGetReferencedDocument(Async) catches it and
-  returns its message; ResolveExternalDocument(Async) lets it through.
+  returns its message; ResolveExternalDocument lets it through wrapped in an AggregateException,
+  ResolveExternalDocumentAsync rejects with it.
 - fetch instead of HttpClient: no timeout (HttpClient: 100 s), at most 20 redirects (HttpClient:
   50, and no https to http redirect), error messages of failed requests come from the JS runtime
   (they appear in "Error sending the request for {uri}\n…" only when reading the body fails, and in
@@ -160,10 +175,14 @@ RegisterExternalDocument (NullReferenceException in C#, TypeError here).
 
 - `src/system/Uri.ts`: exported enums `UriComponents` and `UriFormat` and
   `Uri.getComponents(components, format)` for absolute URIs (it calls the existing port of
-  GetComponentsHelper, as .NET does for the built-in syntaxes, which are the only ones of the port;
-  SerializationInfoString is not ported). Header comment updated. Checked by hand against .NET 8 for
-  HttpRequestUrl and UserInfo on three URIs (spaces, user info with port 80 and dot segments, user
-  without password, fragments).
+  GetComponentsHelper, as .NET does for the built-in syntaxes, which are the only ones of the port).
+  The format is checked as in .NET: a format with bits above SafeUnescaped (4 or more) gives
+  ArgumentOutOfRangeException ("format"); 0 passes that check and gives ArgumentOutOfRangeException
+  ("uriFormat") in the helper (except for the masks the helper answers early, such as Scheme), also
+  for a mask with NormalizedHost, whose bail-out comes after the format check. NormalizedHost (IdnMapping) and
+  SerializationInfoString are not ported and throw NotSupportedException. Compared with .NET 8 for
+  77 URIs, 45 masks and 5 formats (docs/coverage-notes/services-extref.md).
+- `src/system/exceptions.ts`: AggregateException (moved there from UniqueNameService).
 - New `src/system/AsyncLock.ts` (`AsyncLock`, `SemaphoreFullException`); not exported from
   `src/system/index.ts`.
 

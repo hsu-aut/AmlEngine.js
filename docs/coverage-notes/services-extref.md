@@ -20,8 +20,10 @@ content, basic authentication and an echo of the request), the step runner
 
 75 scripted cases with 1,788 steps. The oracle and the port run the same steps and record one line
 per step: the result (documents as file name, file path and an identity number per case, so that
-"the same document" is compared; tuples with the message; exceptions as `!Name: message`), with the
-case folder, the corpus folder and the base URL of the server replaced and GUIDs canonicalized.
+"the same document" is compared; tuples with the message; exceptions as `!Name: message`, an
+AggregateException from a synchronous method as `!AggregateException[message]` (its message has the
+.NET format) followed by its inner exception), with the case folder, the corpus folder and the base
+URL of the server replaced and GUIDs canonicalized.
 
 - Every public member of the resolver, synchronous and asynchronous: LoadOrGetReferencedDocument
   (both overloads; relative, absolute, file URI, http(s), ftp, mailto and urn addresses, missing
@@ -85,8 +87,12 @@ modules), the live test about 20 s. Oracle run: about 40 s (one lookup of an unk
 
 - Synchronous calls that need the network (LoadOrGetReferencedDocument, ResolveExternalDocument,
   CanResolve, ExternalReference.ExternalDocument and the engine queries on http(s) or GitHub
-  addresses): the original sends the request, the port takes the failure path. The port does not
-  record such an address as unresolved, so a later asynchronous call loads it (decision of this
+  addresses): the original sends the request, the port sends none. CanResolve gives false and
+  leaves the message unchanged, as the original does for a failed request (null response);
+  LoadOrGetReferencedDocument and ResolveExternalDocument give no document with the message "Error
+  sending the request for {uri}" and the NotSupportedException text (the original reports a failed
+  request with "{status}: no response for {uri}"). The port does not record such an address as
+  unresolved, so a later asynchronous call loads it (decision of this
   verification; the original records every failed address). Marked steps: the synchronous call
   itself, and where the original's unresolved record or cache shows afterwards (a later asynchronous
   call sends the request, ResolveExternalDocumentAsync loads instead of returning the cached document
@@ -96,27 +102,15 @@ modules), the live test about 20 s. Oracle run: about 40 s (one lookup of an unk
 - More than 20 redirects: fetch fails, HttpClient follows up to 50.
 - `'` in the query of an http(s) URL: fetch escapes it (WHATWG URL), HttpClient sends it as is.
 - `Uri.getComponents` with `NormalizedHost` (IdnMapping) is not ported: the port throws
-  NotSupportedException for every mask with that bit and a valid format.
+  NotSupportedException for every mask with that bit and a valid format (1 to 3); an invalid format
+  gives the ArgumentOutOfRangeException of .NET. SerializationInfoString throws
+  NotSupportedException as well (not in the cases).
 - A redirection of an absolute address to itself makes the original loop forever; the port throws
-  InvalidOperationException (checked in the concurrency test file, not in the oracle).
+  InvalidOperationException, wrapped in an AggregateException by the synchronous
+  ResolveExternalDocument (checked in the concurrency test file, not in the oracle).
 
-Ready text for docs/deviations.md:
-
-> ### ExternalReferenceResolver: synchronous calls and the network
->
-> The synchronous methods of `ExternalReferenceResolver` (LoadOrGetReferencedDocument,
-> ResolveExternalDocument, CanResolve) and the engine members that call them
-> (`ExternalReference.ExternalDocument`, FindByPath and FindByID with an alias, base classes from
-> external documents) block in the original on the http request of an http(s) or GitHub address.
-> JavaScript cannot wait for a request synchronously: the port takes the failure path ("Error
-> sending the request for {uri}" with the message "Synchronous access to '{uri}' needs the network;
-> use the asynchronous methods.", false for CanResolve, no document). Unlike a failed request, this
-> failure does not mark the address as unresolved: load such documents with the asynchronous
-> methods first (LoadOrGetReferencedDocumentAsync, ResolveExternalDocumentAsync); the synchronous
-> methods and the engine then find them in the resolver. A synchronous call while an asynchronous
-> one holds the lock of the resolver runs at once (the original waits). FTP is not supported. The
-> requests use fetch: no timeout, at most 20 redirects (HttpClient 50), a 407 answer is a network
-> error, `'` in the query is escaped; in browsers CORS applies.
+The text for users is in docs/deviations.md ("Synchronous calls that need the network", and
+`GetComponents` under "Not ported").
 
 ## Port errors fixed
 
@@ -128,7 +122,17 @@ Ready text for docs/deviations.md:
   the case-insensitive keys of the redirections and URLs ignored the white space controls (TAB, LF,
   VT, FF, CR, NEL) and compared the case of full width letters.
 - `src/services/ExternalReferenceResolver.ts`: a synchronous call that fails only because it would
-  need the network no longer records the address as unresolved (the change above).
+  need the network no longer records the address as unresolved (the change above); the flag is a
+  return value of the synchronous documentFromURL, so a re-entrant resolver function cannot change it.
+- `src/services/ExternalReferenceResolver.ts`: the synchronous twins threw the exception of the
+  asynchronous method itself; C# blocks on `.Result` and wraps it in an AggregateException
+  (ResolveExternalDocument of a file that is not XML or has no FileName, a throwing resolver
+  function). AggregateException moved from UniqueNameService to `src/system/exceptions.ts`. The
+  oracle no longer unwraps it.
+- `src/services/ExternalReferenceResolver.ts`: the synchronous CanResolve on an http(s) address
+  set the message of the catch block; C# reaches the null response path, which leaves it unchanged.
+- `src/system/Uri.ts`: with NormalizedHost and format 0, GetComponents threw NotSupportedException
+  before the format check; .NET throws ArgumentOutOfRangeException ("uriFormat").
 
 ## Not covered, and why
 
