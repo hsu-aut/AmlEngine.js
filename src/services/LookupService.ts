@@ -7,7 +7,7 @@
 
 import '../engine/index.js';
 import { implementsInterface, registerInterfaces } from '../engine/interfaces.js';
-import { RecursionGuard } from '../engine/cycles.js';
+import { CyclicReferenceException, RecursionGuard } from '../engine/cycles.js';
 import { AttributeFamilyType } from '../engine/caex/AttributeFamilyType.js';
 import { AttributeType } from '../engine/caex/AttributeType.js';
 import { CAEXObject } from '../engine/caex/CAEXObject.js';
@@ -596,35 +596,54 @@ export class LookupService implements IQuery, IAMLService, IAutoUpdate, IXMLDocu
     this._caexElementDictionary.removeFromTable(document2, (t) => this.clearTables(t));
   }
 
+  // Aml.Engine leaves _paused set when an exception leaves a change handler, so the service ignores
+  // all later changes; the port keeps that for ordinary exceptions. A CyclicReferenceException stands
+  // for a stack overflow, after which the original's process is gone: the port clears _paused so
+  // the service keeps following later changes (docs/deviations.md, calls that do not return).
+  private resumeAfterCycle(error: unknown): never {
+    if (error instanceof CyclicReferenceException) {
+      this._paused = false;
+    }
+    throw error;
+  }
+
   /** Auto update: propagates changes of CAEX objects to the tables. */
   private readonly caexElementChangedHandler = (sender: unknown, e: CAEXElementChangeEventArgs): void => {
     void sender;
     if (!this._paused && (e !== null && e !== undefined ? e.caexDocument : null) !== null) {
       this._paused = true;
-      if (hasFlag(e.changeMode, CAEXElementChangeMode.Added)) {
-        this.handleAdded(e);
-      }
-      if (hasFlag(e.changeMode, CAEXElementChangeMode.NameChanged)) {
-        this.handleNameChanged(e);
-      }
-      if (hasFlag(e.changeMode, CAEXElementChangeMode.IDChanged)) {
-        this.handleIDChanged(e);
-      }
-      if (hasFlag(e.changeMode, CAEXElementChangeMode.PathRefChanged)) {
-        this.handlePathRefChanged(e);
-      }
-      if (hasFlag(e.changeMode, CAEXElementChangeMode.IDRefChanged)) {
-        this.handleIDRefChanged(e);
-      }
-      if (hasFlag(e.changeMode, CAEXElementChangeMode.ValueChanged)) {
-        this.handleValueChanged(e);
-      }
-      if (hasFlag(e.changeMode, CAEXElementChangeMode.NameRefChanged)) {
-        this.handleNameRefChanged(e);
+      try {
+        this.handleChanged(e);
+      } catch (error) {
+        this.resumeAfterCycle(error);
       }
       this._paused = false;
     }
   };
+
+  private handleChanged(e: CAEXElementChangeEventArgs): void {
+    if (hasFlag(e.changeMode, CAEXElementChangeMode.Added)) {
+      this.handleAdded(e);
+    }
+    if (hasFlag(e.changeMode, CAEXElementChangeMode.NameChanged)) {
+      this.handleNameChanged(e);
+    }
+    if (hasFlag(e.changeMode, CAEXElementChangeMode.IDChanged)) {
+      this.handleIDChanged(e);
+    }
+    if (hasFlag(e.changeMode, CAEXElementChangeMode.PathRefChanged)) {
+      this.handlePathRefChanged(e);
+    }
+    if (hasFlag(e.changeMode, CAEXElementChangeMode.IDRefChanged)) {
+      this.handleIDRefChanged(e);
+    }
+    if (hasFlag(e.changeMode, CAEXElementChangeMode.ValueChanged)) {
+      this.handleValueChanged(e);
+    }
+    if (hasFlag(e.changeMode, CAEXElementChangeMode.NameRefChanged)) {
+      this.handleNameRefChanged(e);
+    }
+  }
 
   /** Auto update: propagates changes which are about to happen (deletions) to the tables. */
   private readonly caexElementChangingHandler = (sender: unknown, e: CAEXElementChangeEventArgs): void => {
@@ -632,7 +651,11 @@ export class LookupService implements IQuery, IAMLService, IAutoUpdate, IXMLDocu
     if (!this._paused) {
       this._paused = true;
       if (hasFlag(e.changeMode, CAEXElementChangeMode.Deleting)) {
-        this.handleDeleting(e);
+        try {
+          this.handleDeleting(e);
+        } catch (error) {
+          this.resumeAfterCycle(error);
+        }
       }
       this._paused = false;
     }
