@@ -27,7 +27,7 @@ import { ValidationKey } from '../../src/services/ValidationKey.js';
 import { ValidationTypeEnum } from '../../src/services/ValidationTypeEnum.js';
 import { AsyncLock } from '../../src/system/AsyncLock.js';
 import { InvalidOperationException, dotNetExceptionName } from '../../src/system/exceptions.js';
-import { Dictionary, HashSet } from '../../src/system/linq.js';
+import { Dictionary, HashSet, List, from } from '../../src/system/linq.js';
 import { XElement, type XNode } from '../../src/xml/index.js';
 import { apply, Canonicalizer, hash, pick, readAllText, save } from '../engine/ops-apply.js';
 import { oracleOut } from '../setup/oracle-out.js';
@@ -396,9 +396,15 @@ describe.skipIf(!existsSync(expectedFile))('misc services parity with Aml.Engine
   });
 
   describe('UniqueNameService: Append and Prepend on every sequence type', () => {
-    const entries = (expected.appends ?? []) as Array<{ start: string; mode: string; records: any[][]; final: string }>;
-    entries.forEach((entry) => {
-      it(`${entry.start} (${entry.mode})`, () => {
+    // The cases come from the input; the oracle output provides the calls (found by reflection) and results.
+    const runs = (cases('appends.json') as Array<{ start: string; modes: string[] }>).flatMap((c) => c.modes.map((mode) => ({ start: c.start, mode })));
+    runs.forEach(({ start, mode }) => {
+      it(`${start} (${mode})`, () => {
+        const entry = ((expected.appends ?? []) as Array<{ start: string; mode: string; records: any[][]; final: string }>).find(
+          (e) => e.start === start && e.mode === mode,
+        );
+        expect(entry, 'oracle output for this case').toBeDefined();
+        if (entry === undefined) return;
         resetUniqueName();
         if (entry.mode !== 'off') {
           const svc = UniqueNameService.register();
@@ -509,10 +515,13 @@ describe.skipIf(!existsSync(expectedFile))('misc services parity with Aml.Engine
       CAEXFileStatisticService.unRegister();
       expect(str(ServiceLocator.getService('IStatistic') === null)).toBe(expected.stat.unregistered);
     });
-    const list = (expected.stat?.docs ?? []) as Array<{ doc: string; lines: string[] }>;
-    list.forEach((entry) => {
-      it(entry.doc, () => {
-        const svc = new (CAEXFileStatisticService as any)() as CAEXFileStatisticService;
+    const names = [...(cases('stat.json').docs as string[]), 'null'];
+    names.forEach((name) => {
+      it(name, () => {
+        const entry = ((expected.stat?.docs ?? []) as Array<{ doc: string; lines: string[] }>).find((e) => e.doc === name);
+        expect(entry, 'oracle output for this case').toBeDefined();
+        if (entry === undefined) return;
+        const svc = new CAEXFileStatisticService();
         if (entry.doc === 'null') {
           expect(statLines(svc, null)).toEqual(entry.lines);
           return;
@@ -633,6 +642,196 @@ describe.skipIf(!existsSync(expectedFile))('misc services parity with Aml.Engine
           lines.push(`${r}|${d.count}|${[...d].map(([k, v]) => `${k}=${v}`).join(',')}`);
         }
         expect(firstDiff(lines, expected.dict[i], (k) => s.ops[k])).toBeNull();
+      });
+    });
+  });
+
+  describe('List, Dictionary, HashSet of src/system/linq.ts: changes while enumerating', () => {
+    const seqs = cases('coll.json') as Array<{ kind: string; ops: any[][] }>;
+    const fmt = (v: unknown) => (Array.isArray(v) ? `${v[0]}=${v[1]}` : str(v));
+    /** begin (opens an enumerator) and next (one step of an open one, index modulo their number). */
+    function enumeration(op: any[], enums: Iterator<unknown>[], begin: () => Iterator<unknown>): string {
+      if (op[0] === 'begin') {
+        enums.push(begin());
+        return 'e' + (enums.length - 1);
+      }
+      if (enums.length === 0) return 'none';
+      const r = enums[op[1] % enums.length].next();
+      return r.done ? 'False' : 'True:' + fmt(r.value);
+    }
+    function addRangeSource(list: List<number>, src: string, v: number): Iterable<number> {
+      switch (src) {
+        case 'self':
+          return list;
+        case 'selfWhere':
+          return from(list).where((x) => x % 2 === 1);
+        case 'selfWhereNone':
+          return from(list).where((x) => x < 0);
+        case 'selfSelect':
+          return from(list).select((x) => x + 100);
+        case 'selfOrderBy':
+          return from(list).orderBy((x) => x);
+        case 'selfToList':
+          return from(list).toList();
+        case 'array':
+          return [v, v + 1];
+        case 'emptyArray':
+          return [];
+        case 'copy':
+          return new List([v]);
+        case 'set':
+          return new HashSet([v, v + 1]);
+        default:
+          return (function* () {
+            yield v;
+            yield v + 1;
+          })();
+      }
+    }
+    function runList(ops: any[][]): string[] {
+      const list = new List<number>();
+      const enums: Iterator<unknown>[] = [];
+      const lines: string[] = [];
+      for (const op of ops) {
+        let r: string;
+        try {
+          switch (op[0]) {
+            case 'add':
+              list.add(op[1]);
+              r = 'ok';
+              break;
+            case 'addRange':
+              list.addRange(addRangeSource(list, op[1], op[2]));
+              r = 'ok';
+              break;
+            case 'insert':
+              list.insert(op[1], op[2]);
+              r = 'ok';
+              break;
+            case 'removeAt':
+              list.removeAt(op[1]);
+              r = 'ok';
+              break;
+            case 'remove':
+              r = str(list.remove(op[1]));
+              break;
+            case 'set':
+              list.setItem(op[1], op[2]);
+              r = 'ok';
+              break;
+            case 'clear':
+              list.clear();
+              r = 'ok';
+              break;
+            case 'removeAll':
+              r = String(list.removeAll((x) => x % op[1] === 0));
+              break;
+            case 'forEach': {
+              const seen: number[] = [];
+              try {
+                list.forEach((x) => {
+                  seen.push(x);
+                  if (op[1] === 'add' && seen.length === 1) list.add(99);
+                  if (op[1] === 'set' && seen.length === 1) list.setItem(0, list.item(0));
+                });
+                r = seen.join(',');
+              } catch (e) {
+                r = seen.join(',') + exMsg(e);
+              }
+              break;
+            }
+            case 'get':
+              r = String(list.item(op[1]));
+              break;
+            case 'indexOf':
+              r = String(list.indexOf(op[1]));
+              break;
+            case 'contains':
+              r = str(list.contains(op[1]));
+              break;
+            default:
+              r = enumeration(op, enums, () => list[Symbol.iterator]());
+          }
+        } catch (e) {
+          r = exMsg(e);
+        }
+        lines.push(`${r}|${list.count}|${list.toArray().join(',')}`);
+      }
+      return lines;
+    }
+    function runDictionary(ops: any[][]): string[] {
+      const d = new Dictionary<number, number>();
+      const enums: Iterator<unknown>[] = [];
+      const lines: string[] = [];
+      for (const op of ops) {
+        let r: string;
+        try {
+          switch (op[0]) {
+            case 'add':
+              d.add(op[1], op[2]);
+              r = 'ok';
+              break;
+            case 'set':
+              d.setItem(op[1], op[2]);
+              r = 'ok';
+              break;
+            case 'remove':
+              r = str(d.remove(op[1]));
+              break;
+            case 'clear':
+              d.clear();
+              r = 'ok';
+              break;
+            case 'tryGet': {
+              const t = d.tryGetValue(op[1]);
+              r = `${str(t.result)}:${t.value ?? 0}`;
+              break;
+            }
+            default:
+              r = enumeration(op, enums, () => (op[1] === 'keys' ? d.keys() : op[1] === 'values' ? d.values() : d[Symbol.iterator]()));
+          }
+        } catch (e) {
+          r = exMsg(e);
+        }
+        lines.push(`${r}|${d.count}|${[...d].map(([k, v]) => `${k}=${v}`).join(',')}`);
+      }
+      return lines;
+    }
+    function runHashSet(ops: any[][]): string[] {
+      const set = new HashSet<number>();
+      const enums: Iterator<unknown>[] = [];
+      const lines: string[] = [];
+      for (const op of ops) {
+        let r: string;
+        try {
+          switch (op[0]) {
+            case 'add':
+              r = str(set.add(op[1]));
+              break;
+            case 'remove':
+              r = str(set.remove(op[1]));
+              break;
+            case 'clear':
+              set.clear();
+              r = 'ok';
+              break;
+            case 'contains':
+              r = str(set.contains(op[1]));
+              break;
+            default:
+              r = enumeration(op, enums, () => set[Symbol.iterator]());
+          }
+        } catch (e) {
+          r = exMsg(e);
+        }
+        lines.push(`${r}|${set.count}|${[...set].join(',')}`);
+      }
+      return lines;
+    }
+    seqs.forEach((s, i) => {
+      it(`sequence ${i} (${s.kind})`, () => {
+        const lines = s.kind === 'list' ? runList(s.ops) : s.kind === 'dict' ? runDictionary(s.ops) : runHashSet(s.ops);
+        expect(firstDiff(lines, expected.coll[i], (k) => s.ops[k])).toBeNull();
       });
     });
   });
